@@ -10,7 +10,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 
-	<title>Together작성한 코드를 내 브랜치에 push하기</title>
+	<title>Together</title>
 
 	
 	<!-- favicon -->
@@ -604,6 +604,22 @@
 	<!--[if lt IE 9]>
 	    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
 	<![endif]-->
+	
+	
+
+<!-- ================================juDayoung 추가중================================ -->
+<br>
+<a href="/AddPet/WaitingPet?id=22&state=2">입양공고 상세보기</a>
+<br>
+<a href="/AddPet/AdoptForm?id=22">입양신청 폼</a>
+<br>
+<a href="/AddPet/AdoptWishList">입양신청 리스트</a>
+<br>
+<a href="/AddPet/WaitingPerson?num=4">입양신청1개클릭시</a>
+<!-- ================================juDayoung 추가중================================ -->
+	
+	
+	
 		
 </body>
 </html>
