@@ -11,31 +11,32 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class AddPetController {
-	
+
 	@Autowired
 	private AddPetService service;
-	
-	@RequestMapping(value="/index")
+
+	@RequestMapping(value = "/index")
 	public void index() {
-		
+
 	}
-	
-	@RequestMapping(value="/AddPet/AddPet")
+
+	@RequestMapping(value = "/AddPet/AddPet")
 	public void addPetForm() {
-		
+
 	}
-	
-	@PostMapping(value="/AddPet")
+
+	@PostMapping(value = "/AddPet")
 	public String addPet(Pet p) {
-		
+    
 		service.addPet(p);
 		return "";
 	}
 
-	private static final String PATH="C:\\together\\img";
-	/* 
+	private static final String PATH = "C:\\together\\img";
+
+	/*
 	 * 이미지를 폼에서 받아, C:\\together\\img\\pet\\petId번호 폴더에 'file번호'파일로 저장한다.
-	 */ 
+	 */
 	public void saveImg(MultipartFile file, int petId, int fileNum) {
 		/* message를 print 한다. */
 		String message="이미지파일을 C:\\together\\img\\pet\\petId"+petId+"폴더에 'file"+fileNum+"'로 저장합니다.";
@@ -80,5 +81,76 @@ public class AddPetController {
 			}
 			System.out.println(message);			
 		}
+
+
 	}
+	
+	
+	
+	
+	
+	
+	
+	/* ================================juDayoung 추가중================================ */
+	@RequestMapping(value = "/homepage")
+	public String homepage() {
+		return "homepage";
+	}
+
+	@RequestMapping("/AddPet/WaitingPet")
+	public void waitingPet(Pet p) {
+		System.out.println("-----입양신청 상세보기------------------------------");
+		System.out.println("id가 " + p.getId() + "인 입양대기 동물을 찾습니다.");
+		System.out.println("state=" + p.getState() + " (입양대기)");
+		System.out.println("-----------------------------------------------\n");
+	}
+
+	@RequestMapping("/AddPet/AdoptForm")
+	public void adoptForm(Pet p) {
+		System.out.println("-----입양신청폼-----------------------------------");
+		System.out.println("id가 " + p.getId() + "인 입양대기 동물의 입양신청 폼으로 갑니다.");
+		System.out.println("state=2 (입양대기)");
+		System.out.println("-----------------------------------------------\n");
+	}
+
+	@RequestMapping("/AddPet/AdoptWish")
+	public String adoptWish() {
+		System.out.println("-----입양신청완료----------------------------------");
+		System.out.println("id가 22인 입양대기 동물을 입양신청합니다.");
+		System.out.println("state=3 (입양문의중)");
+		System.out.println("-----------------------------------------------\n");
+		return "index";
+	}
+
+	@RequestMapping("/AddPet/AdoptWishList")
+	public void adoptWishList() {
+		System.out.println("-----입양신청리스트---------------------------------");
+		System.out.println("입양신청자들의 리스트를 봅니다.");
+		System.out.println("state=3 (입양문의중)");
+		System.out.println("-----------------------------------------------\n");
+	}
+
+	@RequestMapping("/AddPet/WaitingPerson")
+	public void waitingPerson() {
+		System.out.println("-----입양신청 상세보기------------------------------");
+		System.out.println("id가 22인 입양대기 동물과 입양신청한 id가 67인 사람의 입양신청으로 갑니다.");
+		System.out.println("state=3 (입양문의중)");
+		System.out.println("-----------------------------------------------\n");
+	}
+
+	@RequestMapping("/AddPet/AdoptAccept")
+	public String adoptAccept() {
+		System.out.println("-----입양신청승인----------------------------------");
+		System.out.println("id=22인 펫에 대하여 id=67인 신청자의 입양신청을 승인합니다.");
+		System.out.println("state=4 (입양완료)");
+		System.out.println("-----------------------------------------------\n");
+
+		return "index";
+	}
+
+	/* ================================juDayoung 추가중================================ */
+	
+	
+	
+
 }
