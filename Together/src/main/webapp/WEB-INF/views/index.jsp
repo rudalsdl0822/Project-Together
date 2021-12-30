@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
-	<title>Together</title>
+	<title>Together1</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/ico/favicon.jpg">
