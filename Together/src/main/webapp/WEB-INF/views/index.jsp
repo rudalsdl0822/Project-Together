@@ -9,6 +9,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
+
 	<title>왜 안 되는 거얏.. Together</title>
 	
 	<!-- favicon -->
