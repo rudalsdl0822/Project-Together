@@ -44,14 +44,14 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="${pageContext.request.contextPath}/home">Together</a>
+						<a class="navbar-brand" href="${pageContext.request.contextPath}/index">Together</a>
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="nino-menuItem pull-right">
 						<div class="collapse navbar-collapse pull-left" id="nino-navbar-collapse">
 							<ul class="nav navbar-nav">
-								<li><a href="${pageContext.request.contextPath}/home">홈</a></li>
+								<li><a href="${pageContext.request.contextPath}/index">홈</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">입양공고</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후기게시판</a></li>
 								<li class="active"><a href="${pageContext.request.contextPath}/AddPet/AddPet">입소신청</a></li>
@@ -147,7 +147,7 @@
         		<div class="col-md-12">
         			<div class="colInfo">
 	        			<div class="footerLogo">
-	        				<a href="${pageContext.request.contextPath}/home" >Together</a>	
+	        				<a href="${pageContext.request.contextPath}/index" >Together</a>	
 	        			</div>
 	        			<p>강남점 : 서울특별시 강남구 강남대로 396, TEL: 010-0000-0000 
 	        			<br>안양점 : 경기 안양시 만안구 만안로 232, TEL: 010-0000-0000

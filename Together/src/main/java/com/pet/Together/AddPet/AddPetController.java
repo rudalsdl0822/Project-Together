@@ -15,8 +15,8 @@ public class AddPetController {
 	@Autowired
 	private AddPetService service;
 	
-	@RequestMapping(value="/home")
-	public void home() {
+	@RequestMapping(value="/index")
+	public void index() {
 		
 	}
 	
