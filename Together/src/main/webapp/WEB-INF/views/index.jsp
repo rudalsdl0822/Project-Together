@@ -10,8 +10,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 
-	<title>Together:-) / 21.12.30 14:43 cha test2</title>
-
+	<title>Together 최종</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/ico/favicon.jpg">
