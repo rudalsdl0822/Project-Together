@@ -10,7 +10,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 
-	<title>왜 안 되는 거얏.. Together</title>
+	<title>Together 최종</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/ico/favicon.jpg">
