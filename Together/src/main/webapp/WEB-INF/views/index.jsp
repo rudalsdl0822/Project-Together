@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
-	<title>Together:-) / 보경이랑 같이 테스트중입니당! - CAR</title>
+	<title>Together:-) / 보경이랑 같이 테스트중입니당!</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/ico/favicon.jpg">
