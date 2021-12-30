@@ -15,7 +15,7 @@
 
 
 
-	<title>Together1</title>
+	<title>Together</title>
 
 
 
