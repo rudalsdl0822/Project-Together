@@ -10,7 +10,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 
-	<title>Together2</title>
+	<title>Together작성한 코드를 내 브랜치에 push하기</title>
 
 	
 	<!-- favicon -->
