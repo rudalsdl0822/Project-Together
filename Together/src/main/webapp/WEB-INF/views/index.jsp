@@ -10,7 +10,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 
-	<title>Together:-) / 21.12.30 14:43 cha test2</title>
+	<title>Together:-) / 21.12.30 15:07 cha test_최종</title>
 
 	
 	<!-- favicon -->
