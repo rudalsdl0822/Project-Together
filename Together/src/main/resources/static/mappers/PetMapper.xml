@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.Together.AddPet.PetMapper">
+
+	<resultMap type="com.pet.Together.AddPet.Pet" id="Pet">
+		<result property="id" column="id"></result>
+		<result property="name" column="name"></result>
+		<result property="breed" column="breed"></result>
+		<result property="sex" column="sex"></result>
+		<result property="age" column="age"></result>
+		<result property="weight" column="weight"></result>
+		<result property="info" column="info"></result>
+		<result property="location" column="location"></result>
+		<result property="state" column="state"></result>
+	</resultMap>
+
+<insert id="addPet" parameterType="com.pet.Together.AddPet.Pet">
+	insert into pet values (seq_pet.nextval, #{name}, #{breed}, #{sex}, #{age}, #{weight}, #{info}, #{location}, 1)
+</insert>
+
+
+
+</mapper>
