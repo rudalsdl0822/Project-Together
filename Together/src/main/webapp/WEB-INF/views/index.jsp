@@ -11,7 +11,9 @@
 	<meta name="copyright" content="ninodezign.com"> 
 
 
+
 	<title>Together</title>
+
 
 	
 	<!-- favicon -->
@@ -54,7 +56,7 @@
 					<div class="nino-menuItem pull-right">
 						<div class="collapse navbar-collapse pull-left" id="nino-navbar-collapse">
 							<ul class="nav navbar-nav">
-								<li class="active"><a href="${pageContext.request.contextPath}/index">홈<span class="sr-only">(current)</span></a></li>
+								<li class="active"><a href="${pageContext.request.contextPath}/index">홈홈홈<span class="sr-only">(current)</span></a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">입양공고</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후기게시판</a></li>
 								<li><a href="${pageContext.request.contextPath}/AddPet/AddPet">입소신청</a></li>
