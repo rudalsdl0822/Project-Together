@@ -27,7 +27,7 @@ public class AddPetController {
 
 	@PostMapping(value = "/AddPet")
 	public String addPet(Pet p) {
-
+    
 		service.addPet(p);
 		return "";
 	}
@@ -79,10 +79,9 @@ public class AddPetController {
 					e.printStackTrace();
 				}
 			}
-			
-			System.out.println(message);
-						
+			System.out.println(message);			
 		}
+
 
 	}
 	
