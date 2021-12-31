@@ -27,6 +27,10 @@
 
     <section class="nino-testimonial bg-white">
     	<div class="container">
+    		<h2 class="nino-sectionHeading">
+				<span class="nino-subHeading">Together</span>
+				입소신청 리스트
+			</h2>
     		<div class="nino-testimonialSlider">
 				<ul>
 					<li>
