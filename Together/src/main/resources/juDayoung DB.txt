@@ -1,0 +1,5 @@
+insert into to_member values('j','j','jooda','망고망고','01012345678','성남시','j@naver.com',1);
+insert into to_member values('k','k','kim','관리자k','01087654321','안양시','k@naver.com',2);
+
+insert into to_pet values(1111,'살구','포메라니안',1,2,3.5,'발랄하고 사람을 좋아해요',1,2);
+insert into to_pet values(2222,'감자','진돗개',2,4,10.7,'산책을 좋아하고 순해요',3,2);
