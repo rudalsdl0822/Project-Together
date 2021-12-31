@@ -19,5 +19,10 @@
 </insert>
 
 
+<select id="getPet" resultMap="Pet" parameterType="int">
+	select * from to_pet
+	where id=#{id}
+</select>
+
 
 </mapper>

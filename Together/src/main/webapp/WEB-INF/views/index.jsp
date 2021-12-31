@@ -4,23 +4,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 
 
-
-
-
-
 	<title>Together</title>
 
 
-
-
-	
 	<!-- favicon -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/ico/favicon.jpg">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="${pageContext.request.contextPath }/resources/images/ico/apple-touch-icon-144-precomposed.png">
@@ -617,7 +610,7 @@
 
 <!-- ================================juDayoung 추가중================================ -->
 <br>
-<a href="/AddPet/WaitingPet?id=22&state=2">입양공고 상세보기</a>
+<a href="/AddPet/WaitingPet?id=1111">입양공고 상세보기</a>
 <br>
 <a href="/AddPet/AdoptForm?id=22">입양신청 폼</a>
 <br>
