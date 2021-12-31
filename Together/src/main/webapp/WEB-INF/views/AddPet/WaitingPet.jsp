@@ -42,16 +42,40 @@
 
 <h3>상단 배너</h3>
 
+<!-- 뷰 세팅================================================== -->
+	<!-- locationEnglish : 펫이 있는 장소를 영어화 합니다. -->
+		<c:set var="locationEnglish">
+			<c:if test="${pet.location == 1 }">GangNam</c:if>
+			<c:if test="${pet.location == 2 }">AnYang</c:if>
+			<c:if test="${pet.location == 3 }">HaeUnDae</c:if>
+		</c:set>
+	<!-- locationKorean : 펫이 있는 장소를 한글화 합니다. -->
+		<c:set var="locationKorean">
+			<c:if test="${pet.location == 1 }">강남</c:if>
+			<c:if test="${pet.location == 2 }">안양</c:if>
+			<c:if test="${pet.location == 3 }">해운대</c:if>
+		</c:set>
+	<!-- sexKorean : 펫 성별을 한글화 합니다. -->
+		<c:set var="sexKorean">
+			<c:if test="${pet.sex == 1 }">남자</c:if>
+			<c:if test="${pet.sex == 2 }">여자</c:if>
+		</c:set>
+<!-- 뷰 세팅 끝================================================== -->
+
+
+
 <!-- Story About Us
     ================================================== -->
 	<section id="nino-story">
 		<div class="container">
 			<h2 class="nino-sectionHeading">
-				<span class="nino-subHeading">I'm In GangNam</span>
-				발랄한 포메라니안, 순대
+
+				<span class="nino-subHeading">I'm In ${locationEnglish }</span>
+				${pet.breed }, ${pet.name }
 			</h2>
-			<p class="nino-sectionDesc">순대는 터그 놀이를 제일 좋아해요</p>
-				<!-- *********수정할 사항 : 사진 크기 고르지 않음********* -->
+			<p class="nino-sectionDesc">${pet.name }는 사랑입니다</p>
+				<!-- *********수정할 사항 : 사진 크기 똑같지 않음********* -->
+
 				<div class="row nino-hoverEffect">
 					<div class="col-md-4 col-sm-4">
 						<div class="item">
@@ -128,19 +152,20 @@
     	<div class="container">
     		<div layout="row" class="verticalStretch">
     			<div class="item">
-    				<div class="number">여자</div>
+    				<div class="number">${sexKorean }</div>
     				<div class="text">SEX</div>
     			</div>
     			<div class="item">
-    				<div class="number">1살</div>
+    				<div class="number">${pet.age }살</div>
     				<div class="text">AGE</div>
     			</div>
     			<div class="item">
-    				<div class="number">3.5</div>
+    				<div class="number">${pet.weight }</div>
     				<div class="text">WEIGHT</div>
     			</div>
     			<div class="item">
-    				<div class="number">강남</div>
+    				<div class="number">${locationKorean }</div>
+
     				<div class="text">location</div>
     			</div>
     			<div class="item">
@@ -172,7 +197,9 @@
 							</div>
 							<!-- *********수정할 사항 : 화살표 없애거나 움직이게 만들기********* -->
 							<div>
-								<p class="quote">"세상에서 가장 하얀 포메! 순대랍니다. 신사동 옆골목에서 우는걸 발견했어요. 며칠동안 어미가 안보여서 보호소에 가게됬고...."</p>
+
+								<p class="quote">"${pet.info }"</p>
+
 								<span class="name">NickName : yuriii</span>
 							</div>
 						</div>
