@@ -168,7 +168,20 @@ public class AddPetController {
 
 	/* ================================juDayoung 추가중================================ */
 	
+
+	/* ================================cha 추가중================================ */
 	
+	@RequestMapping(value = "/AddPet/AddPetList")
+	public void addPetList() {
+
+	}
+	
+	@RequestMapping(value = "/AddPet/EditPet")
+	public void editPetForm() {
+
+	}
+	
+	/* ================================cha 추가중================================ */
 	
 
 }
