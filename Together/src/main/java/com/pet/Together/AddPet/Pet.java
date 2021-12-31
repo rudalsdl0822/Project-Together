@@ -6,7 +6,7 @@ public class Pet {
 	private String breed;
 	private int sex;
 	private int age;
-	private long weight;
+	private double weight;
 	private String info;
 	private String location;
 	private int state;
@@ -16,7 +16,7 @@ public class Pet {
 		super();
 	}
 
-	public Pet(int id, String name, String breed, int sex, int age, long weight, String info, String location,
+	public Pet(int id, String name, String breed, int sex, int age, double weight, String info, String location,
 			int state, Img imgs) {
 		super();
 		this.id = id;
@@ -71,11 +71,11 @@ public class Pet {
 		this.age = age;
 	}
 
-	public long getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 
-	public void setWeight(long weight) {
+	public void setWeight(double weight) {
 		this.weight = weight;
 	}
 

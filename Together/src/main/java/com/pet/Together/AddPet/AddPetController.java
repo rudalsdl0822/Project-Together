@@ -2,12 +2,14 @@ package com.pet.Together.AddPet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AddPetController {
@@ -93,17 +95,30 @@ public class AddPetController {
 	
 	
 	/* ================================juDayoung 추가중================================ */
-	@RequestMapping(value = "/homepage")
-	public String homepage() {
-		return "homepage";
-	}
 
 	@RequestMapping("/AddPet/WaitingPet")
-	public void waitingPet(Pet p) {
-		System.out.println("-----입양신청 상세보기------------------------------");
+	public ModelAndView waitingPet(int id) {
+		/*
+		 * 1. to_Pet DB에서 id가 일치하는 Pet을 찾는다.
+		 * 2. ====이미지 불러오기는 추후 추가할 예정====================
+		 * 3. Pet 클래스를 입양공고 상세보기 뷰로 보낸다.  
+		 * 4. Pet id에 맞는 댓글들을 리스트로 가져온다.
+		 */
+		Pet p=service.getPet(id);
+		ModelAndView mav=new ModelAndView("AddPet/WaitingPet","pet",p);
+		
+		/* ====댓글리스트 보경이파트========================= */
+		ArrayList reply_list=new ArrayList();
+		mav.addObject("list", reply_list);
+		/* ====댓글리스트 보경이파트 끝========================= */
+		
+		System.out.println("-----입양공고 상세보기------------------------------");
 		System.out.println("id가 " + p.getId() + "인 입양대기 동물을 찾습니다.");
+		System.out.println(p);
 		System.out.println("state=" + p.getState() + " (입양대기)");
 		System.out.println("-----------------------------------------------\n");
+		
+		return mav;
 	}
 
 	@RequestMapping("/AddPet/AdoptForm")
