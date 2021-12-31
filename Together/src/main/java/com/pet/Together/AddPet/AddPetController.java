@@ -95,6 +95,7 @@ public class AddPetController {
 	
 	/* ================================juDayoung 추가중================================ */
 
+
 	@RequestMapping("/AddPet/WaitingPet")
 	public ModelAndView waitingPet(int id) {
 		/*
@@ -118,6 +119,7 @@ public class AddPetController {
 		System.out.println("-----------------------------------------------\n");
 		
 		return mav;
+
 	}
 
 	@RequestMapping("/AddPet/AdoptForm")
@@ -143,6 +145,7 @@ public class AddPetController {
 		System.out.println("입양신청자들의 리스트를 봅니다.");
 		System.out.println("state=3 (입양문의중)");
 		System.out.println("-----------------------------------------------\n");
+
 	}
 
 	@RequestMapping("/AddPet/WaitingPerson")

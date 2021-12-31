@@ -13,7 +13,7 @@
 
 	<title>Together</title>
 
-	
+
 	<!-- favicon -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/ico/favicon.jpg">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="${pageContext.request.contextPath }/resources/images/ico/apple-touch-icon-144-precomposed.png">
