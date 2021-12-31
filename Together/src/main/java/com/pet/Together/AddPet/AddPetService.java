@@ -14,5 +14,11 @@ public class AddPetService {
 	}
 	
 	
+	
+	/* ================================juDayoung 추가중================================ */
+	public Pet getPet(int id) {
+		return mapper.getPet(id); 
+	}
+	/* ================================juDayoung 추가중 끝================================ */
 
 }
