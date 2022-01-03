@@ -37,7 +37,7 @@
 						<div layout="row" class="verticalCenter">
 							<div class="nino-avatar fsr">
 								<a href="#">
-									<img class="img-circle img-thumbnail" src="${pageContext.request.contextPath}/resources/images/testimonial/dog1.jpg" alt="">
+									<img class="img-circle img-thumbnail" src="${pageContext.request.contextPath}/resources/cha/AddPetList/dog1.jpg" alt="">
 								</a>
 							</div>
 							<div>
@@ -56,7 +56,7 @@
 						<div layout="row" class="verticalCenter">
 							<div class="nino-avatar fsr">
 								<a href="#">
-									<img class="img-circle img-thumbnail" src="${pageContext.request.contextPath}/resources/images/testimonial/dog2.jpg" alt="">
+									<img class="img-circle img-thumbnail" src="${pageContext.request.contextPath}/resources/cha/AddPetList/dog2.jpg" alt="">
 								</a>
 							</div>
 							<div>
@@ -75,7 +75,7 @@
 						<div layout="row" class="verticalCenter">
 							<div class="nino-avatar fsr">
 								<a href="#">
-									<img class="img-circle img-thumbnail" src="${pageContext.request.contextPath}/resources/images/testimonial/dog3.jpg" alt="">
+									<img class="img-circle img-thumbnail" src="${pageContext.request.contextPath}/resources/cha/AddPetList/dog3.jpg" alt="">
 								</a>
 							</div>
 							<div>

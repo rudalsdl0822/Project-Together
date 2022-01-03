@@ -169,6 +169,11 @@ public class AddPetController {
 
 	}
 	
+	@RequestMapping(value = "/AddPet/AdoptNoticeList")
+	public void adoptNoticeList() {
+
+	}
+	
 	/* ================================cha 추가중================================ */
 	
 
