@@ -27,52 +27,50 @@ public class AddPetController {
 
 	}
 
-	@PostMapping(value = "/AddPet")
-	public String addPet(Pet p) {
-    
-		service.addPet(p);
-		return "";
+	@RequestMapping(value="/AddPet/AddPetResult")
+	public void addPetResult() {
+		
 	}
 
-	private static final String PATH = "C:\\together\\img";
+	@PostMapping(value = "/AddPet")
+	public String addPet(Pet p, Img imgs) { // id 제외하고 값 넘어옴.
+		int petId = service.makeId();
+		
+		MultipartFile[] imgList = {imgs.getFile1(),imgs.getFile2(),imgs.getFile3()};
+		
+		p.setId(petId);
+		p.setImgs(imgs);
+		
+		for (int i = 0 ; i<imgList.length;i++) {
+			saveImg(imgList[i],petId,i+1);
+		}
+		service.addPet(p);
+		return "/AddPet/AddPetResult";
+	}
+
+	private static final String PATH = "C:\\together\\img\\pet\\";
 
 	/*
-	 * 이미지를 폼에서 받아, C:\\together\\img\\pet\\petId번호 폴더에 'file번호'파일로 저장한다.
+	 * 이미지를 폼에서 받아, C:\\together\\img\\pet\\번호(petId) 폴더에 저장한다.
 	 */
 	public void saveImg(MultipartFile file, int petId, int fileNum) {
-		/* message를 print 한다. */
-		String message="이미지파일을 C:\\together\\img\\pet\\petId"+petId+"폴더에 'file"+fileNum+"'로 저장합니다.";
-				
+		
+		// 파일 이름을 가져온다.
 		String originalFileName=file.getOriginalFilename();
 		
 		/* 파일이 있으면 저장한다. */
 		if(originalFileName!=null && !originalFileName.equals("") ) {
-			/* 파일 형식을 fileFormat으로 저장한다. */
-			String fileFormat=originalFileName.split("\\.")[1];
-		
+			
 			/* path 디렉토리가 없다면 디렉토리를 만든다. */
-			String dirName=PATH+"\\pet\\petId"+petId;
-			File dir=new File(dirName);
+			String dirPath=PATH+petId;
+			File dir=new File(dirPath);
 			if( !dir.exists() ) {
-				dir.mkdir();				
+				dir.mkdirs(); // 상위폴더가 없다면 상위 폴더도 만든다.				
 			}
 			
-			/* 이미 파일명이 존재한다면 파일을 저장하지 않는다.*/
-			boolean fileExist=false;
-			
-			String fileName="file"+fileNum;
-			String[] files=dir.list();
-			for(String f:files) {
-				String fname=f.split("\\.")[0];
-				if(fname.equals(fileName) ) {
-					fileExist=true;
-					message="저장 실패.	C:\\together\\img\\pet\\petId"+petId+"폴더에 file"+fileNum+"이 이미 존재하여 저장하지 않았습니다.";
-				}
-			}			
-			
 			/* 경로에 파일을 만든다. */
-			if( !fileExist ) {
-				File f=new File(dirName+"\\"+fileName+"."+fileFormat);
+			
+				File f=new File(dirPath+"/"+fileNum);
 				try {
 					file.transferTo(f);
 				}catch(IllegalStateException e) {
@@ -80,18 +78,8 @@ public class AddPetController {
 				}catch(IOException e) {
 					e.printStackTrace();
 				}
-			}
-			System.out.println(message);			
 		}
-
-
 	}
-	
-	
-	
-	
-	
-	
 	
 	/* ================================juDayoung 추가중================================ */
 
