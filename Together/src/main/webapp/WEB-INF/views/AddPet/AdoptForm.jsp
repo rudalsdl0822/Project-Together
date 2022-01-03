@@ -38,16 +38,33 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	
 	<!-- jquery 함수 시작================================================== -->
+
 	<script>
+	function fn_form_submit(form_id){
+		var title=$("#title").val();
+		var family=$("#family").val();
+		var job=$("#job").val();
+		var walktime=$("#walktime").val();
+		var dating=0;
+		var content=$("#content").val();
+		
+		var data="?title="+title+"&family="+family+"&job="+job+"&walktime="+walktime
+				+"&dating="+dating+"&content="+content;
+		
+		alert("입양신청이 완료되었습니다. 메인 페이지로 이동합니다.");
+		
+		$("#"+form_id).attr("action","/AddPet/AdoptWish"+data); 
+		$("#"+form_id).submit();
+	}
+	
 		$(document).ready(function(){
-			$("#btn_adoptWish").click(function(){
+			
+			// 입양신청 버튼
+			$("#btn_adoptWish").click(function(){				
 				var flag=confirm("정말 ${pet.name}를 입양신청하시겠습니까?");
 				
 				if(flag){
-					alert("입양이 신청되었습니다. 홈페이지로 돌아갑니다.");
-					var form=document.form_adoptWish;
-					form.action="/AddPet/AdoptWish";
-					form.submit();
+					fn_form_submit("form_adoptWish");
 				}
 				
 			});
@@ -96,12 +113,12 @@
 					<div class="col-md-6">
 						<div layout="row" class="item">
 							<div class="nino-avatar fsr">
-								<a href="/AddPet/WaitingPet?id=22&state=2">
+								<a href="/AddPet/WaitingPet?id=1111">
 									<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="">
 								</a>
 							</div>
 							<div class="info">
-								<h4 class="name"><a href="/AddPet/WaitingPet?id=22">${pet.name }</a></h4>
+								<h4 class="name"><a href="/AddPet/WaitingPet?id=1111">${pet.name }</a></h4>
 								<span class="regency">${pet.breed }</span>
 								<p class="desc">성별 : ${sexKorean }</p>
 								<p class="desc">나이 : ${pet.age }살</p>
@@ -120,15 +137,24 @@
 								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="">
 							</div>
 							<div class="info" style="width:100%;">
-								<h4 class="name">NickName : 강아지는내칭구</h4>
+								<h4 class="name">NickName : ${Member.nickname }</h4>
 								<span class="regency" style="width:100%;">
-									<input type="text" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;">
+									<input type="text" id="title" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;">
 								</span>
-								<p class="desc">family 가족 구성 : 아빠 엄마 본인 반려견초코</p>
-								<p class="desc">job 직업 : 프리랜서</p>
-								<p class="desc">walkTime 산책 가능 시간 : 하루 1시간</p>
-								<p class="desc">dating 현재까지 ${pet.name }와의 만남 : 2번</p>
-								<textarea rows="5" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="width:100%; resize: vertical;"></textarea>
+								<p class="desc">
+									<input type="text" id="family" value="${MemberInfo.family }" placeholder="가족구성을 적어주세요(반려동물 포함)" style="width:100%;">
+								</p>
+								<p class="desc">
+									<input type="text" id="job" value="${MemberInfo.job }" placeholder="직업을 적어주세요(반려동물 케어에 필요한 정보입니다)" style="width:100%;">
+								</p>
+								<p class="desc">
+									<input type="text" id="walktime" value="${MemberInfo.walktime }" placeholder="산책가능한 시간을 적어주세요(하루 1시간/일주일 4시간)" style="width:100%;">
+								</p>
+								<p class="desc">
+									<input type="hidden" id="dating" value="${MemberInfo.dating }">
+									현재까지 ${pet.name }와의 만남 회수 : ${MemberInfo.dating }번
+								</p>
+								<textarea rows="5" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="width:100%; resize: vertical;"></textarea>
 							</div>
 						</div>
 					</div>
@@ -145,10 +171,10 @@
         			<div class="colInfo">
         			
         				<!-- 입양신청 폼 시작 -->
-	        			<form name="form_adoptWish" class="nino-subscribeForm">
+	        			<form id="form_adoptWish" method="post" class="nino-subscribeForm">
 	        				<div class="input-group input-group-lg">
 								<span class="input-group-btn">
-									<input type="hidden" value="${pet.id }" name="id">
+									<input type="hidden" value="${pet.id }" name="pet_id">
 									<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 25px;">${pet.name }와 함께 할래요</button>
 								</span>
 							</div>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.Together.Adopt.AdoptMapper">
+
+	<resultMap type="com.pet.Together.Adopt.Adopt" id="Adopt">
+		<result property="num" column="num"></result>
+		<result property="title" column="title"></result>
+		<result property="writer" column="writer"></result>
+		<result property="pet_id" column="pet_id"></result>
+		<result property="family" column="family"></result>
+		<result property="job" column="job"></result>
+		<result property="walktime" column="walktime"></result>
+		<result property="dating" column="dating"></result>
+		<result property="content" column="content"></result>
+	</resultMap>
+
+<insert id="addAdopt" parameterType="com.pet.Together.Adopt.Adopt">
+	insert into to_adopt 
+	values(to_adopt_seq.nextval, #{title}, #{writer}, #{pet_id}, #{family}, #{job}, #{walktime}, #{dating}, #{content})
+</insert>
+
+
+<select id="getAdopt" resultMap="Adopt" parameterType="int">
+	select * from to_adopt
+	where num=#{num}
+</select>
+
+<select id="getAdopts" resultMap="Adopt">
+	select * from to_adopt
+	order by num desc
+</select>
+
+
+
+
+
+</mapper>

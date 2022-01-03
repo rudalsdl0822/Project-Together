@@ -39,6 +39,7 @@
 	
 	<!-- 함수 -->
 	<script>
+
 		$(document).ready(function(){
 			
 			$("#btn_AdoptAccept1").click(function(){
@@ -65,161 +66,49 @@
 			</h2>
 			
 			<div class="sectionContent">
-				<div class="row" style="margin-bottom: 25px;">
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<!-- 입양신청자 리스트 1개-->
-							<a href="/AddPet/WaitingPerson?num=4">
-							<div class="articleThumb" style="text-align: right;">
-							<!-- *********수정할 사항 : 사진 원형이 아님********* -->
-								<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" width="43%">
-								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="" width="43%">
-
-								<div class="date">
-									<span class="number">11</span>
-									<span class="text">Jan 15</span>
-								</div>
-								<!-- *********수정할 사항 : 사진 아래에 이름/ID적기********* -->
-								<div>
-									순대
-									강아지는내칭구
-								</div>
-							</div>
-							<h3 class="articleTitle">title : 행복하게 해주겠습니다.</h3>
-							<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
-							<p class="articleDesc">
-								content 자기 소개 : 초코와 순대의 케미는 최강일거에요!
-							</p>
-							</a>
-							
-							<div class="articleMeta">
-								<i class="mdi mdi-eye nino-icon"></i> 만난 회수 : 2
-								<div style="text-align: right;">
-									<form action="/AddPet/AdoptAccept" method="post">
-										<span class="input-group-btn">
-											<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">입양 거절</button>			
-											<button id="btn_adoptAccept1" class="btn btn-success" type="button" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">입양 승인</button>
-										</span>
-									</form>
-								</div>
-							</div>
-							<!-- 입양신청자 리스트 1개 끝 -->
-							
-						</article>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<!-- 입양신청자 리스트 1개-->
-							<a href="/AddPet/WaitingPerson?num=4">
-							<div class="articleThumb" style="text-align: right;">
-							<!-- *********수정할 사항 : 사진 원형이 아님********* -->
-								<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" width="43%">
-								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="" width="43%">
-
-								<div class="date">
-									<span class="number">11</span>
-									<span class="text">Jan 15</span>
-								</div>
-								<!-- *********수정할 사항 : 사진 아래에 이름/ID적기********* -->
-								<div>
-									순대
-									강아지는내칭구
-								</div>
-							</div>
-							<h3 class="articleTitle">title : 행복하게 해주겠습니다.</h3>
-							<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
-							<p class="articleDesc">
-								content 자기 소개 : 초코와 순대의 케미는 최강일거에요!
-							</p>
-							</a>
-							
-							<div class="articleMeta">
-								<i class="mdi mdi-eye nino-icon"></i> 만난 회수 : 2
-								<div style="text-align: right;">
-									<form action="/AddPet/AdoptAccept" method="post">
-										<span class="input-group-btn">
-											<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">입양 거절</button>			
-											<button id="btn_adoptAccept1" class="btn btn-success" type="button" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">입양 승인</button>
-										</span>
-									</form>
-								</div>
-							</div>
-							<!-- 입양신청자 리스트 1개 끝 -->
-						</article>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<!-- 입양신청자 리스트 1개-->
-							<a href="/AddPet/WaitingPerson?num=4">
-							<div class="articleThumb" style="text-align: right;">
-							<!-- *********수정할 사항 : 사진 원형이 아님********* -->
-								<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" width="43%">
-								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="" width="43%">
-
-								<div class="date">
-									<span class="number">11</span>
-									<span class="text">Jan 15</span>
-								</div>
-								<!-- *********수정할 사항 : 사진 아래에 이름/ID적기********* -->
-								<div>
-									순대
-									강아지는내칭구
-								</div>
-							</div>
-							<h3 class="articleTitle">title : 행복하게 해주겠습니다.</h3>
-							<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
-							<p class="articleDesc">
-								content 자기 소개 : 초코와 순대의 케미는 최강일거에요!
-							</p>
-							</a>
-							
-							<div class="articleMeta">
-								<i class="mdi mdi-eye nino-icon"></i> 만난 회수 : 2
-								<div style="text-align: right;">
-									<form action="/AddPet/AdoptAccept" method="post">
-										<span class="input-group-btn">
-											<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">입양 거절</button>			
-											<button id="btn_adoptAccept1" class="btn btn-success" type="button" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">입양 승인</button>
-										</span>
-									</form>
-								</div>
-							</div>
-							<!-- 입양신청자 리스트 1개 끝 -->
-						</article>
-					</div>					
-				</div>
+			
+			
+			<!-- ======== adoptList 시작 ============================================= -->
+			<c:forEach items="${adoptList }" var="Adopt" varStatus="status">
 				
-				<div class="row" style="margin-bottom: 25px;">
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<!-- 입양신청자 리스트 1개-->
-							<a href="/AddPet/WaitingPerson?num=4">
-							<div class="articleThumb" style="text-align: right;">
-							<!-- *********수정할 사항 : 사진 원형이 아님********* -->
-								<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" width="43%">
-								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="" width="43%">
+				<!-- 한줄 시작 -->
+				<c:if test="${status.count%3==1 }">
+					<div class="row" style="margin-bottom: 25px;">
+				</c:if>
+						<div class="col-md-4 col-sm-4">
+							<article>
+							<!-- 입양신청 1개 시작-->
+							<a href="/AddPet/WaitingPerson?num=${Adopt.num }">
+								<div class="articleThumb">
+									<table align="center" style="width: 84%;">
+										<tr>
+											<th width=50%><img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" width="100%"></th>
+											<th width=50%><img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="" width="100%"></th>
+										</tr>
+										<tr>
+											<!-- ======= 수정할 예정 : pet name과 member nickname 넣기 ============ -->
+											<th style="text-align: center;">순대</th>
+											<th style="text-align: center;">강아지는내칭구</th>
+										</tr>
+									</table>
+									
+									<div class="date">
+										<span class="number">${Adopt.num }</span>
+										<span class="text">Jan 15</span>
+									</div>
 
-								<div class="date">
-									<span class="number">11</span>
-									<span class="text">Jan 15</span>
 								</div>
-								<!-- *********수정할 사항 : 사진 아래에 이름/ID적기********* -->
-								<div>
-									순대
-									강아지는내칭구
-								</div>
-							</div>
-							<h3 class="articleTitle">title : 행복하게 해주겠습니다.</h3>
-							<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
-							<p class="articleDesc">
-								content 자기 소개 : 초코와 순대의 케미는 최강일거에요!
-							</p>
+								<h3 class="articleTitle">title : ${Adopt.title }</h3>
+								<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
+								<p class="articleDesc">
+									자기 소개 : ${Adopt.content }
+								</p>
 							</a>
 							
 							<div class="articleMeta">
-								<i class="mdi mdi-eye nino-icon"></i> 만난 회수 : 2
+								<i class="mdi mdi-eye nino-icon"></i> 만난 회수 : ${Adopt.dating }
 								<div style="text-align: right;">
-									<form action="/AddPet/AdoptAccept" method="post">
+									<form action="/AddPet/AdoptAccept" method="post"">
 										<span class="input-group-btn">
 											<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">입양 거절</button>			
 											<button id="btn_adoptAccept1" class="btn btn-success" type="button" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">입양 승인</button>
@@ -227,10 +116,16 @@
 									</form>
 								</div>
 							</div>
-							<!-- 입양신청자 리스트 1개 끝 -->
+							<!-- 입양신청 1개 끝 -->
+				
 						</article>
 					</div>
-				</div>
+				<!-- 한줄 끝 -->
+				<c:if test="${status.count%3==0 || status.last}">
+					</div>
+				</c:if>
+				
+			</c:forEach>
 				
 				
 			</div>

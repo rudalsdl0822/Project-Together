@@ -51,6 +51,28 @@
 
 <h3>상단 배너</h3>
 
+
+<!-- 뷰 세팅================================================== -->
+	<!-- locationCityKorean : 펫이 있는 장소의 도시를 한글화 합니다. -->
+		<c:set var="locationCityKorean">
+			<c:if test="${pet.location == 1 }">서울</c:if>
+			<c:if test="${pet.location == 2 }">경기</c:if>
+			<c:if test="${pet.location == 3 }">부산</c:if>
+		</c:set>
+	<!-- locationKorean : 펫이 있는 장소를 한글화 합니다. -->
+		<c:set var="locationKorean">
+			<c:if test="${pet.location == 1 }">강남</c:if>
+			<c:if test="${pet.location == 2 }">안양</c:if>
+			<c:if test="${pet.location == 3 }">해운대</c:if>
+		</c:set>
+	<!-- sexKorean : 펫 성별을 한글화 합니다. -->
+		<c:set var="sexKorean">
+			<c:if test="${pet.sex == 1 }">남자</c:if>
+			<c:if test="${pet.sex == 2 }">여자</c:if>
+		</c:set>
+<!-- 뷰 세팅 끝================================================== -->
+
+
     <!-- Happy Client
     ================================================== -->
     <section id="nino-happyClient">
@@ -70,13 +92,13 @@
 								</a>
 							</div>
 							<div class="info">
-								<h4 class="name"><a href="/AddPet/WaitingPet?id=22&state=2">순대</a></h4>
-								<span class="regency">포메라니안</span>
-								<p class="desc">성별 : 여자</p>
-								<p class="desc">나이 : 1살</p>
-								<p class="desc">무게 : 3.5kg</p>
-								<p class="desc">보호소 위치 : (서울)강남점</p>
-								<p class="desc">상세 사항 : 세상에서 가장 하얀 포메! 순대랍니다. 신사동 옆골목에서 우는걸 발견했어요. 며칠동안 어미가 안보여서 보호소에 가게됬고....</p>
+								<h4 class="name"><a href="/AddPet/WaitingPet?id=22&state=2">${pet.name }</a></h4>
+								<span class="regency">${pet.breed }</span>
+								<p class="desc">성별 : ${sexKorean }</p>
+								<p class="desc">나이 : ${pet.age }살</p>
+								<p class="desc">무게 : ${pet.weight }kg</p>
+								<p class="desc">보호소 위치 : (${locationCityKorean })${locationKorean }점</p>
+								<p class="desc">상세 사항 : ${pet.info }</p>
 							</div>
 						</div>
 					</div>
@@ -89,14 +111,14 @@
 								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="">
 							</div>
 							<div class="info" style="width:100%;">
+								<!-- ==== 수정할 사항 : member nickname 가져오기 ===== -->
 								<h4 class="name">NickName : 강아지는내칭구</h4>
-								<span class="regency">title : 행복하게 해주겠습니다.</span>
-								<p class="desc">family 가족 구성 : 아빠 엄마 본인 반려견초코</p>
-								<p class="desc">job 직업 : 프리랜서</p>
-								<p class="desc">walkTime 산책 가능 시간 : 하루 1시간</p>
-								<p class="desc">dating 현재까지 순대와의 만남 : 2번</p>
-								<p class="desc">content 자기 소개 :</p>
-								<p class="desc">순대와 2번 만나보니 더 확신이 생겨요. 저희 초코와도 잘 지내서 꼭 입양승인되었으면 좋겠습니다!</p>
+								<span class="regency">title : ${Adopt.title }</span>
+								<p class="desc">가족 구성 : ${Adopt.family }</p>
+								<p class="desc">직업 : ${Adopt.job }</p>
+								<p class="desc">산책 가능 시간 : ${Adopt.walktime }</p>
+								<p class="desc">현재까지 순대와의 만남 : ${Adopt.dating }번</p>
+								<p class="desc">자기 소개 : ${Adopt.content }</p>
 							</div>
 						</div>
 					</div>
