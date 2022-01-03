@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -121,24 +122,50 @@ public class AddPetController {
 	}
 
 	@RequestMapping("/AddPet/AdoptForm")
-	public void adoptForm(Pet p) {
+	public ModelAndView adoptForm(int id) {
+		/*
+		 * 1. ====추후 추가할 예정 : session에서 로그인한 회원의 id를 가져온다.====================
+		 * 2. ====추후 추가할 예정 : 회원이 작성한 입양신청서가 있다면 가져온다. 없을시 AdoptForm에서 새로 작성.====================
+		 * 3. 입양신청 할 Pet의 id로 Pet정보를 가져온다.
+		 */
+		
+		Pet p=service.getPet(id);
+		ModelAndView mav=new ModelAndView("AddPet/AdoptForm","pet",p);
+		
 		System.out.println("-----입양신청폼-----------------------------------");
 		System.out.println("id가 " + p.getId() + "인 입양대기 동물의 입양신청 폼으로 갑니다.");
-		System.out.println("state=2 (입양대기)");
+		System.out.println(p);
+		System.out.println("state=" + p.getState() + " (입양대기)");
 		System.out.println("-----------------------------------------------\n");
+		
+		return mav;
 	}
 
 	@RequestMapping("/AddPet/AdoptWish")
-	public String adoptWish() {
+	public String adoptWish(int id) {
+		/*
+		 * 1. ====추후 추가할 예정 : 입양신청 DB에 회원 id(session)와 펫 id를 집어넣는다.====================
+		 * 2. pet의 state를 3(입양문의중)으로 바꿔준다.
+		 * 3. index.jsp로 돌아간다.
+		 */
+		
+		Pet p=service.getPet(id);
+		p.setState(3);
+		
 		System.out.println("-----입양신청완료----------------------------------");
-		System.out.println("id가 22인 입양대기 동물을 입양신청합니다.");
-		System.out.println("state=3 (입양문의중)");
+		System.out.println("id가 "+p.getId() +"인 입양대기 동물을 입양신청합니다.");
+		System.out.println("state="+p.getState() +" (입양문의중)");
 		System.out.println("-----------------------------------------------\n");
+		
 		return "index";
 	}
 
 	@RequestMapping("/AddPet/AdoptWishList")
 	public void adoptWishList() {
+		/*
+		 * 1. to_pet DB에서 state=3인 Pet을 ArrayList로 불러온다.
+		 */
+		
 		System.out.println("-----입양신청리스트---------------------------------");
 		System.out.println("입양신청자들의 리스트를 봅니다.");
 		System.out.println("state=3 (입양문의중)");

@@ -166,9 +166,10 @@
     			</div>
     			<div class="item">
     				<!-- *********수정할 사항 : 패딩 또는 마진 줄이기********* -->
+    				<!-- *********수정할 사항 : 관심등록 하트 구현하기********* -->
     				<div class="number">
     					<a href="#" class="nino-btn" style="font-size: 20px;">관심등록</a>
-    					<a href="/AddPet/AdoptForm?id=22" class="nino-btn" style="font-size: 20px;">입양신청</a>
+    					<a href="/AddPet/AdoptForm?id=${pet.id }" class="nino-btn" style="font-size: 20px;">입양신청</a>
     				</div>
     				<div class="text"></div>
     			</div>
