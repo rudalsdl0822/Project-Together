@@ -63,16 +63,19 @@
 <!-- 뷰 세팅 끝================================================== -->
 
 
+
 <!-- Story About Us
     ================================================== -->
 	<section id="nino-story">
 		<div class="container">
 			<h2 class="nino-sectionHeading">
+
 				<span class="nino-subHeading">I'm In ${locationEnglish }</span>
 				${pet.breed }, ${pet.name }
 			</h2>
 			<p class="nino-sectionDesc">${pet.name }는 사랑입니다</p>
 				<!-- *********수정할 사항 : 사진 크기 똑같지 않음********* -->
+
 				<div class="row nino-hoverEffect">
 					<div class="col-md-4 col-sm-4">
 						<div class="item">
@@ -162,6 +165,7 @@
     			</div>
     			<div class="item">
     				<div class="number">${locationKorean }</div>
+
     				<div class="text">location</div>
     			</div>
     			<div class="item">
@@ -194,7 +198,9 @@
 							</div>
 							<!-- *********수정할 사항 : 화살표 없애거나 움직이게 만들기********* -->
 							<div>
+
 								<p class="quote">"${pet.info }"</p>
+
 								<span class="name">NickName : yuriii</span>
 							</div>
 						</div>
