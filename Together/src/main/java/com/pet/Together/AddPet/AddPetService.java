@@ -13,6 +13,9 @@ public class AddPetService {
 		mapper.addPet(p);
 	}
 	
+	public int makeId() {
+		return mapper.makeId();
+	}
 	
 	
 	/* ================================juDayoung 추가중================================ */
