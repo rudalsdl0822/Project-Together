@@ -59,7 +59,7 @@
 								<li><a href="${pageContext.request.contextPath}/views/">후기게시판</a></li>
 								<li><a href="${pageContext.request.contextPath}/AddPet/AddPet">입소신청</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후원하기</a></li>
-								<li><a href="${pageContext.request.contextPath}/views/">회원가입 / 로그인</a></li>
+								<li><a href="${pageContext.request.contextPath}/Member/loginForm">회원가입 / 로그인</a></li>
 							</ul>
 						</div><!-- /.navbar-collapse -->
 					
