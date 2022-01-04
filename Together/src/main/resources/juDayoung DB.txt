@@ -1,5 +1,23 @@
+drop table to_adopt cascade constraints;
+create table to_adopt(
+    num number primary key,
+    title varchar2(100) not null,
+    writer varchar2(50) not null references to_member(id) on delete cascade,
+    pet_id number not null references to_pet(id) on delete cascade,
+    family varchar2(500),
+    job varchar2(500),
+    walktime varchar2(500),
+    dating number,
+    content varchar2(4000),
+    state number default 0);
+
+
+
 insert into to_member values('j','j','jooda','망고망고','01012345678','성남시','j@naver.com',1);
 insert into to_member values('k','k','kim','관리자k','01087654321','안양시','k@naver.com',2);
 
 insert into to_pet values(1111,'살구','포메라니안',1,2,3.5,'발랄하고 사람을 좋아해요',1,2);
 insert into to_pet values(2222,'감자','진돗개',2,4,10.7,'산책을 좋아하고 순해요',3,2);
+
+insert into to_adopt values(to_adopt_seq.nextval,'a','j',1111,'f','j','w',0,'c',0);
+insert into to_adopt values(to_adopt_seq.nextval,'a','j',2222,'f','j','w',0,'c',0);

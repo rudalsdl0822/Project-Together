@@ -57,10 +57,41 @@
 		$("#"+form_id).submit();
 	}
 	
+	function fn_checkData(){
+		if($("#title").val()==""){
+			alert("제목을 적어주세요");
+			$("#title").focus();
+			return false;
+		}else if($("#family").val()==""){
+			alert("가족 구성을 적어주세요");
+			$("#family").focus();
+			return false;
+		}else if($("#job").val()==""){
+			alert("직업을 적어주세요");
+			$("#job").focus();
+			return false;
+		}else if($("#walktime").val()==""){
+			alert("산책 가능 시간을 적어주세요");
+			$("#walktime").focus();
+			return false;
+		}else if($("#content").val()==""){
+			alert("내용을 적어주세요");
+			$("#content").focus();
+			return false;
+		}
+			
+		return true;
+	}
+	
 		$(document).ready(function(){
 			
 			// 입양신청 버튼
-			$("#btn_adoptWish").click(function(){				
+			$("#btn_adoptWish").click(function(){	
+				// 데이터가 다 들어가 있는지 확인합니다.
+				var checkData = fn_checkData();
+				if(checkData==false) return;
+				
+				// 입양신청을 한번 더 확인합니다.
 				var flag=confirm("정말 ${pet.name}를 입양신청하시겠습니까?");
 				
 				if(flag){
@@ -134,7 +165,7 @@
 					<div class="col-md-6">
 						<div layout="row" class="item" style="width:100%;">
 							<div class="nino-avatar fsr">
-								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="">
+								<img class="img-circle" src="/resources/judayoung/defaultPerson.jpg" alt="">
 							</div>
 							<div class="info" style="width:100%;">
 								<h4 class="name">NickName : ${Member.nickname }</h4>

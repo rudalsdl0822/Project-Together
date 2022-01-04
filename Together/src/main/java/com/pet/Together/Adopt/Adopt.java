@@ -11,9 +11,10 @@ public class Adopt {
 	private String walktime;
 	private int dating;
 	private String content;
+	private int state;
 
 	public Adopt(int num, String title, String writer, int pet_id, String family, String job, String walktime,
-			int dating, String content) {
+			int dating, String content, int state) {
 		super();
 		this.num = num;
 		this.title = title;
@@ -24,6 +25,7 @@ public class Adopt {
 		this.walktime = walktime;
 		this.dating = dating;
 		this.content = content;
+		this.state = state;
 	}
 
 	public Adopt() {
@@ -101,12 +103,22 @@ public class Adopt {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
 
 	@Override
 	public String toString() {
 		return "Adopt [num=" + num + ", title=" + title + ", writer=" + writer + ", pet_id=" + pet_id + ", family="
 				+ family + ", job=" + job + ", walktime=" + walktime + ", dating=" + dating + ", content=" + content
-				+ "]";
+				+ ", state=" + state + "]";
 	}
 
 }

@@ -616,7 +616,7 @@
 <br>
 <a href="/AddPet/AdoptWishList">입양신청 리스트</a>
 <br>
-<a href="/AddPet/WaitingPerson?num=4">입양신청1개클릭시</a>
+<a href="/AddPet/WaitingPerson?num=45">입양신청1개클릭시</a>
 <!-- ================================juDayoung 추가중================================ -->
 	
 	

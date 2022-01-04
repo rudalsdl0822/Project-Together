@@ -108,7 +108,7 @@
 					<div class="col-md-6">
 						<div layout="row" class="item" style="width:100%;">
 							<div class="nino-avatar fsr">
-								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="">
+								<img class="img-circle" src="/resources/judayoung/defaultPerson.jpg" alt="">
 							</div>
 							<div class="info" style="width:100%;">
 								<!-- ==== 수정할 사항 : member nickname 가져오기 ===== -->

@@ -12,11 +12,13 @@
 		<result property="walktime" column="walktime"></result>
 		<result property="dating" column="dating"></result>
 		<result property="content" column="content"></result>
+		<result property="state" column="state"></result>
 	</resultMap>
 
 <insert id="addAdopt" parameterType="com.pet.Together.Adopt.Adopt">
 	insert into to_adopt 
-	values(to_adopt_seq.nextval, #{title}, #{writer}, #{pet_id}, #{family}, #{job}, #{walktime}, #{dating}, #{content})
+	values(to_adopt_seq.nextval, #{title}, #{writer}, #{pet_id}, 
+			#{family}, #{job}, #{walktime}, #{dating}, #{content}, 0)
 </insert>
 
 <select id="getAdopt" resultMap="Adopt" parameterType="int">
