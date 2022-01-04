@@ -12,7 +12,7 @@
 
 
 
-	<title>Together | 로그인</title>
+	<title>Together | 회원가입약관 </title>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 	<script type="text/javascript">
@@ -65,7 +65,7 @@
 	
 	
 </head>
-<body data-target="#nino-navbar" data-spy="scroll">
+<body data-target="#nino-navbar" data-spy="scroll" style="padding-top: 50px;" class="nino-fixed-nav">
 
 	<!-- Header
     ================================================== -->
@@ -89,99 +89,20 @@
 					<div class="nino-menuItem pull-right">
 						<div class="collapse navbar-collapse pull-left" id="nino-navbar-collapse">
 							<ul class="nav navbar-nav">
-								<li class="active"><a href="${pageContext.request.contextPath}/index">홈<span class="sr-only">(current)</span></a></li>
+								<li><a href="${pageContext.request.contextPath}/index">홈</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">입양공고</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후기게시판</a></li>
 								<li><a href="${pageContext.request.contextPath}/AddPet/AddPet">입소신청</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후원하기</a></li>
-								<li><a href="${pageContext.request.contextPath}/views/">회원가입 / 로그인</a></li>
+								<li class="active"><a href="${pageContext.request.contextPath}/Member/loginForm">회원가입 / 로그인</a></li>
 							</ul>
 						</div><!-- /.navbar-collapse -->
 					
 					</div>
 				</div><!-- /.container-fluid -->
 			</nav>
-
-			<section id="nino-slider" class="carousel slide container" data-ride="carousel">
-				
-				<!-- Wrapper for slides -->
-				<div class="carousel-inner" role="listbox">
-					<div class="item active">
-							<h2 class="nino-sectionHeading">
-								<span class="nino-subHeading">안락사 없는 보호센터</span>
-								Together
-							</h2>
-							<h3 class="nino-sub">새로운 주인을 만날 수 있도록 돕고 따뜻한 보금자리 역할을 하고 있습니다.</h3>
-							<br>
-							<a href="#nino-story" class="nino-btn">Together 소개</a>
-					</div>
-					<div class="item">
-						<h2 class="nino-sectionHeading">
-							<span class="nino-subHeading">입양하기</span>
-							
-						</h2>
-						<h3 class="nino-sub">사지말고 입양하세요.</h3>
-						<br>
-						<p>펫숍 쇼윈도에 진열된 동물의 이면에는 또 다른 생명의 고통이 있을 수 있습니다.<br>
-						입양은 가장 신천적인 동물구호 활동입니다. 가족을 기다리는 동물들, 사지말고 입양하세요.</p>
-							<br>
-						<a href="${pageContext.request.contextPath}/views/" class="nino-btn">입양 공고 리스트</a>
-					</div>
-					<div class="item">
-						<h2 class="nino-sectionHeading">
-							<span class="nino-subHeading">입양 후기</span>
-						</h2>
-						<h3 class="nino-sub">입양 후기를 보실 수 있습니다.</h3>
-						<br>
-						<p>
-						Together를 통해 입양하신 분들은 누구나! 입양 후기를 올려주세요.
-						<br>가족이 되어 즐겁게 지내시는 모습, 입양 전후 사진, 특이한 버릇, 입양 후 가장 좋은 점 등을 
-						<br>작성해주시면 입양을 망설이시거나 고민하시는 분들께 좋은 선물이 될 수 있습니다.</p>
-							<br>
-						<a href="${pageContext.request.contextPath}/views/" class="nino-btn">입양 후기 게시판</a>
-					</div>
-					<div class="item">
-						<h2 class="nino-sectionHeading">
-							<span class="nino-subHeading">무료 온라인 입소신청</span>
-						</h2>
-						<h3 class="nino-sub">무료 입소</h3>
-						<br>
-						<p>Together는 사회적 공헌에 이바지함을 목적하여 무료 입소 제도를 도입 운영하게 되었습니다.
-						<br>간편하게 온라인으로 입소 신청을 해보세요!</p>
-						<br>
-						<a href="${pageContext.request.contextPath}/AddPet/AddPet" class="nino-btn">온라인 입소 신청</a>
-					</div>
-				</div>
-
-				<!-- Indicators -->
-				<ol class="carousel-indicators clearfix">
-					<li data-target="#nino-slider" data-slide-to="0" class="active">
-						<div class="inner">
-							<span class="number">01</span> Together 소개	
-						</div>
-					</li>
-					<li data-target="#nino-slider" data-slide-to="1">
-						<div class="inner">
-							<span class="number">02</span> 입양 공고
-						</div>
-					</li>
-					<li data-target="#nino-slider" data-slide-to="2">
-						<div class="inner">
-							<span class="number">03</span> 입양 후기
-						</div>
-					</li>
-					<li data-target="#nino-slider" data-slide-to="3">
-						<div class="inner">
-							<span class="number">04</span> 입소 신청
-						</div>
-					</li>
-				</ol>
-			</section>
 		</div>
-	</header><!--/#header-->
-
-
-
+	</header>
 <section id="nino-happyClient">
     	<!-- <div class="container">
     	
@@ -194,7 +115,10 @@
         	<div class="row">  
         		<div class="col-md-12" style="text-align: center;">
         			<div class="colInfo">
-        			
+        			<h2 class="nino-sectionHeading">
+				<span class="nino-subHeading">Together</span>
+				회원가입 약관 동의
+			</h2>
         			<form name="agreeForm" action="${pageContext.request.contextPath}/Member/joinForm" method="get">
         			<input type="checkbox" name="agree1" style="margin-left: -340px;" onclick="allCheck()"> 이용약관, 개인정보 수집 및 이용에 모두 동의합니다.<br><br>
         		
@@ -360,7 +284,7 @@ o 로그 기록
 ※ 동의를 거부할 수 있으나 거부시 회원 가입이 불가능합니다.</textarea><br>
 	        			
 	        	
-	        		<input type="button" class="btn btn-primary" value="회원가입" onclick="checkAgree()">
+	        		<input type="button" class="nino-btn" style="background: #95e1d3; border: none;" value="회원가입" onclick="checkAgree()">
 	        	</form>
         			</div>
         		</div>
@@ -424,19 +348,6 @@ o 로그 기록
 	
 	
 
-<!-- ================================juDayoung 추가중================================ -->
-<br>
-<a href="/AddPet/WaitingPet?id=22&state=2">입양공고 상세보기</a>
-<br>
-<a href="/AddPet/AdoptForm?id=22">입양신청 폼</a>
-<br>
-<a href="/AddPet/AdoptWishList">입양신청 리스트</a>
-<br>
-<a href="/AddPet/WaitingPerson?num=4">입양신청1개클릭시</a>
-<!-- ================================juDayoung 추가중================================ -->
-	
-	
-	
 		
 </body>
 </html>
