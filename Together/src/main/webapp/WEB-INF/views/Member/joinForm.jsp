@@ -131,9 +131,9 @@
 								<li><a href="${pageContext.request.contextPath}/index">홈</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">입양공고</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후기게시판</a></li>
-								<li class="active"><a href="${pageContext.request.contextPath}/AddPet/AddPet">입소신청</a></li>
+								<li><a href="${pageContext.request.contextPath}/AddPet/AddPet">입소신청</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후원하기</a></li>
-								<li><a href="${pageContext.request.contextPath}/views/">회원가입 / 로그인</a></li>
+								<li class="active"><a href="${pageContext.request.contextPath}/Member/loginForm">회원가입 / 로그인</a></li>
 							</ul>
 						</div><!-- /.navbar-collapse -->
 					
@@ -175,7 +175,7 @@
     </div>
     <div class="form-group">
       <label for="inputBreed">비밀번호 확인</label>
-      <input type="text" class="form-control" id="pwd2" name= "pwd2" placeholder="비밀번호 확인">
+      <input type="password" class="form-control" id="pwd2" name= "pwd2" placeholder="비밀번호 확인">
     </div>   
     <div class="form-group">
       <label for="inputBreed">닉네임</label>
@@ -235,8 +235,8 @@
     
     
     <hr>
-    <button type="reset" class="btn btn-primary" name=""> 초기화 </button>
-    <button type="button" class="btn btn-primary" name="" id="join">회원가입</button>
+    <button type="reset" class="nino-btn" name=""> 초기화 </button>
+    <button type="button" class="nino-btn" style="background: #95e1d3;" name="" id="join">회원가입</button>
      </fieldset>
 </form>
 </div>
