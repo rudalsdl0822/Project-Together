@@ -1,13 +1,10 @@
 package com.pet.Together.Adopt;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.pet.Together.AddPet.AddPetService;
-import com.pet.Together.AddPet.Pet;
-import com.pet.Together.AddPet.PetMapper;
 
 @Service
 public class AdoptService {
@@ -31,9 +28,13 @@ public class AdoptService {
 	
 	
 	
-	/* ===================함수 시작===================================== */
-
-	
-	/* ===================함수 끝===================================== */
+	/* ===============입양신청 DB 페이징 시작=============== */
+	public int countAdopt() {
+		return mapper.countAdopt();
+	}
+	public List<Adopt> selectAdopt(PagingVO vo){
+		return mapper.selectAdopt(vo);
+	}
+	/* ===============입양신청 DB 페이징 끝=============== */
 
 }

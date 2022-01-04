@@ -6,13 +6,16 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pet.Together.Adopt.Adopt;
 import com.pet.Together.Adopt.AdoptService;
+import com.pet.Together.Adopt.PagingVO;
 
 @Controller
 public class AddPetController {
@@ -170,40 +173,38 @@ public class AddPetController {
 		return "index";
 	}
 
-	@RequestMapping("/AddPet/AdoptWishList")
-	public ModelAndView adoptWishList() {  // 입양신청 리스트
+	
+	@RequestMapping("/AddPet/AdoptWishList")  // 입양신청 리스트
+	public ModelAndView adoptWishList(PagingVO vo
+			, @RequestParam(value="nowPage", required=false) String nowPage
+			, @RequestParam(value="cntPerPage", required=false) String cntPerPage) {  
 		/*
 		 * 1. to_adopt DB에서 adoptList를 불러온다.
-		 * 2. 뷰에 adoptList를 넣어준다.
+		 * 2. 페이징을 추가한다.
+		 * 3. 뷰에 adoptList를 넣어준다.
 		 */
 		
-		ArrayList<Adopt> adoptList=getAdoptsByState(3);
+		/* ===============입양신청 리스트 페이징 시작=============== */
+		int total=adopt_service.countAdopt();
+
+		nowPage=(nowPage==null)? "1":nowPage;
+		cntPerPage=(cntPerPage==null)? "3":cntPerPage;
+		vo=new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 		
-		ModelAndView mav=new ModelAndView("AddPet/AdoptWishList","adoptList",adoptList);
+		ModelAndView mav=new ModelAndView("AddPet/AdoptWishList","adoptList",adopt_service.selectAdopt(vo));
+		mav.addObject("paging", vo);
+		/* ===============입양신청 리스트 페이징 끝=============== */
 		
 		System.out.println("-----입양신청리스트---------------------------------");
 		System.out.println("입양신청자들의 리스트를 봅니다.");
-		System.out.println(adoptList);
-		System.out.println("state=3 (입양문의중)");
+		System.out.println("pet state=3 (입양문의중)");
+		System.out.println("----페이징을 시작합니다. 페이지당 글 갯수="+cntPerPage);
+		System.out.println("----첫 페이지 게시글 : "+adopt_service.selectAdopt(vo));
 		System.out.println("-----------------------------------------------\n");
 
 		return mav;
 	}
-	// 입양신청 리스트 불러오는 함수
-	public ArrayList<Adopt> getAdoptsByState(int state){
-		ArrayList<Adopt> listAll=adopt_service.getAdopts();
-		ArrayList<Adopt> list=new ArrayList<>();
-		
-		for(Adopt adopt:listAll) {
-			Pet pet=service.getPet(adopt.getPet_id());
-			int pet_state=pet.getState();
-			if(pet_state==state) {
-				list.add(adopt);
-			}
-		}
-		
-		return list;
-	}
+	
 
 	@RequestMapping("/AddPet/WaitingPerson")
 	public ModelAndView waitingPerson(int num) {  // 입양신청 상세보기
@@ -238,6 +239,9 @@ public class AddPetController {
 
 		return "index";
 	}
+	
+	
+
 
 	/* ================================juDayoung 추가중================================ */
 	

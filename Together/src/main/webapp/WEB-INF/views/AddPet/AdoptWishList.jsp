@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!-- jstl -->
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en" class=" js csstransitions">
 <head>
@@ -39,6 +40,12 @@
 	
 	<!-- 함수 -->
 	<script>
+	/* 페이징 select 함수 시작*/
+	function selChange(){
+		var sel=document.getElementById("cntPerPage").value;
+		location.href="/AddPet/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel;
+	}
+	/* 페이징 select 함수 끝*/
 
 		$(document).ready(function(){
 			
@@ -66,6 +73,22 @@
 			</h2>
 			
 			<div class="sectionContent">
+				<!-- 옵션선택 시작 -->
+				<div style="text-align: right; padding: 10px;">
+					<select id="cntPerPage" name="sel" onchange="selChange()">
+						<option value="3"
+							<c:if test="${paging.cntPerPage==3 }">selected</c:if>>3개씩 보기</option>
+						<option value="6"
+							<c:if test="${paging.cntPerPage==6 }">selected</c:if>>6개씩 보기</option>
+						<option value="9"
+							<c:if test="${paging.cntPerPage==9 }">selected</c:if>>9개씩 보기</option>
+						<option value="12"
+							<c:if test="${paging.cntPerPage==12 }">selected</c:if>>12개씩 보기</option>
+						<option value="24"
+							<c:if test="${paging.cntPerPage==24}" >selected</c:if>>24개씩 보기</option>
+				</select>
+				</div>
+				<!-- 옵션선택 끝 -->
 			
 			
 			<!-- ======== adoptList 시작 ============================================= -->
@@ -80,24 +103,18 @@
 							<!-- 입양신청 1개 시작-->
 							<a href="/AddPet/WaitingPerson?num=${Adopt.num }">
 								<div class="articleThumb">
-									<table align="center" style="width: 84%;">
-										<tr>
-											<th width=50%><img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" width="100%"></th>
-											<th width=50%><img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="" width="100%"></th>
-										</tr>
-										<tr>
-											<!-- ======= 수정할 예정 : pet name과 member nickname 넣기 ============ -->
-											<th style="text-align: center;">순대</th>
-											<th style="text-align: center;">강아지는내칭구</th>
-										</tr>
-									</table>
+									<div style="text-align: right;">
+										<img src="/resources/judayoung/waitingPet-1.jpg" alt="" width="88%">
+									</div>
 									
 									<div class="date">
-										<span class="number">${Adopt.num }</span>
-										<span class="text">Jan 15</span>
+										<span class="number" style="padding: 5px;">${Adopt.num }</span>
+										<span class="text">순대</span>
+										<span class="text">id : ${Adopt.pet_id }</span>
 									</div>
 
 								</div>
+								<h3 class="articleTitle">입양신청자 ID : ${Adopt.writer }</h3>
 								<h3 class="articleTitle">title : ${Adopt.title }</h3>
 								<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
 								<p class="articleDesc">
@@ -126,7 +143,30 @@
 				</c:if>
 				
 			</c:forEach>
-				
+			
+			
+			<!-- ========= 페이징 번호 시작 =========================================== -->
+			<div style="display: block; text-align: center;">
+				<!-- 왼쪽 화살표 링크 -->
+				<c:if test="${paging.startPage!=1 }">
+					<a href="/AddPet/AdoptWishList?nowPage=${paging.startPage-1 }&cntPerPage=${paging.cntPerPage}" style="font-size: 25px; padding: 10px">&lt;</a>
+				</c:if>
+				<!-- 페이지 숫자 링크 -->
+				<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+					<!-- 현재 페이지는 굵은 글씨로 링크 없이. -->	<!-- 다른 페이지는 링크 있게. -->
+					<c:choose>
+						<c:when test="${p==paging.nowPage }"> <b style="font-size: 30px; padding: 10px"">${p }</b></c:when>
+						<c:when test="${p!=paging.nowPage }"> 
+							<a href="/AddPet/AdoptWishList?nowPage=${p }&cntPerPage=${paging.cntPerPage}" style="font-size: 25px; padding: 10px"">${p }</a>
+						</c:when>
+					</c:choose>
+				</c:forEach>
+				<!-- 오른쪽 화살표 링크 -->
+				<c:if test="${paging.endPage!=paging.lastPage }">
+					<a href="/AddPet/AdoptWishList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}" style="font-size: 25px; padding: 10px"">&gt;</a>
+				</c:if>
+			</div>	
+			<!-- ========= 페이징 번호 끝 =========================================== -->
 				
 			</div>
     	</div>

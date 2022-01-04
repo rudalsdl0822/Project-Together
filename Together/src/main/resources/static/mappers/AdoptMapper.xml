@@ -19,7 +19,6 @@
 	values(to_adopt_seq.nextval, #{title}, #{writer}, #{pet_id}, #{family}, #{job}, #{walktime}, #{dating}, #{content})
 </insert>
 
-
 <select id="getAdopt" resultMap="Adopt" parameterType="int">
 	select * from to_adopt
 	where num=#{num}
@@ -29,6 +28,31 @@
 	select * from to_adopt
 	order by num desc
 </select>
+
+
+
+<!--===============입양신청 DB 페이징 시작===============-->
+<!-- 총 게시글 갯수 출력-->
+<select id="countAdopt" resultType="int">
+	select count(*) from to_adopt
+</select>
+
+<!-- 페이징 처리 후 게시글 조회 + pet_state==3 인 조건 추가(서브쿼리 활용). -->
+<select id="selectAdopt" resultMap="Adopt">
+	select * from(
+					select rownum rn, a.* from(
+												select * from to_adopt a
+                                                    where a.pet_id in (
+                                                                        select id from to_pet p
+                                                                        where state=3)
+												order by num desc
+												) a
+					)
+	where rn between #{start} and #{end}
+</select>
+
+
+<!--===============입양신청 DB 페이징 끝===============-->
 
 
 
