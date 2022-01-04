@@ -29,12 +29,34 @@ public class AdoptService {
 	
 	
 	/* ===============입양신청 DB 페이징 시작=============== */
-	public int countAdopt() {
-		return mapper.countAdopt();
+	public int countAdopts() {
+		return mapper.countAdopts();
 	}
-	public List<Adopt> selectAdopt(PagingVO vo){
-		return mapper.selectAdopt(vo);
+	public int countAdopt0() {
+		return mapper.countAdopt0();
 	}
+	public int countAdopt1() {
+		return mapper.countAdopt1();
+	}
+	public int countAdopt2() {
+		return mapper.countAdopt2();
+	}
+	
+	
+	public List<Adopt> selectAdopts(PagingVO vo){
+		return mapper.selectAdopts(vo);
+	}
+	
+	public List<Adopt> selectAdopt0(PagingVO vo){
+		return mapper.selectAdopt0(vo);
+	}
+	public List<Adopt> selectAdopt1(PagingVO vo){
+		return mapper.selectAdopt1(vo);
+	}
+	public List<Adopt> selectAdopt2(PagingVO vo){
+		return mapper.selectAdopt2(vo);
+	}
+
 	/* ===============입양신청 DB 페이징 끝=============== */
 
 }

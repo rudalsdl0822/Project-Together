@@ -43,7 +43,8 @@
 	/* 페이징 select 함수 시작*/
 	function selChange(){
 		var sel=document.getElementById("cntPerPage").value;
-		location.href="/AddPet/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel;
+		var state=document.getElementById("state").value;
+		location.href="/AddPet/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
 	}
 	/* 페이징 select 함수 끝*/
 
@@ -75,6 +76,18 @@
 			<div class="sectionContent">
 				<!-- 옵션선택 시작 -->
 				<div style="text-align: right; padding: 10px;">
+					<!-- state select -->
+					<select id="state" name="stateSel" onchange="selChange()">
+						<option value="0"
+							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
+						<option value="1"
+							<c:if test="${state==1 }">selected</c:if>>승인된 입양신청글만 보기</option>
+						<option value="2"
+							<c:if test="${state==2 }">selected</c:if>>거절된 입양신청글만 보기</option>
+						<option value="3"
+							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
+					</select>
+					<!-- paging select -->
 					<select id="cntPerPage" name="sel" onchange="selChange()">
 						<option value="3"
 							<c:if test="${paging.cntPerPage==3 }">selected</c:if>>3개씩 보기</option>
@@ -86,7 +99,7 @@
 							<c:if test="${paging.cntPerPage==12 }">selected</c:if>>12개씩 보기</option>
 						<option value="24"
 							<c:if test="${paging.cntPerPage==24}" >selected</c:if>>24개씩 보기</option>
-				</select>
+					</select>
 				</div>
 				<!-- 옵션선택 끝 -->
 			
@@ -149,7 +162,7 @@
 			<div style="display: block; text-align: center;">
 				<!-- 왼쪽 화살표 링크 -->
 				<c:if test="${paging.startPage!=1 }">
-					<a href="/AddPet/AdoptWishList?nowPage=${paging.startPage-1 }&cntPerPage=${paging.cntPerPage}" style="font-size: 25px; padding: 10px">&lt;</a>
+					<a href="/AddPet/AdoptWishList?nowPage=${paging.startPage-1 }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px">&lt;</a>
 				</c:if>
 				<!-- 페이지 숫자 링크 -->
 				<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
@@ -157,13 +170,13 @@
 					<c:choose>
 						<c:when test="${p==paging.nowPage }"> <b style="font-size: 30px; padding: 10px"">${p }</b></c:when>
 						<c:when test="${p!=paging.nowPage }"> 
-							<a href="/AddPet/AdoptWishList?nowPage=${p }&cntPerPage=${paging.cntPerPage}" style="font-size: 25px; padding: 10px"">${p }</a>
+							<a href="/AddPet/AdoptWishList?nowPage=${p }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px"">${p }</a>
 						</c:when>
 					</c:choose>
 				</c:forEach>
 				<!-- 오른쪽 화살표 링크 -->
 				<c:if test="${paging.endPage!=paging.lastPage }">
-					<a href="/AddPet/AdoptWishList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}" style="font-size: 25px; padding: 10px"">&gt;</a>
+					<a href="/AddPet/AdoptWishList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px"">&gt;</a>
 				</c:if>
 			</div>	
 			<!-- ========= 페이징 번호 끝 =========================================== -->

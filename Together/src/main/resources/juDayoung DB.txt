@@ -19,5 +19,11 @@ insert into to_member values('k','k','kim','관리자k','01087654321','안양시
 insert into to_pet values(1111,'살구','포메라니안',1,2,3.5,'발랄하고 사람을 좋아해요',1,2);
 insert into to_pet values(2222,'감자','진돗개',2,4,10.7,'산책을 좋아하고 순해요',3,2);
 
-insert into to_adopt values(to_adopt_seq.nextval,'a','j',1111,'f','j','w',0,'c',0);
-insert into to_adopt values(to_adopt_seq.nextval,'a','j',2222,'f','j','w',0,'c',0);
+insert into to_adopt values(to_adopt_seq.nextval,'awer','j',1111,'f','j','w',0,'c',0);
+insert into to_adopt values(to_adopt_seq.nextval,'sqwqwe','j',1111,'f','j','w',0,'c',1);
+insert into to_adopt values(to_adopt_seq.nextval,'werwe','j',1111,'f','j','w',0,'c',2);
+insert into to_adopt values(to_adopt_seq.nextval,'zzzzzz','j',1111,'f','j','w',0,'c',0);
+insert into to_adopt values(to_adopt_seq.nextval,'xxxxxx','j',1111,'f','j','w',0,'c',1);
+insert into to_adopt values(to_adopt_seq.nextval,'cccccc','j',1111,'f','j','w',0,'c',2);
+insert into to_adopt values(to_adopt_seq.nextval,'iiiiii','j',1111,'f','j','w',0,'c',0);
+insert into to_adopt values(to_adopt_seq.nextval,'uuuuu','j',1111,'f','j','w',0,'c',0);

@@ -177,29 +177,60 @@ public class AddPetController {
 	@RequestMapping("/AddPet/AdoptWishList")  // 입양신청 리스트
 	public ModelAndView adoptWishList(PagingVO vo
 			, @RequestParam(value="nowPage", required=false) String nowPage
-			, @RequestParam(value="cntPerPage", required=false) String cntPerPage) {  
+			, @RequestParam(value="cntPerPage", required=false) String cntPerPage
+			, @RequestParam(value="state", required=false) String state) {  
 		/*
 		 * 1. to_adopt DB에서 adoptList를 불러온다.
 		 * 2. 페이징을 추가한다.
-		 * 3. 뷰에 adoptList를 넣어준다.
-		 */
+		 * 3. state=0(입양신청중) 이 기본으로 하고, 1이면 승인만 모아서, 2면 거절만 모아서, 3이면 전체 입양신청글을 보여준다.
+		 * 4. 뷰에 adoptList를 넣어준다.
+		 */		
+		
+		state=(state==null)? "0":state;
 		
 		/* ===============입양신청 리스트 페이징 시작=============== */
-		int total=adopt_service.countAdopt();
+		int total=adopt_service.countAdopt0();
+		switch(state) {
+		case "1":
+			total=adopt_service.countAdopt1();
+			break;
+		case "2":
+			total=adopt_service.countAdopt2();
+			break;
+		case "3":
+			total=adopt_service.countAdopts();
+			break;
+		}
 
 		nowPage=(nowPage==null)? "1":nowPage;
 		cntPerPage=(cntPerPage==null)? "3":cntPerPage;
 		vo=new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-		
-		ModelAndView mav=new ModelAndView("AddPet/AdoptWishList","adoptList",adopt_service.selectAdopt(vo));
-		mav.addObject("paging", vo);
 		/* ===============입양신청 리스트 페이징 끝=============== */
 		
+		/* ===============입양신청 리스트 state 구분 시작=============================== */
+		
+		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) adopt_service.selectAdopt0(vo);
+		switch(state) {
+		case "1":
+			adoptList=(ArrayList<Adopt>) adopt_service.selectAdopt1(vo);
+			break;
+		case "2":
+			adoptList=(ArrayList<Adopt>) adopt_service.selectAdopt2(vo);
+			break;
+		case "3":
+			adoptList=(ArrayList<Adopt>) adopt_service.selectAdopts(vo);
+			break;
+		}
+		/* ===============입양신청 리스트 state 구분 끝================================= */
+		
+		ModelAndView mav=new ModelAndView("AddPet/AdoptWishList","adoptList",adoptList);
+		mav.addObject("paging", vo);
+		mav.addObject("state", state);
+		
 		System.out.println("-----입양신청리스트---------------------------------");
-		System.out.println("입양신청자들의 리스트를 봅니다.");
-		System.out.println("pet state=3 (입양문의중)");
+		System.out.println("입양신청 게시글의 리스트를 봅니다.");
 		System.out.println("----페이징을 시작합니다. 페이지당 글 갯수="+cntPerPage);
-		System.out.println("----첫 페이지 게시글 : "+adopt_service.selectAdopt(vo));
+		System.out.println("----첫 페이지 게시글 : "+adoptList);
 		System.out.println("-----------------------------------------------\n");
 
 		return mav;

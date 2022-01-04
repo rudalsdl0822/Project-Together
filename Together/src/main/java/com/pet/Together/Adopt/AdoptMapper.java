@@ -15,8 +15,17 @@ public interface AdoptMapper {
 	
 	
 	/* ===============입양신청 DB 페이징 시작=============== */
-	int countAdopt();
-	List<Adopt> selectAdopt(PagingVO vo);
+	int countAdopts();
+	int countAdopt0();
+	int countAdopt1();
+	int countAdopt2();
+	
+	
+	List<Adopt> selectAdopts(PagingVO vo);
+	// state 0: 입양신청중 1: 입양승인 2: 입양거절
+	List<Adopt> selectAdopt0(PagingVO vo);
+	List<Adopt> selectAdopt1(PagingVO vo);
+	List<Adopt> selectAdopt2(PagingVO vo);
 	/* ===============입양신청 DB 페이징 끝=============== */
 
 
