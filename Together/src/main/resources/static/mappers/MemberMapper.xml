@@ -16,18 +16,18 @@
 	</resultMap>
 	
 	<select id="select" resultMap="MemberResult" parameterType="String">
-		select * from member where id=#{id}
+		select * from to_member where id=#{id}
 	</select>
 	
 	<insert id="insert" parameterType="com.pet.Together.Member.Member">
-		insert into member values(#{id},#{pwd},#{name},#{gender},#{nickname},#{phone},#{address},#{email},#{type})
+		insert into to_member values(#{id},#{pwd},#{name},#{gender},#{nickname},#{phone},#{address},#{email},#{type})
 	</insert>
 	
 	<update id="update" parameterType="com.pet.Together.Member.Member">
-		update member set pwd=#{pwd}, nickname=#{nickname}, name=#{name}, phone=#{phone}, address=#{address} email=#{email} where id=#{id}
+		update to_member set pwd=#{pwd}, nickname=#{nickname}, name=#{name}, phone=#{phone}, address=#{address} email=#{email} where id=#{id}
 	</update>
 	
 	<delete id="delete" parameterType="String">
-		delete member where id=#{id}
+		delete to_member where id=#{id}
 	</delete>
 </mapper>
