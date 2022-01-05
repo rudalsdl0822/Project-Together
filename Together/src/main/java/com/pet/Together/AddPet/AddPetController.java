@@ -223,16 +223,9 @@ public class AddPetController {
 		}
 		/* ===============입양신청 리스트 state 구분 끝================================= */
 		
-		HashMap<Integer,String> pet_nameMap=new HashMap<>();
-		for(Adopt adopt: adoptList) {
-			Pet pet=service.getPet(adopt.getPet_id());
-			pet_nameMap.put(pet.getId(), pet.getName());
-		}
-		
 		ModelAndView mav=new ModelAndView("AddPet/AdoptWishList","adoptList",adoptList);
 		mav.addObject("paging", vo);
 		mav.addObject("state", state);
-		mav.addObject("pet_nameMap", pet_nameMap);
 		
 		System.out.println("-----입양신청리스트---------------------------------");
 		System.out.println("입양신청 게시글의 리스트를 봅니다.");

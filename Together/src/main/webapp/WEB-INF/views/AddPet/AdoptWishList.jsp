@@ -141,7 +141,8 @@
 									
 									<div class="date">
 										<span class="number" style="padding: 5px;">${Adopt.num }</span>
-										<span class="text">순대
+										<span class="text">
+											이름
 										</span>
 										<span class="text">id : ${Adopt.pet_id }</span>
 									</div>
