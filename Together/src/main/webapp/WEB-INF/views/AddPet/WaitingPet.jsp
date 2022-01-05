@@ -36,6 +36,17 @@
 
 	<!-- jquery 라이브러리 불러들이기 -->
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	
+	<!-- 함수 시작 -->
+	<script>
+		$(document).ready(function(){
+			$("#btn_like").click(function(){
+				/* =====추가할 사항 : 관심등록하기 ========================== */
+				alert("${pet.name}를 관심등록하는건 구현중입니다.");
+			});
+		});
+	</script>
+	<!-- 함수 끝 -->
 
 </head>
 <body>
@@ -168,11 +179,12 @@
 
     				<div class="text">location</div>
     			</div>
-    			<div class="item">
-    				<!-- *********수정할 사항 : 패딩 또는 마진 줄이기********* -->
+    			<div class="item" style="margin: 0px; padding: 20px;">
+    				<!-- *********수정할 사항 : 관심등록 하트 구현하기********* -->
+    				<!-- *********수정할 사항 : 버튼 2개 크기 자동조절하기********* -->
     				<div class="number">
-    					<a href="#" class="nino-btn" style="font-size: 20px;">관심등록</a>
-    					<a href="/AddPet/AdoptForm?id=22" class="nino-btn" style="font-size: 20px;">입양신청</a>
+    					<input type="button" id="btn_like" value="관심등록" class="nino-btn" style="font-size: 20px; background: #95e1d3;">
+    					<a href="/AddPet/AdoptForm?id=${pet.id }" class="nino-btn" style="font-size: 20px;">입양신청</a>
     				</div>
     				<div class="text"></div>
     			</div>
@@ -184,53 +196,19 @@
     <!--/#nino-counting-->
     
     
-	<!-- Testimonial
-    ================================================== -->    
-    <section class="nino-testimonial">
+    <section id="nino-testimonial">
     	<div class="container">
-    		<div class="unslider"><div class="nino-testimonialSlider unslider-horizontal" style="position: relative; overflow: hidden;">
-				<ul class="unslider-wrap unslider-carousel" style="width: 300%; left: -100%;">
-					<li class="" style="width: 33.3333%;">
-						<div layout="row">
-							<div class="nino-symbol fsr">
-								<i class="mdi mdi-comment-multiple-outline nino-icon"></i>
-							</div>
-							<!-- *********수정할 사항 : 화살표 없애거나 움직이게 만들기********* -->
-							<div>
+    		<div layout="row" class="verticalStretch">
+    			<div class="nino-symbol fsr">
+					<i class="mdi mdi-comment-multiple-outline nino-icon" style="font-size: 30px;"></i>
+				</div>
+				<div  style="margin: 10px;">
+					<p class="quote" style="font-size: 20px;">"${pet.info }"</p>
+				</div>
+			</div>
+		</div>
+	</section>
 
-								<p class="quote">"${pet.info }"</p>
-
-								<span class="name">NickName : yuriii</span>
-							</div>
-						</div>
-					</li>
-					<li style="width: 33.3333%;" class="unslider-active">
-						<div layout="row">
-							<div class="nino-symbol fsr">
-								<i class="mdi mdi-wechat nino-icon"></i>	
-							</div>
-							<div>
-								<p class="quote">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."</p>
-								<span class="name">Jon Doe</span>
-							</div>
-						</div>
-					</li>
-					<li style="width: 33.3333%;" class="">
-						<div layout="row">
-							<div class="nino-symbol fsr">
-								<i class="mdi mdi-message-text-outline nino-icon"></i>
-							</div>
-							<div>
-								<p class="quote">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."</p>
-								<span class="name">Jon Doe</span>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div><a class="unslider-arrow next"><i class="mdi mdi-chevron-right"></i></a><a class="unslider-arrow prev"><i class="mdi mdi-chevron-left"></i></a></div>
-    	</div>
-    </section>
-    <!--/#nino-testimonial-->
     
     
     <!-- Happy Client
