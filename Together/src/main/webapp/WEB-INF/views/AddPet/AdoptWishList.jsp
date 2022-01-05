@@ -40,18 +40,37 @@
 	
 	<!-- 함수 -->
 	<script>
-	/* 페이징 select 함수 시작*/
+	/* select 함수 시작*/
 	function selChange(){
 		var sel=document.getElementById("cntPerPage").value;
+		
+		var recent_state="${state }";
 		var state=document.getElementById("state").value;
-		location.href="/AddPet/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+		
+		if(recent_state==state){
+			location.href="/AddPet/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+		}else{
+			location.href="/AddPet/AdoptWishList?cntPerPage="+sel+"&state="+state;
+		}
+		
 	}
-	/* 페이징 select 함수 끝*/
+	/* select 함수 끝*/
 
 		$(document).ready(function(){
 			
-			$("#btn_AdoptAccept1").click(function(){
-				alert("id=22인 펫에 대하여 id=67인 신청자의 입양신청을 승인합니다.");
+			$("button").click(function(){
+				if( $(this).text()=="입양 승인" ){
+					var flag=confirm("정말로 입양을 승인하겠습니까?");
+					if(flag==false) return;
+					
+					var num=$(this).attr("num");
+					
+					var sel=document.getElementById("cntPerPage").value;
+					var state=document.getElementById("state").value;
+					location.href="/AddPet/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+				}else{
+					
+				}
 			});
 			
 		});
@@ -122,7 +141,8 @@
 									
 									<div class="date">
 										<span class="number" style="padding: 5px;">${Adopt.num }</span>
-										<span class="text">순대</span>
+										<span class="text">순대
+										</span>
 										<span class="text">id : ${Adopt.pet_id }</span>
 									</div>
 
@@ -138,12 +158,20 @@
 							<div class="articleMeta">
 								<i class="mdi mdi-eye nino-icon"></i> 만난 회수 : ${Adopt.dating }
 								<div style="text-align: right;">
-									<form action="/AddPet/AdoptAccept" method="post"">
-										<span class="input-group-btn">
-											<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">입양 거절</button>			
-											<button id="btn_adoptAccept1" class="btn btn-success" type="button" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">입양 승인</button>
-										</span>
-									</form>
+									<c:if test="${Adopt.state==0 }">
+										<form method="post">
+											<span class="input-group-btn">
+												<button class="btn btn-success" num="${Adopt.num }" type="button" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">입양 거절</button>			
+												<button class="btn btn-success" num="${Adopt.num }" type="button" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">입양 승인</button>
+											</span>
+										</form>
+									</c:if>
+									<c:if test="${Adopt.state==1 }">
+										<span style="color: #4FC9DE;">입양신청이 승인된 글입니다.</span>
+									</c:if>
+									<c:if test="${Adopt.state==2 }">
+										<span style="color: #f38181;">입양신청이 거절된 글입니다.</span>
+									</c:if>									
 								</div>
 							</div>
 							<!-- 입양신청 1개 끝 -->

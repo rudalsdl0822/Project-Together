@@ -39,10 +39,20 @@
 	
 	<script>
 		$(document).ready(function(){
-			$("#btn_adoptAccept").click(function(){
-				alert("입양이 승인되었습니다. 입양신청 리스트로 돌아갑니다.");
-				$("form").submit();
+		
+			$("button").click(function(){
+				if( $(this).text()=="입양 승인" ){
+					var flag=confirm("정말로 입양을 승인하겠습니까?");
+					if(flag==false) return;
+				
+					var num=$(this).attr("num");
+				
+					location.href="/AddPet/AdoptAccept?num="+num;
+				}else{
+					
+				}
 			});
+		
 		});
 	</script>
 
@@ -78,8 +88,8 @@
     <section id="nino-happyClient">
     	<div class="container">
     		<h2 class="nino-sectionHeading">
-				<span class="nino-subHeading">I Want You</span>
-				To Be Together
+				<span class="nino-subHeading">Detail</span>
+				입양신청 #${Adopt.num }
 			</h2>
 			<div class="sectionContent">
 				<div class="row">
@@ -112,7 +122,7 @@
 							</div>
 							<div class="info" style="width:100%;">
 								<!-- ==== 수정할 사항 : member nickname 가져오기 ===== -->
-								<h4 class="name">NickName : 강아지는내칭구</h4>
+								<h4 class="name">ID : ${Adopt.writer }</h4>
 								<span class="regency">title : ${Adopt.title }</span>
 								<p class="desc">가족 구성 : ${Adopt.family }</p>
 								<p class="desc">직업 : ${Adopt.job }</p>
@@ -133,16 +143,22 @@
         	<div class="row">  
         		<div class="col-md-12" style="text-align: center;">
         			<div class="colInfo">
-        			
-	        			<form action="/AddPet/AdoptWishList" class="nino-subscribeForm">
-	        				<div class="input-group input-group-lg">
-								<span class="input-group-btn">
-									<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 25px; background: #f38181;">입양 거절</button>			
-									<button id="btn_adoptAccept" class="btn btn-success" type="submit" style="font-size: 25px; background: #4FC9DE;">입양 승인</button>
-								</span>
-							</div>
-	        			</form>
-	        			
+        				<c:if test="${Adopt.state==0 }">
+	        				<form class="nino-subscribeForm">
+	        					<div class="input-group input-group-lg">
+									<span class="input-group-btn">
+										<button num="${Adopt.num }" class="btn btn-success" type="button" style="font-size: 25px; background: #f38181;">입양 거절</button>			
+										<button num="${Adopt.num }" class="btn btn-success" type="button" style="font-size: 25px; background: #4FC9DE;">입양 승인</button>
+									</span>
+								</div>
+	        				</form>
+	        			</c:if>
+	        			<c:if test="${Adopt.state==1 }">
+							<span style="font-size: 20px; color: #4FC9DE;">입양신청이 승인된 글입니다.</span>
+						</c:if>
+						<c:if test="${Adopt.state==2 }">
+							<span style="font-size: 20px; color: #f38181;">입양신청이 거절된 글입니다.</span>
+						</c:if>
         			</div>
         		</div>
         	</div>

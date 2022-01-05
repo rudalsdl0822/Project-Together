@@ -11,6 +11,7 @@ public interface AdoptMapper {
 	void addAdopt(Adopt adopt);
 	Adopt getAdopt(int num);
 	ArrayList<Adopt> getAdopts();
+	void editAdopt(Adopt adopt);
 	
 	
 	

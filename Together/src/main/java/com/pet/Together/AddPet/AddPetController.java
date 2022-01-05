@@ -3,10 +3,10 @@ package com.pet.Together.AddPet;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -223,9 +223,16 @@ public class AddPetController {
 		}
 		/* ===============입양신청 리스트 state 구분 끝================================= */
 		
+		HashMap<Integer,String> pet_nameMap=new HashMap<>();
+		for(Adopt adopt: adoptList) {
+			Pet pet=service.getPet(adopt.getPet_id());
+			pet_nameMap.put(pet.getId(), pet.getName());
+		}
+		
 		ModelAndView mav=new ModelAndView("AddPet/AdoptWishList","adoptList",adoptList);
 		mav.addObject("paging", vo);
 		mav.addObject("state", state);
+		mav.addObject("pet_nameMap", pet_nameMap);
 		
 		System.out.println("-----입양신청리스트---------------------------------");
 		System.out.println("입양신청 게시글의 리스트를 봅니다.");
@@ -254,21 +261,44 @@ public class AddPetController {
 		//mav.addObject("member", member);
 		
 		System.out.println("-----입양신청 상세보기------------------------------");
-		System.out.println("id가 22인 입양대기 동물과 입양신청한 id가 67인 사람의 입양신청으로 갑니다.");
-		System.out.println("state=3 (입양문의중)");
+		System.out.println("Adopt num : "+num);
+		System.out.println("member id : "+adopt.getWriter());
+		System.out.println("pet id : "+adopt.getPet_id());
+		System.out.println("입양신청 #"+num+" 상세보기로 갑니다.");
 		System.out.println("-----------------------------------------------\n");
 		
 		return mav;
 	}
 
 	@RequestMapping("/AddPet/AdoptAccept")
-	public String adoptAccept() {
+	public String adoptAccept(int num
+			, PagingVO vo
+			, @RequestParam(value="nowPage", required=false) String nowPage
+			, @RequestParam(value="cntPerPage", required=false) String cntPerPage
+			, @RequestParam(value="state", required=false) String state) {
+		/*
+		 * 1. Adopt num를 받아 state=1로 바꿔준다.
+		 * 2. pet state=4로 바꿔준다.
+		 * 3. ===========추후 구현 예정 : member 에게 알린다 ==============
+		 * 4. 보고 있던 입양신청 리스트로 돌아간다.("forward:/AddPet/AdoptWishList" : foward는 request를 유지시켜줌.)
+		 */
+		
+		Adopt adopt=adopt_service.getAdopt(num);
+		adopt.setState(1);
+		adopt_service.editAdopt(adopt);
+		
+		Pet pet=service.getPet(adopt.getPet_id());
+		pet.setState(4);
+		//service.editPet(); 추가할 예정
+		
 		System.out.println("-----입양신청승인----------------------------------");
-		System.out.println("id=22인 펫에 대하여 id=67인 신청자의 입양신청을 승인합니다.");
-		System.out.println("state=4 (입양완료)");
+		System.out.println("Adopt num : "+num);
+		System.out.println("member id : "+adopt.getWriter());
+		System.out.println("pet id : "+adopt.getPet_id());
+		System.out.println("신청자의 입양신청을 승인합니다. 입양완료.");
 		System.out.println("-----------------------------------------------\n");
 
-		return "index";
+		return "forward:/AddPet/AdoptWishList";
 	}
 	
 	

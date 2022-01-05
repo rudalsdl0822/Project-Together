@@ -30,6 +30,10 @@
 	select * from to_adopt
 	order by num desc
 </select>
+<update id="editAdopt">
+	update to_adopt set dating=#{dating}, state=#{state}
+	where num=#{num}
+</update>
 
 
 

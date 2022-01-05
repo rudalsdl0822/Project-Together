@@ -24,6 +24,9 @@ public class AdoptService {
 		return mapper.getAdopts();
 	}
 	
+	public void editAdopt(Adopt adopt) {
+		mapper.editAdopt(adopt);
+	}
 
 	
 	
