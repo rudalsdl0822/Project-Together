@@ -78,7 +78,7 @@
 				
 			
 	<!-- Footer ================================================== -->
-    <footer id="footer" style="background: none;">
+	<footer id="footer" style="background: none;">
         <div class="container">
         	<div class="row">  
         		<div class="col-md-12" style="text-align: center;">
@@ -88,18 +88,17 @@
 				로그인
 			</h2>
 	        			<form action="${pageContext.request.contextPath}/Member/login" class="nino-subscribeForm" method="post">
-	        				<div class="input-group input-group-lg">
 	        				
-	        					<input type="text" class="form-control" name="id" placeholder="아이디" style="width: 400px; height: 45px; margin-bottom: 5px; margin-left: 370px;"><br>
+	        				
+	        					<input type="text" class="form-control" name="id" placeholder="아이디" style="display:inline-block; width: 50%; height: 45px; margin-bottom: 5px; "><br>
 	        					
-	        					<input type="password" class="form-control" name="pwd" placeholder="비밀번호" style="width: 400px; height:45px; margin-bottom: 5px; margin-left: 370px;"><br>
+	        					<input type="password" class="form-control" name="pwd" placeholder="비밀번호" style="display:inline-block; width: 50%; height: 45px; margin-bottom: 5px;"><br>
 	        					
+								<button id="btn_adoptWish" class="nino-btn" type="submit" style=" width: 50%;  background: #95e1d3; border: none;">로그인</button>
 								
-								<button id="btn_adoptWish" class="nino-btn" type="submit" style="font-size: 25px; width: 400px; margin-left: 370px; background: #95e1d3; border: none;">로그인</button>
-								
-							</div>
 	        			</form>
-	        			<a href="${pageContext.request.contextPath}/Member/agreeForm" style="font-size: 16px; font-weight:normal;"> 회원가입</a>
+	        			<br>
+	        			<a href="${pageContext.request.contextPath}/Member/agreeForm"> 회원가입하기</a>
         			</div>
         		</div>
         	</div>
