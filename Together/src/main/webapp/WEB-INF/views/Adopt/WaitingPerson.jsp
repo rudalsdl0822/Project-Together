@@ -12,7 +12,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 	
-	<title>입양신청 상세보기</title>
+	<title>Together | 입양신청 상세보기</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="/resources/images/ico/favicon.jpg">
@@ -47,7 +47,7 @@
 				
 					var num=$(this).attr("num");
 				
-					location.href="/AddPet/AdoptAccept?num="+num;
+					location.href="/Adopt/AdoptAccept?num="+num;
 				}else{
 					
 				}
@@ -97,7 +97,7 @@
 					<div class="col-md-6">
 						<div layout="row" class="item">
 							<div class="nino-avatar fsr">
-								<a href="/AddPet/WaitingPet?id=22&state=2">
+								<a href="/Adopt/WaitingPet?id=22&state=2">
 									<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="">
 								</a>
 							</div>

@@ -12,7 +12,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 	
-	<title>입양신청 폼</title>
+	<title>Together | 입양신청 폼</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="/resources/images/ico/favicon.jpg">
@@ -53,7 +53,7 @@
 		
 		alert("입양신청이 완료되었습니다. 메인 페이지로 이동합니다.");
 		
-		$("#"+form_id).attr("action","/AddPet/AdoptWish"+data); 
+		$("#"+form_id).attr("action","/Adopt/AdoptWish"+data); 
 		$("#"+form_id).submit();
 	}
 	
@@ -83,10 +83,30 @@
 		return true;
 	}
 	
+	
+	var member_id="${sessionScope.id}";
+	var type="${sessionScope.type}";
+	
 		$(document).ready(function(){
 			
 			// 입양신청 버튼
-			$("#btn_adoptWish").click(function(){	
+			$("#btn_adoptWish").click(function(){
+				// 로그인이 되어있는지 확인합니다.
+				if(member_id==""){
+					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+					if(flag){
+						location.href="/Member/loginForm";
+					}else{
+						return;
+					}
+				}
+				
+				// 로그인 type 이 고객인지 확인합니다.
+				if(type=="2"){
+					alert("관리자는 입양신청이 불가능합니다.");
+					return;
+				}
+				
 				// 데이터가 다 들어가 있는지 확인합니다.
 				var checkData = fn_checkData();
 				if(checkData==false) return;
@@ -144,12 +164,12 @@
 					<div class="col-md-6">
 						<div layout="row" class="item">
 							<div class="nino-avatar fsr">
-								<a href="/AddPet/WaitingPet?id=1111">
+								<a href="/Adopt/WaitingPet?id=1111">
 									<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="">
 								</a>
 							</div>
 							<div class="info">
-								<h4 class="name"><a href="/AddPet/WaitingPet?id=1111">${pet.name }</a></h4>
+								<h4 class="name"><a href="/Adopt/WaitingPet?id=1111">${pet.name }</a></h4>
 								<span class="regency">${pet.breed }</span>
 								<p class="desc">성별 : ${sexKorean }</p>
 								<p class="desc">나이 : ${pet.age }살</p>
@@ -168,7 +188,7 @@
 								<img class="img-circle" src="/resources/judayoung/defaultPerson.jpg" alt="">
 							</div>
 							<div class="info" style="width:100%;">
-								<h4 class="name">NickName : ${Member.nickname }</h4>
+								<h4 class="name">NickName : ${sessionScope.nickname }</h4>
 								<span class="regency" style="width:100%;">
 									<input type="text" id="title" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;">
 								</span>
@@ -205,6 +225,7 @@
 	        			<form id="form_adoptWish" method="post" class="nino-subscribeForm">
 	        				<div class="input-group input-group-lg">
 								<span class="input-group-btn">
+									<input type="hidden" value="${sessionScope.id }" name="writer">
 									<input type="hidden" value="${pet.id }" name="pet_id">
 									<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 25px;">${pet.name }와 함께 할래요</button>
 								</span>

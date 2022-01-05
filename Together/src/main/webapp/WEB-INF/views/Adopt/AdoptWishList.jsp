@@ -13,7 +13,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 	
-	<title>입양신청자 리스트</title>
+	<title>Together | 입양신청자 리스트</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="/resources/images/ico/favicon.jpg">
@@ -48,9 +48,9 @@
 		var state=document.getElementById("state").value;
 		
 		if(recent_state==state){
-			location.href="/AddPet/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+			location.href="/Adopt/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
 		}else{
-			location.href="/AddPet/AdoptWishList?cntPerPage="+sel+"&state="+state;
+			location.href="/Adopt/AdoptWishList?cntPerPage="+sel+"&state="+state;
 		}
 		
 	}
@@ -67,7 +67,7 @@
 					
 					var sel=document.getElementById("cntPerPage").value;
 					var state=document.getElementById("state").value;
-					location.href="/AddPet/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+					location.href="/Adopt/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
 				}else{
 					
 				}
@@ -133,7 +133,7 @@
 						<div class="col-md-4 col-sm-4">
 							<article>
 							<!-- 입양신청 1개 시작-->
-							<a href="/AddPet/WaitingPerson?num=${Adopt.num }">
+							<a href="/Adopt/WaitingPerson?num=${Adopt.num }">
 								<div class="articleThumb">
 									<div style="text-align: right;">
 										<img src="/resources/judayoung/waitingPet-1.jpg" alt="" width="88%">
@@ -191,7 +191,7 @@
 			<div style="display: block; text-align: center;">
 				<!-- 왼쪽 화살표 링크 -->
 				<c:if test="${paging.startPage!=1 }">
-					<a href="/AddPet/AdoptWishList?nowPage=${paging.startPage-1 }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px">&lt;</a>
+					<a href="/Adopt/AdoptWishList?nowPage=${paging.startPage-1 }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px">&lt;</a>
 				</c:if>
 				<!-- 페이지 숫자 링크 -->
 				<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
@@ -199,13 +199,13 @@
 					<c:choose>
 						<c:when test="${p==paging.nowPage }"> <b style="font-size: 30px; padding: 10px"">${p }</b></c:when>
 						<c:when test="${p!=paging.nowPage }"> 
-							<a href="/AddPet/AdoptWishList?nowPage=${p }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px"">${p }</a>
+							<a href="/Adopt/AdoptWishList?nowPage=${p }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px"">${p }</a>
 						</c:when>
 					</c:choose>
 				</c:forEach>
 				<!-- 오른쪽 화살표 링크 -->
 				<c:if test="${paging.endPage!=paging.lastPage }">
-					<a href="/AddPet/AdoptWishList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px"">&gt;</a>
+					<a href="/Adopt/AdoptWishList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px"">&gt;</a>
 				</c:if>
 			</div>	
 			<!-- ========= 페이징 번호 끝 =========================================== -->

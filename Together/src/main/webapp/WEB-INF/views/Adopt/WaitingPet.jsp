@@ -12,7 +12,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 	
-	<title>입양신청 상세보기</title>
+	<title>Together | 입양공고 상세보기</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="/resources/images/ico/favicon.jpg">
@@ -39,10 +39,27 @@
 	
 	<!-- 함수 시작 -->
 	<script>
+	var member_id="${sessionScope.id }";
 		$(document).ready(function(){
+			//관심등록 버튼 클릭
 			$("#btn_like").click(function(){
 				/* =====추가할 사항 : 관심등록하기 ========================== */
 				alert("${pet.name}를 관심등록하는건 구현중입니다.");
+			});
+			
+			// 입양신청 버튼 클릭
+			$("#btn_go_AdoptForm").click(function(){
+				//alert("${sessionScope.id}");
+				if(member_id==""){
+					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+					if(flag){
+						location.href="/Member/loginForm";
+					}else{
+						return;
+					}
+				}else{
+					location.href="/Adopt/AdoptForm?id=${pet.id}";
+				}
 			});
 		});
 	</script>
@@ -183,8 +200,8 @@
     				<!-- *********수정할 사항 : 관심등록 하트 구현하기********* -->
     				<!-- *********수정할 사항 : 버튼 2개 크기 자동조절하기********* -->
     				<div class="number">
-    					<input type="button" id="btn_like" value="관심등록" class="nino-btn" style="font-size: 20px; background: #95e1d3;">
-    					<a href="/AddPet/AdoptForm?id=${pet.id }" class="nino-btn" style="font-size: 20px;">입양신청</a>
+    					<button id="btn_like" class="nino-btn" style="font-size: 20px; background: #95e1d3;">관심등록</button>
+    					<button id="btn_go_AdoptForm" class="nino-btn" style="font-size: 20px; background: #95e1d3;">입양신청</button>
     				</div>
     				<div class="text"></div>
     			</div>

@@ -3,7 +3,9 @@ package com.pet.Together.AddPet;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pet.Together.Adopt.Adopt;
 import com.pet.Together.Adopt.AdoptService;
 import com.pet.Together.Adopt.PagingVO;
+import com.pet.Together.Member.Member;
+import com.pet.Together.Member.MemberService;
 
 
 @Controller
@@ -25,6 +29,8 @@ public class AddPetController {
 	private AddPetService service;
 	@Autowired
 	private AdoptService adopt_service;
+	@Autowired
+	private MemberService member_service;
 
 	@RequestMapping(value = "/index")
 	public void index() {
@@ -93,7 +99,7 @@ public class AddPetController {
 	/* ================================juDayoung 추가중================================ */
 
 
-	@RequestMapping("/AddPet/WaitingPet")
+	@RequestMapping("/Adopt/WaitingPet")
 	public ModelAndView waitingPet(int id) {  // 입양공고 상세보기
 
 		/*
@@ -103,7 +109,7 @@ public class AddPetController {
 		 * 4. Pet id에 맞는 댓글들을 리스트로 가져온다.
 		 */
 		Pet p=service.getPet(id);
-		ModelAndView mav=new ModelAndView("AddPet/WaitingPet","pet",p);
+		ModelAndView mav=new ModelAndView("Adopt/WaitingPet","pet",p);
 		
 		/* ====댓글리스트 보경이파트========================= */
 		ArrayList reply_list=new ArrayList();
@@ -122,16 +128,19 @@ public class AddPetController {
 
 	}
 
-	@RequestMapping("/AddPet/AdoptForm")
-	public ModelAndView adoptForm(int id) {  // 입양신청 폼
+	@RequestMapping("/Adopt/AdoptForm")
+	public ModelAndView adoptForm(int id, HttpServletRequest request) {  // 입양신청 폼
 		/*
-		 * 1. ====추후 추가할 예정 : session에서 로그인한 회원의 id를 가져온다.====================
+		 * 1. session에서 로그인한 회원의 id를 가져온다.
 		 * 2. ====추후 추가할 예정 : 회원이 작성한 입양신청정보(MemberInfo)가 있다면 가져온다. 없을시 AdoptForm에서 새로 작성.====================
 		 * 3. 입양신청 할 Pet의 id로 Pet정보를 가져온다.
 		 */
 		
+		HttpSession session=request.getSession(false);
+		String member_id=(String) session.getAttribute("id");
+		
 		Pet p=service.getPet(id);
-		ModelAndView mav=new ModelAndView("AddPet/AdoptForm","pet",p);
+		ModelAndView mav=new ModelAndView("Adopt/AdoptForm","pet",p);
 		
 		System.out.println("-----입양신청폼-----------------------------------");
 		System.out.println("id가 " + p.getId() + "인 입양대기 동물의 입양신청 폼으로 갑니다.");
@@ -142,14 +151,14 @@ public class AddPetController {
 		return mav;
 	}
 
-	@RequestMapping("/AddPet/AdoptWish")
+	@RequestMapping("/Adopt/AdoptWish")
 	public String adoptWish(Adopt adopt) {  // 입양신청 완료
 		/*
-		 * 1. 입양신청 DB에 writer를 회원 id(session)로 써서 작성한다.
+		 * 1. 입양신청글 adopt를 입양신청 DB에 추가한다.
 		 * 2. pet의 state를 3(입양문의중)으로 바꿔준다.
 		 * 3. index.jsp로 돌아간다.
 		 */
-		adopt.setWriter("j");  //임시 유저.
+		
 		adopt_service.addAdopt(adopt);
 		
 		Pet p=service.getPet(adopt.getPet_id());
@@ -165,19 +174,40 @@ public class AddPetController {
 		return "index";
 	}
 
-	
-	@RequestMapping("/AddPet/AdoptWishList")  // 입양신청 리스트
+	// 로그인한 member의 type을 확인하는 메소드입니다. 
+	public boolean checkMemberType(int type, HttpServletRequest request) {
+		HttpSession session=request.getSession(false);
+		if(session.getAttribute("type")==null || (int) session.getAttribute("type")!=type) {
+			if(type==1) {
+				System.out.println("****고객 기능 사용불가 : 로그인 타입이 고객이 아닙니다. 재 로그인 해주세요.");
+			}else if(type==2) {
+				System.out.println("****관리자 기능 사용불가 : 로그인 타입이 관리자가 아닙니다. 재 로그인 해주세요.");
+			}
+			return false;
+		}
+		return true;
+	}
+	@RequestMapping("/Adopt/AdoptWishList")  // 입양신청 리스트
 	public ModelAndView adoptWishList(PagingVO vo
 			, @RequestParam(value="nowPage", required=false) String nowPage
 			, @RequestParam(value="cntPerPage", required=false) String cntPerPage
-			, @RequestParam(value="state", required=false) String state) {  
+			, @RequestParam(value="state", required=false) String state
+			, HttpServletRequest request) {  
 		/*
-		 * 1. to_adopt DB에서 adoptList를 불러온다.
-		 * 2. 페이징을 추가한다.
-		 * 3. state=0(입양신청중) 이 기본으로 하고, 1이면 승인만 모아서, 2면 거절만 모아서, 3이면 전체 입양신청글을 보여준다.
-		 * 4. 뷰에 adoptList를 넣어준다.
-		 */		
+		 * 1. member type이 관리자(2)인지 확인한다.
+		 * 2. to_adopt DB에서 adoptList를 불러온다.
+		 * 3. 페이징을 추가한다.
+		 * 4. state=0(입양신청중) 이 기본으로 하고, 1이면 승인만 모아서, 2면 거절만 모아서, 3이면 전체 입양신청글을 보여준다.
+		 * 5. 뷰에 adoptList를 넣어준다.
+		 */	
 		
+		// 로그인이 안되어 있거나 로그인 타입이 관리자가 아니면 로그인폼으로 간다.
+		// 나중에 주석 풀어서 사용할 예정.
+//		boolean flag=checkMemberType(2,request);
+//		if(flag==false) return new ModelAndView("Member/loginForm");
+
+		
+		// 입양신청글의 state를 확인합니다. (0: 입양신청중  1: 승인  2: 거절)
 		state=(state==null)? "0":state;
 		
 		/* ===============입양신청 리스트 페이징 시작=============== */
@@ -215,7 +245,7 @@ public class AddPetController {
 		}
 		/* ===============입양신청 리스트 state 구분 끝================================= */
 		
-		ModelAndView mav=new ModelAndView("AddPet/AdoptWishList","adoptList",adoptList);
+		ModelAndView mav=new ModelAndView("Adopt/AdoptWishList","adoptList",adoptList);
 		mav.addObject("paging", vo);
 		mav.addObject("state", state);
 		
@@ -230,7 +260,7 @@ public class AddPetController {
 	}
 	
 
-	@RequestMapping("/AddPet/WaitingPerson")
+	@RequestMapping("/Adopt/WaitingPerson")
 	public ModelAndView waitingPerson(int num) {  // 입양신청 상세보기
 		/*
 		 * 1. to_adopt db 에서 num이 맞는 adopt를 찾는다.
@@ -242,7 +272,7 @@ public class AddPetController {
 		Adopt adopt=adopt_service.getAdopt(num);
 		Pet pet=service.getPet(adopt.getPet_id());
 		//Member member;
-		ModelAndView mav=new ModelAndView("AddPet/WaitingPerson","Adopt",adopt);
+		ModelAndView mav=new ModelAndView("Adopt/WaitingPerson","Adopt",adopt);
 		mav.addObject("pet", pet);
 		//mav.addObject("member", member);
 		
@@ -256,7 +286,7 @@ public class AddPetController {
 		return mav;
 	}
 
-	@RequestMapping("/AddPet/AdoptAccept")
+	@RequestMapping("/Adopt/AdoptAccept")
 	public String adoptAccept(int num
 			, PagingVO vo
 			, @RequestParam(value="nowPage", required=false) String nowPage
@@ -266,7 +296,7 @@ public class AddPetController {
 		 * 1. Adopt num를 받아 state=1로 바꿔준다.
 		 * 2. pet state=4로 바꿔준다.
 		 * 3. ===========추후 구현 예정 : member 에게 알린다 ==============
-		 * 4. 보고 있던 입양신청 리스트로 돌아간다.("forward:/AddPet/AdoptWishList" : foward는 request를 유지시켜줌.)
+		 * 4. 보고 있던 입양신청 리스트로 돌아간다.("forward:/Adopt/AdoptWishList" : foward는 request를 유지시켜줌.)
 		 */
 		
 		Adopt adopt=adopt_service.getAdopt(num);
@@ -284,7 +314,7 @@ public class AddPetController {
 		System.out.println("신청자의 입양신청을 승인합니다. 입양완료.");
 		System.out.println("-----------------------------------------------\n");
 
-		return "forward:/AddPet/AdoptWishList";
+		return "forward:/Adopt/AdoptWishList";
 	}
 	
 	

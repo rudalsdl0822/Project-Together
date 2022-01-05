@@ -40,7 +40,13 @@ create table to_adopt(
     content varchar2(4000),
     state number default 0);
 
+CREATE SEQUENCE TO_Adopt_SEQ
+START WITH 1
+INCREMENT BY 1;
+/
 
+
+-- 참고용 insert 문.
 
 insert into to_member values('j','j','jooda',2,'망고망고','01012345678','성남시','j@naver.com',1);
 insert into to_member values('k','k','kim',1,'관리자k','01087654321','안양시','k@naver.com',2);
