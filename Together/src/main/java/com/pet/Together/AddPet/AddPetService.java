@@ -18,10 +18,16 @@ public class AddPetService {
 	}
 	
 	
+	
+
 	/* ================================juDayoung 추가중================================ */
 	public Pet getPet(int id) {
 		return mapper.getPet(id); 
 	}
+	public void editPet(Pet p) {
+		mapper.editPet(p);
+	}
+
 	/* ================================juDayoung 추가중 끝================================ */
 
 }

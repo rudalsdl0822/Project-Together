@@ -28,5 +28,11 @@
 	where id=#{id}
 </select>
 
+<update id="editPet" parameterType="com.pet.Together.AddPet.Pet">
+	update to_pet set name=#{name}, breed=#{breed}, sex=#{sex}, age=#{age}, weight=#{weight}
+		, info=#{info}, location=#{location}, state=#{state}
+	where id=#{id}
+</update>
+
 
 </mapper>
