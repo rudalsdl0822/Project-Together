@@ -75,6 +75,7 @@ public class MemberController {
 		} else {
 			HttpSession session = request.getSession();
 			session.setAttribute("id", m.getId());
+			session.setAttribute("nickname", m.getNickname());
 			session.setAttribute("type", m.getType());
 			return "/index";
 		}

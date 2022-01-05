@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+    pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -9,7 +9,7 @@
 </head>
 <body>
 <script type="text/javascript">
-	var flag=confirm("¾ÆÀÌµğ È¤Àº ºñ¹Ğ¹øÈ£¸¦ È®ÀÎÇÏ¼¼¿ä");
+	var flag=confirm("ì•„ì´ë”” í˜¹ì€ ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸í•˜ì„¸ìš”");
 	
 	if(flag){
 		location.href="${pageContext.request.contextPath}/Member/loginForm"
