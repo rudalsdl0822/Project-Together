@@ -612,11 +612,10 @@
 <br>
 <a href="/AddPet/WaitingPet?id=1111">입양공고 상세보기</a>
 <br>
-<a href="/AddPet/AdoptForm?id=22">입양신청 폼</a>
+<a href="/AddPet/AdoptForm?id=1111">입양신청 폼</a>
 <br>
 <a href="/AddPet/AdoptWishList">입양신청 리스트</a>
-<br>
-<a href="/AddPet/WaitingPerson?num=4">입양신청1개클릭시</a>
+
 <!-- ================================juDayoung 추가중================================ -->
 	
 <!-- ================================cha 추가중================================ -->

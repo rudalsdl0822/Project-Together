@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!-- jstl -->
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en" class=" js csstransitions">
 <head>
@@ -39,10 +40,37 @@
 	
 	<!-- 함수 -->
 	<script>
+	/* select 함수 시작*/
+	function selChange(){
+		var sel=document.getElementById("cntPerPage").value;
+		
+		var recent_state="${state }";
+		var state=document.getElementById("state").value;
+		
+		if(recent_state==state){
+			location.href="/AddPet/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+		}else{
+			location.href="/AddPet/AdoptWishList?cntPerPage="+sel+"&state="+state;
+		}
+		
+	}
+	/* select 함수 끝*/
+
 		$(document).ready(function(){
 			
-			$("#btn_AdoptAccept1").click(function(){
-				alert("id=22인 펫에 대하여 id=67인 신청자의 입양신청을 승인합니다.");
+			$("button").click(function(){
+				if( $(this).text()=="입양 승인" ){
+					var flag=confirm("정말로 입양을 승인하겠습니까?");
+					if(flag==false) return;
+					
+					var num=$(this).attr("num");
+					
+					var sel=document.getElementById("cntPerPage").value;
+					var state=document.getElementById("state").value;
+					location.href="/AddPet/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+				}else{
+					
+				}
 			});
 			
 		});
@@ -65,173 +93,122 @@
 			</h2>
 			
 			<div class="sectionContent">
-				<div class="row" style="margin-bottom: 25px;">
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<!-- 입양신청자 리스트 1개-->
-							<a href="/AddPet/WaitingPerson?num=4">
-							<div class="articleThumb" style="text-align: right;">
-							<!-- *********수정할 사항 : 사진 원형이 아님********* -->
-								<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" width="43%">
-								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="" width="43%">
-
-								<div class="date">
-									<span class="number">11</span>
-									<span class="text">Jan 15</span>
-								</div>
-								<!-- *********수정할 사항 : 사진 아래에 이름/ID적기********* -->
-								<div>
-									순대
-									강아지는내칭구
-								</div>
-							</div>
-							<h3 class="articleTitle">title : 행복하게 해주겠습니다.</h3>
-							<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
-							<p class="articleDesc">
-								content 자기 소개 : 초코와 순대의 케미는 최강일거에요!
-							</p>
-							</a>
-							
-							<div class="articleMeta">
-								<i class="mdi mdi-eye nino-icon"></i> 만난 회수 : 2
-								<div style="text-align: right;">
-									<form action="/AddPet/AdoptAccept" method="post">
-										<span class="input-group-btn">
-											<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">입양 거절</button>			
-											<button id="btn_adoptAccept1" class="btn btn-success" type="button" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">입양 승인</button>
-										</span>
-									</form>
-								</div>
-							</div>
-							<!-- 입양신청자 리스트 1개 끝 -->
-							
-						</article>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<!-- 입양신청자 리스트 1개-->
-							<a href="/AddPet/WaitingPerson?num=4">
-							<div class="articleThumb" style="text-align: right;">
-							<!-- *********수정할 사항 : 사진 원형이 아님********* -->
-								<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" width="43%">
-								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="" width="43%">
-
-								<div class="date">
-									<span class="number">11</span>
-									<span class="text">Jan 15</span>
-								</div>
-								<!-- *********수정할 사항 : 사진 아래에 이름/ID적기********* -->
-								<div>
-									순대
-									강아지는내칭구
-								</div>
-							</div>
-							<h3 class="articleTitle">title : 행복하게 해주겠습니다.</h3>
-							<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
-							<p class="articleDesc">
-								content 자기 소개 : 초코와 순대의 케미는 최강일거에요!
-							</p>
-							</a>
-							
-							<div class="articleMeta">
-								<i class="mdi mdi-eye nino-icon"></i> 만난 회수 : 2
-								<div style="text-align: right;">
-									<form action="/AddPet/AdoptAccept" method="post">
-										<span class="input-group-btn">
-											<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">입양 거절</button>			
-											<button id="btn_adoptAccept1" class="btn btn-success" type="button" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">입양 승인</button>
-										</span>
-									</form>
-								</div>
-							</div>
-							<!-- 입양신청자 리스트 1개 끝 -->
-						</article>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<!-- 입양신청자 리스트 1개-->
-							<a href="/AddPet/WaitingPerson?num=4">
-							<div class="articleThumb" style="text-align: right;">
-							<!-- *********수정할 사항 : 사진 원형이 아님********* -->
-								<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" width="43%">
-								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="" width="43%">
-
-								<div class="date">
-									<span class="number">11</span>
-									<span class="text">Jan 15</span>
-								</div>
-								<!-- *********수정할 사항 : 사진 아래에 이름/ID적기********* -->
-								<div>
-									순대
-									강아지는내칭구
-								</div>
-							</div>
-							<h3 class="articleTitle">title : 행복하게 해주겠습니다.</h3>
-							<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
-							<p class="articleDesc">
-								content 자기 소개 : 초코와 순대의 케미는 최강일거에요!
-							</p>
-							</a>
-							
-							<div class="articleMeta">
-								<i class="mdi mdi-eye nino-icon"></i> 만난 회수 : 2
-								<div style="text-align: right;">
-									<form action="/AddPet/AdoptAccept" method="post">
-										<span class="input-group-btn">
-											<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">입양 거절</button>			
-											<button id="btn_adoptAccept1" class="btn btn-success" type="button" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">입양 승인</button>
-										</span>
-									</form>
-								</div>
-							</div>
-							<!-- 입양신청자 리스트 1개 끝 -->
-						</article>
-					</div>					
+				<!-- 옵션선택 시작 -->
+				<div style="text-align: right; padding: 10px;">
+					<!-- state select -->
+					<select id="state" name="stateSel" onchange="selChange()">
+						<option value="0"
+							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
+						<option value="1"
+							<c:if test="${state==1 }">selected</c:if>>승인된 입양신청글만 보기</option>
+						<option value="2"
+							<c:if test="${state==2 }">selected</c:if>>거절된 입양신청글만 보기</option>
+						<option value="3"
+							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
+					</select>
+					<!-- paging select -->
+					<select id="cntPerPage" name="sel" onchange="selChange()">
+						<option value="3"
+							<c:if test="${paging.cntPerPage==3 }">selected</c:if>>3개씩 보기</option>
+						<option value="6"
+							<c:if test="${paging.cntPerPage==6 }">selected</c:if>>6개씩 보기</option>
+						<option value="9"
+							<c:if test="${paging.cntPerPage==9 }">selected</c:if>>9개씩 보기</option>
+						<option value="12"
+							<c:if test="${paging.cntPerPage==12 }">selected</c:if>>12개씩 보기</option>
+						<option value="24"
+							<c:if test="${paging.cntPerPage==24}" >selected</c:if>>24개씩 보기</option>
+					</select>
 				</div>
+				<!-- 옵션선택 끝 -->
+			
+			
+			<!-- ======== adoptList 시작 ============================================= -->
+			<c:forEach items="${adoptList }" var="Adopt" varStatus="status">
 				
-				<div class="row" style="margin-bottom: 25px;">
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<!-- 입양신청자 리스트 1개-->
-							<a href="/AddPet/WaitingPerson?num=4">
-							<div class="articleThumb" style="text-align: right;">
-							<!-- *********수정할 사항 : 사진 원형이 아님********* -->
-								<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" width="43%">
-								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="" width="43%">
+				<!-- 한줄 시작 -->
+				<c:if test="${status.count%3==1 }">
+					<div class="row" style="margin-bottom: 25px;">
+				</c:if>
+						<div class="col-md-4 col-sm-4">
+							<article>
+							<!-- 입양신청 1개 시작-->
+							<a href="/AddPet/WaitingPerson?num=${Adopt.num }">
+								<div class="articleThumb">
+									<div style="text-align: right;">
+										<img src="/resources/judayoung/waitingPet-1.jpg" alt="" width="88%">
+									</div>
+									
+									<div class="date">
+										<span class="number" style="padding: 5px;">${Adopt.num }</span>
+										<span class="text">
+											이름
+										</span>
+										<span class="text">id : ${Adopt.pet_id }</span>
+									</div>
 
-								<div class="date">
-									<span class="number">11</span>
-									<span class="text">Jan 15</span>
 								</div>
-								<!-- *********수정할 사항 : 사진 아래에 이름/ID적기********* -->
-								<div>
-									순대
-									강아지는내칭구
-								</div>
-							</div>
-							<h3 class="articleTitle">title : 행복하게 해주겠습니다.</h3>
-							<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
-							<p class="articleDesc">
-								content 자기 소개 : 초코와 순대의 케미는 최강일거에요!
-							</p>
+								<h3 class="articleTitle">입양신청자 ID : ${Adopt.writer }</h3>
+								<h3 class="articleTitle">title : ${Adopt.title }</h3>
+								<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
+								<p class="articleDesc">
+									자기 소개 : ${Adopt.content }
+								</p>
 							</a>
 							
 							<div class="articleMeta">
-								<i class="mdi mdi-eye nino-icon"></i> 만난 회수 : 2
+								<i class="mdi mdi-eye nino-icon"></i> 만난 회수 : ${Adopt.dating }
 								<div style="text-align: right;">
-									<form action="/AddPet/AdoptAccept" method="post">
-										<span class="input-group-btn">
-											<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">입양 거절</button>			
-											<button id="btn_adoptAccept1" class="btn btn-success" type="button" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">입양 승인</button>
-										</span>
-									</form>
+									<c:if test="${Adopt.state==0 }">
+										<form method="post">
+											<span class="input-group-btn">
+												<button class="btn btn-success" num="${Adopt.num }" type="button" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">입양 거절</button>			
+												<button class="btn btn-success" num="${Adopt.num }" type="button" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">입양 승인</button>
+											</span>
+										</form>
+									</c:if>
+									<c:if test="${Adopt.state==1 }">
+										<span style="color: #4FC9DE;">입양신청이 승인된 글입니다.</span>
+									</c:if>
+									<c:if test="${Adopt.state==2 }">
+										<span style="color: #f38181;">입양신청이 거절된 글입니다.</span>
+									</c:if>									
 								</div>
 							</div>
-							<!-- 입양신청자 리스트 1개 끝 -->
+							<!-- 입양신청 1개 끝 -->
+				
 						</article>
 					</div>
-				</div>
+				<!-- 한줄 끝 -->
+				<c:if test="${status.count%3==0 || status.last}">
+					</div>
+				</c:if>
 				
+			</c:forEach>
+			
+			
+			<!-- ========= 페이징 번호 시작 =========================================== -->
+			<div style="display: block; text-align: center;">
+				<!-- 왼쪽 화살표 링크 -->
+				<c:if test="${paging.startPage!=1 }">
+					<a href="/AddPet/AdoptWishList?nowPage=${paging.startPage-1 }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px">&lt;</a>
+				</c:if>
+				<!-- 페이지 숫자 링크 -->
+				<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+					<!-- 현재 페이지는 굵은 글씨로 링크 없이. -->	<!-- 다른 페이지는 링크 있게. -->
+					<c:choose>
+						<c:when test="${p==paging.nowPage }"> <b style="font-size: 30px; padding: 10px"">${p }</b></c:when>
+						<c:when test="${p!=paging.nowPage }"> 
+							<a href="/AddPet/AdoptWishList?nowPage=${p }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px"">${p }</a>
+						</c:when>
+					</c:choose>
+				</c:forEach>
+				<!-- 오른쪽 화살표 링크 -->
+				<c:if test="${paging.endPage!=paging.lastPage }">
+					<a href="/AddPet/AdoptWishList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px"">&gt;</a>
+				</c:if>
+			</div>	
+			<!-- ========= 페이징 번호 끝 =========================================== -->
 				
 			</div>
     	</div>
