@@ -9,6 +9,8 @@ public interface PetMapper {
 	
 	void editPet(Pet p);
 	
+
+	int makeId();
 	
 	
 	/* ================================juDayoung 추가중================================ */

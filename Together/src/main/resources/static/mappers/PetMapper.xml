@@ -18,6 +18,15 @@
 	insert into pet values (seq_pet.nextval, #{name}, #{breed}, #{sex}, #{age}, #{weight}, #{info}, #{location}, 1)
 </insert>
 
+<select id="makeId" resultType="int">
+	select to_pet_seq.nextval from dual
+</select>
+
+
+<select id="getPet" resultMap="Pet" parameterType="int">
+	select * from to_pet
+	where id=#{id}
+</select>
 
 <select id="getPet" resultMap="Pet" parameterType="int">
 	select * from to_pet
