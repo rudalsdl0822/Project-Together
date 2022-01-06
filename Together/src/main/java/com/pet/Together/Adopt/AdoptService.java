@@ -42,6 +42,10 @@ public class AdoptService {
 		return mapper.getAdoptsByWriter(writer, state);
 	}
 	
+	public ArrayList<Adopt> getAdoptsAllByWriter(@Param("writer")String writer){
+		return mapper.getAdoptsAllByWriter(writer);
+	}
+	
 	
 	
 	/* ===============입양신청 DB 페이징 시작=============== */

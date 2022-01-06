@@ -53,7 +53,11 @@
 	order by num desc
 </select>
 
-
+<select id="getAdoptsAllByWriter" resultMap="Adopt">
+	select * from to_adopt
+	where writer=#{writer}
+	order by num desc
+</select>
 
 
 <!--===============입양신청 DB 페이징 시작===============-->

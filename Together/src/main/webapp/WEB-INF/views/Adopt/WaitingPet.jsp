@@ -49,9 +49,9 @@
 	}
 	
 	function fn_like(){
-		$.post("/Like/", {member_id:member_id, pet_id:pet_id})
-		.done(function(json){
-			alert("clear");
+		$.post("/like/add", {pet_id:pet_id})
+		.done(function(){
+			alert("관심등록이 완료되었습니다.");			
 		})
 		.fail(function(){
 			alert("error");
@@ -63,7 +63,7 @@
 	
 		$(document).ready(function(){
 			//관심등록 버튼 클릭
-			$("#btn_like").click(function(){
+			$("#btn_like").click(function(){				
 				if(member_id==""){
 					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
 					if(flag){

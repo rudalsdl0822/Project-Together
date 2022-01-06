@@ -13,7 +13,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 	
-	<title>Together | 입양신청자 리스트</title>
+	<title>Together | 내 입양신청 내역</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="/resources/images/ico/favicon.jpg">
@@ -41,17 +41,10 @@
 	<!-- 함수 -->
 	<script>
 	/* select 함수 시작*/
-	function selChange(){
-		var sel=document.getElementById("cntPerPage").value;
-		
-		var recent_state="${state }";
+	function selChange(){	
 		var state=document.getElementById("state").value;
 		
-		if(recent_state==state){
-			location.href="/Adopt/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
-		}else{
-			location.href="/Adopt/AdoptWishList?cntPerPage="+sel+"&state="+state;
-		}
+		location.href="/Adopt/MemberAdoptWishList?state="+state;
 		
 	}
 	/* select 함수 끝*/
@@ -61,21 +54,17 @@
 			$("button").click(function(){
 				var num=$(this).attr("num");
 				
-				if( $(this).text()=="입양 승인" ){
-					var flag=confirm("정말로 입양을 승인하겠습니까?");
-					if(flag==false) return;
-					
-					var sel=document.getElementById("cntPerPage").value;
-					var state=document.getElementById("state").value;
-					location.href="/Adopt/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
-				}else{
-					var flag=confirm("정말로 입양을 거절하겠습니까?");
-					if(flag==false) return;
-					
-					var sel=document.getElementById("cntPerPage").value;
-					var state=document.getElementById("state").value; 
-					location.href="/Adopt/AdoptReject?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
-				}
+				var flag=confirm("정말로 "+num+"번 입양신청글을 삭제하겠습니까?");
+				if(flag==false) return;
+
+				$.post("/Adopt/MemberAdoptDelete",{num:num})
+				.done(function(json){
+					alert("비동기 삭제는 구현중입니다.");
+				})
+				.fail(function(){
+					alert("error");
+				});
+				
 			});
 			
 		});
@@ -94,14 +83,12 @@
     	<div class="container">
     		<h2 class="nino-sectionHeading">
 				<span class="nino-subHeading">List</span>
-				입양신청 리스트
+				나의 입양신청 내역
 			</h2>
 			
 			<div class="sectionContent">
 				<!-- 옵션선택 시작 -->
 				<div style="text-align: right; padding: 10px;">
-					<span>TOTAL : ${total }</span>
-				
 					<!-- state select -->
 					<select id="state" name="stateSel" onchange="selChange()">
 						<option value="0"
@@ -113,19 +100,7 @@
 						<option value="3"
 							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
 					</select>
-					<!-- paging select -->
-					<select id="cntPerPage" name="sel" onchange="selChange()">
-						<option value="3"
-							<c:if test="${paging.cntPerPage==3 }">selected</c:if>>3개씩 보기</option>
-						<option value="6"
-							<c:if test="${paging.cntPerPage==6 }">selected</c:if>>6개씩 보기</option>
-						<option value="9"
-							<c:if test="${paging.cntPerPage==9 }">selected</c:if>>9개씩 보기</option>
-						<option value="12"
-							<c:if test="${paging.cntPerPage==12 }">selected</c:if>>12개씩 보기</option>
-						<option value="24"
-							<c:if test="${paging.cntPerPage==24}" >selected</c:if>>24개씩 보기</option>
-					</select>
+
 				</div>
 				<!-- 옵션선택 끝 -->
 			
@@ -155,7 +130,6 @@
 									</div>
 
 								</div>
-								<h3 class="articleTitle">입양신청자 ID : ${Adopt.writer }</h3>
 								<h3 class="articleTitle">title : ${Adopt.title }</h3>
 								<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
 								<p class="articleDesc">
@@ -167,12 +141,10 @@
 								<i class="mdi mdi-eye nino-icon"></i> 만난 회수 : ${Adopt.dating }
 								<div style="text-align: right;">
 									<c:if test="${Adopt.state==0 }">
-										<form method="post">
-											<span class="input-group-btn">
-												<button class="btn btn-success" num="${Adopt.num }" type="button" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">입양 거절</button>			
-												<button class="btn btn-success" num="${Adopt.num }" type="button" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">입양 승인</button>
-											</span>
-										</form>
+										<span style="color: #000000;">입양신청 중인 글입니다.</span>
+										<button type="button" num="${Adopt.num }" class="btn btn-default btn-lg" style="margin: 1px; padding: 3px; font-size: 12px; color: #f38181;">
+											<span class="glyphicon glyphicon-remove" aria-hidden="true" style="font-size: 12px;"></span> 신청 삭제
+										</button>
 									</c:if>
 									<c:if test="${Adopt.state==1 }">
 										<span style="color: #4FC9DE;">입양신청이 승인된 글입니다.</span>
@@ -194,28 +166,6 @@
 			</c:forEach>
 			
 			
-			<!-- ========= 페이징 번호 시작 =========================================== -->
-			<div style="display: block; text-align: center;">
-				<!-- 왼쪽 화살표 링크 -->
-				<c:if test="${paging.startPage!=1 }">
-					<a href="/Adopt/AdoptWishList?nowPage=${paging.startPage-1 }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px">&lt;</a>
-				</c:if>
-				<!-- 페이지 숫자 링크 -->
-				<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-					<!-- 현재 페이지는 굵은 글씨로 링크 없이. -->	<!-- 다른 페이지는 링크 있게. -->
-					<c:choose>
-						<c:when test="${p==paging.nowPage }"> <b style="font-size: 30px; padding: 10px"">${p }</b></c:when>
-						<c:when test="${p!=paging.nowPage }"> 
-							<a href="/Adopt/AdoptWishList?nowPage=${p }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px"">${p }</a>
-						</c:when>
-					</c:choose>
-				</c:forEach>
-				<!-- 오른쪽 화살표 링크 -->
-				<c:if test="${paging.endPage!=paging.lastPage }">
-					<a href="/Adopt/AdoptWishList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&state=${state}" style="font-size: 25px; padding: 10px"">&gt;</a>
-				</c:if>
-			</div>	
-			<!-- ========= 페이징 번호 끝 =========================================== -->
 				
 			</div>
     	</div>

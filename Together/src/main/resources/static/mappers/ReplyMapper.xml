@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.Together.Reply.ReplyMapper">
+	<resultMap type="com.pet.Together.Reply.Reply" id="reply">
+		<result property="reply_num" column="reply_num" />
+		<result property="board_num" column="board_num" />
+		<result property="writer_id" column="writer_id" />
+		<result property="reply_content" column="reply_content" />
+		<result property="reply_date" column="reply_date" />
+		<result property="parent_reply_num" column="parent_reply_num" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="com.pet.Together.Reply.Reply">
+		insert into to_reply values (seq_to_reply.nextval, #{board_num}, #{writer_id}, #{reply_content}, sysdate, ${parent_reply_num})
+	</insert>
+	
+	<select id="select" resultType="com.pet.Together.Reply.Reply">
+		select * from to_reply where reply_num = #{reply_num}
+	</select>
+	
+	<select id="selectListByBoard_num" resultMap="reply">
+		select * from to_reply where board_num = #{board_num} order by reply_num
+	</select>
+	
+	<select id="selectListByWriter_id" parameterType="String" resultMap="reply">
+		select * from to_reply where writer_id = #{writer_id} order by reply_num
+	</select>
+	
+	<select id="selectListByParent_reply_num" resultMap="reply">
+		select * from to_reply where parent_reply_num = #{parent_reply_num} order by reply_num
+	</select>
+	
+	<update id="update" parameterType="com.pet.Together.Reply.Reply">
+		update to_reply set reply_content = #{reply_content}, reply_date = sysdate where reply_num = #{reply_num}
+	</update>
+	
+	<delete id="delete">
+		delete from to_reply where reply_num = #{reply_num}
+	</delete>
+	
+	<update id="deleteParent">
+		update to_reply set reply_content = null where reply_num = #{reply_num}
+	</update>
+	
+	<select id="selectSeqCurrval" resultType="int">
+		select seq_to_reply.currval from dual
+	</select>
+	
+</mapper>
