@@ -614,7 +614,9 @@
 <br>
 <a href="/Adopt/AdoptForm?id=1111">입양신청 폼</a>
 <br>
-<a href="/Adopt/AdoptWishList">입양신청 리스트</a>
+<a href="/Adopt/AdoptWishList">관리자용 입양신청 리스트</a>
+<br>
+<a href="/Adopt/MemberAdoptWishList">고객용 입양신청 내역</a>
 
 <!-- ================================juDayoung 추가중================================ -->
 	

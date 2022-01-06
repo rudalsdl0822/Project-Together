@@ -59,17 +59,22 @@
 		$(document).ready(function(){
 			
 			$("button").click(function(){
+				var num=$(this).attr("num");
+				
 				if( $(this).text()=="입양 승인" ){
 					var flag=confirm("정말로 입양을 승인하겠습니까?");
 					if(flag==false) return;
-					
-					var num=$(this).attr("num");
 					
 					var sel=document.getElementById("cntPerPage").value;
 					var state=document.getElementById("state").value;
 					location.href="/Adopt/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
 				}else{
+					var flag=confirm("정말로 입양을 거절하겠습니까?");
+					if(flag==false) return;
 					
+					var sel=document.getElementById("cntPerPage").value;
+					var state=document.getElementById("state").value; 
+					location.href="/Adopt/AdoptReject?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
 				}
 			});
 			
@@ -216,8 +221,28 @@
     <!--/#nino-latestBlog-->
 
 
+    <!-- Footer
+    ================================================== -->
+    <footer id="footer">
+        <div class="container">
+        	<div class="row">
+        		<div class="col-md-12">
+        			<div class="colInfo">
+	        			<div class="footerLogo">
+	        				<a href="${pageContext.request.contextPath}/index" >Together</a>	
+	        			</div>
+	        			<p>강남점 : 서울특별시 강남구 강남대로 396, TEL: 010-0000-0000 
+	        			<br>안양점 : 경기 안양시 만안구 만안로 232, TEL: 010-0000-0000
+	        			<br>해운대점 : 부산광역시 해운대구 해운대로 626, TEL: 010-0000-0000</p>
+        			</div>
+        		</div>
+        		
+        		
+        	</div>
+			<div class="nino-copyright">Copyright &copy; 2021. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
+        </div>
+    </footer><!--/#footer-->
 
-<h3>하단 뭐넣을까?</h3>
 
 	<!-- Search Form - Display when click magnify icon in menu
     ================================================== -->

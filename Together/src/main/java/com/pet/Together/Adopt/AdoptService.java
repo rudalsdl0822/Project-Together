@@ -3,6 +3,7 @@ package com.pet.Together.Adopt;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,18 @@ public class AdoptService {
 		mapper.editAdopt(adopt);
 	}
 
+	public void deleteAdopt(int num) {
+		mapper.deleteAdopt(num);
+	}
+	
+	
+	public ArrayList<Adopt> getAdoptsByPet_id(int pet_id){
+		return mapper.getAdoptsByPet_id(pet_id);
+	}
+	
+	public ArrayList<Adopt> getAdoptsByWriter(@Param("writer")String writer, @Param("state") int state){
+		return mapper.getAdoptsByWriter(writer, state);
+	}
 	
 	
 	
@@ -35,14 +48,9 @@ public class AdoptService {
 	public int countAdopts() {
 		return mapper.countAdopts();
 	}
-	public int countAdopt0() {
-		return mapper.countAdopt0();
-	}
-	public int countAdopt1() {
-		return mapper.countAdopt1();
-	}
-	public int countAdopt2() {
-		return mapper.countAdopt2();
+	
+	public int countAdoptsByState(int state) {
+		return mapper.countAdoptsByState(state);
 	}
 	
 	
@@ -60,6 +68,10 @@ public class AdoptService {
 		return mapper.selectAdopt2(vo);
 	}
 
+	
+	public List<Adopt> selectAdoptByState(PagingVO vo,  int state){
+		return mapper.selectAdoptByState(vo, state);
+	}
 	/* ===============입양신청 DB 페이징 끝=============== */
 
 }

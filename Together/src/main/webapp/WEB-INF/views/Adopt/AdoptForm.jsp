@@ -163,9 +163,9 @@
 					<!-- Pet 정보 -->
 					<div class="col-md-6">
 						<div layout="row" class="item">
-							<div class="nino-avatar fsr">
-								<a href="/Adopt/WaitingPet?id=1111">
-									<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="">
+							<div class="nino-avatar fsr" style="width: 120px; height: 120px; border-radius: 70%; overflow: hidden;">
+								<a href="/Adopt/WaitingPet?id=${pet.id }">
+									<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
 								</a>
 							</div>
 							<div class="info">
@@ -184,13 +184,13 @@
 					<!-- Member 정보 -->
 					<div class="col-md-6">
 						<div layout="row" class="item" style="width:100%;">
-							<div class="nino-avatar fsr">
+							<div class="nino-avatar fsr" style="width: 120px; height: 120px; border-radius: 70%; overflow: hidden;">
 								<img class="img-circle" src="/resources/judayoung/defaultPerson.jpg" alt="">
 							</div>
 							<div class="info" style="width:100%;">
 								<h4 class="name">NickName : ${sessionScope.nickname }</h4>
 								<span class="regency" style="width:100%;">
-									<input type="text" id="title" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;">
+									<input type="text" id="title" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;" style="width: 100%; height: 100%; object-fit: cover;">
 								</span>
 								<p class="desc">
 									<input type="text" id="family" value="${MemberInfo.family }" placeholder="가족구성을 적어주세요(반려동물 포함)" style="width:100%;">
@@ -249,6 +249,29 @@
 
 
 <h3>하단 입양공고 리스트</h3>
+
+
+    <!-- Footer
+    ================================================== -->
+    <footer id="footer">
+        <div class="container">
+        	<div class="row">
+        		<div class="col-md-12">
+        			<div class="colInfo">
+	        			<div class="footerLogo">
+	        				<a href="${pageContext.request.contextPath}/index" >Together</a>	
+	        			</div>
+	        			<p>강남점 : 서울특별시 강남구 강남대로 396, TEL: 010-0000-0000 
+	        			<br>안양점 : 경기 안양시 만안구 만안로 232, TEL: 010-0000-0000
+	        			<br>해운대점 : 부산광역시 해운대구 해운대로 626, TEL: 010-0000-0000</p>
+        			</div>
+        		</div>
+        		
+        		
+        	</div>
+			<div class="nino-copyright">Copyright &copy; 2021. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
+        </div>
+    </footer><!--/#footer-->
 
 
 	<!-- Search Form - Display when click magnify icon in menu
