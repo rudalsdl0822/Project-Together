@@ -2,11 +2,16 @@ package com.pet.Together.AddPet;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -295,19 +300,87 @@ public class AddPetController {
 
 	/* ================================cha 추가중================================ */
 	
-	@RequestMapping(value = "/AddPet/AddPetList")
-	public void addPetList() {
-
+	@RequestMapping(value="/AddPet/PetAllList")
+	public ModelAndView addPetList() {
+		ModelAndView mav = new ModelAndView("AddPet/PetAllList");
+		ArrayList<Pet> list = (ArrayList<Pet>)service.getPetAllList();
+		mav.addObject("list", list);
+		return mav;
 	}
 	
-	@RequestMapping(value = "/AddPet/EditPet")
-	public void editPetForm() {
-
+	@RequestMapping(value="/AddPet/StateList")
+	public ModelAndView stateList(@RequestParam(value="state") int state) {
+		ModelAndView mav = new ModelAndView("AddPet/PetAllList");
+		ArrayList<Pet> list = (ArrayList<Pet>)service.getStateList(state);
+		mav.addObject("list", list);
+		return mav;
+	}
+	
+	@RequestMapping(value="/AddPet/petView")
+	public ModelAndView petView(@RequestParam(value="id") int id) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("AddPet/EditPet");
+		Pet p = service.getPet(id);
+		String path = PATH+p.getId()+"\\";
+		File imgDir = new File(path);
+		if(imgDir.exists()) {
+			String[]files = imgDir.list();
+			for(int j = 0; j < files.length; j++) {
+				mav.addObject("file"+j, files[j]);
+			}
+		}
+		mav.addObject("p", p);
+		return mav;
+	}
+	
+	
+	
+	@RequestMapping("/AddPet/petImg")
+	public ResponseEntity<byte[]> getPetImg(int id, int petImgNum) {
+		File imgFile = new File(PATH+id);
+		String[] imgFiles=imgFile.list();
+		int ifs;
+		if(imgFiles!=null) {
+			for(ifs=0; ifs<imgFiles.length; ifs++) {
+				// System.out.println(imgFiles+" / imgFiles[ifs] : "+imgFiles[ifs]);
+			}
+		}
+		
+		File f = null;
+		
+		if(petImgNum==1) {
+			f = new File(PATH+id+"\\"+imgFiles[0]);
+		}else if(petImgNum==2) {
+			f = new File(PATH+id+"\\"+imgFiles[1]);
+		}else if(petImgNum==3) {
+			f = new File(PATH+id+"\\"+imgFiles[2]);
+		}
+		
+		HttpHeaders header = new HttpHeaders();
+		ResponseEntity<byte[]> result = null;
+		try {
+			header.add("Content-Type", Files.probeContentType(f.toPath()));
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(f), header, HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value = "/Addpet/EditPet")
+	public String EditPet(Pet p) {
+		service.editPet(p);
+		return "redirect:/AddPet/PetAllList";
 	}
 	
 	@RequestMapping(value = "/AddPet/AdoptNoticeList")
-	public void adoptNoticeList() {
-
+	public ModelAndView adoptNoticeList() {
+		ModelAndView mav = new ModelAndView("AddPet/AdoptNoticeList");
+		ArrayList<Pet> list=(ArrayList<Pet>)service.getPetAllList();
+		mav.addObject("list",list);
+		return mav;
 	}
 	
 	/* ================================cha 추가중================================ */

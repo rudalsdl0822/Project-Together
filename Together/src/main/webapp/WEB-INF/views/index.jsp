@@ -620,9 +620,9 @@
 	
 <!-- ================================cha 추가중================================ -->
 <br>
-<a href="/AddPet/AddPetList">입소신청 리스트</a>
+<a href="${pageContext.request.contextPath}/AddPet/PetAllList">입소/입양 리스트</a>
 <br>
-<a href="/AddPet/EditPet">입소 신청 내용</a>
+<a href="${pageContext.request.contextPath}/AddPet/EditPet">입소 신청 내용</a>
 <br>
 <!-- ================================cha 추가중================================ -->	
 	

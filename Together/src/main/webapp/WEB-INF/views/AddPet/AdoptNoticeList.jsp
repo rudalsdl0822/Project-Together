@@ -250,44 +250,55 @@
 						</article>
 					</div>
 					
+					
+					<!-- 실제 뷰 -->
 					<c:if test="${empty list}">
 						<br>
 						등록된 입양공고가 없습니다
 						<br>
 					</c:if>
 					
-					<c:if test="${not empty list}">
+					<!--<c:if test="${not empty list}">-->
 						<c:forEach var="p" items="${list}">
-							<div class="col-md-4 col-sm-4">
-								<article>
-									<div class="articleThumb">
-										<a href="${pageContext.request.contextPath}/AddPet/AddPetList?id=${p.id}&state!=1">
-											<img src="${pageContext.request.contextPath}/AddPet/imgList?id=${p.id}" alt="">
-										</a>
-										<div class="date">
-											<!-- <span class="number">ㅇㅇㅇ</span> -->
-											<span class="text">${p.location}</span>
+							<c:if test="${p.state!=1}">
+								<div class="col-md-4 col-sm-4">
+									<article>
+										<div class="articleThumb">
+											<a href="${pageContext.request.contextPath}/Adopt/WaitingPet?id=${p.id}">
+												<img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=1" alt="">
+											</a>
+											<div class="date">
+												<!-- <span class="number">ㅇㅇㅇ</span> -->
+												<span class="text">
+													<c:choose>
+														<c:when test="${p.location==1}">강남점</c:when>
+														<c:when test="${p.location==2}">안양점</c:when>
+														<c:when test="${p.location==3}">해운대점</c:when>
+														<c:otherwise> - </c:otherwise>
+													</c:choose>
+												</span>
+											</div>
 										</div>
-									</div>
-									<h3 class="articleTitle">
-										<a href="${pageContext.request.contextPath}/AddPet/AddPetList?id=${p.id}&state!=1">${p.name}</a>
-										<c:if test="${p.state==2}">
-											<span class="label label-warning">입양대기</span>
-										</c:if>
-										<c:if test="${p.state==3}">
-											<span class="label label-success">입양문의중</span>
-										</c:if>
-										<c:if test="${p.state==4}">
-											<span class="label label-default">입양완료</span>
-										</c:if>
-									</h3>
-									<p class="articleDesc">
-										${p.breed} | ${p.sex} | ${p.age}세 <br><br><br>
-									</p>
-								</article>
-							</div>
+										<h3 class="articleTitle">
+											<a href="${pageContext.request.contextPath}/Adopt/WaitingPet?id=${p.id}">${p.name}</a>
+											<c:if test="${p.state==2}">
+												<span class="label label-warning">입양대기</span>
+											</c:if>
+											<c:if test="${p.state==3}">
+												<span class="label label-success">입양문의중</span>
+											</c:if>
+											<c:if test="${p.state==4}">
+												<span class="label label-default">입양완료</span>
+											</c:if>
+										</h3>
+										<p class="articleDesc">
+											${p.breed} | ${p.sex} | ${p.age}세 <br><br><br>
+										</p>
+									</article>
+								</div>
+							</c:if>
 						</c:forEach>
-					</c:if>
+					<!--</c:if>-->
 					
 				</div>
 			</div>
@@ -334,4 +345,3 @@
 
 </body>
 </html>
-
