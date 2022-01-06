@@ -143,27 +143,31 @@
 			<form id="editPetForm" action="${pageContext.request.contextPath}/Addpet/EditPet" method="post">
 				<input type="hidden" name="id" value="${p.id}">
 				
-				<!-- 쌤 shop > itemView.jsp(SellerController_img) 참고 -->
+				<!-- 쌤 shop > itemView.jsp(SellerController_img) 참고
 				<c:if test="${empty file1}">
 					등록된 이미지가 없습니다
 				</c:if>
 				
-				<c:if test="${not empty file1}">
+				<c:if test="${not empty file1}"> -->
 					<table style="margin-left: auto; margin-right: auto;" border="1" cellspacing="0">
 						<tr>
 							<td colspan="3">
-								<img id="bigImg" src="${pageContext.request.contextPath}/Addpet/petImg?fname=${file1}&id=${p.num}" style="width:450px; height:auto;">
+								<img id="bigImg" src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=1" style="width:450px; height:auto;">
 							</td>
 						</tr>
 						<tr>
-							<td><img src="${pageContext.request.contextPath}/Addpet/petImg?fname=${file1}&id=${p.num}" class="petImg" width="150" height="150"></td>
-							<td><img src="${pageContext.request.contextPath}/Addpet/petImg?fname=${file2}&id=${p.num}" class="petImg" width="150" height="150"></td>
-							<td><img src="${pageContext.request.contextPath}/Addpet/petImg?fname=${file3}&id=${p.num}" class="petImg" width="150" height="150"></td>
+							<td><img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=1" class="petImg" width="150" height="150"></td>
+							<td><img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=2" class="petImg" width="150" height="150"></td>
+							<td><img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=3" class="petImg" width="150" height="150"></td>
 						</tr>
 					</table>
-				</c:if>
+				<!--</c:if>-->
 				
 				<fieldset>
+				    <div class="form-group">
+				      <label for="editWriter_id">작성자</label>
+				      <input type="text" class="form-control" id="editWriter_id"  name="writer_id" value="${p.writer_id}" readonly>
+				    </div>
 					<div class="form-group">
 						<label for="editPetName">펫 이름</label>
 						<input type="text" class="form-control" id="editPetName" name="name" value="${p.name}">
@@ -218,14 +222,15 @@
 					</div>
 					<div class="form-group">
 						<label for="editTextareaInfo">상세사항</label>
-						<textarea class="form-control" id="editTextareaInfo" rows="5">${p.info}</textarea>
+						<textarea class="form-control" id="editTextareaInfo" rows="5" name="info">${p.info}</textarea>
 					</div>
 				</fieldset>
-				
-				<button type="submit" class="btn btn-primary" name="approval">승인</button>
-				<button type="button" class="btn btn-primary" name="rejection">거절</button>
-				
+
 				<input type="hidden" name="state" value="2">
+								
+				<button type="submit" class="btn btn-primary" name="approval">입소 승인</button>
+				<button type="button" class="btn btn-primary" name="rejection">입소 거절</button>
+
 			</form>
 		</div>
 	</section>
@@ -270,15 +275,6 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/unslider-min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/template.js"></script>
-
-	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
-	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<!-- css3-mediaqueries.js for IE less than 9 -->
-	<!--[if lt IE 9]>
-	    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-	<![endif]-->
 
 
 </body>

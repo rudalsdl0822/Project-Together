@@ -5,19 +5,35 @@ public class Pet {
 	private String name;
 	private String breed;
 	private int sex;
-	private int age;
-	private double weight;
+	private String age;
+	private String weight;
 	private String info;
 	private String location;
 	private int state;
 	private Img imgs;
+	private String writer_id;
 
 	public Pet() {
 		super();
 	}
 
-	public Pet(int id, String name, String breed, int sex, int age, double weight, String info, String location,
-			int state, Img imgs) {
+	public Pet(int id, String name, String breed, int sex, String age, String weight, String info, String location,
+			int state, String writer_id) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.breed = breed;
+		this.sex = sex;
+		this.age = age;
+		this.weight = weight;
+		this.info = info;
+		this.location = location;
+		this.state = state;
+		this.writer_id = writer_id;
+	}
+
+	public Pet(int id, String name, String breed, int sex, String age, String weight, String info, String location,
+			int state, Img imgs, String writer_id) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -29,6 +45,7 @@ public class Pet {
 		this.location = location;
 		this.state = state;
 		this.imgs = imgs;
+		this.writer_id = writer_id;
 	}
 
 	public int getId() {
@@ -63,19 +80,19 @@ public class Pet {
 		this.sex = sex;
 	}
 
-	public int getAge() {
+	public String getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(String age) {
 		this.age = age;
 	}
 
-	public double getWeight() {
+	public String getWeight() {
 		return weight;
 	}
 
-	public void setWeight(double weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 
@@ -111,12 +128,18 @@ public class Pet {
 		this.imgs = imgs;
 	}
 
+	public String getWriter_id() {
+		return writer_id;
+	}
+
+	public void setWriter_id(String writer_id) {
+		this.writer_id = writer_id;
+	}
+
 	@Override
 	public String toString() {
 		return "Pet [id=" + id + ", name=" + name + ", breed=" + breed + ", sex=" + sex + ", age=" + age + ", weight="
-				+ weight + ", info=" + info + ", location=" + location + ", state=" + state + ", imgs=" + imgs + "]";
+				+ weight + ", info=" + info + ", location=" + location + ", state=" + state + ", imgs=" + imgs
+				+ ", writer_id=" + writer_id + "]";
 	}
-
-
-	
 }
