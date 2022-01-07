@@ -72,6 +72,10 @@ public class AddPetController {
 		// 파일 이름을 가져온다.
 		String originalFileName=file.getOriginalFilename();
 		
+		// 확장자 추출
+		int idx = originalFileName.lastIndexOf(".");
+	    String ext = originalFileName.substring(idx);
+		
 		/* 파일이 있으면 저장한다. */
 		if(originalFileName!=null && !originalFileName.equals("") ) {
 			
@@ -82,9 +86,8 @@ public class AddPetController {
 				dir.mkdirs(); // 상위폴더가 없다면 상위 폴더도 만든다.				
 			}
 			
-			/* 경로에 파일을 만든다. */
-			
-				File f=new File(dirPath+"/"+fileNum);
+			/* 경로에 파일을 만든다. 예)1.확장자 */
+				File f=new File(dirPath+"/"+fileNum+ext);
 				try {
 					file.transferTo(f);
 				}catch(IllegalStateException e) {
