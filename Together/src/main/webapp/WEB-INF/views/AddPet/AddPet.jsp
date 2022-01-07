@@ -29,13 +29,13 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	
 	<script>
-	var fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
-	var maxSize = 5 * 1024 * 1024;
-	var fileSize;
+	var maxSize = 5 * 1024 * 1024; // file max size 5MB
+	var fileSize; // 파일 사이즈
 	
 	$(document).ready(function(){
 		
 		$('#btn_submit').click(function(){
+			// 필수 항목 유효성 체크
 			if($('#inputPetName').val()==""){
 				alert("Pet의 이름을 입력해주세요.");
 				$('#inputPetName').focus();
@@ -57,9 +57,29 @@
 				$('#inputFile3').focus();
 				return false;
 			}
-			
-				
 			$('#form_addPet').submit();
+		});
+		
+		$('input[type=file]').change(function(){
+			if ($(this).val != "" && $(this).val != null) {
+				// 확장자 체크
+				var ext = $(this).val().split(".").pop().toLowerCase();
+				if ($.inArray(ext, ["gif","jpg","jpeg","png","hwp","pdf","doc","xls","xlsx","ppt","pptx","docx"])==-1){
+					alert("이미지 파일(gif, jpg, jpeg, png 파일)만 업로드 가능합니다.");
+			    	$(this).val("");
+			        return;
+				}
+				
+				// 용량 체크
+				for (var i=0; i<this.files.length;i++){
+					fileSize = this.files[i].size;
+					if (fileSize>maxSize){
+						alert("이미지 파일 용량은 5MB 미만으로 등록 가능합니다.");
+						$(this).val("");
+						return;
+					}
+				}
+			}
 		});
 		
 	});
@@ -227,9 +247,7 @@
     </div>
     <hr>
     <div class="form-group">
-    	<label for="inputFile">펫 이미지 첨부</label>
-    	 <small id="emailHelp" class="form-text text-muted">첨부는 5MB 미만의 이미지 파일만 등록 가능하며, 3개 필수로 등록해야합니다.</small>
-    	<hr>
+    	<label for="inputFile">펫 이미지 첨부</label><br>
       <label for="inputFile1">사진 파일 1</label><span class="badge badge-pill badge-info">필수</span>
       <input type="file" class="form-control-file" name="file1" id="inputFile1" accept="image/*"  aria-describedby="fileHelp">
    	</div>
@@ -241,6 +259,7 @@
       <label for="inputFile3">사진 파일 3</label><span class="badge badge-pill badge-info">필수</span>
       <input type="file" class="form-control-file" name="file3" id="inputFile3" accept="image/*" aria-describedby="fileHelp">
     </div>
+     <small id="emailHelp" class="form-text text-muted">이미지 파일은 5MB 미만의 용량 파일만 등록 가능하며, 3가지 이미지를 필수로 등록해야합니다.</small>
     <hr>
     <button type="submit" class="nino-btn" style="background: #95e1d3;" id="btn_submit">온라인 입소 신청</button>
      </fieldset>
