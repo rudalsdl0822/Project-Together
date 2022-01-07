@@ -13,6 +13,7 @@
 		<result property="location" column="location"></result>
 		<result property="state" column="state"></result>
 		<result property="writer_id" column="writer_id"></result>
+
 	</resultMap>
 
 <insert id="addPet" parameterType="com.pet.Together.AddPet.Pet">

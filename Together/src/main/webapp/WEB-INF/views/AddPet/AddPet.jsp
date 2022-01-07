@@ -29,13 +29,13 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	
 	<script>
-	var fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
-	var maxSize = 5 * 1024 * 1024;
-	var fileSize;
+	var maxSize = 5 * 1024 * 1024; // file max size 5MB
+	var fileSize; // 파일 사이즈
 	
 	$(document).ready(function(){
 		
 		$('#btn_submit').click(function(){
+			// 필수 항목 유효성 체크
 			if($('#inputPetName').val()==""){
 				alert("Pet의 이름을 입력해주세요.");
 				$('#inputPetName').focus();
@@ -57,9 +57,29 @@
 				$('#inputFile3').focus();
 				return false;
 			}
-			
-				
 			$('#form_addPet').submit();
+		});
+		
+		$('input[type=file]').change(function(){
+			if ($(this).val != "" && $(this).val != null) {
+				// 확장자 체크
+				var ext = $(this).val().split(".").pop().toLowerCase();
+				if ($.inArray(ext, ["gif","jpg","jpeg","png","hwp","pdf","doc","xls","xlsx","ppt","pptx","docx"])==-1){
+					alert("이미지 파일(gif, jpg, jpeg, png 파일)만 업로드 가능합니다.");
+			    	$(this).val("");
+			        return;
+				}
+				
+				// 용량 체크
+				for (var i=0; i<this.files.length;i++){
+					fileSize = this.files[i].size;
+					if (fileSize>maxSize){
+						alert("이미지 파일 용량은 5MB 미만으로 등록 가능합니다.");
+						$(this).val("");
+						return;
+					}
+				}
+			}
 		});
 		
 	});
@@ -106,7 +126,7 @@
 								<c:if test="${not empty sessionScope.id}">
 								
 								<!-- 관리자의 경우 -->
-								<c:if test="${sessionScope.type==1}">
+								<c:if test="${sessionScope.type==2}">
 								<li class="nav-item dropdown">
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">관리자페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
@@ -127,7 +147,7 @@
 								    </c:if>
 								    
 								    <!-- 고객의 경우 -->
-								    <c:if test="${sessionScope.type==2}">
+								    <c:if test="${sessionScope.type==1}">
 									<li class="nav-item dropdown">
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">마이페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
@@ -184,7 +204,13 @@
 				<span class="nino-subHeading">Together</span>
 				온라인 입소 신청
 			</h2>
+<<<<<<< HEAD
+<form class="form-signin" action="${pageContext.request.contextPath}/AddPet" method="post" enctype="multipart/form-data">
+	<input type="hidden" value="${sessionScope.id }" name="writer_id">
+
+=======
 <form class="form-signin" action="${pageContext.request.contextPath}/AddPet" id="form_addPet" method="post" enctype="multipart/form-data">
+>>>>>>> main
   <fieldset>
   <input type="hidden" name="writer_id" value="${sessionScope.id}"> <!-- id 값 session에서 가져오기 작성해야함 kyungmin -->
     <div class="form-group">
@@ -213,8 +239,13 @@
       <input type="text" class="form-control" id="inputWeight" name="weight" placeholder="무게를 숫자로 적어주세요.">
     </div>
     <div class="form-group">
+<<<<<<< HEAD
+      <label for="selectLocation">신청 보호소 지점</label>
+      <select class="form-control" id="selectLocation" name="location">
+=======
       <label for="selectLocation">신청 보호소 지점</label><span class="badge badge-pill badge-info">필수</span>
       <select class="form-control" name="location" id="selectLocation">
+>>>>>>> main
         <option value="">-선택-</option>
         <option value="1">강남점</option>
         <option value="2">안양점</option>
@@ -222,14 +253,17 @@
       </select>
     </div>
     <div class="form-group">
+<<<<<<< HEAD
+      <label for="textareaInfo">상세사항 (성격 등 특징들을 적어주세요.)</label>
+      <textarea class="form-control" id="textareaInfo" rows="5" name="info"></textarea>
+=======
       <label for="textareaInfo">상세사항 (성격 등 특징들을 적어주세요.)</label> <!-- null -->
       <textarea class="form-control" id="textareaInfo" name="info" rows="5" style="resize: none;"></textarea>
+>>>>>>> main
     </div>
     <hr>
     <div class="form-group">
-    	<label for="inputFile">펫 이미지 첨부</label>
-    	 <small id="emailHelp" class="form-text text-muted">첨부는 5MB 미만의 이미지 파일만 등록 가능하며, 3개 필수로 등록해야합니다.</small>
-    	<hr>
+    	<label for="inputFile">펫 이미지 첨부</label><br>
       <label for="inputFile1">사진 파일 1</label><span class="badge badge-pill badge-info">필수</span>
       <input type="file" class="form-control-file" name="file1" id="inputFile1" accept="image/*"  aria-describedby="fileHelp">
    	</div>
@@ -241,6 +275,7 @@
       <label for="inputFile3">사진 파일 3</label><span class="badge badge-pill badge-info">필수</span>
       <input type="file" class="form-control-file" name="file3" id="inputFile3" accept="image/*" aria-describedby="fileHelp">
     </div>
+     <small id="emailHelp" class="form-text text-muted">이미지 파일은 5MB 미만의 용량 파일만 등록 가능하며, 3가지 이미지를 필수로 등록해야합니다.</small>
     <hr>
     <button type="submit" class="nino-btn" style="background: #95e1d3;" id="btn_submit">온라인 입소 신청</button>
      </fieldset>
