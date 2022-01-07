@@ -148,6 +148,16 @@
 
 				<span class="nino-subHeading">I'm In ${locationEnglish }</span>
 				${pet.breed }, ${pet.name }
+				
+				<c:if test="${pet.state==2}">
+					<span class="label label-warning" style="font-size: 11px;">입양대기</span>
+				</c:if>
+				<c:if test="${pet.state==3}">
+					<span class="label label-success" style="font-size: 11px;">입양문의중</span>
+				</c:if>
+				<c:if test="${pet.state==4}">
+					<span class="label label-default" style="font-size: 11px;">입양완료</span>
+				</c:if>
 			</h2>
 			<p class="nino-sectionDesc">${pet.name }는 사랑입니다</p>
 
@@ -243,11 +253,26 @@
     				<div class="number">${locationKorean }</div>
     				<div class="text">location</div>
     			</div>
-    			<div class="item" style="width:20%; margin: 0px; padding: 20px;">
+    			<div class="item" style="width:20%; margin: 0px; padding: 20px; text-align: center;" >
     				<!-- *********수정할 사항 : 관심등록 하트 구현하기********* -->
+    				<div class="number" id="btn_like" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
+    					<span class="glyphicon glyphicon-heart-empty" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
+    					관심등록
+    				</div>
+    				<div class="number" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
+    					<span class="glyphicon glyphicon-heart" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
+    					관심등록
+    				</div>
+    				<div class="number" id="btn_go_AdoptForm"  style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
+    					<span class="glyphicon glyphicon-pencil" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
+    					입양신청
+    				</div>
+    				
     				<div class="number">
-    					<button id="btn_like" class="nino-btn" style="font-size: 20px; background: #95e1d3;">관심등록</button>
-    					<button id="btn_go_AdoptForm" class="nino-btn" style="font-size: 20px; background: #95e1d3;">입양신청</button>
+    					<span class="glyphicon glyphicon-heart" aria-hidden="true" style="border: 1px solid white; padding: 7px; font-size: 20px; color: #f38181;"></span> 
+
+    					<button class="nino-btn" style="font-size: 20px; background: #95e1d3;"> 관심등록</button>
+    					<button class="nino-btn" style="font-size: 20px; background: #95e1d3;">입양신청</button>
     				</div>
     				<div class="text"></div>
     			</div>

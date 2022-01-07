@@ -103,11 +103,11 @@
 						<div layout="row" class="item">
 							<div class="nino-avatar fsr" style="width: 120px; height: 120px; border-radius: 70%; overflow: hidden;">
 								<a href="/Adopt/WaitingPet?id=${pet.id }">
-									<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+									<img class="img-circle" src="/AddPet/petImg?id=${pet.id}&petImgNum=1"  alt="" style="width: 100%; height: 100%; object-fit: cover;">
 								</a>
 							</div>
 							<div class="info">
-								<h4 class="name"><a href="/AddPet/WaitingPet?id=22&state=2">${pet.name }</a></h4>
+								<h4 class="name"><a href="/AddPet/WaitingPet?id=${pet.id }">${pet.name }</a></h4>
 								<span class="regency">${pet.breed }</span>
 								<p class="desc">성별 : ${sexKorean }</p>
 								<p class="desc">나이 : ${pet.age }살</p>

@@ -68,7 +68,7 @@
 								<c:if test="${not empty sessionScope.id}">
 								
 								<!-- 관리자의 경우 -->
-								<c:if test="${sessionScope.type==1}">
+								<c:if test="${sessionScope.type==2}">
 								<li class="nav-item dropdown">
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">관리자페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
@@ -82,14 +82,14 @@
 									          <li><a class="dropdown-item" href="#">1:1 문의 답변</a></li>
 									         
 									          <li class="dropdown-header">신청 리스트</li>
-									          <li><a class="dropdown-item" href="#">입양 신청 리스트</a></li>
+									          <li><a class="dropdown-item" href="/Adopt/AdoptWishList">입양 신청 리스트</a></li>
 									          <li><a class="dropdown-item" href="#">입소 신청 리스트</a></li>
 									        </ul>
 								    </li>
 								    </c:if>
 								    
 								    <!-- 고객의 경우 -->
-								    <c:if test="${sessionScope.type==2}">
+								    <c:if test="${sessionScope.type==1}">
 									<li class="nav-item dropdown">
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">마이페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
@@ -102,7 +102,7 @@
 									          <li><a class="dropdown-item" href="#">1:1 문의하기</a></li>
 									          
 									          <li class="dropdown-header">신청 내역</li>
-									          <li><a class="dropdown-item" href="#">입양 신청 내역</a></li>
+									          <li><a class="dropdown-item" href="/Adopt/MemberAdoptWishList">입양 신청 내역</a></li>
 									          <li><a class="dropdown-item" href="#">입소 신청 내역</a></li>
 									        </ul>
 								    </li>
@@ -655,14 +655,6 @@
 	<![endif]-->
 	
 	
-
-<!-- ================================juDayoung 추가중================================ -->
-<br>
-<a href="/Adopt/AdoptWishList">관리자용 입양신청 리스트</a>
-<br>
-<a href="/Adopt/MemberAdoptWishList">고객용 입양신청 내역</a>
-
-<!-- ================================juDayoung 추가중================================ -->
 	
 <!-- ================================cha 추가중================================ -->
 <br>

@@ -182,7 +182,7 @@
 								</a>
 							</div>
 							<div class="info">
-								<h4 class="name"><a href="/Adopt/WaitingPet?id=1111">${pet.name }</a></h4>
+								<h4 class="name"><a href="/Adopt/WaitingPet?id=${pet.id}">${pet.name }</a></h4>
 								<span class="regency">${pet.breed }</span>
 								<p class="desc">성별 : ${sexKorean }</p>
 								<p class="desc">나이 : ${pet.age }살</p>
