@@ -80,4 +80,30 @@ public class MemberController {
 			return "/index";
 		}
 	}
+	
+	/* =======================로그인 팝업창========================*/
+	@GetMapping(value = "/Member/loginFormPopup")
+	public void loginFormPopup() {
+
+	}
+	
+	@RequestMapping(value = "/Member/loginByPopup")
+	public ModelAndView loginByPopup(HttpServletRequest request, @RequestParam(value = "id") String id,@RequestParam(value = "pwd") String pwd) {
+		boolean loginResult;    // "/Member/login_fail";
+		
+		Member m = service.getMember(id);
+		if (m == null || !m.getPwd().equals(pwd)) {
+			loginResult=false;
+		} else {
+			HttpSession session = request.getSession();
+			session.setAttribute("id", m.getId());
+			session.setAttribute("nickname", m.getNickname());
+			session.setAttribute("type", m.getType());
+			loginResult=true;
+		}
+		
+		ModelAndView mav=new ModelAndView("Member/loginPopupResult","loginResult",loginResult);
+		return mav;
+	}
+	/* =======================로그인 팝업창========================*/
 }
