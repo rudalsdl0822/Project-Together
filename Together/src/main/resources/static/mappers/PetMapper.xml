@@ -36,4 +36,19 @@
 </update>
 
 
+
+
+
+
+
+	<select id="selectPetAll" resultMap="Pet">
+		select * from to_pet order by id
+	</select>
+	
+	<select id="selectByState" parameterType="int" resultMap="Pet">
+		select * from to_pet where state=#{state} order by id
+	</select>
+
+
+
 </mapper>
