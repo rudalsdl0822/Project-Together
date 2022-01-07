@@ -12,7 +12,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 	
-	<title>입양신청 상세보기</title>
+	<title>Together | 입양신청 상세보기</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="/resources/images/ico/favicon.jpg">
@@ -47,7 +47,7 @@
 				
 					var num=$(this).attr("num");
 				
-					location.href="/AddPet/AdoptAccept?num="+num;
+					location.href="/Adopt/AdoptAccept?num="+num;
 				}else{
 					
 				}
@@ -80,6 +80,11 @@
 			<c:if test="${pet.sex == 1 }">남자</c:if>
 			<c:if test="${pet.sex == 2 }">여자</c:if>
 		</c:set>
+	<!-- isWriter : 글쓴 사람이 본인이면 수정할 수 있게 합니다. -->
+		<c:set var="isWriter">
+			<c:if test="${Adopt.writer == sessionScope.id }">true</c:if>
+			<c:if test="${Adopt.writer != sessionScope.id }">false</c:if>
+		</c:set>
 <!-- 뷰 세팅 끝================================================== -->
 
 
@@ -96,9 +101,9 @@
 					<!-- Pet 정보 -->
 					<div class="col-md-6">
 						<div layout="row" class="item">
-							<div class="nino-avatar fsr">
-								<a href="/AddPet/WaitingPet?id=22&state=2">
-									<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="">
+							<div class="nino-avatar fsr" style="width: 120px; height: 120px; border-radius: 70%; overflow: hidden;">
+								<a href="/Adopt/WaitingPet?id=${pet.id }">
+									<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
 								</a>
 							</div>
 							<div class="info">
@@ -117,9 +122,11 @@
 					<!-- Member 정보 -->
 					<div class="col-md-6">
 						<div layout="row" class="item" style="width:100%;">
-							<div class="nino-avatar fsr">
-								<img class="img-circle" src="/resources/judayoung/defaultPerson.jpg" alt="">
+							<div class="nino-avatar fsr" style="width: 120px; height: 120px; border-radius: 70%; overflow: hidden;">
+								<img class="img-circle" src="/resources/judayoung/defaultPerson.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
 							</div>
+						<!-- 본인 글이 아닐 때는 수정이 불가능하다. -->	
+						<c:if test="${isWriter == false }">
 							<div class="info" style="width:100%;">
 								<!-- ==== 수정할 사항 : member nickname 가져오기 ===== -->
 								<h4 class="name">ID : ${Adopt.writer }</h4>
@@ -130,20 +137,62 @@
 								<p class="desc">현재까지 순대와의 만남 : ${Adopt.dating }번</p>
 								<p class="desc">자기 소개 : ${Adopt.content }</p>
 							</div>
+						</c:if>
+						
+						<!-- 본인글이면 수정이 가능하다. -->	
+						<c:if test="${isWriter == true }">
+							<div class="info" style="width:100%;">
+								<h4 class="name">NickName : ${sessionScope.nickname }</h4>
+								<span class="regency" style="width:100%;">
+									<input type="text" id="title" value="${Adopt.title }" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;" style="width: 100%; height: 100%; object-fit: cover;">
+								</span>
+								<p class="desc">
+									<input type="text" id="family" value="${Adopt.family }" placeholder="가족구성을 적어주세요(반려동물 포함)" style="width:100%;">
+								</p>
+								<p class="desc">
+									<input type="text" id="job" value="${Adopt.job }" placeholder="직업을 적어주세요(반려동물 케어에 필요한 정보입니다)" style="width:100%;">
+								</p>
+								<p class="desc">
+									<input type="text" id="walktime" value="${Adopt.walktime }" placeholder="산책가능한 시간을 적어주세요(하루 1시간/일주일 4시간)" style="width:100%;">
+								</p>
+								<p class="desc">
+									<input type="hidden" id="dating" value="${Adopt.dating }">
+									현재까지 ${pet.name }와의 만남 회수 : ${Adopt.dating }번
+								</p>
+								<textarea rows="5" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="width:100%; resize: vertical;">${Adopt.content }</textarea>
+							</div>
+						</c:if>
+						
 						</div>
 					</div>
 					<!-- Member 정보 끝 -->
 				</div>
 			</div>
 			
-	<!-- Footer
-    ================================================== -->
+
     <footer id="footer" style="background: none;">
         <div class="container">
         	<div class="row">  
         		<div class="col-md-12" style="text-align: center;">
         			<div class="colInfo">
-        				<c:if test="${Adopt.state==0 }">
+        				<!-- 고객일 때는 글 상태만 보인다. -->
+        				<c:if test="${Adopt.state==0 && sessionScope.type==1}">
+        					<span style="font-size: 20px; padding: 20px;">입양신청 중인 글입니다.</span>
+        					
+        					<c:if test="${Adopt.writer == sessionScope.id }">
+        						<form class="nino-subscribeForm" style=" padding: 20px;">
+	        						<div class="input-group input-group-lg">
+										<span class="input-group-btn">
+											<button num="${Adopt.num }" class="btn btn-success" type="button" style="font-size: 25px; background: #f38181;">신청 삭제</button>			
+											<button num="${Adopt.num }" class="btn btn-success" type="button" style="font-size: 25px; background: #4FC9DE;">신청 수정</button>
+										</span>
+									</div>
+	        					</form>
+        					</c:if>
+        				</c:if>
+        				
+        				<!-- 관리자 일때는 승인/거절 -->
+        				<c:if test="${Adopt.state==0 && sessionScope.type==2}">
 	        				<form class="nino-subscribeForm">
 	        					<div class="input-group input-group-lg">
 									<span class="input-group-btn">
@@ -164,17 +213,34 @@
         	</div>
 		</div>
     </footer>
-    <!--/#footer-->
+
 			
     	</div>
     </section>
     <!--/#nino-happyClient-->
-    
 
 
-
-
-<h3>하단 입양신청 리스트</h3>
+    <!-- Footer
+    ================================================== -->
+    <footer id="footer">
+        <div class="container">
+        	<div class="row">
+        		<div class="col-md-12">
+        			<div class="colInfo">
+	        			<div class="footerLogo">
+	        				<a href="${pageContext.request.contextPath}/index" >Together</a>	
+	        			</div>
+	        			<p>강남점 : 서울특별시 강남구 강남대로 396, TEL: 010-0000-0000 
+	        			<br>안양점 : 경기 안양시 만안구 만안로 232, TEL: 010-0000-0000
+	        			<br>해운대점 : 부산광역시 해운대구 해운대로 626, TEL: 010-0000-0000</p>
+        			</div>
+        		</div>
+        		
+        		
+        	</div>
+			<div class="nino-copyright">Copyright &copy; 2021. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
+        </div>
+    </footer><!--/#footer-->
 
 
 	<!-- Search Form - Display when click magnify icon in menu

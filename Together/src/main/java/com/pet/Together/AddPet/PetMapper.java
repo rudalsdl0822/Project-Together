@@ -1,5 +1,7 @@
 package com.pet.Together.AddPet;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -17,4 +19,12 @@ public interface PetMapper {
 	Pet getPet(int id);
 	/* ================================juDayoung 추가중 끝================================ */
 
+	
+	
+	
+	
+	List selectPetAll();
+	
+	List selectByState(int state);
+	
 }

@@ -12,7 +12,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 	
-	<title>입양신청 폼</title>
+	<title>Together | 입양신청 폼</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="/resources/images/ico/favicon.jpg">
@@ -53,7 +53,7 @@
 		
 		alert("입양신청이 완료되었습니다. 메인 페이지로 이동합니다.");
 		
-		$("#"+form_id).attr("action","/AddPet/AdoptWish"+data); 
+		$("#"+form_id).attr("action","/Adopt/AdoptWish"+data); 
 		$("#"+form_id).submit();
 	}
 	
@@ -83,10 +83,30 @@
 		return true;
 	}
 	
+	
+	var member_id="${sessionScope.id}";
+	var type="${sessionScope.type}";
+	
 		$(document).ready(function(){
 			
 			// 입양신청 버튼
-			$("#btn_adoptWish").click(function(){	
+			$("#btn_adoptWish").click(function(){
+				// 로그인이 되어있는지 확인합니다.
+				if(member_id==""){
+					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+					if(flag){
+						location.href="/Member/loginForm";
+					}else{
+						return;
+					}
+				}
+				
+				// 로그인 type 이 고객인지 확인합니다.
+				if(type=="2"){
+					alert("관리자는 입양신청이 불가능합니다.");
+					return;
+				}
+				
 				// 데이터가 다 들어가 있는지 확인합니다.
 				var checkData = fn_checkData();
 				if(checkData==false) return;
@@ -143,13 +163,13 @@
 					<!-- Pet 정보 -->
 					<div class="col-md-6">
 						<div layout="row" class="item">
-							<div class="nino-avatar fsr">
-								<a href="/AddPet/WaitingPet?id=1111">
-									<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="">
+							<div class="nino-avatar fsr" style="width: 120px; height: 120px; border-radius: 70%; overflow: hidden;">
+								<a href="/Adopt/WaitingPet?id=${pet.id }">
+									<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
 								</a>
 							</div>
 							<div class="info">
-								<h4 class="name"><a href="/AddPet/WaitingPet?id=1111">${pet.name }</a></h4>
+								<h4 class="name"><a href="/Adopt/WaitingPet?id=1111">${pet.name }</a></h4>
 								<span class="regency">${pet.breed }</span>
 								<p class="desc">성별 : ${sexKorean }</p>
 								<p class="desc">나이 : ${pet.age }살</p>
@@ -164,13 +184,13 @@
 					<!-- Member 정보 -->
 					<div class="col-md-6">
 						<div layout="row" class="item" style="width:100%;">
-							<div class="nino-avatar fsr">
+							<div class="nino-avatar fsr" style="width: 120px; height: 120px; border-radius: 70%; overflow: hidden;">
 								<img class="img-circle" src="/resources/judayoung/defaultPerson.jpg" alt="">
 							</div>
 							<div class="info" style="width:100%;">
-								<h4 class="name">NickName : ${Member.nickname }</h4>
+								<h4 class="name">NickName : ${sessionScope.nickname }</h4>
 								<span class="regency" style="width:100%;">
-									<input type="text" id="title" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;">
+									<input type="text" id="title" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;" style="width: 100%; height: 100%; object-fit: cover;">
 								</span>
 								<p class="desc">
 									<input type="text" id="family" value="${MemberInfo.family }" placeholder="가족구성을 적어주세요(반려동물 포함)" style="width:100%;">
@@ -205,6 +225,7 @@
 	        			<form id="form_adoptWish" method="post" class="nino-subscribeForm">
 	        				<div class="input-group input-group-lg">
 								<span class="input-group-btn">
+									<input type="hidden" value="${sessionScope.id }" name="writer">
 									<input type="hidden" value="${pet.id }" name="pet_id">
 									<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 25px;">${pet.name }와 함께 할래요</button>
 								</span>
@@ -228,6 +249,29 @@
 
 
 <h3>하단 입양공고 리스트</h3>
+
+
+    <!-- Footer
+    ================================================== -->
+    <footer id="footer">
+        <div class="container">
+        	<div class="row">
+        		<div class="col-md-12">
+        			<div class="colInfo">
+	        			<div class="footerLogo">
+	        				<a href="${pageContext.request.contextPath}/index" >Together</a>	
+	        			</div>
+	        			<p>강남점 : 서울특별시 강남구 강남대로 396, TEL: 010-0000-0000 
+	        			<br>안양점 : 경기 안양시 만안구 만안로 232, TEL: 010-0000-0000
+	        			<br>해운대점 : 부산광역시 해운대구 해운대로 626, TEL: 010-0000-0000</p>
+        			</div>
+        		</div>
+        		
+        		
+        	</div>
+			<div class="nino-copyright">Copyright &copy; 2021. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
+        </div>
+    </footer><!--/#footer-->
 
 
 	<!-- Search Form - Display when click magnify icon in menu
