@@ -160,7 +160,7 @@
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
 									이미지 다운로드하기
 								</span>
-								<img src="/resources/judayoung/waitingPet-1.jpg" alt="">
+								<img src="/AddPet/petImg?id=${pet.id}&petImgNum=1" alt="">
 							</a>
 						</div>
 					</div>
@@ -171,7 +171,7 @@
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
 									이미지 다운로드하기
 								</span>
-								<img src="/resources/judayoung/waitingPet-2.jpg" alt="">
+								<img src="/AddPet/petImg?id=${pet.id}&petImgNum=2" alt="">
 							</a>
 						</div>
 					</div>
@@ -182,7 +182,7 @@
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
 									이미지 다운로드하기
 								</span>
-								<img src="/resources/judayoung/waitingPet-3.jpg" alt="">
+								<img src="/AddPet/petImg?id=${pet.id}&petImgNum=3" alt="">
 							</a>
 						</div>
 					</div>
@@ -227,24 +227,23 @@
     <section id="nino-counting">
     	<div class="container">
     		<div layout="row" class="verticalStretch">
-    			<div class="item">
+    			<div class="item" style="width:18%;">
     				<div class="number">${sexKorean }</div>
     				<div class="text">SEX</div>
     			</div>
-    			<div class="item">
+    			<div class="item" style="width:18%;"> 
     				<div class="number">${pet.age }살</div>
     				<div class="text">AGE</div>
     			</div>
-    			<div class="item">
+    			<div class="item" style="width:18%;">
     				<div class="number">${pet.weight }</div>
     				<div class="text">WEIGHT</div>
     			</div>
-    			<div class="item">
+    			<div class="item" style="width:26%;">
     				<div class="number">${locationKorean }</div>
-
     				<div class="text">location</div>
     			</div>
-    			<div class="item" style="margin: 0px; padding: 20px;">
+    			<div class="item" style="width:20%; margin: 0px; padding: 20px;">
     				<!-- *********수정할 사항 : 관심등록 하트 구현하기********* -->
     				<div class="number">
     					<button id="btn_like" class="nino-btn" style="font-size: 20px; background: #95e1d3;">관심등록</button>

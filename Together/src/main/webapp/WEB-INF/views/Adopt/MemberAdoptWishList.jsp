@@ -118,7 +118,7 @@
 							<a href="/Adopt/WaitingPerson?num=${Adopt.num }">
 								<div class="articleThumb">
 									<div style="text-align: right;">
-										<img src="/resources/judayoung/waitingPet-1.jpg" alt="" width="88%">
+										<img src="/AddPet/petImg?id=${Adopt.pet_id}&petImgNum=1" alt="" width="88%">
 									</div>
 									
 									<div class="date">
