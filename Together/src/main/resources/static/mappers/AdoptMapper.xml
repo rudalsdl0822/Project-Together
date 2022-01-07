@@ -35,6 +35,29 @@
 	where num=#{num}
 </update>
 
+<delete id="deleteAdopt">
+	delete to_adopt
+	where num=#{num}
+</delete>
+
+
+<select id="getAdoptsByPet_id" resultMap="Adopt" parameterType="int">
+	select * from to_adopt
+	where pet_id=#{pet_id}
+	order by num desc
+</select>
+
+<select id="getAdoptsByWriter" resultMap="Adopt">
+	select * from to_adopt
+	where writer=#{writer} and state=#{state}
+	order by num desc
+</select>
+
+<select id="getAdoptsAllByWriter" resultMap="Adopt">
+	select * from to_adopt
+	where writer=#{writer}
+	order by num desc
+</select>
 
 
 <!--===============입양신청 DB 페이징 시작===============-->
@@ -42,17 +65,10 @@
 <select id="countAdopts" resultType="int">
 	select count(*) from to_adopt
 </select>
-<select id="countAdopt0" resultType="int">
+
+<select id="countAdoptsByState" resultType="int" parameterType="int">
 	select count(*) from to_adopt
-	where state=0
-</select>
-<select id="countAdopt1" resultType="int">
-	select count(*) from to_adopt
-		where state=1
-</select>
-<select id="countAdopt2" resultType="int">
-	select count(*) from to_adopt
-	where state=2
+	where state=#{state}
 </select>
 
 <!-- 페이징 처리 후 게시글 조회 -->
