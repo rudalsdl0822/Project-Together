@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pet.Together.Adopt.Adopt;
 import com.pet.Together.Adopt.AdoptService;
-import com.pet.Together.Adopt.PagingVO;
-import com.pet.Together.Member.Member;
 import com.pet.Together.Member.MemberService;
 
 
