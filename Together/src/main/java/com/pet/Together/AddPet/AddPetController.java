@@ -88,6 +88,7 @@ public class AddPetController {
 			
 			/* 경로에 파일을 만든다. 예)1.확장자 */
 				File f=new File(dirPath+"/"+fileNum+ext);
+
 				try {
 					file.transferTo(f);
 				}catch(IllegalStateException e) {
