@@ -75,6 +75,8 @@
 				온라인 입소 신청
 			</h2>
 <form class="form-signin" action="${pageContext.request.contextPath}/AddPet" method="post" enctype="multipart/form-data">
+	<input type="hidden" value="${sessionScope.id }" name="writer_id">
+
   <fieldset>
     <div class="form-group">
       <label for="inputPetName">펫 이름</label>
@@ -109,7 +111,7 @@
     </div>
     <div class="form-group">
       <label for="selectLocation">신청 보호소 지점</label>
-      <select class="form-control" id="selectLocation">
+      <select class="form-control" id="selectLocation" name="location">
         <option value="">-선택-</option>
         <option value="1">강남점</option>
         <option value="2">안양점</option>
@@ -118,7 +120,7 @@
     </div>
     <div class="form-group">
       <label for="textareaInfo">상세사항 (성격 등 특징들을 적어주세요.)</label>
-      <textarea class="form-control" id="textareaInfo" rows="5"></textarea>
+      <textarea class="form-control" id="textareaInfo" rows="5" name="info"></textarea>
     </div>
     <hr>
     <div class="form-group">

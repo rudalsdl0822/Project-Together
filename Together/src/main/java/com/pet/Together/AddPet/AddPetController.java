@@ -83,7 +83,6 @@ public class AddPetController {
 			}
 			
 			/* 경로에 파일을 만든다. */
-			
 				File f=new File(dirPath+"/"+fileNum);
 				try {
 					file.transferTo(f);
