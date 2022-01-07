@@ -57,28 +57,34 @@
 		$("#"+form_id).submit();
 	}
 	
+	// 입양신청 폼 유효성 검사
 	function fn_checkData(){
+		$("#btn_adoptWish").attr("disabled",true);
+		
+		var p=$("#p_checkAdoptForm");
+		p.text("");
+		p.attr("style","color:red;");
+		
 		if($("#title").val()==""){
-			alert("제목을 적어주세요");
-			$("#title").focus();
+			p.text("제목은 필수입력입니다.");
 			return false;
 		}else if($("#family").val()==""){
-			alert("가족 구성을 적어주세요");
-			$("#family").focus();
+			p.text("가족 구성은 필수입력입니다.");
 			return false;
 		}else if($("#job").val()==""){
-			alert("직업을 적어주세요");
-			$("#job").focus();
+			p.text("직업은 필수입력입니다.");
 			return false;
 		}else if($("#walktime").val()==""){
-			alert("산책 가능 시간을 적어주세요");
-			$("#walktime").focus();
+			p.text("산책 가능한 시간은 필수입력입니다.");
 			return false;
 		}else if($("#content").val()==""){
-			alert("내용을 적어주세요");
-			$("#content").focus();
+			p.text("자기소개는 필수입력입니다.");
 			return false;
 		}
+		
+		p.text("입양신청 폼이 완료되었습니다.");
+		p.attr("style","color:blue;");
+		$("#btn_adoptWish").attr("disabled",false);
 			
 		return true;
 	}
@@ -88,6 +94,13 @@
 	var type="${sessionScope.type}";
 	
 		$(document).ready(function(){
+			// 입양신청 버튼 비활성화
+			$("#btn_adoptWish").attr("disabled",true);
+			
+			// 입양신청 폼 유효성을 검사
+			$('input[type="text"], textarea').focusout(function () {
+				fn_checkData();
+			});
 			
 			// 입양신청 버튼
 			$("#btn_adoptWish").click(function(){
@@ -206,6 +219,8 @@
 									현재까지 ${pet.name }와의 만남 회수 : ${MemberInfo.dating }번
 								</p>
 								<textarea rows="5" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="width:100%; resize: vertical;"></textarea>
+								
+								<p id="p_checkAdoptForm" class="desc" style="color: red;"></span>
 							</div>
 						</div>
 					</div>
