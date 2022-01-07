@@ -86,13 +86,9 @@ public class AddPetController {
 				dir.mkdirs(); // 상위폴더가 없다면 상위 폴더도 만든다.				
 			}
 			
-<<<<<<< HEAD
-			/* 경로에 파일을 만든다. */
-				File f=new File(dirPath+"/"+fileNum);
-=======
 			/* 경로에 파일을 만든다. 예)1.확장자 */
 				File f=new File(dirPath+"/"+fileNum+ext);
->>>>>>> main
+
 				try {
 					file.transferTo(f);
 				}catch(IllegalStateException e) {
