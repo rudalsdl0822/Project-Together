@@ -623,7 +623,18 @@
 <a href="${pageContext.request.contextPath}/AddPet/EditPet">입소 신청 내용</a>
 <br>
 <!-- ================================cha 추가중================================ -->	
-	
+
+
+<!-- ================================Seo 추가중================================ -->	
+		<br>
+		<a href="/like/likeList">관심목록</a>
+		<br>
+		<a href="/MyPage/MyPage">마이페이지</a>
+		<br>
+		<a href="${pageContext.request.contextPath }/Member/logout">로그아웃</a>
+		<br>
+	    <a href="${pageContext.request.contextPath }/Member/out">탈퇴</a>
+<!-- ================================Seo 추가중================================ -->		    
 		
 </body>
 </html>

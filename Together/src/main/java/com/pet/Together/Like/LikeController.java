@@ -104,10 +104,4 @@ public class LikeController {
 	}
 
 
-	@RequestMapping("/like/countPet")
-	@ResponseBody
-	public String likePetCount(@RequestParam int pet_id) {
-		return Integer.toString(lService.selectByPetId(pet_id).size());
 	}
-
-}
