@@ -26,6 +26,46 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/unslider.css" />
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/template.css" />
 	
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	
+	<script>
+	var fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
+	var maxSize = 5 * 1024 * 1024;
+	var fileSize;
+	
+	$(document).ready(function(){
+		
+		$('#btn_submit').click(function(){
+			if($('#inputPetName').val()==""){
+				alert("Pet의 이름을 입력해주세요.");
+				$('#inputPetName').focus();
+				return false;
+			} else if ($('#selectLocation').val()==""){
+				alert("신청하려는 보호소 지점을 선택해주세요.");
+				$('#selectLocation').focus();
+				return false;
+			} else if ($('#inputFile1').val() == ""){
+				alert("(필수) 사진 이미지를 올려주세요.");
+				$('#inputFile1').focus();
+				return false;
+			} else if ($('#inputFile2').val() == ""){
+				alert("(필수) 사진 이미지를 올려주세요.");
+				$('#inputFile2').focus();
+				return false;
+			} else if ($('#inputFile3').val() == ""){
+				alert("(필수) 사진 이미지를 올려주세요.");
+				$('#inputFile3').focus();
+				return false;
+			}
+			
+				
+			$('#form_addPet').submit();
+		});
+		
+	});
+	</script>
+	
+	
 </head>
 <body data-target="#nino-navbar" data-spy="scroll" style="padding-top: 50px;" class="nino-fixed-nav">
 
@@ -56,16 +96,86 @@
 								<li><a href="${pageContext.request.contextPath}/views/">후기게시판</a></li>
 								<li class="active"><a href="${pageContext.request.contextPath}/AddPet/AddPet">입소신청</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후원하기</a></li>
-								<li><a href="${pageContext.request.contextPath}/views/">회원가입 / 로그인</a></li>
+								
+								<!--  로그인 이전 -->
+								<c:if test="${empty sessionScope.id}">
+								<li><a href="${pageContext.request.contextPath}/Member/loginForm">로그인/회원가입</a></li>
+								</c:if>
+								
+								<!-- 로그인 한 경우 -->
+								<c:if test="${not empty sessionScope.id}">
+								
+								<!-- 관리자의 경우 -->
+								<c:if test="${sessionScope.type==1}">
+								<li class="nav-item dropdown">
+								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">관리자페이지<span class="caret"></span></a>
+									        <ul class="dropdown-menu">
+									        
+									          <li><a class="dropdown-item" href="#">관리자페이지 - 홈</a></li>
+									        
+									          <li class="dropdown-header">회원 정보</li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Member/logout">로그아웃</a></li>
+									          <li><a class="dropdown-item" href="#">내 정보수정</a></li>
+									          <li><a class="dropdown-item" href="#">전체 회원 관리</a></li>
+									          <li><a class="dropdown-item" href="#">1:1 문의 답변</a></li>
+									         
+									          <li class="dropdown-header">신청 리스트</li>
+									          <li><a class="dropdown-item" href="#">입양 신청 리스트</a></li>
+									          <li><a class="dropdown-item" href="#">입소 신청 리스트</a></li>
+									        </ul>
+								    </li>
+								    </c:if>
+								    
+								    <!-- 고객의 경우 -->
+								    <c:if test="${sessionScope.type==2}">
+									<li class="nav-item dropdown">
+								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">마이페이지<span class="caret"></span></a>
+									        <ul class="dropdown-menu">
+									          <li><a class="dropdown-item" href="#">마이페이지 - 홈</a></li>
+									          
+									          <li class="dropdown-header">내 정보</li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Member/logout">로그아웃</a></li>
+									          <li><a class="dropdown-item" href="#">내 정보수정</a></li>
+									          <li><a class="dropdown-item" href="#">관심등록 목록</a></li>
+									          <li><a class="dropdown-item" href="/Ask/AskForm">1:1 문의하기</a></li>
+									          
+									          <li class="dropdown-header">신청 내역</li>
+									          <li><a class="dropdown-item" href="#">입양 신청 내역</a></li>
+									          <li><a class="dropdown-item" href="#">입소 신청 내역</a></li>
+									        </ul>
+								    </li>
+								    </c:if>
+								</c:if>
 							</ul>
 						</div><!-- /.navbar-collapse -->
-					
 					</div>
 				</div><!-- /.container-fluid -->
 			</nav>
 		</div>
 	</header>
+	
+	
+	
+	<!-- 로그인 하지 않은 경우, 작성 불가하도록! -->
+	
+<c:if test="${empty sessionScope.id}">
+<section id="onlineAddPet">
+		<div class="container" style="text-align:center;">
+			<h2 class="nino-sectionHeading">
+				<span class="nino-subHeading">Together</span>
+				회원 로그인 해야 입소신청이 가능합니다
+			</h2>
+			<br>
+			<button type="submit" class="nino-btn" style="background: #95e1d3;" onclick="location.href='/Member/loginForm'">로그인 하러 가기</button>
+			
+		</div>
+</section>
 
+</c:if>
+
+<!-- 로그인 한 경우 -->
+
+<c:if test="${not empty sessionScope.id}">
  <!-- container Form
     ================================================== -->
 <section id="onlineAddPet">
@@ -74,42 +184,37 @@
 				<span class="nino-subHeading">Together</span>
 				온라인 입소 신청
 			</h2>
-<form class="form-signin" action="${pageContext.request.contextPath}/AddPet" method="post" enctype="multipart/form-data">
+<form class="form-signin" action="${pageContext.request.contextPath}/AddPet" id="form_addPet" method="post" enctype="multipart/form-data">
   <fieldset>
+  <input type="hidden" name="writer_id" value="${sessionScope.id}"> <!-- id 값 session에서 가져오기 작성해야함 kyungmin -->
     <div class="form-group">
-      <label for="inputPetName">펫 이름</label>
-      <input type="text" class="form-control" id="inputPetName"  name="name" placeholder="펫의 이름을 적어주세요.">
+      <label for="inputPetName">펫 이름</label><span class="badge badge-pill badge-info">필수</span>
+      <input type="text" class="form-control" id="inputPetName" name="name" placeholder="펫의 이름을 적어주세요.">
     </div>
     <div class="form-group">
-      <label for="inputBreed">품종</label>
+      <label for="inputBreed">품종</label> <!-- null -->
       <input type="text" class="form-control" id="inputBreed" name= "breed" placeholder="품종을 적어주세요. ex)말티즈 ">
     </div>
     <fieldset class="form-group">
-      <legend>성별</legend>
-      <div class="form-check">
-        <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="sex" id="sex" value="1" checked>
-          수컷
-        </label>
-      </div>
-      <div class="form-check">
-        <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="sex" id="sex" value="2">
-          암컷
-        </label>
-      </div>
-      </fieldset>
+      <label for="inputSex">성별</label><span class="badge badge-pill badge-info">필수</span>
+	  <div class="form-check">
+	      <input type="radio" class="form-check-input"  name="sex" id="sex" value="1" checked>수컷
+	  </div>
+	  <div class="form-check">
+	      <input type="radio" class="form-check-input" name="sex" id="sex" value="2">암컷
+	  </div>
+    </fieldset>
     <div class="form-group">
-      <label for="inputAge">나이</label>
+      <label for="inputAge">나이</label> <!-- null -->
       <input type="text" class="form-control" id="inputAge" name="age" placeholder="나이를 숫자로 적어주세요.">
     </div>
      <div class="form-group">
-      <label for="inputAge">무게</label>
+      <label for="inputAge">무게</label> <!-- null -->
       <input type="text" class="form-control" id="inputWeight" name="weight" placeholder="무게를 숫자로 적어주세요.">
     </div>
     <div class="form-group">
-      <label for="selectLocation">신청 보호소 지점</label>
-      <select class="form-control" id="selectLocation">
+      <label for="selectLocation">신청 보호소 지점</label><span class="badge badge-pill badge-info">필수</span>
+      <select class="form-control" name="location" id="selectLocation">
         <option value="">-선택-</option>
         <option value="1">강남점</option>
         <option value="2">안양점</option>
@@ -117,28 +222,33 @@
       </select>
     </div>
     <div class="form-group">
-      <label for="textareaInfo">상세사항 (성격 등 특징들을 적어주세요.)</label>
-      <textarea class="form-control" id="textareaInfo" rows="5"></textarea>
+      <label for="textareaInfo">상세사항 (성격 등 특징들을 적어주세요.)</label> <!-- null -->
+      <textarea class="form-control" id="textareaInfo" name="info" rows="5" style="resize: none;"></textarea>
     </div>
     <hr>
     <div class="form-group">
-      <label for="inputFile1">사진 파일 1</label>
-      <input type="file" class="form-control-file" name="file1" id="inputFile1" aria-describedby="fileHelp">
+    	<label for="inputFile">펫 이미지 첨부</label>
+    	 <small id="emailHelp" class="form-text text-muted">첨부는 5MB 미만의 이미지 파일만 등록 가능하며, 3개 필수로 등록해야합니다.</small>
+    	<hr>
+      <label for="inputFile1">사진 파일 1</label><span class="badge badge-pill badge-info">필수</span>
+      <input type="file" class="form-control-file" name="file1" id="inputFile1" accept="image/*"  aria-describedby="fileHelp">
+   	</div>
+   	 <div class="form-group">
+      <label for="inputFile2">사진 파일 2</label><span class="badge badge-pill badge-info">필수</span>
+      <input type="file" class="form-control-file" name="file2" id="inputFile2" accept="image/*" aria-describedby="fileHelp">
     </div>
-    <div class="form-group">
-      <label for="inputFile2">사진 파일 2</label>
-      <input type="file" class="form-control-file" name="file2" id="inputFile2" aria-describedby="fileHelp">
-    </div>
-    <div class="form-group">
-      <label for="inputFile3">사진 파일 3</label>
-      <input type="file" class="form-control-file" name="file3" id="inputFile3" aria-describedby="fileHelp">
+     <div class="form-group">
+      <label for="inputFile3">사진 파일 3</label><span class="badge badge-pill badge-info">필수</span>
+      <input type="file" class="form-control-file" name="file3" id="inputFile3" accept="image/*" aria-describedby="fileHelp">
     </div>
     <hr>
-    <button type="submit" class="btn btn-primary" name="">온라인 입소 신청</button>
+    <button type="submit" class="nino-btn" style="background: #95e1d3;" id="btn_submit">온라인 입소 신청</button>
      </fieldset>
 </form>
 </div>
 </section>
+
+</c:if>
     <!-- Footer
     ================================================== -->
     <footer id="footer">
