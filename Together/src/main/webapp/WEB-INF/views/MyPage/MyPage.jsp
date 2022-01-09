@@ -120,6 +120,21 @@
 		</div>
 	</header>
 	
+	
+	<c:if test="${empty sessionScope.id}">
+<section id="onlineAddPet">
+		<div class="container" style="text-align:center;">
+			<h2 class="nino-sectionHeading">
+				<span class="nino-subHeading">Together</span>
+				먼저 로그인 해주세요.
+			</h2>
+			<br>
+			<button type="submit" class="nino-btn" style="background: #95e1d3;" onclick="location.href='/Member/loginForm'">로그인 하러 가기</button>
+			
+		</div>
+</section>
+</c:if>
+
 	<section id="onlineAddPet">
 		<div class="container">
 			<h2 class="nino-sectionHeading">
