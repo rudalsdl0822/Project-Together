@@ -53,7 +53,10 @@ public class AdoptController {
 		ModelAndView mav=new ModelAndView("Adopt/WaitingPet","pet",p);
 		
 			//로그인이 되어 있고, 관심등록을 했는지 확인한다.
-		boolean ifLikePet=like_controller.check(id);
+		boolean ifLikePet=false;
+		if( (String) session.getAttribute("id")!=null ) {
+			ifLikePet = like_controller.check(id);
+		}
 		mav.addObject("ifLikePet", ifLikePet);
 		
 		/* ====댓글리스트 보경이파트========================= */

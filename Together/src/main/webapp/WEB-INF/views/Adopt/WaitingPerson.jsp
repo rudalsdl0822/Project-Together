@@ -106,14 +106,17 @@
 									<img class="img-circle" src="/AddPet/petImg?id=${Adopt.pet.id}&petImgNum=1"  alt="" style="width: 100%; height: 100%; object-fit: cover;">
 								</a>
 							</div>
-							<div class="info">
+							<div class="info" style="width:320px;">
 								<h4 class="name"><a href="/AddPet/WaitingPet?id=${Adopt.pet.id }">${Adopt.pet.name }</a></h4>
 								<span class="regency">${Adopt.pet.breed }</span>
 								<p class="desc">성별 : ${sexKorean }</p>
 								<p class="desc">나이 : ${Adopt.pet.age }살</p>
 								<p class="desc">무게 : ${Adopt.pet.weight }kg</p>
 								<p class="desc">보호소 위치 : (${locationCityKorean })${locationKorean }점</p>
-								<p class="desc">상세 사항 : ${Adopt.pet.info }</p>
+								<p class="desc" style="width: 90%;">
+									상세 사항 : 
+									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;">${Adopt.pet.info }</textarea>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -127,7 +130,7 @@
 							</div>
 						<!-- 본인 글이 아닐 때는 수정이 불가능하다. -->	
 						<c:if test="${isWriter == false }">
-							<div class="info" style="width:280px;">
+							<div class="info" style="width:320px;">
 								<!-- ==== 수정할 사항 : member nickname 가져오기 ===== -->
 								<h4 class="name">ID : ${Adopt.writer }</h4>
 								<span class="regency">title : ${Adopt.title }</span>
@@ -162,7 +165,10 @@
 									<input type="hidden" id="dating" value="${Adopt.dating }">
 									현재까지 ${Adopt.pet.name }와의 만남 회수 : ${Adopt.dating }번
 								</p>
-								<textarea rows="5" id="content" placeholder="자기 소개 : ${Adopt.pet.name }를 향한 내 마음 ♥ 적기" style="width:100%; resize: vertical;">${Adopt.content }</textarea>
+								<p class="desc" style="width: 90%;">
+									자기 소개 : 
+									<textarea rows="5" id="content" placeholder="자기 소개 : ${Adopt.pet.name }를 향한 내 마음 ♥ 적기" style="width:100%; resize: vertical;">${Adopt.content }</textarea>
+								</p>
 							</div>
 						</c:if>
 						
