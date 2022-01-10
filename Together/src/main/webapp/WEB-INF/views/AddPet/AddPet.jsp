@@ -204,13 +204,12 @@
 				<span class="nino-subHeading">Together</span>
 				온라인 입소 신청
 			</h2>
-<<<<<<< HEAD
+
 <form class="form-signin" action="${pageContext.request.contextPath}/AddPet" method="post" enctype="multipart/form-data">
 	<input type="hidden" value="${sessionScope.id }" name="writer_id">
 
-=======
 <form class="form-signin" action="${pageContext.request.contextPath}/AddPet" id="form_addPet" method="post" enctype="multipart/form-data">
->>>>>>> main
+
   <fieldset>
   <input type="hidden" name="writer_id" value="${sessionScope.id}"> <!-- id 값 session에서 가져오기 작성해야함 kyungmin -->
     <div class="form-group">
@@ -239,13 +238,10 @@
       <input type="text" class="form-control" id="inputWeight" name="weight" placeholder="무게를 숫자로 적어주세요.">
     </div>
     <div class="form-group">
-<<<<<<< HEAD
-      <label for="selectLocation">신청 보호소 지점</label>
-      <select class="form-control" id="selectLocation" name="location">
-=======
+
       <label for="selectLocation">신청 보호소 지점</label><span class="badge badge-pill badge-info">필수</span>
       <select class="form-control" name="location" id="selectLocation">
->>>>>>> main
+
         <option value="">-선택-</option>
         <option value="1">강남점</option>
         <option value="2">안양점</option>
@@ -253,13 +249,9 @@
       </select>
     </div>
     <div class="form-group">
-<<<<<<< HEAD
-      <label for="textareaInfo">상세사항 (성격 등 특징들을 적어주세요.)</label>
-      <textarea class="form-control" id="textareaInfo" rows="5" name="info"></textarea>
-=======
       <label for="textareaInfo">상세사항 (성격 등 특징들을 적어주세요.)</label> <!-- null -->
       <textarea class="form-control" id="textareaInfo" name="info" rows="5" style="resize: none;"></textarea>
->>>>>>> main
+
     </div>
     <hr>
     <div class="form-group">
