@@ -106,6 +106,7 @@
 			
 			
 			<!-- ======== adoptList 시작 ============================================= -->
+			<c:if test="${adoptList.isEmpty()==true }"> 입양신청한 글이 없습니다. </c:if>
 			<c:forEach items="${adoptList }" var="Adopt" varStatus="status">
 				
 				<!-- 한줄 시작 -->
@@ -118,7 +119,7 @@
 							<a href="/Adopt/WaitingPerson?num=${Adopt.num }">
 								<div class="articleThumb">
 									<div style="text-align: right;">
-										<img src="/resources/judayoung/waitingPet-1.jpg" alt="" width="88%">
+										<img src="/AddPet/petImg?id=${Adopt.pet_id}&petImgNum=1" alt="" width="88%">
 									</div>
 									
 									<div class="date">
@@ -130,9 +131,8 @@
 									</div>
 
 								</div>
-								<h3 class="articleTitle">title : ${Adopt.title }</h3>
-								<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
-								<p class="articleDesc">
+								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">title : ${Adopt.title }</h3>
+								<p class="articleDesc"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
 									자기 소개 : ${Adopt.content }
 								</p>
 							</a>

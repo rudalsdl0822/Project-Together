@@ -57,28 +57,34 @@
 		$("#"+form_id).submit();
 	}
 	
+	// 입양신청 폼 유효성 검사
 	function fn_checkData(){
+		$("#btn_adoptWish").attr("disabled",true);
+		
+		var p=$("#p_checkAdoptForm");
+		p.text("");
+		p.attr("style","color:red;");
+		
 		if($("#title").val()==""){
-			alert("제목을 적어주세요");
-			$("#title").focus();
+			p.text("제목은 필수입력입니다.");
 			return false;
 		}else if($("#family").val()==""){
-			alert("가족 구성을 적어주세요");
-			$("#family").focus();
+			p.text("가족 구성은 필수입력입니다.");
 			return false;
 		}else if($("#job").val()==""){
-			alert("직업을 적어주세요");
-			$("#job").focus();
+			p.text("직업은 필수입력입니다.");
 			return false;
 		}else if($("#walktime").val()==""){
-			alert("산책 가능 시간을 적어주세요");
-			$("#walktime").focus();
+			p.text("산책 가능한 시간은 필수입력입니다.");
 			return false;
 		}else if($("#content").val()==""){
-			alert("내용을 적어주세요");
-			$("#content").focus();
+			p.text("자기소개는 필수입력입니다.");
 			return false;
 		}
+		
+		p.text("입양신청 폼이 완료되었습니다.");
+		p.attr("style","color:blue;");
+		$("#btn_adoptWish").attr("disabled",false);
 			
 		return true;
 	}
@@ -88,6 +94,13 @@
 	var type="${sessionScope.type}";
 	
 		$(document).ready(function(){
+			// 입양신청 버튼 비활성화
+			$("#btn_adoptWish").attr("disabled",true);
+			
+			// 입양신청 폼 유효성을 검사
+			$('input[type="text"], textarea').focusout(function () {
+				fn_checkData();
+			});
 			
 			// 입양신청 버튼
 			$("#btn_adoptWish").click(function(){
@@ -162,20 +175,23 @@
 				<div class="row">
 					<!-- Pet 정보 -->
 					<div class="col-md-6">
-						<div layout="row" class="item">
+						<div layout="row" class="item" style="width:100%;">
 							<div class="nino-avatar fsr" style="width: 120px; height: 120px; border-radius: 70%; overflow: hidden;">
 								<a href="/Adopt/WaitingPet?id=${pet.id }">
-									<img class="img-circle" src="/resources/judayoung/waitingPet-1.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+									<img class="img-circle" src="/AddPet/petImg?id=${pet.id}&petImgNum=1" alt="" style="width: 100%; height: 100%; object-fit: cover;">
 								</a>
 							</div>
-							<div class="info">
-								<h4 class="name"><a href="/Adopt/WaitingPet?id=1111">${pet.name }</a></h4>
+							<div class="info" style="width:320px;">
+								<h4 class="name"><a href="/Adopt/WaitingPet?id=${pet.id}">${pet.name }</a></h4>
 								<span class="regency">${pet.breed }</span>
 								<p class="desc">성별 : ${sexKorean }</p>
 								<p class="desc">나이 : ${pet.age }살</p>
 								<p class="desc">무게 : ${pet.weight }kg</p>
 								<p class="desc">보호소 위치 : (${locationCityKorean })${locationKorean }점</p>
-								<p class="desc">상세 사항 : ${pet.info }</p>
+								<p class="desc" style="width: 90%;">
+									상세 사항 : 
+									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;">${pet.info }</textarea>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -187,7 +203,7 @@
 							<div class="nino-avatar fsr" style="width: 120px; height: 120px; border-radius: 70%; overflow: hidden;">
 								<img class="img-circle" src="/resources/judayoung/defaultPerson.jpg" alt="">
 							</div>
-							<div class="info" style="width:100%;">
+							<div class="info" style="width:320px;">
 								<h4 class="name">NickName : ${sessionScope.nickname }</h4>
 								<span class="regency" style="width:100%;">
 									<input type="text" id="title" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;" style="width: 100%; height: 100%; object-fit: cover;">
@@ -205,7 +221,13 @@
 									<input type="hidden" id="dating" value="${MemberInfo.dating }">
 									현재까지 ${pet.name }와의 만남 회수 : ${MemberInfo.dating }번
 								</p>
-								<textarea rows="5" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="width:100%; resize: vertical;"></textarea>
+								<p class="desc" style="width: 90%;">
+									자기 소개 :
+									<textarea rows="5" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="width:100%; resize: vertical;"></textarea>
+								</p>
+								
+								
+								<p id="p_checkAdoptForm" class="desc" style="color: red;"></span>
 							</div>
 						</div>
 					</div>

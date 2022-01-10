@@ -7,8 +7,13 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pet.Together.AddPet.AddPetService;
+
 @Service
 public class AdoptService {
+	
+	@Autowired
+	private AddPetService pet_service;
 
 	@Autowired
 	private AdoptMapper mapper;
@@ -18,11 +23,17 @@ public class AdoptService {
 	}
 
 	public Adopt getAdopt(int num) {
-		return mapper.getAdopt(num);
+		Adopt adopt=mapper.getAdopt(num);
+		adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		return adopt;
 	}
 
 	public ArrayList<Adopt> getAdopts() {
-		return mapper.getAdopts();
+		ArrayList<Adopt> adoptList=mapper.getAdopts();
+		for(Adopt adopt: adoptList) {
+			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
 	}
 	
 	public void editAdopt(Adopt adopt) {
@@ -35,15 +46,27 @@ public class AdoptService {
 	
 	
 	public ArrayList<Adopt> getAdoptsByPet_id(int pet_id){
-		return mapper.getAdoptsByPet_id(pet_id);
+		ArrayList<Adopt> adoptList= mapper.getAdoptsByPet_id(pet_id);
+		for(Adopt adopt: adoptList) {
+			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
 	}
 	
 	public ArrayList<Adopt> getAdoptsByWriter(@Param("writer")String writer, @Param("state") int state){
-		return mapper.getAdoptsByWriter(writer, state);
+		ArrayList<Adopt> adoptList= mapper.getAdoptsByWriter(writer, state);
+		for(Adopt adopt: adoptList) {
+			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
 	}
 	
 	public ArrayList<Adopt> getAdoptsAllByWriter(@Param("writer")String writer){
-		return mapper.getAdoptsAllByWriter(writer);
+		ArrayList<Adopt> adoptList= mapper.getAdoptsAllByWriter(writer);
+		for(Adopt adopt: adoptList) {
+			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
 	}
 	
 	
@@ -59,22 +82,42 @@ public class AdoptService {
 	
 	
 	public List<Adopt> selectAdopts(PagingVO vo){
-		return mapper.selectAdopts(vo);
+		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdopts(vo);
+		for(Adopt adopt: adoptList) {
+			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
 	}
 	
 	public List<Adopt> selectAdopt0(PagingVO vo){
-		return mapper.selectAdopt0(vo);
+		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdopt0(vo);
+		for(Adopt adopt: adoptList) {
+			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
 	}
 	public List<Adopt> selectAdopt1(PagingVO vo){
-		return mapper.selectAdopt1(vo);
+		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdopt1(vo);
+		for(Adopt adopt: adoptList) {
+			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
 	}
 	public List<Adopt> selectAdopt2(PagingVO vo){
-		return mapper.selectAdopt2(vo);
+		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdopt2(vo);
+		for(Adopt adopt: adoptList) {
+			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
 	}
 
 	
 	public List<Adopt> selectAdoptByState(PagingVO vo,  int state){
-		return mapper.selectAdoptByState(vo, state);
+		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdoptByState(vo, state);
+		for(Adopt adopt: adoptList) {
+			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
 	}
 	/* ===============입양신청 DB 페이징 끝=============== */
 

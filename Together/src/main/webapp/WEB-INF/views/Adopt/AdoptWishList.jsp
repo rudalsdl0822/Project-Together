@@ -143,22 +143,23 @@
 							<a href="/Adopt/WaitingPerson?num=${Adopt.num }">
 								<div class="articleThumb">
 									<div style="text-align: right;">
-										<img src="/resources/judayoung/waitingPet-1.jpg" alt="" width="88%">
+										<img src="/AddPet/petImg?id=${Adopt.pet_id}&petImgNum=1" alt="" width="88%">
 									</div>
 									
 									<div class="date">
 										<span class="number" style="padding: 5px;">${Adopt.num }</span>
 										<span class="text">
-											이름
+											${Adopt.pet.name }
 										</span>
 										<span class="text">id : ${Adopt.pet_id }</span>
 									</div>
 
 								</div>
 								<h3 class="articleTitle">입양신청자 ID : ${Adopt.writer }</h3>
-								<h3 class="articleTitle">title : ${Adopt.title }</h3>
-								<!-- *********수정할 사항 : content 길어지면 ...으로 축약하기********* -->
-								<p class="articleDesc">
+								<h3 class="articleTitle" style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+									title : ${Adopt.title }
+								</h3>
+								<p class="articleDesc" style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
 									자기 소개 : ${Adopt.content }
 								</p>
 							</a>
