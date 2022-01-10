@@ -272,6 +272,7 @@
     				<div class="number">${locationKorean }</div>
     				<div class="text">location</div>
     			</div>
+
     			<div class="item" id="btns" style="width:20%; margin-top: 45px; padding: 5px; text-align: center;" >
     				<!-- 관심등록이 안되어 있다면 빈하트, 관심등록이 되어 있다면 하트 -->
     				<c:if test="${ifLikePet==false }">
