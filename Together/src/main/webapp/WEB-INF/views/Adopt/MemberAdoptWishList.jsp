@@ -106,6 +106,7 @@
 			
 			
 			<!-- ======== adoptList 시작 ============================================= -->
+			<c:if test="${adoptList.isEmpty()==true }"> 입양신청한 글이 없습니다. </c:if>
 			<c:forEach items="${adoptList }" var="Adopt" varStatus="status">
 				
 				<!-- 한줄 시작 -->
