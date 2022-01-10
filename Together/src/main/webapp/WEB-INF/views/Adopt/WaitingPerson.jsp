@@ -113,7 +113,9 @@
 								<p class="desc">나이 : ${Adopt.pet.age }살</p>
 								<p class="desc">무게 : ${Adopt.pet.weight }kg</p>
 								<p class="desc">보호소 위치 : (${locationCityKorean })${locationKorean }점</p>
-								<p class="desc">상세 사항 : ${Adopt.pet.info }</p>
+								<p class="desc">상세 사항 :
+									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;"> ${Adopt.pet.info }</textarea>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -127,7 +129,7 @@
 							</div>
 						<!-- 본인 글이 아닐 때는 수정이 불가능하다. -->	
 						<c:if test="${isWriter == false }">
-							<div class="info" style="width:280px;">
+							<div class="info" style="width:320px;">
 								<!-- ==== 수정할 사항 : member nickname 가져오기 ===== -->
 								<h4 class="name">ID : ${Adopt.writer }</h4>
 								<span class="regency">title : ${Adopt.title }</span>
@@ -153,10 +155,10 @@
 									<input type="text" id="family" value="${Adopt.family }" placeholder="가족구성을 적어주세요(반려동물 포함)" style="width:100%;">
 								</p>
 								<p class="desc">
-									<input type="text" id="job" value="${Adopt.job }" placeholder="직업을 적어주세요(반려동물 케어에 필요한 정보입니다)" style="width:100%;">
+									<input type="text" id="job" value="${Adopt.job }" placeholder="직업 : (반려동물 케어에 필요한 정보입니다)" style="width:100%;">
 								</p>
 								<p class="desc">
-									<input type="text" id="walktime" value="${Adopt.walktime }" placeholder="산책가능한 시간을 적어주세요(하루 1시간/일주일 4시간)" style="width:100%;">
+									<input type="text" id="walktime" value="${Adopt.walktime }" placeholder="산책가능한 시간 : (하루 1시간/일주일 4시간)" style="width:100%;">
 								</p>
 								<p class="desc">
 									<input type="hidden" id="dating" value="${Adopt.dating }">
