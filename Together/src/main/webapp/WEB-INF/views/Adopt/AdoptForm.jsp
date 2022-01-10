@@ -181,7 +181,7 @@
 									<img class="img-circle" src="/AddPet/petImg?id=${pet.id}&petImgNum=1" alt="" style="width: 100%; height: 100%; object-fit: cover;">
 								</a>
 							</div>
-							<div class="info" style="width:280px;">
+							<div class="info" style="width:320px;">
 								<h4 class="name"><a href="/Adopt/WaitingPet?id=${pet.id}">${pet.name }</a></h4>
 								<span class="regency">${pet.breed }</span>
 								<p class="desc">성별 : ${sexKorean }</p>
@@ -203,7 +203,7 @@
 							<div class="nino-avatar fsr" style="width: 120px; height: 120px; border-radius: 70%; overflow: hidden;">
 								<img class="img-circle" src="/resources/judayoung/defaultPerson.jpg" alt="">
 							</div>
-							<div class="info" style="width:280px;">
+							<div class="info" style="width:320px;">
 								<h4 class="name">NickName : ${sessionScope.nickname }</h4>
 								<span class="regency" style="width:100%;">
 									<input type="text" id="title" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;" style="width: 100%; height: 100%; object-fit: cover;">
