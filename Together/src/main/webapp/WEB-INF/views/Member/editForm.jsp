@@ -240,8 +240,8 @@
     <div class="form-group">
       <label for="selectLocation">회원 유형</label>
     <c:choose>
-	<c:when test="${m.type==1 }">관리자</c:when>
-	<c:when test="${m.type==2 }">고객</c:when>
+	<c:when test="${m.type==2 }">관리자</c:when>
+	<c:when test="${m.type==1 }">고객</c:when>
     </c:choose>
       
     </div>
