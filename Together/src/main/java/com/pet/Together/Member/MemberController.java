@@ -129,6 +129,8 @@ public class MemberController {
 	public String logout(HttpServletRequest req){
 		HttpSession session = req.getSession(false);
 		session.removeAttribute("id");
+		session.removeAttribute("nickname");
+		session.removeAttribute("type");
 		session.invalidate();
 		return "Member/loginForm";
 	}
@@ -141,6 +143,8 @@ public class MemberController {
 		String id = (String)session.getAttribute("id");
 		service.delMember(id);
 		session.removeAttribute("id");
+		session.removeAttribute("nickname");
+		session.removeAttribute("type");
 		session.invalidate();
 		return "Member/loginForm";
 	}
