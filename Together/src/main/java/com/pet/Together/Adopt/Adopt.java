@@ -1,5 +1,7 @@
 package com.pet.Together.Adopt;
 
+import com.pet.Together.AddPet.Pet;
+
 public class Adopt {
 
 	private int num;
@@ -12,9 +14,12 @@ public class Adopt {
 	private int dating;
 	private String content;
 	private int state;
+	private Pet pet;
 
+
+	
 	public Adopt(int num, String title, String writer, int pet_id, String family, String job, String walktime,
-			int dating, String content, int state) {
+			int dating, String content, int state, Pet pet) {
 		super();
 		this.num = num;
 		this.title = title;
@@ -26,6 +31,7 @@ public class Adopt {
 		this.dating = dating;
 		this.content = content;
 		this.state = state;
+		this.pet = pet;
 	}
 
 	public Adopt() {
@@ -114,11 +120,22 @@ public class Adopt {
 		this.state = state;
 	}
 
+	public Pet getPet() {
+		return pet;
+	}
+
+	public void setPet(Pet pet) {
+		this.pet = pet;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Adopt [num=" + num + ", title=" + title + ", writer=" + writer + ", pet_id=" + pet_id + ", family="
 				+ family + ", job=" + job + ", walktime=" + walktime + ", dating=" + dating + ", content=" + content
-				+ ", state=" + state + "]";
+				+ ", state=" + state + ", pet=" + pet + "]";
 	}
+
+	
 
 }

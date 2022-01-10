@@ -175,20 +175,23 @@
 				<div class="row">
 					<!-- Pet 정보 -->
 					<div class="col-md-6">
-						<div layout="row" class="item">
+						<div layout="row" class="item" style="width:100%;">
 							<div class="nino-avatar fsr" style="width: 120px; height: 120px; border-radius: 70%; overflow: hidden;">
 								<a href="/Adopt/WaitingPet?id=${pet.id }">
 									<img class="img-circle" src="/AddPet/petImg?id=${pet.id}&petImgNum=1" alt="" style="width: 100%; height: 100%; object-fit: cover;">
 								</a>
 							</div>
-							<div class="info">
-								<h4 class="name"><a href="/Adopt/WaitingPet?id=1111">${pet.name }</a></h4>
+							<div class="info" style="width:320px;">
+								<h4 class="name"><a href="/Adopt/WaitingPet?id=${pet.id}">${pet.name }</a></h4>
 								<span class="regency">${pet.breed }</span>
 								<p class="desc">성별 : ${sexKorean }</p>
 								<p class="desc">나이 : ${pet.age }살</p>
 								<p class="desc">무게 : ${pet.weight }kg</p>
 								<p class="desc">보호소 위치 : (${locationCityKorean })${locationKorean }점</p>
-								<p class="desc">상세 사항 : ${pet.info }</p>
+								<p class="desc" style="width: 90%;">
+									상세 사항 : 
+									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;">${pet.info }</textarea>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -200,7 +203,7 @@
 							<div class="nino-avatar fsr" style="width: 120px; height: 120px; border-radius: 70%; overflow: hidden;">
 								<img class="img-circle" src="/resources/judayoung/defaultPerson.jpg" alt="">
 							</div>
-							<div class="info" style="width:100%;">
+							<div class="info" style="width:320px;">
 								<h4 class="name">NickName : ${sessionScope.nickname }</h4>
 								<span class="regency" style="width:100%;">
 									<input type="text" id="title" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;" style="width: 100%; height: 100%; object-fit: cover;">
@@ -218,7 +221,11 @@
 									<input type="hidden" id="dating" value="${MemberInfo.dating }">
 									현재까지 ${pet.name }와의 만남 회수 : ${MemberInfo.dating }번
 								</p>
-								<textarea rows="5" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="width:100%; resize: vertical;"></textarea>
+								<p class="desc" style="width: 90%;">
+									자기 소개 :
+									<textarea rows="5" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="width:100%; resize: vertical;"></textarea>
+								</p>
+								
 								
 								<p id="p_checkAdoptForm" class="desc" style="color: red;"></span>
 							</div>
