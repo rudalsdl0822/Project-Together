@@ -110,9 +110,9 @@ public class MemberController {
 	
 	
 	
-	@RequestMapping(value = "/MyPage/MyPage")
+	@RequestMapping(value = "/Member/MyPage")
 	public ModelAndView MyPage(HttpServletRequest req) {
-		ModelAndView mav = new ModelAndView("MyPage/MyPage");
+		ModelAndView mav = new ModelAndView("Member/MyPage");
 		HttpSession session = req.getSession(false);
 		/*
 		 * if(session.getAttribute("id")==null) { return "/Member/loginForm"; }
@@ -162,7 +162,7 @@ public class MemberController {
 	@PostMapping(value = "/Member/edit")
 	public String edit(Member m) {
 		service.editMember(m);
-		return "redirect:/MyPage/MyPage";
+		return "redirect:/Member/MyPage";
 	}
 
  

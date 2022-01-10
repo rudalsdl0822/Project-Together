@@ -17,6 +17,7 @@ public class Reply {
 	private Member member;
 
 	public Reply() {
+		super();
 	}
 
 	public Reply(int reply_num, int board_num, String writer_id, String reply_content, Date reply_date,
