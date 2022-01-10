@@ -205,10 +205,13 @@
 				온라인 입소 신청
 			</h2>
 
+<form class="form-signin" action="${pageContext.request.contextPath}/AddPet" method="post" enctype="multipart/form-data">
+	<input type="hidden" value="${sessionScope.id }" name="writer_id">
+
 <form class="form-signin" action="${pageContext.request.contextPath}/AddPet" id="form_addPet" method="post" enctype="multipart/form-data">
 
   <fieldset>
-  <input type="hidden" name="writer_id" value="${sessionScope.id}"> 
+  <input type="hidden" name="writer_id" value="${sessionScope.id}"> <!-- id 값 session에서 가져오기 작성해야함 kyungmin -->
     <div class="form-group">
       <label for="inputPetName">펫 이름</label><span class="badge badge-pill badge-info">필수</span>
       <input type="text" class="form-control" id="inputPetName" name="name" placeholder="펫의 이름을 적어주세요.">
