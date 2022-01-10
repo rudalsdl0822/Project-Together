@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!-- jstl -->
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en" class=" js csstransitions">
 <head>
@@ -12,7 +13,7 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 	
-	<title>입양신청 상세보기</title>
+	<title>Together | 입양공고 상세보기</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="/resources/images/ico/favicon.jpg">
@@ -36,31 +37,130 @@
 
 	<!-- jquery 라이브러리 불러들이기 -->
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	
+	<!-- 함수 시작 -->
+	<script>
+	// 로그인 팝업 함수  ******** 추후 추가할 예정 : 팝업시 부모창 비활성화  또는 모달창
+	function fn_loginPopup(){
+		// loginPopup   window.open('팝업주소','팝업창 이름','팝업창 설정');
+		var popup=window.open("/Member/loginFormPopup","Together | 로그인",
+			"width=460px, height=600px, scrollbars=yes, top=100px, left=300px, location=no");
+		return false;
+	}
+	
+	function fn_like(){
+		$.post("/like/add", {pet_id:pet_id})
+		.done(function(){
+			alert("관심등록이 완료되었습니다.");			
+		})
+		.fail(function(){
+			alert("error");
+		});
+	}
+	
+	var member_id="${sessionScope.id }";
+	var pet_id="${pet.id }";
+	
+		$(document).ready(function(){
+			//관심등록 버튼 클릭
+			$("#btn_like").click(function(){				
+				if(member_id==""){
+					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+					if(flag){
+						fn_loginPopup();
+					}else{
+						return; 
+					}
+				}else{
+					fn_like();
+				}
+			});
+			
+			// 입양신청 버튼 클릭
+			$("#btn_go_AdoptForm").click(function(){
+				if(member_id==""){
+					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+					if(flag){
+						fn_loginPopup();
+					}else{
+						return;
+					}
+				}else{
+					location.href="/Adopt/AdoptForm?id=${pet.id}";
+				}
+			});
+			
+			// 댓글 입력
+			$("#btn_addReply").click(function(){
+				
+				var form=document.form_addReply;
+				
+				if(member_id==""){
+					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+					if(flag){
+						fn_loginPopup();
+					}else{
+						return; 
+					}
+				}else{
+					form.submit();
+				}
+				
+				
+			});
+			
+		});
+	</script>
+	<!-- 함수 끝 -->
 
 </head>
 <body>
 
 <h3>상단 배너</h3>
 
+<!-- 뷰 세팅================================================== -->
+	<!-- locationEnglish : 펫이 있는 장소를 영어화 합니다. -->
+		<c:set var="locationEnglish">
+			<c:if test="${pet.location == 1 }">GangNam</c:if>
+			<c:if test="${pet.location == 2 }">AnYang</c:if>
+			<c:if test="${pet.location == 3 }">HaeUnDae</c:if>
+		</c:set>
+	<!-- locationKorean : 펫이 있는 장소를 한글화 합니다. -->
+		<c:set var="locationKorean">
+			<c:if test="${pet.location == 1 }">강남</c:if>
+			<c:if test="${pet.location == 2 }">안양</c:if>
+			<c:if test="${pet.location == 3 }">해운대</c:if>
+		</c:set>
+	<!-- sexKorean : 펫 성별을 한글화 합니다. -->
+		<c:set var="sexKorean">
+			<c:if test="${pet.sex == 1 }">남자</c:if>
+			<c:if test="${pet.sex == 2 }">여자</c:if>
+		</c:set>
+<!-- 뷰 세팅 끝================================================== -->
+
+
+
 <!-- Story About Us
     ================================================== -->
 	<section id="nino-story">
 		<div class="container">
 			<h2 class="nino-sectionHeading">
-				<span class="nino-subHeading">I'm In GangNam</span>
-				발랄한 포메라니안, 순대
+
+				<span class="nino-subHeading">I'm In ${locationEnglish }</span>
+				${pet.breed }, ${pet.name }
 			</h2>
-			<p class="nino-sectionDesc">순대는 터그 놀이를 제일 좋아해요</p>
-				<!-- *********수정할 사항 : 사진 크기 고르지 않음********* -->
+			<p class="nino-sectionDesc">${pet.name }는 사랑입니다</p>
+
 				<div class="row nino-hoverEffect">
 					<div class="col-md-4 col-sm-4">
 						<div class="item">
 							<a class="overlay" href="#">
 								<span class="content">
+									<!-- ********** 추후 추가예정 : 이미지 저장하기 ********** -->
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
-									동영상 보기
+									이미지 다운로드하기
 								</span>
-								<img src="/resources/judayoung/waitingPet-1.jpg" alt="">
+								<img src="/AddPet/petImg?id=${pet.id}&petImgNum=1" alt="">
 							</a>
 						</div>
 					</div>
@@ -69,9 +169,9 @@
 							<a class="overlay" href="#">
 								<span class="content">
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
-									동영상 보기
+									이미지 다운로드하기
 								</span>
-								<img src="/resources/judayoung/waitingPet-2.jpg" alt="">
+								<img src="/AddPet/petImg?id=${pet.id}&petImgNum=2" alt="">
 							</a>
 						</div>
 					</div>
@@ -80,9 +180,9 @@
 							<a class="overlay" href="#">
 								<span class="content">
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
-									동영상 보기
+									이미지 다운로드하기
 								</span>
-								<img src="/resources/judayoung/waitingPet-3.jpg" alt="">
+								<img src="/AddPet/petImg?id=${pet.id}&petImgNum=3" alt="">
 							</a>
 						</div>
 					</div>
@@ -127,27 +227,27 @@
     <section id="nino-counting">
     	<div class="container">
     		<div layout="row" class="verticalStretch">
-    			<div class="item">
-    				<div class="number">여자</div>
+    			<div class="item" style="width:18%;">
+    				<div class="number">${sexKorean }</div>
     				<div class="text">SEX</div>
     			</div>
-    			<div class="item">
-    				<div class="number">1살</div>
+    			<div class="item" style="width:18%;"> 
+    				<div class="number">${pet.age }살</div>
     				<div class="text">AGE</div>
     			</div>
-    			<div class="item">
-    				<div class="number">3.5</div>
+    			<div class="item" style="width:18%;">
+    				<div class="number">${pet.weight }</div>
     				<div class="text">WEIGHT</div>
     			</div>
-    			<div class="item">
-    				<div class="number">강남</div>
+    			<div class="item" style="width:26%;">
+    				<div class="number">${locationKorean }</div>
     				<div class="text">location</div>
     			</div>
-    			<div class="item">
-    				<!-- *********수정할 사항 : 패딩 또는 마진 줄이기********* -->
+    			<div class="item" style="width:20%; margin: 0px; padding: 20px;">
+    				<!-- *********수정할 사항 : 관심등록 하트 구현하기********* -->
     				<div class="number">
-    					<a href="#" class="nino-btn" style="font-size: 20px;">관심등록</a>
-    					<a href="/AddPet/AdoptForm?id=22" class="nino-btn" style="font-size: 20px;">입양신청</a>
+    					<button id="btn_like" class="nino-btn" style="font-size: 20px; background: #95e1d3;">관심등록</button>
+    					<button id="btn_go_AdoptForm" class="nino-btn" style="font-size: 20px; background: #95e1d3;">입양신청</button>
     				</div>
     				<div class="text"></div>
     			</div>
@@ -159,51 +259,19 @@
     <!--/#nino-counting-->
     
     
-	<!-- Testimonial
-    ================================================== -->    
-    <section class="nino-testimonial">
+    <section id="nino-testimonial">
     	<div class="container">
-    		<div class="unslider"><div class="nino-testimonialSlider unslider-horizontal" style="position: relative; overflow: hidden;">
-				<ul class="unslider-wrap unslider-carousel" style="width: 300%; left: -100%;">
-					<li class="" style="width: 33.3333%;">
-						<div layout="row">
-							<div class="nino-symbol fsr">
-								<i class="mdi mdi-comment-multiple-outline nino-icon"></i>
-							</div>
-							<!-- *********수정할 사항 : 화살표 없애거나 움직이게 만들기********* -->
-							<div>
-								<p class="quote">"세상에서 가장 하얀 포메! 순대랍니다. 신사동 옆골목에서 우는걸 발견했어요. 며칠동안 어미가 안보여서 보호소에 가게됬고...."</p>
-								<span class="name">NickName : yuriii</span>
-							</div>
-						</div>
-					</li>
-					<li style="width: 33.3333%;" class="unslider-active">
-						<div layout="row">
-							<div class="nino-symbol fsr">
-								<i class="mdi mdi-wechat nino-icon"></i>	
-							</div>
-							<div>
-								<p class="quote">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."</p>
-								<span class="name">Jon Doe</span>
-							</div>
-						</div>
-					</li>
-					<li style="width: 33.3333%;" class="">
-						<div layout="row">
-							<div class="nino-symbol fsr">
-								<i class="mdi mdi-message-text-outline nino-icon"></i>
-							</div>
-							<div>
-								<p class="quote">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."</p>
-								<span class="name">Jon Doe</span>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div><a class="unslider-arrow next"><i class="mdi mdi-chevron-right"></i></a><a class="unslider-arrow prev"><i class="mdi mdi-chevron-left"></i></a></div>
-    	</div>
-    </section>
-    <!--/#nino-testimonial-->
+    		<div layout="row" class="verticalStretch">
+    			<div class="nino-symbol fsr">
+					<i class="mdi mdi-comment-multiple-outline nino-icon" style="font-size: 30px;"></i>
+				</div>
+				<div  style="margin: 10px;">
+					<p class="quote" style="font-size: 20px;">"${pet.info }"</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
     
     
     <!-- Happy Client
@@ -216,85 +284,57 @@
 			</h2>
 			
 			<!-- 댓글쓰기란 -->
-			<div class="sectionContent" style="border: 5px dotted white; border-radius: 50px; padding: 10px; margin: 30px;">
-				<div class="row">
-					<div class="col-md-12">
-						<div layout="row" class="item">
-							<div class="nino-avatar fsr">
-								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="">
-							</div>
-							<div class="info">
-								<!-- 댓글작성 폼 -->
-								<form>
-								<h4 class="name">NickName : 새로운댓글작성자</h4>
-								<span class="regency">
-									title : <input type="text" placeholder="제목을 적어주세요" style="borrder: none; background: none;">
-								</span>
-								<p class="desc"><textarea cols="20" rows="3"  style="borrder: none; background: none;">content : 머라고 적을까~</textarea></p>
-								<input type="button" value="이대로 댓글 작성">
-								</form>
-								<!-- 댓글작성 폼 끝 -->
-							</div>
+				<div class="sectionContent"
+				style="border: 5px dotted white; border-radius: 50px; padding: 10px; margin: 30px;">
+				<div class="replys" id="reply-add-form">
+					<!-- 댓글 등록 폼 -->
+					<form name="form_addReply" action="${pageContext.request.contextPath}/reply/add" method="post" class="add-reply-form">
+						<div>
+							<span class="regency">
+							NICKNAME : ${sessionScope.nickname}
+							</span>
+							<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요." style="borrder: none; background: none"></textarea>
+							<button id="btn_addReply" type="button" class="btn btn-danger btn-block">댓글 등록</button>
 						</div>
-					</div>
+
+						<input type="hidden" name="writer_id" value="${sessionScope.id}" />
+						<input type="hidden" name="board_num" value="${pet.id}" />
+						<input type="hidden" name="parent_reply_num" value="-1" />
+					</form>
 				</div>
-			</div>
-			<!-- 댓글쓰기란 끝 -->
-			
-			<!-- 댓글리스트 -->
-			<div class="sectionContent">
-				<div class="row">
-					<div class="col-md-12">
-						<div layout="row" class="item">
-							<div class="nino-avatar fsr">
-								<img class="img-circle" src="/resources/images/happy-client/img-1.jpg" alt="">
-							</div>
-							<div class="info">
-								<h4 class="name">NickName : 키위는사랑</h4>
-								<span class="regency">title : 너무너무 귀여워요</span>
-								<p class="desc">빨리 입양됐으면 좋겠습니다~</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div layout="row" class="item">
-							<div class="nino-avatar fsr">
-								<img class="img-circle" src="/resources/images/happy-client/img-2.jpg" alt="">
-							</div>
-							<div class="info">
-								<h4 class="name">NickName : 키위는사랑</h4>
-								<span class="regency">title : 너무너무 귀여워요</span>
-								<p class="desc">빨리 입양됐으면 좋겠습니다~</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div layout="row" class="item">
-							<div class="nino-avatar fsr">
-								<img class="img-circle" src="/resources/images/happy-client/img-3.jpg" alt="">
-							</div>
-							<div class="info">
-								<h4 class="name">NickName : 키위는사랑</h4>
-								<span class="regency">title : 너무너무 귀여워요</span>
-								<p class="desc">빨리 입양됐으면 좋겠습니다~</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-			</div>
-    	</div>
-    </section>
+
+
+		</div>
+	</section>
     <!-- 댓글리스트 끝-->
     <!--/#nino-happyClient-->
     
 
     
 <h3>하단 입양공고 리스트</h3>
+
+
+    <!-- Footer
+    ================================================== -->
+    <footer id="footer">
+        <div class="container">
+        	<div class="row">
+        		<div class="col-md-12">
+        			<div class="colInfo">
+	        			<div class="footerLogo">
+	        				<a href="${pageContext.request.contextPath}/index" >Together</a>	
+	        			</div>
+	        			<p>강남점 : 서울특별시 강남구 강남대로 396, TEL: 010-0000-0000 
+	        			<br>안양점 : 경기 안양시 만안구 만안로 232, TEL: 010-0000-0000
+	        			<br>해운대점 : 부산광역시 해운대구 해운대로 626, TEL: 010-0000-0000</p>
+        			</div>
+        		</div>
+        		
+        		
+        	</div>
+			<div class="nino-copyright">Copyright &copy; 2021. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
+        </div>
+    </footer><!--/#footer-->
 
 
 	<!-- Search Form - Display when click magnify icon in menu

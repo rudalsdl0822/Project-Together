@@ -4,23 +4,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
-
-
-
-
-
-
+	
+	
 	<title>Together</title>
-
-
-
-
-
+	
+	
 	<!-- favicon -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/ico/favicon.jpg">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="${pageContext.request.contextPath }/resources/images/ico/apple-touch-icon-144-precomposed.png">
@@ -61,12 +54,61 @@
 					<div class="nino-menuItem pull-right">
 						<div class="collapse navbar-collapse pull-left" id="nino-navbar-collapse">
 							<ul class="nav navbar-nav">
-								<li class="active"><a href="${pageContext.request.contextPath}/index">홈홈홈<span class="sr-only">(current)</span></a></li>
-								<li><a href="${pageContext.request.contextPath}/views/">입양공고</a></li>
+
+								<li class="active"><a href="${pageContext.request.contextPath}/index">홈<span class="sr-only">(current)</span></a></li>
+								<li><a href="${pageContext.request.contextPath}/AddPet/AdoptNoticeList">입양공고</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후기게시판</a></li>
 								<li><a href="${pageContext.request.contextPath}/AddPet/AddPet">입소신청</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후원하기</a></li>
-								<li><a href="${pageContext.request.contextPath}/views/">회원가입 / 로그인</a></li>
+								<!--  로그인 이전 -->
+								<c:if test="${empty sessionScope.id}">
+								<li><a href="${pageContext.request.contextPath}/Member/loginForm">로그인/회원가입</a></li>
+								</c:if>
+								
+								<!-- 로그인 한 경우 -->
+								<c:if test="${not empty sessionScope.id}">
+								
+								<!-- 관리자의 경우 -->
+								<c:if test="${sessionScope.type==2}">
+								<li class="nav-item dropdown">
+								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">관리자페이지<span class="caret"></span></a>
+									        <ul class="dropdown-menu">
+									        
+									          <li><a class="dropdown-item" href="#">관리자페이지 - 홈</a></li>
+									        
+									          <li class="dropdown-header">회원 정보</li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Member/logout">로그아웃</a></li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/Member/editForm">내 정보수정</a></li>
+									          <li><a class="dropdown-item" href="#">전체 회원 관리</a></li>
+									          <li><a class="dropdown-item" href="#">1:1 문의 답변</a></li>
+									         
+									          <li class="dropdown-header">신청 리스트</li>
+									          <li><a class="dropdown-item" href="#">입양 신청 리스트</a></li>
+									          <li><a class="dropdown-item" href="#">입소 신청 리스트</a></li>
+									        </ul>
+								    </li>
+								    </c:if>
+								    
+								    <!-- 고객의 경우 -->
+								    <c:if test="${sessionScope.type==1}">
+									<li class="nav-item dropdown">
+								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">마이페이지<span class="caret"></span></a>
+									        <ul class="dropdown-menu">
+									          <li><a class="dropdown-item" href="/MyPage/MyPage">마이페이지 - 홈</a></li>
+									          
+									          <li class="dropdown-header">내 정보</li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Member/logout">로그아웃</a></li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/Member/editForm">내 정보수정</a></li>
+									          <li><a class="dropdown-item" href="#">관심등록 목록</a></li>
+									          <li><a class="dropdown-item" href="#">1:1 문의하기</a></li>
+									          
+									          <li class="dropdown-header">신청 내역</li>
+									          <li><a class="dropdown-item" href="#">입양 신청 내역</a></li>
+									          <li><a class="dropdown-item" href="#">입소 신청 내역</a></li>
+									        </ul>
+								    </li>
+								    </c:if>
+								</c:if>
 							</ul>
 						</div><!-- /.navbar-collapse -->
 					
@@ -617,17 +659,21 @@
 
 <!-- ================================juDayoung 추가중================================ -->
 <br>
-<a href="/AddPet/WaitingPet?id=22&state=2">입양공고 상세보기</a>
+<a href="/Adopt/AdoptWishList">관리자용 입양신청 리스트</a>
 <br>
-<a href="/AddPet/AdoptForm?id=22">입양신청 폼</a>
-<br>
-<a href="/AddPet/AdoptWishList">입양신청 리스트</a>
-<br>
-<a href="/AddPet/WaitingPerson?num=4">입양신청1개클릭시</a>
+<a href="/Adopt/MemberAdoptWishList">고객용 입양신청 내역</a>
+
 <!-- ================================juDayoung 추가중================================ -->
 	
-	
-	
+<!-- ================================cha 추가중================================ -->
+<br>
+<a href="${pageContext.request.contextPath}/AddPet/PetAllList">입소/입양 리스트</a>
+<br>
+<a href="${pageContext.request.contextPath}/AddPet/EditPet">입소 신청 내용</a>
+<br>
+<!-- ================================cha 추가중================================ -->	
+
+	    
 		
 </body>
 </html>

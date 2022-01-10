@@ -12,11 +12,43 @@
 		<result property="info" column="info"></result>
 		<result property="location" column="location"></result>
 		<result property="state" column="state"></result>
+		<result property="writer_id" column="writer_id"></result>
+
 	</resultMap>
 
 <insert id="addPet" parameterType="com.pet.Together.AddPet.Pet">
-	insert into pet values (seq_pet.nextval, #{name}, #{breed}, #{sex}, #{age}, #{weight}, #{info}, #{location}, 1)
+	insert into to_pet values (#{id}, #{name}, #{breed}, #{sex}, #{age}, #{weight}, #{info}, #{location}, 1, #{writer_id})
 </insert>
+
+<select id="makeId" resultType="int">
+	select to_pet_seq.nextval from dual
+</select>
+
+
+<select id="getPet" resultMap="Pet" parameterType="int">
+	select * from to_pet
+	where id=#{id}
+</select>
+
+<update id="editPet" parameterType="com.pet.Together.AddPet.Pet">
+	update to_pet set name=#{name}, breed=#{breed}, sex=#{sex}, age=#{age}, weight=#{weight}
+		, info=#{info}, location=#{location}, state=#{state}
+	where id=#{id}
+</update>
+
+
+
+
+
+
+
+	<select id="selectPetAll" resultMap="Pet">
+		select * from to_pet order by id
+	</select>
+	
+	<select id="selectByState" parameterType="int" resultMap="Pet">
+		select * from to_pet where state=#{state} order by id
+	</select>
 
 
 

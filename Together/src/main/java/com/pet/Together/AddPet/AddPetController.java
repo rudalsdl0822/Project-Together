@@ -2,18 +2,34 @@ package com.pet.Together.AddPet;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.pet.Together.Adopt.AdoptService;
+import com.pet.Together.Member.MemberService;
+
 
 @Controller
 public class AddPetController {
 
 	@Autowired
 	private AddPetService service;
+	@Autowired
+	private AdoptService adopt_service;
+	@Autowired
+	private MemberService member_service;
 
 	@RequestMapping(value = "/index")
 	public void index() {
@@ -25,52 +41,54 @@ public class AddPetController {
 
 	}
 
-	@PostMapping(value = "/AddPet")
-	public String addPet(Pet p) {
-    
-		service.addPet(p);
-		return "";
+	@RequestMapping(value="/AddPet/AddPetResult")
+	public void addPetResult() {
+		
 	}
 
-	private static final String PATH = "C:\\together\\img";
+	@PostMapping(value = "/AddPet")
+	public String addPet(Pet p, Img imgs) { // id 제외하고 값 넘어옴.
+		int petId = service.makeId();
+		
+		MultipartFile[] imgList = {imgs.getFile1(),imgs.getFile2(),imgs.getFile3()};
+		
+		p.setId(petId);
+		p.setImgs(imgs);
+		
+		for (int i = 0 ; i<imgList.length;i++) {
+			saveImg(imgList[i],petId,i+1);
+		}
+		service.addPet(p);
+		return "/AddPet/AddPetResult";
+	}
+
+	private static final String PATH = "C:\\together\\img\\pet\\";
 
 	/*
-	 * 이미지를 폼에서 받아, C:\\together\\img\\pet\\petId번호 폴더에 'file번호'파일로 저장한다.
+	 * 이미지를 폼에서 받아, C:\\together\\img\\pet\\번호(petId) 폴더에 저장한다.
 	 */
 	public void saveImg(MultipartFile file, int petId, int fileNum) {
-		/* message를 print 한다. */
-		String message="이미지파일을 C:\\together\\img\\pet\\petId"+petId+"폴더에 'file"+fileNum+"'로 저장합니다.";
-				
+		
+		// 파일 이름을 가져온다.
 		String originalFileName=file.getOriginalFilename();
+		
+		// 확장자 추출
+		int idx = originalFileName.lastIndexOf(".");
+	    String ext = originalFileName.substring(idx);
 		
 		/* 파일이 있으면 저장한다. */
 		if(originalFileName!=null && !originalFileName.equals("") ) {
-			/* 파일 형식을 fileFormat으로 저장한다. */
-			String fileFormat=originalFileName.split("\\.")[1];
-		
+			
 			/* path 디렉토리가 없다면 디렉토리를 만든다. */
-			String dirName=PATH+"\\pet\\petId"+petId;
-			File dir=new File(dirName);
+			String dirPath=PATH+petId;
+			File dir=new File(dirPath);
 			if( !dir.exists() ) {
-				dir.mkdir();				
+				dir.mkdirs(); // 상위폴더가 없다면 상위 폴더도 만든다.				
 			}
 			
-			/* 이미 파일명이 존재한다면 파일을 저장하지 않는다.*/
-			boolean fileExist=false;
-			
-			String fileName="file"+fileNum;
-			String[] files=dir.list();
-			for(String f:files) {
-				String fname=f.split("\\.")[0];
-				if(fname.equals(fileName) ) {
-					fileExist=true;
-					message="저장 실패.	C:\\together\\img\\pet\\petId"+petId+"폴더에 file"+fileNum+"이 이미 존재하여 저장하지 않았습니다.";
-				}
-			}			
-			
-			/* 경로에 파일을 만든다. */
-			if( !fileExist ) {
-				File f=new File(dirName+"\\"+fileName+"."+fileFormat);
+			/* 경로에 파일을 만든다. 예)1.확장자 */
+				File f=new File(dirPath+"/"+fileNum+ext);
+
 				try {
 					file.transferTo(f);
 				}catch(IllegalStateException e) {
@@ -78,79 +96,97 @@ public class AddPetController {
 				}catch(IOException e) {
 					e.printStackTrace();
 				}
-			}
-			System.out.println(message);			
 		}
+	}
 
+	
 
+	/* ================================cha 추가중================================ */
+	
+	@RequestMapping(value="/AddPet/PetAllList")
+	public ModelAndView addPetList() {
+		ModelAndView mav = new ModelAndView("AddPet/PetAllList");
+		ArrayList<Pet> list = (ArrayList<Pet>)service.getPetAllList();
+		mav.addObject("list", list);
+		return mav;
+	}
+	
+	@RequestMapping(value="/AddPet/StateList")
+	public ModelAndView stateList(@RequestParam(value="state") int state) {
+		ModelAndView mav = new ModelAndView("AddPet/PetAllList");
+		ArrayList<Pet> list = (ArrayList<Pet>)service.getStateList(state);
+		mav.addObject("list", list);
+		return mav;
+	}
+	
+	@RequestMapping(value="/AddPet/petView")
+	public ModelAndView petView(@RequestParam(value="id") int id) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("AddPet/EditPet");
+		Pet p = service.getPet(id);
+		String path = PATH+p.getId()+"\\";
+		File imgDir = new File(path);
+		if(imgDir.exists()) {
+			String[]files = imgDir.list();
+			for(int j = 0; j < files.length; j++) {
+				mav.addObject("file"+j, files[j]);
+			}
+		}
+		mav.addObject("p", p);
+		return mav;
 	}
 	
 	
 	
+	@RequestMapping("/AddPet/petImg")
+	public ResponseEntity<byte[]> getPetImg(int id, int petImgNum) {
+		File imgFile = new File(PATH+id);
+		String[] imgFiles=imgFile.list();
+		int ifs;
+		if(imgFiles!=null) {
+			for(ifs=0; ifs<imgFiles.length; ifs++) {
+				// System.out.println(imgFiles+" / imgFiles[ifs] : "+imgFiles[ifs]);
+			}
+		}
+		
+		File f = null;
+		
+		if(petImgNum==1) {
+			f = new File(PATH+id+"\\"+imgFiles[0]);
+		}else if(petImgNum==2) {
+			f = new File(PATH+id+"\\"+imgFiles[1]);
+		}else if(petImgNum==3) {
+			f = new File(PATH+id+"\\"+imgFiles[2]);
+		}
+		
+		HttpHeaders header = new HttpHeaders();
+		ResponseEntity<byte[]> result = null;
+		try {
+			header.add("Content-Type", Files.probeContentType(f.toPath()));
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(f), header, HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 	
 	
+	@RequestMapping(value = "/Addpet/EditPet")
+	public String EditPet(Pet p) {
+		service.editPet(p);
+		return "redirect:/AddPet/PetAllList";
+	}
 	
+	@RequestMapping(value = "/AddPet/AdoptNoticeList")
+	public ModelAndView adoptNoticeList() {
+		ModelAndView mav = new ModelAndView("AddPet/AdoptNoticeList");
+		ArrayList<Pet> list=(ArrayList<Pet>)service.getPetAllList();
+		mav.addObject("list",list);
+		return mav;
+	}
 	
-	/* ================================juDayoung 추가중================================ */
-	@RequestMapping(value = "/homepage")
-	public String homepage() {
-		return "homepage";
-	}
-
-	@RequestMapping("/AddPet/WaitingPet")
-	public void waitingPet(Pet p) {
-		System.out.println("-----입양신청 상세보기------------------------------");
-		System.out.println("id가 " + p.getId() + "인 입양대기 동물을 찾습니다.");
-		System.out.println("state=" + p.getState() + " (입양대기)");
-		System.out.println("-----------------------------------------------\n");
-	}
-
-	@RequestMapping("/AddPet/AdoptForm")
-	public void adoptForm(Pet p) {
-		System.out.println("-----입양신청폼-----------------------------------");
-		System.out.println("id가 " + p.getId() + "인 입양대기 동물의 입양신청 폼으로 갑니다.");
-		System.out.println("state=2 (입양대기)");
-		System.out.println("-----------------------------------------------\n");
-	}
-
-	@RequestMapping("/AddPet/AdoptWish")
-	public String adoptWish() {
-		System.out.println("-----입양신청완료----------------------------------");
-		System.out.println("id가 22인 입양대기 동물을 입양신청합니다.");
-		System.out.println("state=3 (입양문의중)");
-		System.out.println("-----------------------------------------------\n");
-		return "index";
-	}
-
-	@RequestMapping("/AddPet/AdoptWishList")
-	public void adoptWishList() {
-		System.out.println("-----입양신청리스트---------------------------------");
-		System.out.println("입양신청자들의 리스트를 봅니다.");
-		System.out.println("state=3 (입양문의중)");
-		System.out.println("-----------------------------------------------\n");
-	}
-
-	@RequestMapping("/AddPet/WaitingPerson")
-	public void waitingPerson() {
-		System.out.println("-----입양신청 상세보기------------------------------");
-		System.out.println("id가 22인 입양대기 동물과 입양신청한 id가 67인 사람의 입양신청으로 갑니다.");
-		System.out.println("state=3 (입양문의중)");
-		System.out.println("-----------------------------------------------\n");
-	}
-
-	@RequestMapping("/AddPet/AdoptAccept")
-	public String adoptAccept() {
-		System.out.println("-----입양신청승인----------------------------------");
-		System.out.println("id=22인 펫에 대하여 id=67인 신청자의 입양신청을 승인합니다.");
-		System.out.println("state=4 (입양완료)");
-		System.out.println("-----------------------------------------------\n");
-
-		return "index";
-	}
-
-	/* ================================juDayoung 추가중================================ */
-	
-	
+	/* ================================cha 추가중================================ */
 	
 
 }
