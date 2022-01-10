@@ -272,6 +272,7 @@
     				<div class="number">${locationKorean }</div>
     				<div class="text">location</div>
     			</div>
+<<<<<<< HEAD
     			<div class="item" id="btns" style="width:20%; margin-top: 45px; padding: 5px; text-align: center;" >
     				<!-- 관심등록이 안되어 있다면 빈하트, 관심등록이 되어 있다면 하트 -->
     				<c:if test="${ifLikePet==false }">
@@ -289,6 +290,13 @@
     				<div class="number" id="btn_go_AdoptForm"  style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
     					<span class="glyphicon glyphicon-pencil" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
     					입양신청
+=======
+    			<div class="item" style="width:20%; margin: 0px; padding: 20px;">
+    				<!-- *********수정할 사항 : 관심등록 하트 구현하기********* -->
+    				<div class="number">
+    					<button id="btn_like" class="nino-btn" style="font-size: 20px; background: #95e1d3;">관심등록</button>
+    					<button id="btn_go_AdoptForm" class="nino-btn" style="font-size: 20px; background: #95e1d3;">입양신청</button>
+>>>>>>> main
     				</div>
     			</div>
     			

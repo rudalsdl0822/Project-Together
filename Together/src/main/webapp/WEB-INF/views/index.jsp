@@ -69,7 +69,11 @@
 								
 								<!-- 관리자의 경우 -->
 								<c:if test="${sessionScope.type==2}">
+<<<<<<< HEAD
 									<li class="nav-item dropdown">
+=======
+								<li class="nav-item dropdown">
+>>>>>>> main
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">관리자페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
 									        
@@ -77,7 +81,7 @@
 									        
 									          <li class="dropdown-header">회원 정보</li>
 									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Member/logout">로그아웃</a></li>
-									          <li><a class="dropdown-item" href="#">내 정보수정</a></li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/Member/editForm">내 정보수정</a></li>
 									          <li><a class="dropdown-item" href="#">전체 회원 관리</a></li>
 									          <li><a class="dropdown-item" href="#">1:1 문의 답변</a></li>
 									         
@@ -93,11 +97,11 @@
 									<li class="nav-item dropdown">
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">마이페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
-									          <li><a class="dropdown-item" href="#">마이페이지 - 홈</a></li>
+									          <li><a class="dropdown-item" href="/MyPage/MyPage">마이페이지 - 홈</a></li>
 									          
 									          <li class="dropdown-header">내 정보</li>
 									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Member/logout">로그아웃</a></li>
-									          <li><a class="dropdown-item" href="#">내 정보수정</a></li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/Member/editForm">내 정보수정</a></li>
 									          <li><a class="dropdown-item" href="#">관심등록 목록</a></li>
 									          <li><a class="dropdown-item" href="#">1:1 문의하기</a></li>
 									          
@@ -663,7 +667,8 @@
 <a href="${pageContext.request.contextPath}/AddPet/EditPet">입소 신청 내용</a>
 <br>
 <!-- ================================cha 추가중================================ -->	
-	
+
+	    
 		
 </body>
 </html>
