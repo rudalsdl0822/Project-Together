@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pet.Together.AddPet.AddPetService;
 import com.pet.Together.AddPet.Pet;
 import com.pet.Together.Member.MemberService;
+import com.pet.Together.Reply.Reply;
 import com.pet.Together.Reply.ReplyService;
 
 @Controller
@@ -43,8 +44,11 @@ public class AdoptController {
 		ModelAndView mav=new ModelAndView("Adopt/WaitingPet","pet",p);
 		
 		/* ====댓글리스트 보경이파트========================= */
-		//ArrayList<Reply> reply_list=reply_service.getReplyListByPet_id(id);
-		//mav.addObject("replys", reply_list);
+		ArrayList<Reply> reply_list=reply_service.getReplyListByBoard_num(id);
+		mav.addObject("replys", reply_list);
+
+		ArrayList<Reply> childReply_list = reply_service.getListByParent_reply_num(id);
+		mav.addObject("c_replys", childReply_list);
 		/* ====댓글리스트 보경이파트 끝========================= */
 		
 		System.out.println("-----입양공고 상세보기------------------------------");
