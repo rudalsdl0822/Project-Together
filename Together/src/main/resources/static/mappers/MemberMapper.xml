@@ -24,7 +24,7 @@
 	</insert>
 	
 	<update id="update" parameterType="com.pet.Together.Member.Member">
-		update to_member set pwd=#{pwd}, nickname=#{nickname}, name=#{name}, phone=#{phone}, address=#{address}, email=#{email} where id=#{id}
+		update to_member set pwd=#{pwd}, nickname=#{nickname}, name=#{name}, phone=#{phone}, address=#{address} email=#{email} where id=#{id}
 	</update>
 	
 	<delete id="delete" parameterType="String">

@@ -126,7 +126,7 @@
 								<c:if test="${not empty sessionScope.id}">
 								
 								<!-- 관리자의 경우 -->
-								<c:if test="${sessionScope.type==2}">
+								<c:if test="${sessionScope.type==1}">
 								<li class="nav-item dropdown">
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">관리자페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
@@ -147,7 +147,7 @@
 								    </c:if>
 								    
 								    <!-- 고객의 경우 -->
-								    <c:if test="${sessionScope.type==1}">
+								    <c:if test="${sessionScope.type==2}">
 									<li class="nav-item dropdown">
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">마이페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
@@ -246,10 +246,6 @@
       </select>
     </div>
     <div class="form-group">
-
-      <label for="textareaInfo">상세사항 (성격 등 특징들을 적어주세요.)</label>
-      <textarea class="form-control" id="textareaInfo" rows="5" name="info"></textarea>
-
       <label for="textareaInfo">상세사항 (성격 등 특징들을 적어주세요.)</label> <!-- null -->
       <textarea class="form-control" id="textareaInfo" name="info" rows="5" style="resize: none;"></textarea>
 

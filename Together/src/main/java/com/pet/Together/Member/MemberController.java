@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -107,63 +106,4 @@ public class MemberController {
 		return mav;
 	}
 	/* =======================로그인 팝업창========================*/
-	
-	
-	
-	@RequestMapping(value = "/MyPage/MyPage")
-	public ModelAndView MyPage(HttpServletRequest req) {
-		ModelAndView mav = new ModelAndView("MyPage/MyPage");
-		HttpSession session = req.getSession(false);
-		/*
-		 * if(session.getAttribute("id")==null) { return "/Member/loginForm"; }
-		 */
-		String id = (String) session.getAttribute("id");
-		Member m = service.getMember(id);
-		mav.addObject("m", m);
-		return mav;
-	}
-
-	
-
-	@RequestMapping(value = "/Member/logout")
-	public String logout(HttpServletRequest req){
-		HttpSession session = req.getSession(false);
-		session.removeAttribute("id");
-		session.removeAttribute("nickname");
-		session.removeAttribute("type");
-		session.invalidate();
-		return "Member/loginForm";
-	}
-
- 
-
-	@RequestMapping(value = "/Member/out") 
-	public String out(HttpServletRequest req){
-		HttpSession session = req.getSession(false);
-		String id = (String)session.getAttribute("id");
-		service.delMember(id);
-		session.removeAttribute("id");
-		session.removeAttribute("nickname");
-		session.removeAttribute("type");
-		session.invalidate();
-		return "Member/loginForm";
-	}
-	
-	@RequestMapping(value = "/Member/editForm")
-	public ModelAndView editForm(HttpServletRequest req) {
-		ModelAndView mav = new ModelAndView("Member/editForm");
-		HttpSession session = req.getSession(false);
-		String id = (String) session.getAttribute("id");
-		Member m = service.getMember(id);
-		mav.addObject("m", m);
-		return mav;
-	}
-
-	@PostMapping(value = "/Member/edit")
-	public String edit(Member m) {
-		service.editMember(m);
-		return "redirect:/MyPage/MyPage";
-	}
-
- 
 }
