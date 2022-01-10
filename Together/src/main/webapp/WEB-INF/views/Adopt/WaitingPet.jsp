@@ -51,8 +51,7 @@
 	function fn_like(){
 		$.post("/like/add", {pet_id:pet_id})
 		.done(function(){
-			alert("관심등록이 완료되었습니다. 비동기는 구현중이니 새로고침하세요");
-			//fn_like_html();
+			alert("관심등록이 완료되었습니다. 비동기는 구현중이니 새로고침하세요");	
 		})
 		.fail(function(){
 			alert("error");
@@ -67,20 +66,11 @@
 			alert("error");
 		});
 	}
-	function fn_like_html(){
-		var html='<div class="number" id="btn_like_delete2" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">';
-		html+='<span class="glyphicon glyphicon-heart" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> ';
-		html+='관심등록';
-		html+='</div>';
-		
-		$("#btns").html(html);
-	}
 	
 	var member_id="${sessionScope.id }";
 	var pet_id="${pet.id }";
 	
 		$(document).ready(function(){
-
 			//관심등록 버튼 클릭
 			$("#btn_like").click(function(){				
 				if(member_id==""){
