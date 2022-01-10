@@ -52,6 +52,7 @@ public class LikeController {
 	@ResponseBody
 	public boolean check(@RequestParam int pet_id) {
 		String id = (String) session.getAttribute("id");
+
 		Like l = lService.selectByIdPetId(pet_id, id);
 		if (l == null) {
 			return false;

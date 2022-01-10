@@ -51,7 +51,16 @@
 	function fn_like(){
 		$.post("/like/add", {pet_id:pet_id})
 		.done(function(){
-			alert("관심등록이 완료되었습니다.");			
+			alert("관심등록이 완료되었습니다. 비동기는 구현중이니 새로고침하세요");	
+		})
+		.fail(function(){
+			alert("error");
+		});
+	}
+	function fn_like_delete(){
+		$.post("/like/delete", {pet_id:pet_id})
+		.done(function(){
+			alert("관심등록이 해제되었습니다. 비동기는 구현중이니 새로고침하세요");
 		})
 		.fail(function(){
 			alert("error");
@@ -74,6 +83,16 @@
 				}else{
 					fn_like();
 				}
+			});
+			
+			//관심등록 버튼 해제 클릭
+			$("#btn_like_delete").click(function(){	
+				var flag=confirm("정말 관심등록을 해제하시겠습니까?");
+				if(flag){
+					fn_like_delete();
+				}else{
+					return;
+				}				
 			});
 			
 			// 입양신청 버튼 클릭
@@ -253,28 +272,24 @@
     				<div class="number">${locationKorean }</div>
     				<div class="text">location</div>
     			</div>
-    			<div class="item" style="width:20%; margin: 0px; padding: 20px; text-align: center;" >
-    				<!-- *********수정할 사항 : 관심등록 하트 구현하기********* -->
-    				<div class="number" id="btn_like" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
-    					<span class="glyphicon glyphicon-heart-empty" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
-    					관심등록
-    				</div>
-    				<div class="number" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
-    					<span class="glyphicon glyphicon-heart" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
-    					관심등록
-    				</div>
+    			<div class="item" id="btns" style="width:20%; margin-top: 45px; padding: 5px; text-align: center;" >
+    				<!-- 관심등록이 안되어 있다면 빈하트, 관심등록이 되어 있다면 하트 -->
+    				<c:if test="${ifLikePet==false }">
+    					<div class="number" id="btn_like" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
+    						<span class="glyphicon glyphicon-heart-empty" id="span_like" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
+    						관심등록
+    					</div>
+    				</c:if>
+    				<c:if test="${ifLikePet==true}">
+    					<div class="number" id="btn_like_delete" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
+    						<span class="glyphicon glyphicon-heart" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
+    						관심등록
+    					</div>
+    				</c:if>
     				<div class="number" id="btn_go_AdoptForm"  style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
     					<span class="glyphicon glyphicon-pencil" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
     					입양신청
     				</div>
-    				
-    				<div class="number">
-    					<span class="glyphicon glyphicon-heart" aria-hidden="true" style="border: 1px solid white; padding: 7px; font-size: 20px; color: #f38181;"></span> 
-
-    					<button class="nino-btn" style="font-size: 20px; background: #95e1d3;"> 관심등록</button>
-    					<button class="nino-btn" style="font-size: 20px; background: #95e1d3;">입양신청</button>
-    				</div>
-    				<div class="text"></div>
     			</div>
     			
     					
