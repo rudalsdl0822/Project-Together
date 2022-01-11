@@ -31,6 +31,7 @@
    
         <script src="./js/script/js"></script>
     	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    	
 
 </head>
 <body data-target="#nino-navbar" data-spy="scroll" style="padding-top: 50px;" class="nino-fixed-nav">
@@ -155,7 +156,7 @@
     </ul>
 
     <ul>
-      <a class="card_small" href="/Like/likeList">
+      <a class="card_small" href="/like/likeList">
         <h3>관심목록</h3>
         <p class="card_text">관심등록을 한 친구들을 보실 수 있습니다.</p>
         <p class="card_textlink">확인하기</p>
@@ -163,7 +164,7 @@
     </ul>
 
     <ul>
-      <a class="card_small">
+      <a class="card_small" href="/Adopt/MemberAdoptWishList">
         <h3 class="softblack">입양신청내역</h3>
         <p class="card_text">입양 신청 내역을 보실 수 있습니다.</p>
         <p class="card_textlink">확인하기</p>

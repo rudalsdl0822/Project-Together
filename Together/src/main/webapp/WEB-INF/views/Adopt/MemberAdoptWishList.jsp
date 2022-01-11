@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    	<%@ include file="/WEB-INF/views/header_test.jsp" %>
 <!-- jstl -->
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -59,7 +60,7 @@
 
 				$.post("/Adopt/MemberAdoptDelete",{num:num})
 				.done(function(json){
-					alert("비동기 삭제는 구현중입니다.");
+					location.reload();
 				})
 				.fail(function(){
 					alert("error");
@@ -73,9 +74,6 @@
 
 </head>
 <body>
-
-
-<h3>상단 배너</h3>
 
 
     <!-- Latest Blog
@@ -140,19 +138,21 @@
 									</div>
 									
 									<div class="date">
-										<span class="number" style="padding: 5px;">${Adopt.num }</span>
-										<span class="text">
-											${Adopt.pet.name }
-										</span>
-										<span class="text">
+										<span class="number" style="font-size: 18px; padding: 5px;">${Adopt.pet.name }</span>
+										<span class="text"">
 											${locationKorean }점
 										</span>
-										<span class="text">id : ${Adopt.pet_id }</span>
+										<span class="text">
+											${sexKorean }
+										</span>
 									</div>
 
 								</div>
 								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
-									title : ${Adopt.title }
+									입양신청 번호 : ${Adopt.num }
+								</h3>
+								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+									제목 : ${Adopt.title }
 								</h3>
 								<p class="articleDesc"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
 									자기 소개 : ${Adopt.content }
@@ -195,29 +195,6 @@
     <!--/#nino-latestBlog-->
 
 
-    <!-- Footer
-    ================================================== -->
-    <footer id="footer">
-        <div class="container">
-        	<div class="row">
-        		<div class="col-md-12">
-        			<div class="colInfo">
-	        			<div class="footerLogo">
-	        				<a href="${pageContext.request.contextPath}/index" >Together</a>	
-	        			</div>
-	        			<p>강남점 : 서울특별시 강남구 강남대로 396, TEL: 010-0000-0000 
-	        			<br>안양점 : 경기 안양시 만안구 만안로 232, TEL: 010-0000-0000
-	        			<br>해운대점 : 부산광역시 해운대구 해운대로 626, TEL: 010-0000-0000</p>
-        			</div>
-        		</div>
-        		
-        		
-        	</div>
-			<div class="nino-copyright">Copyright &copy; 2021. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
-        </div>
-    </footer><!--/#footer-->
-
-
 	<!-- Search Form - Display when click magnify icon in menu
     ================================================== -->
     <form action="" id="nino-searchForm">
@@ -250,4 +227,5 @@
 	<![endif]-->
 	
 </body>
+	<%@ include file="/WEB-INF/views/header_test.jsp" %>
 </html>

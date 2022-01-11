@@ -44,7 +44,7 @@ public class LikeController {
 			model.addAttribute("list", list);
 			model.addAttribute("plist", plist);
 		}
-		return "like/like";
+		return "like/likeList";
 	}
 
 	// 있는지 확인 가능기능

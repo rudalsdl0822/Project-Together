@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    	<%@ include file="/WEB-INF/views/header_test.jsp" %>
 <!-- jstl -->
+	<%@ include file="/WEB-INF/views/header_test.jsp" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
@@ -201,7 +203,6 @@
 </head>
 <body>
 
-<h3>상단 배너</h3>
 
 <!-- 뷰 세팅================================================== -->
 	<!-- locationKorean : 펫이 있는 장소를 한글화 합니다. -->
@@ -509,33 +510,6 @@
 	</section>
 	<!-- 댓글리스트 끝-->
 	<!--/#nino-happyClient-->
-    
-
-    
-<h3>하단 입양공고 리스트</h3>
-
-
-    <!-- Footer
-    ================================================== -->
-    <footer id="footer">
-        <div class="container">
-        	<div class="row">
-        		<div class="col-md-12">
-        			<div class="colInfo">
-	        			<div class="footerLogo">
-	        				<a href="${pageContext.request.contextPath}/index" >Together</a>	
-	        			</div>
-	        			<p>강남점 : 서울특별시 강남구 강남대로 396, TEL: 010-0000-0000 
-	        			<br>안양점 : 경기 안양시 만안구 만안로 232, TEL: 010-0000-0000
-	        			<br>해운대점 : 부산광역시 해운대구 해운대로 626, TEL: 010-0000-0000</p>
-        			</div>
-        		</div>
-        		
-        		
-        	</div>
-			<div class="nino-copyright">Copyright &copy; 2021. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
-        </div>
-    </footer><!--/#footer-->
 
 
 	<!-- Search Form - Display when click magnify icon in menu
@@ -572,4 +546,5 @@
     
 
 </body>
+	<%@ include file="/WEB-INF/views/header_test.jsp" %>
 </html>

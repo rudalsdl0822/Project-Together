@@ -335,7 +335,6 @@ public class AdoptController {
 		System.out.println("내 입양신청 글 1개를 삭제합니다.");
 		System.out.println("----Delete Adopt num : "+num);
 		System.out.println("내 입양신청 리스트를 새로 불러옵니다.");
-		System.out.println("");
 		System.out.println("-----------------------------------------------\n");
 		
 		ModelAndView mav=new ModelAndView("Adopt/JSON","","");
@@ -343,7 +342,20 @@ public class AdoptController {
 		return mav;
 	}
 	
+	@RequestMapping("/Adopt/MemberAdoptEdit")
+	public ModelAndView memberAdoptEdit(Adopt adopt) {
+		adopt_service.editAdopt(adopt);
+		Adopt new_adopt=adopt_service.getAdopt(adopt.getNum());
 	
+		System.out.println("-----내 입양신청 수정---------------------------------");
+		System.out.println("내 입양신청 글을 수정합니다.");
+		System.out.println("----Edit "+new_adopt);
+		System.out.println("-----------------------------------------------\n");
+		
+		ModelAndView mav=new ModelAndView("Adopt/JSON","","");
+		
+		return mav;
+	}
 	
 	
 	/* =============== 새로 정의한 함수 =============================================================== */
