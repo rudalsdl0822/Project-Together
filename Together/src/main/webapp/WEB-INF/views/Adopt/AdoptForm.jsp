@@ -190,7 +190,7 @@
 								<p class="desc">보호소 위치 : (${locationCityKorean })${locationKorean }점</p>
 								<p class="desc" style="width: 90%;">
 									상세 사항 : 
-									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;">${pet.info }</textarea>
+									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;  background: #E1E1E1;">${pet.info }</textarea>
 								</p>
 							</div>
 						</div>
@@ -212,10 +212,10 @@
 									<input type="text" id="family" value="${MemberInfo.family }" placeholder="가족구성을 적어주세요(반려동물 포함)" style="width:100%;">
 								</p>
 								<p class="desc">
-									<input type="text" id="job" value="${MemberInfo.job }" placeholder="직업을 적어주세요(반려동물 케어에 필요한 정보입니다)" style="width:100%;">
+									<input type="text" id="job" value="${MemberInfo.job }" placeholder="직업 : (반려동물 케어에 필요한 정보입니다)" style="width:100%;">
 								</p>
 								<p class="desc">
-									<input type="text" id="walktime" value="${MemberInfo.walktime }" placeholder="산책가능한 시간을 적어주세요(하루 1시간/일주일 4시간)" style="width:100%;">
+									<input type="text" id="walktime" value="${MemberInfo.walktime }" placeholder="산책가능한 시간 : (하루 1시간/일주일 4시간)" style="width:100%;">
 								</p>
 								<p class="desc">
 									<input type="hidden" id="dating" value="${MemberInfo.dating }">
@@ -265,12 +265,6 @@
     	</div>
     </section>
     <!--/#nino-happyClient-->
-    
-
-
-
-
-<h3>하단 입양공고 리스트</h3>
 
 
     <!-- Footer

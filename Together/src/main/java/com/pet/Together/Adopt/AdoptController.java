@@ -334,6 +334,8 @@ public class AdoptController {
 		System.out.println("-----내 입양신청 삭제---------------------------------");
 		System.out.println("내 입양신청 글 1개를 삭제합니다.");
 		System.out.println("----Delete Adopt num : "+num);
+		System.out.println("내 입양신청 리스트를 새로 불러옵니다.");
+		System.out.println("");
 		System.out.println("-----------------------------------------------\n");
 		
 		ModelAndView mav=new ModelAndView("Adopt/JSON","","");

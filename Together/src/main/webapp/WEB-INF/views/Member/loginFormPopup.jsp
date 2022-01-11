@@ -56,6 +56,7 @@
 					// 로그인이 되었으면 부모 창을 새로고침하고 로그인 팝업을 닫는다.
 					if(loginResult==true){
 						opener.location.reload();
+						alert("로그인 되었습니다.");
 						self.close();
 					}else{  // 로그인이 되지 않았으면 로그인이 되지 않았다고 알려준다.
 						$("#p_loginResult").text("");

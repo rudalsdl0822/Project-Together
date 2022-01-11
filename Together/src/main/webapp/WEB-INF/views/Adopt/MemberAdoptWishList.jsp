@@ -74,6 +74,7 @@
 </head>
 <body>
 
+
 <h3>상단 배너</h3>
 
 
@@ -108,6 +109,22 @@
 			<!-- ======== adoptList 시작 ============================================= -->
 			<c:if test="${adoptList.isEmpty()==true }"> 입양신청한 글이 없습니다. </c:if>
 			<c:forEach items="${adoptList }" var="Adopt" varStatus="status">
+			
+			
+				<!-- 뷰 세팅================================================== -->
+					<!-- locationKorean : 펫이 있는 장소를 한글화 합니다. -->
+					<c:set var="locationKorean">
+						<c:if test="${Adopt.pet.location == 1 }">강남</c:if>
+						<c:if test="${Adopt.pet.location == 2 }">안양</c:if>
+						<c:if test="${Adopt.pet.location == 3 }">해운대</c:if>
+					</c:set>
+					<!-- sexKorean : 펫 성별을 한글화 합니다. -->
+					<c:set var="sexKorean">
+						<c:if test="${Adopt.pet.sex == 1 }">남자</c:if>
+						<c:if test="${Adopt.pet.sex == 2 }">여자</c:if>
+					</c:set>
+				<!-- 뷰 세팅 끝================================================== -->
+			
 				
 				<!-- 한줄 시작 -->
 				<c:if test="${status.count%3==1 }">
@@ -118,20 +135,25 @@
 							<!-- 입양신청 1개 시작-->
 							<a href="/Adopt/WaitingPerson?num=${Adopt.num }">
 								<div class="articleThumb">
-									<div style="text-align: right;">
-										<img src="/AddPet/petImg?id=${Adopt.pet_id}&petImgNum=1" alt="" width="88%">
+									<div style="text-align: right; position: relative; width: 100%; height: 0; overflow: hidden; padding-bottom: 60%; object-fit: cover;">
+										<img src="/AddPet/petImg?id=${Adopt.pet_id}&petImgNum=1" alt="" style="position: absolute; width: 88%; top: 0; right: 0;">
 									</div>
 									
 									<div class="date">
 										<span class="number" style="padding: 5px;">${Adopt.num }</span>
 										<span class="text">
-											이름
+											${Adopt.pet.name }
+										</span>
+										<span class="text">
+											${locationKorean }점
 										</span>
 										<span class="text">id : ${Adopt.pet_id }</span>
 									</div>
 
 								</div>
-								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">title : ${Adopt.title }</h3>
+								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+									title : ${Adopt.title }
+								</h3>
 								<p class="articleDesc"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
 									자기 소개 : ${Adopt.content }
 								</p>

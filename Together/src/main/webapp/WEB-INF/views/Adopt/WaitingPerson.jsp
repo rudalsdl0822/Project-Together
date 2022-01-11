@@ -115,7 +115,7 @@
 								<p class="desc">보호소 위치 : (${locationCityKorean })${locationKorean }점</p>
 								<p class="desc" style="width: 90%;">
 									상세 사항 : 
-									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;">${Adopt.pet.info }</textarea>
+									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;  background: #E1E1E1;">${Adopt.pet.info }</textarea>
 								</p>
 							</div>
 						</div>
@@ -140,7 +140,7 @@
 								<p class="desc">현재까지 순대와의 만남 : ${Adopt.dating }번</p>
 								<p class="desc" style="width: 90%;">
 									자기 소개 : 
-									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;">${Adopt.content }</textarea>
+									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical; background: #E1E1E1;">${Adopt.content }</textarea>
 								</p>
 							</div>
 						</c:if>
@@ -167,7 +167,7 @@
 								</p>
 								<p class="desc" style="width: 90%;">
 									자기 소개 :
-									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;">${Adopt.content }</textarea>
+									<textarea rows="5" id="content" style="width:100%; resize: vertical;">${Adopt.content }</textarea>
 								</p>
 							</div>
 						</c:if>
