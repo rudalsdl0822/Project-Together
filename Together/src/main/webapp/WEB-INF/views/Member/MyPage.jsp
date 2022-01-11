@@ -143,7 +143,7 @@
 			</h2>
 	
 
-  <form action="${pageContext.request.contextPath}/Member/MyPage" method="post">
+  <form action="${pageContext.request.contextPath}/MyPage/MyPage" method="post">
 
   <div style="text-align: center;">
     <ul>

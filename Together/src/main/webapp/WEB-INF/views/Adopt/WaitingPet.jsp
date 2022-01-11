@@ -115,16 +115,6 @@
 				}
 			});
 			
-			//관심등록 버튼 해제 클릭
-			$("#btn_like_delete").click(function(){	
-				var flag=confirm("정말 관심등록을 해제하시겠습니까?");
-				if(flag){
-					fn_like_delete();
-				}else{
-					return;
-				}				
-			});
-			
 			// 입양신청 버튼 클릭
 			$("#btn_go_AdoptForm").click(function(){
 				if(member_id==""){
