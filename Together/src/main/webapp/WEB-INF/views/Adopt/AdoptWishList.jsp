@@ -143,8 +143,8 @@
 							<!-- 입양신청 1개 시작-->
 							<a href="/Adopt/WaitingPerson?num=${Adopt.num }">
 								<div class="articleThumb">
-									<div style="text-align: right;">
-										<img src="/AddPet/petImg?id=${Adopt.pet_id}&petImgNum=1" alt="" width="88%">
+									<div style="text-align: right; position: relative; width: 100%; height: 0; overflow: hidden; padding-bottom: 60%; object-fit: cover;">
+										<img src="/AddPet/petImg?id=${Adopt.pet_id}&petImgNum=1" alt="" style="position: absolute; width: 88%; top: 0; right: 0;">
 									</div>
 									
 									<div class="date">
