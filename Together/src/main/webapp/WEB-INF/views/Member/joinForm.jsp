@@ -41,6 +41,13 @@
 			});
 		});
 		
+		$("#nicknameCheck").click(function () {
+			$.post("/Member/nicknameCheck",{nickname:$("#nickname").val()})
+			.done(function (data) {
+				$("#nicknameResult").text(data);	
+			});
+		});
+		
 		$("#join").click(function () {
 			
 			
@@ -94,10 +101,14 @@
 			}
 			
 			if($("#idResult").text().trim() =="사용 가능한 아이디 입니다."){
-				$("form").submit();
+				if($("#nicknameResult").text().trim() =="사용 가능한 닉네임 입니다."){
+					$("form").submit();
+				}else{
+					alert("아이디 혹은 닉네임 중복체크 후 이용가능합니다.");	
+				} 
 			}else{
-				alert("아이디 중복체크 후 이용가능합니다.");	
-			}
+				alert("아이디 혹은 닉네임 중복체크 후 이용가능합니다.");	
+			} 
 		});
 	});
 	</script>
@@ -180,6 +191,17 @@
     <div class="form-group">
       <label for="inputBreed">닉네임</label>
       <input type="text" class="form-control" id="nickname" name= "nickname" placeholder="닉네임을 입력하세요.">
+      <input type="button" value="중복확인" id="nicknameCheck"
+    style="position: relative;
+    		width:100px;
+			background-color: # D3D3D3;
+			border-radius: 4px;
+			color:black;
+			line-height: 25px;
+			-webkit-transition: none;
+			transition: none;
+			text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+			margin-top: 3px; "><span id="nicknameResult" style="color: red;"></span>
     </div>
     
     <fieldset class="form-group">
