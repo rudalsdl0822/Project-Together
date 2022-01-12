@@ -146,5 +146,5 @@ $(document).ready(function() {
 </c:if>
 </form>
 </body>
-</body>
+
 </html>

@@ -31,6 +31,7 @@
    
         <script src="./js/script/js"></script>
     	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    	
 
 </head>
 <body data-target="#nino-navbar" data-spy="scroll" style="padding-top: 50px;" class="nino-fixed-nav">
@@ -143,7 +144,7 @@
 			</h2>
 	
 
-  <form action="${pageContext.request.contextPath}/Member/MyPage" method="post">
+  <form action="${pageContext.request.contextPath}/MyPage/MyPage" method="post">
 
   <div style="text-align: center;">
     <ul>
@@ -163,7 +164,7 @@
     </ul>
 
     <ul>
-      <a class="card_small">
+      <a class="card_small" href="/Adopt/MemberAdoptWishList">
         <h3 class="softblack">입양신청내역</h3>
         <p class="card_text">입양 신청 내역을 보실 수 있습니다.</p>
         <p class="card_textlink">확인하기</p>
