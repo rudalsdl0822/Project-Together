@@ -8,13 +8,18 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script type="text/javascript">
-	var flag=confirm("아이디 혹은 비밀번호를 확인하세요");
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+
+if (${result}){
+	alert("로그인 성공하였습니다!");
+	location.href="/index";
 	
-	if(flag){
-		location.href="${pageContext.request.contextPath}/Member/loginForm"
-	}
-	location.href="${pageContext.request.contextPath}/Member/loginForm"
+} else {
+	alert("아이디 혹은 비밀번호를 확인하세요");
+	location.href="/Member/loginForm";
+}
+	
 </script>
 </body>
 </html>

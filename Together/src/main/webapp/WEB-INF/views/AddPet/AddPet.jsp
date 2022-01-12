@@ -82,6 +82,16 @@
 			}
 		});
 		
+		$('#a_logout').click(function(){
+			var flag = confirm("로그아웃 하시겠습니까?");
+			if (flag){
+				alert("로그아웃 되었습니다.");
+				location.href="/Member/logout";
+			} else {
+				return;
+			}
+		});
+		
 	});
 	</script>
 	
@@ -92,7 +102,7 @@
 	<!-- Header
     ================================================== -->
 	<header id="nino-header">
-		<div id="nino-headerInner">					
+		<div id="nino-headerInner">
 			<nav id="nino-navbar" class="navbar navbar-default" role="navigation">
 				<div class="container">
 
@@ -114,7 +124,7 @@
 								<li><a href="${pageContext.request.contextPath}/index">홈</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">입양공고</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후기게시판</a></li>
-								<li class="active"><a href="${pageContext.request.contextPath}/AddPet/AddPet">입소신청</a></li>
+								<li class="active"><a href="/AddPet/AddPet">입소신청</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후원하기</a></li>
 								
 								<!--  로그인 이전 -->
@@ -131,17 +141,19 @@
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">관리자페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
 									        
-									          <li><a class="dropdown-item" href="#">관리자페이지 - 홈</a></li>
+									          <li><a class="dropdown-item" href="/Member/MyPage">관리자페이지 - 홈</a></li>
 									        
 									          <li class="dropdown-header">회원 정보</li>
-									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Member/logout">로그아웃</a></li>
-									          <li><a class="dropdown-item" href="#">내 정보수정</a></li>
-									          <li><a class="dropdown-item" href="#">전체 회원 관리</a></li>
-									          <li><a class="dropdown-item" href="#">1:1 문의 답변</a></li>
-									         
+									          <li><a id="a_logout" class="dropdown-item" href="#">로그아웃</a></li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/Member/editForm">내 정보수정</a></li>
+									       
 									          <li class="dropdown-header">신청 리스트</li>
 									          <li><a class="dropdown-item" href="#">입양 신청 리스트</a></li>
 									          <li><a class="dropdown-item" href="#">입소 신청 리스트</a></li>
+									          
+									           <li class="dropdown-header">고객 센터</li>
+									           <li><a class="dropdown-item" href="#">전체 회원 관리</a></li>
+									          <li><a class="dropdown-item" href="/Ask/AskList">1:1 문의 답변</a></li>
 									        </ul>
 								    </li>
 								    </c:if>
@@ -151,23 +163,27 @@
 									<li class="nav-item dropdown">
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">마이페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
-									          <li><a class="dropdown-item" href="#">마이페이지 - 홈</a></li>
+									          <li><a class="dropdown-item" href="/Member/MyPage">마이페이지 - 홈</a></li>
 									          
 									          <li class="dropdown-header">내 정보</li>
-									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Member/logout">로그아웃</a></li>
-									          <li><a class="dropdown-item" href="#">내 정보수정</a></li>
+									          <li><a id="a_logout" class="dropdown-item" href="#">로그아웃</a></li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/Member/editForm">내 정보수정</a></li>
 									          <li><a class="dropdown-item" href="#">관심등록 목록</a></li>
-									          <li><a class="dropdown-item" href="/Ask/AskForm">1:1 문의하기</a></li>
 									          
 									          <li class="dropdown-header">신청 내역</li>
 									          <li><a class="dropdown-item" href="#">입양 신청 내역</a></li>
 									          <li><a class="dropdown-item" href="#">입소 신청 내역</a></li>
+									          
+									          <li class="dropdown-header">고객 센터</li>
+									          <li><a class="dropdown-item" href="/Ask/AskForm">1:1 문의하기</a></li>
+									          <li><a class="dropdown-item" href="/Ask/AskList">문의내역보기</a></li>
 									        </ul>
 								    </li>
 								    </c:if>
 								</c:if>
 							</ul>
 						</div><!-- /.navbar-collapse -->
+					
 					</div>
 				</div><!-- /.container-fluid -->
 			</nav>
@@ -204,15 +220,9 @@
 				<span class="nino-subHeading">Together</span>
 				온라인 입소 신청
 			</h2>
-<<<<<<< HEAD
-<form class="form-signin" action="${pageContext.request.contextPath}/AddPet" method="post" enctype="multipart/form-data">
-	<input type="hidden" value="${sessionScope.id }" name="writer_id">
-
-=======
 <form class="form-signin" action="${pageContext.request.contextPath}/AddPet" id="form_addPet" method="post" enctype="multipart/form-data">
->>>>>>> main
   <fieldset>
-  <input type="hidden" name="writer_id" value="${sessionScope.id}"> <!-- id 값 session에서 가져오기 작성해야함 kyungmin -->
+  <input type="hidden" name="writer_id" value="${sessionScope.id}"> 
     <div class="form-group">
       <label for="inputPetName">펫 이름</label><span class="badge badge-pill badge-info">필수</span>
       <input type="text" class="form-control" id="inputPetName" name="name" placeholder="펫의 이름을 적어주세요.">
@@ -239,13 +249,8 @@
       <input type="text" class="form-control" id="inputWeight" name="weight" placeholder="무게를 숫자로 적어주세요.">
     </div>
     <div class="form-group">
-<<<<<<< HEAD
-      <label for="selectLocation">신청 보호소 지점</label>
-      <select class="form-control" id="selectLocation" name="location">
-=======
       <label for="selectLocation">신청 보호소 지점</label><span class="badge badge-pill badge-info">필수</span>
       <select class="form-control" name="location" id="selectLocation">
->>>>>>> main
         <option value="">-선택-</option>
         <option value="1">강남점</option>
         <option value="2">안양점</option>
@@ -253,13 +258,8 @@
       </select>
     </div>
     <div class="form-group">
-<<<<<<< HEAD
-      <label for="textareaInfo">상세사항 (성격 등 특징들을 적어주세요.)</label>
-      <textarea class="form-control" id="textareaInfo" rows="5" name="info"></textarea>
-=======
       <label for="textareaInfo">상세사항 (성격 등 특징들을 적어주세요.)</label> <!-- null -->
       <textarea class="form-control" id="textareaInfo" name="info" rows="5" style="resize: none;"></textarea>
->>>>>>> main
     </div>
     <hr>
     <div class="form-group">
