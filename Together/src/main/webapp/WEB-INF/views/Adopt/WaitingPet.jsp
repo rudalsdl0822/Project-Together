@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
     	<%@ include file="/WEB-INF/views/header_test.jsp" %>
 <!-- jstl -->
-	<%@ include file="/WEB-INF/views/header_test.jsp" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
@@ -50,7 +49,7 @@
 	function fn_loginPopup(){
 		// loginPopup   window.open('팝업주소','팝업창 이름','팝업창 설정');
 		var popup=window.open("/Member/loginFormPopup","Together | 로그인",
-			"width=460px, height=600px, scrollbars=yes, top=100px, left=300px, location=no");
+			"width=460px, height=340px, scrollbars=no, top=100px, left=300px, location=no");
 		return false;
 	}
 	
