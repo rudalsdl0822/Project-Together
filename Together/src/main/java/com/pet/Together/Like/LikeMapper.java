@@ -25,7 +25,7 @@ public interface LikeMapper {
 
 	void deleteAllLike(String id);
 
-	void deleteLikeByPetId(String id, int pet_id);
+	void deleteLikeByPetId(@Param("id") String id, @Param("pet_id") int pet_id);
 
 	int getNum();
 

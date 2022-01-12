@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    	<%@ include file="/WEB-INF/views/header_test.jsp" %>
 <!-- jstl -->
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -38,20 +39,25 @@
 	<!-- jquery 라이브러리 불러들이기 -->
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	
+	<!-- 카카오 지도 api 스크립트 -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=63171c0be6b6cd8384cb03cb48fcdf17"></script>
+
+	
 	<!-- 함수 시작 -->
 	<script>
 	// 로그인 팝업 함수  ******** 추후 추가할 예정 : 팝업시 부모창 비활성화  또는 모달창
 	function fn_loginPopup(){
 		// loginPopup   window.open('팝업주소','팝업창 이름','팝업창 설정');
 		var popup=window.open("/Member/loginFormPopup","Together | 로그인",
-			"width=460px, height=600px, scrollbars=yes, top=100px, left=300px, location=no");
+			"width=460px, height=340px, scrollbars=no, top=100px, left=300px, location=no");
 		return false;
 	}
 	
 	function fn_like(){
 		$.post("/like/add", {pet_id:pet_id})
 		.done(function(){
-			alert("관심등록이 완료되었습니다. 비동기는 구현중이니 새로고침하세요");	
+			$("#btn_like").attr("ifLikePet","true");
+			fn_check_like();
 		})
 		.fail(function(){
 			alert("error");
@@ -60,19 +66,39 @@
 	function fn_like_delete(){
 		$.post("/like/delete", {pet_id:pet_id})
 		.done(function(){
-			alert("관심등록이 해제되었습니다. 비동기는 구현중이니 새로고침하세요");
+			$("#btn_like").attr("ifLikePet","false");
+			fn_check_like();
 		})
 		.fail(function(){
 			alert("error");
 		});
+	}
+	function fn_check_like(){
+		if( $("#btn_like").attr("ifLikePet")=="true" ){
+			$("#span_like").attr("class","glyphicon glyphicon-heart");
+		}else{
+			$("#span_like").attr("class","glyphicon glyphicon-heart-empty");
+		}
 	}
 	
 	var member_id="${sessionScope.id }";
 	var pet_id="${pet.id }";
 	
 		$(document).ready(function(){
+			//지도 숨기기
+			$("#map").hide();
+			
+			//지도 toggle하기
+			$("#p_viewMap").click(function(){
+				$("#map").toggle();
+			});
+			
+			//관심등록 여부 확인
+			fn_check_like();
+			
 			//관심등록 버튼 클릭
-			$("#btn_like").click(function(){				
+			$("#btn_like").click(function(){
+				// 로그인 체크
 				if(member_id==""){
 					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
 					if(flag){
@@ -80,19 +106,14 @@
 					}else{
 						return; 
 					}
-				}else{
+				}else if( $("#btn_like").attr("ifLikePet")=="false" ){  
 					fn_like();
+				}else{ 
+					var flag=confirm("정말 관심등록을 해제하시겠습니까?");
+					if(flag){
+						fn_like_delete();
+					}
 				}
-			});
-			
-			//관심등록 버튼 해제 클릭
-			$("#btn_like_delete").click(function(){	
-				var flag=confirm("정말 관심등록을 해제하시겠습니까?");
-				if(flag){
-					fn_like_delete();
-				}else{
-					return;
-				}				
 			});
 			
 			// 입양신청 버튼 클릭
@@ -171,19 +192,18 @@
             }
 	</script>
 	<!-- 함수 끝 -->
+	
+	<style>
+	#btn_like, #btn_like_delete, #btn_go_AdoptForm, #p_viewMap:hover{
+		cursor: pointer;
+	}
+	</style>
 
 </head>
 <body>
 
-<h3>상단 배너</h3>
 
 <!-- 뷰 세팅================================================== -->
-	<!-- locationEnglish : 펫이 있는 장소를 영어화 합니다. -->
-		<c:set var="locationEnglish">
-			<c:if test="${pet.location == 1 }">GangNam</c:if>
-			<c:if test="${pet.location == 2 }">AnYang</c:if>
-			<c:if test="${pet.location == 3 }">HaeUnDae</c:if>
-		</c:set>
 	<!-- locationKorean : 펫이 있는 장소를 한글화 합니다. -->
 		<c:set var="locationKorean">
 			<c:if test="${pet.location == 1 }">강남</c:if>
@@ -201,11 +221,11 @@
 
 <!-- Story About Us
     ================================================== -->
-	<section id="nino-story">
+	<section id="nino-story" style="padding-bottom: 30px;">
 		<div class="container">
 			<h2 class="nino-sectionHeading">
 
-				<span class="nino-subHeading">I'm In ${locationEnglish }</span>
+				<span class="nino-subHeading">Shall We Together?</span>
 				${pet.breed }, ${pet.name }
 				
 				<c:if test="${pet.state==2}">
@@ -218,9 +238,10 @@
 					<span class="label label-default" style="font-size: 11px;">입양완료</span>
 				</c:if>
 			</h2>
-			<p class="nino-sectionDesc">${pet.name }는 사랑입니다</p>
 
-				<div class="row nino-hoverEffect">
+
+			<!-- pet 이미지 -->
+				<div class="row nino-hoverEffect" style="margin-bottom: 30px;">
 					<div class="col-md-4 col-sm-4">
 						<div class="item">
 							<a class="overlay" href="#">
@@ -256,39 +277,62 @@
 						</div>
 					</div>
 				</div>
+    					
+			
+			<!-- =============지도 : 카카오 api 시작============= -->
+			<p class="nino-sectionDesc" id="p_viewMap" style="color: #f38181; margin-bottom: 8px;">
+				${pet.name }에게로 가는 길<i class="mdi mdi-map-marker nino-icon"></i>
+			</p>
+				<div id="map" style="width:100%;height:400px; margin-bottom: 8px;"></div>
+				<script>
+					// 강남점 안양점 해운대점 위도와 경도 구분.
+					var pet_location="${pet.location }";
+					var latitude=37.49832;
+					var longitude=127.02827;
+					if( pet_location==2 ){
+						latitude=37.40188;
+						longitude=126.92285;
+					}else if( pet_location==3 ){
+						latitude=35.16371;
+						longitude=129.15941;
+					}
+
+					// 1. 지도 생성
+					var container = document.getElementById('map');					
+					var options = {
+						center: new kakao.maps.LatLng(latitude, longitude),
+						level: 3
+					};
+					var map = new kakao.maps.Map(container, options);
+					
+					// 2. 지도에 마커와 인포윈도우(텍스트) 생성					
+					var markerPosition  = new kakao.maps.LatLng(latitude, longitude); 
+					var marker = new kakao.maps.Marker({
+					    position: markerPosition
+					});
+					marker.setMap(map);
+					
+					var iwContent = '<div style="padding:5px; text-align: center;">Together[${locationKorean}점] ${pet.name}</div>';
+				    iwPosition = new kakao.maps.LatLng(latitude, longitude); 
+					var infowindow = new kakao.maps.InfoWindow({
+					    position : iwPosition, 
+					    content : iwContent 
+					});
+					infowindow.open(map, marker); 
+					
+					// 3. 지도에 컨트롤 생성.(줌, 지도/스카이뷰 변환)
+					var mapTypeControl = new kakao.maps.MapTypeControl();
+					map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+					var zoomControl = new kakao.maps.ZoomControl();
+					map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+				</script>
+			<!-- =============지도 : 카카오 api 끝============= -->			
+
+				
 			</div>
 		</div>		
 	</section>
 	<!--/#nino-story-->
-	
-	
-    <!-- Footer
-    ================================================== -->
-	<footer id="footer" style="padding: 0;">
-        <div class="container">
-        	<div class="row">
-        		<div class="col-md-12">
-        			<div class="colInfo">
-	        			<div class="nino-followUs">
-	        				<div class="totalFollow"><span>15k</span> views</div>
-	        				<div class="socialNetwork">
-	        					<span class="text">SNS로 공유하기 : </span>
-	        					<a href="" class="nino-icon"><i class="mdi mdi-facebook"></i></a>
-	        					<a href="" class="nino-icon"><i class="mdi mdi-twitter"></i></a>
-	        					<a href="" class="nino-icon"><i class="mdi mdi-instagram"></i></a>
-	        					<a href="" class="nino-icon"><i class="mdi mdi-pinterest"></i></a>
-	        					<a href="" class="nino-icon"><i class="mdi mdi-google-plus"></i></a>
-	        					<a href="" class="nino-icon"><i class="mdi mdi-youtube-play"></i></a>
-	        					<a href="" class="nino-icon"><i class="mdi mdi-dribbble"></i></a>
-	        					<a href="" class="nino-icon"><i class="mdi mdi-tumblr"></i></a>
-	        				</div>
-	        			</div>
-        			</div>
-        		</div>
-        	</div>		
-        </div>
-    </footer>
-    <!--/#footer-->
 	
 	
 	<!-- Counting
@@ -314,18 +358,10 @@
     			</div>
     			<div class="item" id="btns" style="width:20%; margin-top: 45px; padding: 5px; text-align: center;" >
     				<!-- 관심등록이 안되어 있다면 빈하트, 관심등록이 되어 있다면 하트 -->
-    				<c:if test="${ifLikePet==false }">
-    					<div class="number" id="btn_like" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
-    						<span class="glyphicon glyphicon-heart-empty" id="span_like" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
+    				<div class="number" id="btn_like" ifLikePet="${ifLikePet }" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
+    					<span class="glyphicon glyphicon-heart-empty" id="span_like" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
     						관심등록
-    					</div>
-    				</c:if>
-    				<c:if test="${ifLikePet==true}">
-    					<div class="number" id="btn_like_delete" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
-    						<span class="glyphicon glyphicon-heart" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
-    						관심등록
-    					</div>
-    				</c:if>
+    				</div>
     				<div class="number" id="btn_go_AdoptForm"  style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
     					<span class="glyphicon glyphicon-pencil" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
     					입양신청
@@ -341,7 +377,7 @@
     
     <section id="nino-testimonial">
     	<div class="container">
-    		<div layout="row" class="verticalStretch">
+    		<div layout="row" class="verticalStretch" style="margin: 10px;">
     			<div class="nino-symbol fsr">
 					<i class="mdi mdi-comment-multiple-outline nino-icon" style="font-size: 30px;"></i>
 				</div>
@@ -473,33 +509,6 @@
 	</section>
 	<!-- 댓글리스트 끝-->
 	<!--/#nino-happyClient-->
-    
-
-    
-<h3>하단 입양공고 리스트</h3>
-
-
-    <!-- Footer
-    ================================================== -->
-    <footer id="footer">
-        <div class="container">
-        	<div class="row">
-        		<div class="col-md-12">
-        			<div class="colInfo">
-	        			<div class="footerLogo">
-	        				<a href="${pageContext.request.contextPath}/index" >Together</a>	
-	        			</div>
-	        			<p>강남점 : 서울특별시 강남구 강남대로 396, TEL: 010-0000-0000 
-	        			<br>안양점 : 경기 안양시 만안구 만안로 232, TEL: 010-0000-0000
-	        			<br>해운대점 : 부산광역시 해운대구 해운대로 626, TEL: 010-0000-0000</p>
-        			</div>
-        		</div>
-        		
-        		
-        	</div>
-			<div class="nino-copyright">Copyright &copy; 2021. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
-        </div>
-    </footer><!--/#footer-->
 
 
 	<!-- Search Form - Display when click magnify icon in menu
@@ -536,4 +545,5 @@
     
 
 </body>
+	<%@ include file="/WEB-INF/views/header_test.jsp" %>
 </html>
