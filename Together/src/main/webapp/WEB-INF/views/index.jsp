@@ -57,7 +57,7 @@
 
 								<li class="active"><a href="${pageContext.request.contextPath}/index">홈<span class="sr-only">(current)</span></a></li>
 								<li><a href="${pageContext.request.contextPath}/AddPet/AdoptNoticeList">입양공고</a></li>
-								<li><a href="${pageContext.request.contextPath}/views/">후기게시판</a></li>
+								<li><a href="${pageContext.request.contextPath}/Review/reviewList">후기게시판</a></li>
 								<li><a href="${pageContext.request.contextPath}/AddPet/AddPet">입소신청</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후원하기</a></li>
 								<!--  로그인 이전 -->
