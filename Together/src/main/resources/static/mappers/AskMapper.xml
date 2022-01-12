@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.Together.Ask.AskMapper">
+
+	<resultMap type="com.pet.Together.Ask.Ask" id="Ask">
+		<result property="num" column="num"></result>
+		<result property="writer_id" column="writer_id"></result>
+		<result property="category" column="category"></result>
+		<result property="title" column="title"></result>
+		<result property="content" column="content"></result>
+	</resultMap>
+
+	<!-- 고객에게 필요한 method -->
+
+	<select id="makeNum" resultType="int">
+		select to_ask_seq.nextval from dual
+	</select>
+
+	<insert id="addAsk" parameterType="com.pet.Together.Ask.Ask">
+		insert into to_ask values (#{num}, #{writer_id}, #{category}, #{title}, #{content})
+	</insert>
+
+	<select id="getAsk" resultMap="Ask" parameterType="int">
+		select * from to_ask where num=#{num}
+	</select>
+
+	<delete id="delAsk" parameterType="int">
+		delete to_ask where num=#{num}
+	</delete>
+
+	<!-- 고객, 관리자 함께 필요한 method -->
+
+	<select id="getAskByWriter" resultMap="Ask"
+		parameterType="String">
+		select * from to_ask where writer_id = #{writer_id} order by num desc
+	</select>
+
+	<update id="editAsk" parameterType="com.pet.Together.Ask.Ask">
+		update to_ask set category=#{category}, title=#{title}, content=#{content} where num=#{num}
+	</update>
+
+	<!-- 관리자에게 필요한 method -->
+
+	<select id="getAllAsk" resultMap="Ask">
+		select * from to_ask order by num
+	</select>
+
+	<select id="getAskByCategory" resultMap="Ask"
+		parameterType="int">
+		select * from to_ask where category=#{category} order by num
+	</select>
+
+</mapper>
