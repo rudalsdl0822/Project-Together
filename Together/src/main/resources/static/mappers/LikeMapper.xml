@@ -20,12 +20,12 @@
       select * from to_like where id=#{id} order by like_num   
    </select>
    
-   <select id="selectBypetNum" resultMap="like">
+   <select id="selectByPetId" resultMap="like">
       select * from to_like where pet_id=#{pet_id} order by like_num       
    </select>
    
    
-   <select id="selectByIdpetNum" resultMap="like">
+   <select id="selectByIdPetId" resultMap="like">
       select * from to_like where id=#{id} and pet_id=#{pet_id} order by like_num
    </select>
    
@@ -33,15 +33,13 @@
       delete from to_like where like_num=#{like_num}
    </delete>
    
-   <delete id="deletelikeBypetNum">
-      delete from to_like where id=#{id} and pet_num=#{pet_id}
+   <delete id="deleteLikeByPetId">
+      delete from to_like where id=#{id} and pet_id=#{pet_id}
    </delete>
    
    <delete id="deleteAlllike" parameterType="String">
       delete from to_like where id=#{id}
    </delete>
-   
-   
    
    <select id="getNum" resultType="int">
       select to_like_seq.nextval from dual

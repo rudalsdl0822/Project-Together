@@ -5,12 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pet.Together.AddPet.AddPetService;
+
 @Service
 public class LikeService {
 
 	@Autowired
 	private LikeMapper mapper;
-
+	@Autowired
+    private AddPetService pet_service;
+	
+	
 	public void insertLike(Like l) {
 		mapper.insertLike(l);
 	}
