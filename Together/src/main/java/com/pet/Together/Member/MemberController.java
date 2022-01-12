@@ -69,17 +69,20 @@ public class MemberController {
 
 	
 	@RequestMapping(value = "/Member/login")
-	public String login(HttpServletRequest request, @RequestParam(value = "id") String id,@RequestParam(value = "pwd") String pwd) {
+	public ModelAndView login(HttpServletRequest request, @RequestParam(value = "id") String id,@RequestParam(value = "pwd") String pwd) {
 		Member m = service.getMember(id);
-		if (m == null || !m.getPwd().equals(pwd)) {
-			return "/Member/login_fail";
-		} else {
+		ModelAndView mav = new ModelAndView("/Member/login_fail");
+		boolean result = false;
+		if (m != null && m.getPwd().equals(pwd)) {
+			result = true;
 			HttpSession session = request.getSession();
 			session.setAttribute("id", m.getId());
 			session.setAttribute("nickname", m.getNickname());
 			session.setAttribute("type", m.getType());
-			return "/index";
+			
 		}
+		mav.addObject("result",result);
+		return mav;
 	}
 	
 	/* =======================로그인 팝업창========================*/

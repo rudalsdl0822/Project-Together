@@ -19,7 +19,7 @@ public interface LikeMapper {
 	@SuppressWarnings("rawtypes")
 	List selectByPetId(int pet_id);
 
-	Like selectByIdPetId(@Param("id") String id, @Param("pet_id") int pet_id);
+	Like selectByIdPetId(@Param("id") String id, @Param("pet_id")int pet_id);
 
 	void deleteLike(int like_num);
 

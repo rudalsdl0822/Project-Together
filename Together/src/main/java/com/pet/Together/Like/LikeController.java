@@ -39,6 +39,7 @@ public class LikeController {
 			for (int i = 0; i < list.size(); i++) {
 				Like l = list.get(i);
 				Pet p = pService.getPet(l.getPet_id());
+				l.setP(p);
 				plist.add(p);
 			}
 			model.addAttribute("list", list);

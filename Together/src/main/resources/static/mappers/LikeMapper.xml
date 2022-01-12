@@ -20,7 +20,7 @@
       select * from to_like where id=#{id} order by like_num   
    </select>
    
-   <select id="selectBypetNum" resultMap="like">
+   <select id="selectByPetId" resultMap="like">
       select * from to_like where pet_id=#{pet_id} order by like_num       
    </select>
    
@@ -40,8 +40,6 @@
    <delete id="deleteAlllike" parameterType="String">
       delete from to_like where id=#{id}
    </delete>
-   
-   
    
    <select id="getNum" resultType="int">
       select to_like_seq.nextval from dual
