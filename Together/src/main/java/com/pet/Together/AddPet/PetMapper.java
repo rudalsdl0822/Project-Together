@@ -27,4 +27,14 @@ public interface PetMapper {
 	
 	List selectByState(int state);
 	
+	
+	
+	
+	void deletePet(int id);
+	
+	List selectByLocation(int location);
+	
+	List selectByState234();
+
+	
 }
