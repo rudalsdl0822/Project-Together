@@ -33,6 +33,6 @@
 	</delete>
 	
 	<select id="getNum" resultType="int">
-		select seq_review.nextval from dual
+		select to_review_seq.nextval from dual
 	</select>
 </mapper>
