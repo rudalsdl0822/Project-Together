@@ -19,6 +19,10 @@
 		select * from to_member where id=#{id}
 	</select>
 	
+	<select id="selectByNickname" resultMap="MemberResult" parameterType="String">
+		select * from to_member where nickname=#{nickname}
+	</select>
+	
 	<insert id="insert" parameterType="com.pet.Together.Member.Member">
 		insert into to_member values(#{id},#{pwd},#{name},#{gender},#{nickname},#{phone},#{address},#{email},#{type})
 	</insert>

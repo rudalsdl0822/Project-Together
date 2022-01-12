@@ -60,6 +60,25 @@ public class MemberController {
 		mav.addObject("result", result);
 		return mav;
 	}
+	
+	@RequestMapping(value = "/Member/nicknameCheck")
+	public ModelAndView nicknameCheck(HttpServletRequest request, @RequestParam(value = "nickname") String nickname) {
+		HttpSession session = request.getSession();
+		ModelAndView mav = new ModelAndView("Member/nicknameCheck");
+		String result = "";
+		Member m = service.getMemberByNickname(nickname);
+
+		if (m == null) {
+			result = "사용 가능한 닉네임 입니다.";
+			session.setAttribute("nicknameCheck", true);
+		} else {
+			result = "이미 사용중인 닉네임 입니다.";
+			session.setAttribute("nicknameCheck", false);
+		}
+
+		mav.addObject("result", result);
+		return mav;
+	}
 
 	@RequestMapping(value = "/Member/join")
 	public String join(Member m) {
