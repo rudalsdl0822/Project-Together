@@ -13,7 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pet.Together.AddPet.AddPetService;
 import com.pet.Together.AddPet.Pet;
+import com.pet.Together.Like.Like;
+import com.pet.Together.Like.LikeController;
+import com.pet.Together.Like.LikeService;
 import com.pet.Together.Member.MemberService;
+import com.pet.Together.Reply.Reply;
 import com.pet.Together.Reply.ReplyService;
 
 @Controller
@@ -27,7 +31,14 @@ public class AdoptController {
 	private MemberService member_service;
 	@Autowired
 	private ReplyService reply_service;
+	@Autowired
+	private LikeService like_service;
 	
+	@Autowired
+	private LikeController like_controller;
+	
+	@Autowired
+	private HttpSession session;
 
 
 	@RequestMapping("/Adopt/WaitingPet")
@@ -35,16 +46,26 @@ public class AdoptController {
 
 		/*
 		 * 1. to_Pet DB에서 id가 일치하는 Pet을 찾는다.
-		 * 2. ====이미지 불러오기는 추후 추가할 예정====================
+		 * 2. session의 member id로 현재 이 펫을 관심등록중인지 확인한다.
 		 * 3. Pet 클래스를 입양공고 상세보기 뷰로 보낸다.  
 		 * 4. Pet id에 맞는 댓글들을 리스트로 가져온다.
 		 */
 		Pet p=service.getPet(id);
 		ModelAndView mav=new ModelAndView("Adopt/WaitingPet","pet",p);
 		
+			//로그인이 되어 있고, 관심등록을 했는지 확인한다.
+		boolean ifLikePet=false;
+		if( (String) session.getAttribute("id")!=null ) {
+			ifLikePet=like_controller.check(id);
+		}
+		mav.addObject("ifLikePet", ifLikePet);
+		
 		/* ====댓글리스트 보경이파트========================= */
-		//ArrayList<Reply> reply_list=reply_service.getReplyListByPet_id(id);
-		//mav.addObject("replys", reply_list);
+		ArrayList<Reply> reply_list=reply_service.getReplyListByBoard_num(id);
+		mav.addObject("replys", reply_list);
+
+		ArrayList<Reply> childReply_list = reply_service.getListByParent_reply_num(id);
+		mav.addObject("c_replys", childReply_list);
 		/* ====댓글리스트 보경이파트 끝========================= */
 		
 		System.out.println("-----입양공고 상세보기------------------------------");
@@ -52,6 +73,7 @@ public class AdoptController {
 		System.out.println("pet id가 " + p.getId() + "인 동물을 찾습니다.");
 		System.out.println(p);
 		System.out.println("pet state=" + p.getState() );
+		System.out.println("관심등록 여부 : "+ifLikePet);
 		//System.out.println("---- 댓글 리스트 : "+reply_list);
 
 		System.out.println("-----------------------------------------------\n");
@@ -61,14 +83,13 @@ public class AdoptController {
 	}
 
 	@RequestMapping("/Adopt/AdoptForm")
-	public ModelAndView adoptForm(int id, HttpServletRequest request) {  // 입양신청 폼
+	public ModelAndView adoptForm(int id) {  // 입양신청 폼
 		/*
 		 * 1. session에서 로그인한 회원의 id를 가져온다.
 		 * 2. ====추후 추가할 예정 : 회원이 작성한 입양신청정보(MemberInfo)가 있다면 가져온다. 없을시 AdoptForm에서 새로 작성.====================
 		 * 3. 입양신청 할 Pet의 id로 Pet정보를 가져온다.
 		 */
 		
-		HttpSession session=request.getSession(false);
 		String member_id=(String) session.getAttribute("id");
 		
 		Pet p=service.getPet(id);
@@ -110,8 +131,7 @@ public class AdoptController {
 	public ModelAndView adoptWishList(PagingVO vo
 			, @RequestParam(value="nowPage", required=false) String nowPage
 			, @RequestParam(value="cntPerPage", required=false) String cntPerPage
-			, @RequestParam(value="state", required=false) String state
-			, HttpServletRequest request) {  
+			, @RequestParam(value="state", required=false) String state) {  
 		/*
 		 * 1. member type이 관리자(2)인지 확인한다.
 		 * 2. to_adopt DB에서 adoptList를 불러온다.
@@ -123,7 +143,7 @@ public class AdoptController {
 		/* 수정예정 - 페이징 오류 1건 : 3개씩 보기에서 24개씩 보기로 가면 마지막페이지에서 화면 사라지는 것*/
 		
 		// 로그인이 안되어 있거나 로그인 타입이 관리자가 아니면 로그인폼으로 간다.
-		boolean flag=checkMemberType(2,request);
+		boolean flag=checkMemberType(2);
 		if(flag==false) return new ModelAndView("Member/loginForm");
 
 		
@@ -175,15 +195,13 @@ public class AdoptController {
 	
 
 	@RequestMapping("/Adopt/WaitingPerson")
-	public ModelAndView waitingPerson(int num, HttpServletRequest request) {  // 입양신청 상세보기
+	public ModelAndView waitingPerson(int num) {  // 입양신청 상세보기
 		/*
 		 * 1. 자신이 작성한 글이면 수정이 가능하고 관리자면 승인/거절 할수 있게 한다.
 		 * 2. to_adopt db 에서 num이 맞는 adopt를 찾는다.
-		 * 3. pet을 찾는다.
-		 * 4. 뷰에 adopt, member, pet를 넣어준다.
+		 * 3. 뷰에 adopt를 넣어준다.
 		 */
 		
-		HttpSession session = request.getSession(false);
 		String member_id=(String) session.getAttribute("id");
 		
 		Adopt adopt=adopt_service.getAdopt(num);
@@ -193,10 +211,7 @@ public class AdoptController {
 			return new ModelAndView("Member/loginForm");
 		}
 		
-		Pet pet=service.getPet(adopt.getPet_id());
-		
 		ModelAndView mav=new ModelAndView("Adopt/WaitingPerson","Adopt",adopt);
-		mav.addObject("pet", pet);
 		
 		System.out.println("-----입양신청 상세보기------------------------------");
 		System.out.println("Adopt num : "+num);
@@ -275,7 +290,7 @@ public class AdoptController {
 
 	@RequestMapping("/Adopt/MemberAdoptWishList")  // 고객용 입양신청 내역
 	public ModelAndView memberAdoptWishList(@RequestParam(value="state", required=false) String state
-			, HttpServletRequest request) {  
+			) {  
 		/*
 		 * 1. session에서 member id를 가져오고 member type이 고객(1)인지 확인한다.
 		 * 2. to_adopt DB에서 adoptList를 불러온다.
@@ -284,10 +299,9 @@ public class AdoptController {
 		 */	
 		
 		// 로그인이 안되어 있거나 로그인 타입이 고객이 아니면 로그인폼으로 간다.
-		boolean flag=checkMemberType(1,request);
+		boolean flag=checkMemberType(1);
 		if(flag==false) return new ModelAndView("Member/loginForm");
 		
-		HttpSession session=request.getSession(false);
 		String writer=(String) session.getAttribute("id");
 
 		
@@ -332,8 +346,7 @@ public class AdoptController {
 	
 	/* =============== 새로 정의한 함수 =============================================================== */
 		// 로그인한 member의 type을 확인하는 메소드입니다. 
-	public boolean checkMemberType(int type, HttpServletRequest request) {
-		HttpSession session=request.getSession(false);
+	public boolean checkMemberType(int type) {
 		if(session.getAttribute("type")==null || (int) session.getAttribute("type")!=type) {
 			if(type==1) {
 				System.out.println("****고객 기능 사용불가 : 로그인 타입이 고객이 아닙니다. 재 로그인 해주세요.");

@@ -1,0 +1,131 @@
+@charset "UTF-8";
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+body, div, h1, h2, h3, h4, h5, h6, p, ul, li {
+  margin: 0;
+  padding: 0;
+  letter-spacing: -0.4px;
+  list-style-type: none;
+  color: #000;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+a {
+	cursor: pointer;
+}
+
+
+body {
+  padding: 50px 100px 80px 100px;
+  /* background: #f3f3f3; */
+}
+
+
+p {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+
+h1 {
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: -1px;
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 32px;  
+}
+
+h3 {
+  font-size: 20px;
+  line-height: 30px;  
+}
+
+h4 {
+  font-size: 18px;
+  line-height: 28px;  
+}
+
+
+h5 {
+  font-size: 16px;
+  line-height: 25px;  
+}
+
+
+h6 {
+  font-size: 12px;
+  line-height: 18px;  
+}
+
+
+ul {
+  display: inline-block;
+	}
+
+
+.bold {
+  font-weight: 600;
+}
+
+.medium {
+  font-weight: 500;
+}
+
+.light {
+  font-weight: 200;
+}
+
+.card {
+  padding: 36px 24px;
+  height: 460px;
+  width: 328px;
+}
+
+.card_small {
+  padding: 36px 24px;
+  margin: 20px 20px 20px 0;
+  width: 280px;
+  height: 172px;
+  box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.12); 
+  border-radius: 16px;
+  display: inline-block;
+  float: left;
+  color: #444;
+  background-color: #fff;
+  transition: 0.1s ease-in-out;
+}
+
+
+.card_small:last-of-type {
+  margin-bottom: 0;
+}
+
+
+.card_img {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+
+
+.card_text {
+  padding-top: 2px;
+  color: #666;
+}
+
+
+.card_textlink {
+  padding-top: 16px;
+  text-decoration: underline;
+  color: #888;
+}
+
+
+.card_small:hover {
+  box-shadow: 4px 8px 20px 2px rgba(0,0,0,0.15); 
+  transition: 0.2s ease-in-out;
+}

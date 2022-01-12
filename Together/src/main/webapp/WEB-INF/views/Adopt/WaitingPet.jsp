@@ -51,7 +51,16 @@
 	function fn_like(){
 		$.post("/like/add", {pet_id:pet_id})
 		.done(function(){
-			alert("관심등록이 완료되었습니다.");			
+			alert("관심등록이 완료되었습니다. 비동기는 구현중이니 새로고침하세요");	
+		})
+		.fail(function(){
+			alert("error");
+		});
+	}
+	function fn_like_delete(){
+		$.post("/like/delete", {pet_id:pet_id})
+		.done(function(){
+			alert("관심등록이 해제되었습니다. 비동기는 구현중이니 새로고침하세요");
 		})
 		.fail(function(){
 			alert("error");
@@ -74,6 +83,16 @@
 				}else{
 					fn_like();
 				}
+			});
+			
+			//관심등록 버튼 해제 클릭
+			$("#btn_like_delete").click(function(){	
+				var flag=confirm("정말 관심등록을 해제하시겠습니까?");
+				if(flag){
+					fn_like_delete();
+				}else{
+					return;
+				}				
 			});
 			
 			// 입양신청 버튼 클릭
@@ -110,6 +129,46 @@
 			});
 			
 		});
+		
+		// 대댓글 등록창
+		function toggleReply(reply_num) {
+			$(`#form-${"${reply_num}"}`).slideToggle();
+		}
+		
+		// 댓글|대댓글 수정
+		replyList = {};
+		function editReply(reply_num) {
+                const reply = $(`#reply-${"${reply_num}"}`);
+                if (replyList[reply_num] === undefined) {
+                    replyList[reply_num] = reply.text();
+                    let html = `
+                        <form action="${pageContext.request.contextPath}/reply/edit" method="post">
+                            <div>
+                                <textarea name="reply_content" class="form-control" rows="3" style="width:100%; borrder: none; background: none">${"${reply.text()}"}</textarea>
+                                <button class="btn btn-danger btn-block" type="submit">댓글 수정</button>
+                            </div>
+                            <input type="hidden" name="reply_num" value="${"${reply_num}"}" />
+                        </form>`;
+                    reply.css("white-space", "normal");
+                    reply.html(html);
+                } else {
+                    reply.text(replyList[reply_num]);
+                    reply.css("white-space", "pre");
+                    replyList[reply_num] = undefined;
+                }
+            }
+		
+		// 댓글|대댓글 삭제
+		function deleteReply(reply_num) {
+                $.ajax({
+                    type: "post",
+                    url: "${pageContext.request.contextPath}/reply/delete",
+                    data: { reply_num },
+                    success: function (response) {
+                        location.href = location.href.split("#")[0];
+                    },
+                });
+            }
 	</script>
 	<!-- 함수 끝 -->
 
@@ -148,6 +207,16 @@
 
 				<span class="nino-subHeading">I'm In ${locationEnglish }</span>
 				${pet.breed }, ${pet.name }
+				
+				<c:if test="${pet.state==2}">
+					<span class="label label-warning" style="font-size: 11px;">입양대기</span>
+				</c:if>
+				<c:if test="${pet.state==3}">
+					<span class="label label-success" style="font-size: 11px;">입양문의중</span>
+				</c:if>
+				<c:if test="${pet.state==4}">
+					<span class="label label-default" style="font-size: 11px;">입양완료</span>
+				</c:if>
 			</h2>
 			<p class="nino-sectionDesc">${pet.name }는 사랑입니다</p>
 
@@ -243,13 +312,24 @@
     				<div class="number">${locationKorean }</div>
     				<div class="text">location</div>
     			</div>
-    			<div class="item" style="width:20%; margin: 0px; padding: 20px;">
-    				<!-- *********수정할 사항 : 관심등록 하트 구현하기********* -->
-    				<div class="number">
-    					<button id="btn_like" class="nino-btn" style="font-size: 20px; background: #95e1d3;">관심등록</button>
-    					<button id="btn_go_AdoptForm" class="nino-btn" style="font-size: 20px; background: #95e1d3;">입양신청</button>
+    			<div class="item" id="btns" style="width:20%; margin-top: 45px; padding: 5px; text-align: center;" >
+    				<!-- 관심등록이 안되어 있다면 빈하트, 관심등록이 되어 있다면 하트 -->
+    				<c:if test="${ifLikePet==false }">
+    					<div class="number" id="btn_like" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
+    						<span class="glyphicon glyphicon-heart-empty" id="span_like" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
+    						관심등록
+    					</div>
+    				</c:if>
+    				<c:if test="${ifLikePet==true}">
+    					<div class="number" id="btn_like_delete" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
+    						<span class="glyphicon glyphicon-heart" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
+    						관심등록
+    					</div>
+    				</c:if>
+    				<div class="number" id="btn_go_AdoptForm"  style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
+    					<span class="glyphicon glyphicon-pencil" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
+    					입양신청
     				</div>
-    				<div class="text"></div>
     			</div>
     			
     					
@@ -274,25 +354,22 @@
 
     
     
-    <!-- Happy Client
+	<!-- Happy Client
     ================================================== -->
-    <section id="nino-happyClient">
-    	<div class="container">
-    		<h2 class="nino-sectionHeading">
-				<span class="nino-subHeading">Say Together</span>
-				댓글
+	<section id="nino-happyClient">
+		<div class="container">
+			<h2 class="nino-sectionHeading">
+				<span class="nino-subHeading">Say Together</span> 댓글
 			</h2>
-			
+
 			<!-- 댓글쓰기란 -->
-				<div class="sectionContent"
-				style="border: 5px dotted white; border-radius: 50px; padding: 10px; margin: 30px;">
-				<div class="replys" id="reply-add-form">
-					<!-- 댓글 등록 폼 -->
+			<div class="sectionContent">
+				<div class="replys" id="reply-add-form" style="border: 5px dotted white; border-radius: 35px; padding: 5px 15px; margin: 30px;">
+
+					<!-- 댓글 등록폼 -->
 					<form name="form_addReply" action="${pageContext.request.contextPath}/reply/add" method="post" class="add-reply-form">
 						<div>
-							<span class="regency">
-							NICKNAME : ${sessionScope.nickname}
-							</span>
+							<span class="regency">NICKNAME : ${sessionScope.nickname}</span>
 							<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요." style="borrder: none; background: none"></textarea>
 							<button id="btn_addReply" type="button" class="btn btn-danger btn-block">댓글 등록</button>
 						</div>
@@ -303,11 +380,99 @@
 					</form>
 				</div>
 
+				<!-- 댓글목록 -->
+				<ul>
+					<c:forEach var="reply" items="${replys}">
+						<c:set var="status" value="${reply.reply_content==null?'deleted':'normal'}" />
+						<c:choose>
+							<%-- 댓글이 정상일 때 --%>
+							<c:when test="${status != 'deleted'}">
+								<li style="border-bottom: 1px solid; border-color: #C0C0C0; padding: 15px; margin: 5px 40px 5px;">
+									<div class="reply-writer">
+										<span class="regency">NICKNAME : ${reply.member.nickname}</span>
+									</div>
+									<div class="reply-content" id="reply-${reply.reply_num}">${reply.reply_content}</div>
+									<div class="reply_date" align="right">${reply.reply_date}</div>
 
+									<div class="reply-menu" align="right">
+										<c:if test="${sessionScope.id != null}">
+											<button onclick="toggleReply('${reply.reply_num}')" class="btn btn-link btn-sm">
+												<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>댓글
+											</button>
+											<button onclick="editReply('${reply.reply_num}')" class="btn btn-link btn-sm">
+												<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>수정
+											</button>
+											<button onclick="deleteReply('${reply.reply_num}')" class="btn btn-link btn-sm">
+												<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>삭제
+											</button>
+										</c:if>
+									</div>
+								</li>
+								<%-- 댓글목록 끝 --%>
+
+								<%-- 대댓글 등록폼 --%>
+								<form action="${pageContext.request.contextPath}/reply/add" method="post" class="add-child-reply-form" id="form-${reply.reply_num}" style="display: none">
+									<div>
+										<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요." style="borrder: none; background: none"></textarea>
+										<button id="btn_addChildReply" type="submit" class="btn btn-danger btn-block">댓글 등록</button>
+									</div>
+									<input type="hidden" name="writer_id" value="${sessionScope.id}" />
+									<input type="hidden" name="board_num" value="${pet.id}" />
+									<input type="hidden" name="parent_reply_num" value="${reply.reply_num}" />
+								</form>
+
+								<%-- 대댓글 등록폼 끝 --%>
+							</c:when>
+
+							<%-- 댓글이 삭제된 경우 --%>
+							<c:otherwise>
+								<li style="border-bottom: 1px solid; border-color: #C0C0C0; padding: 15px; margin: 5px 40px 5px;">
+									<div class="reply-content">삭제된 댓글입니다.</div>
+								</li>
+							</c:otherwise>
+						</c:choose>
+
+						<%-- 대댓글이 있는 경우 --%>
+						<c:if test="${not empty reply.child_reply}">
+							<c:forEach var="c_reply" items="${reply.child_reply}">
+								<c:set var="child_status" value="${c_reply.reply_content==null?'deleted':'normal'}" />
+								<c:choose>
+									<c:when test="${child_status != 'deleted'}">
+										<li style="border-bottom: 1px solid; border-color: #C0C0C0; padding: 15px; margin: 5px 40px 5px; margin-left: 150px;">
+											<div class="childReply-writer">
+												<span class="regency">NICKNAME : ${reply.member.nickname}</span>
+											</div>
+											<div class="childReply-content" id="reply-${c_reply.reply_num}">${c_reply.reply_content}</div>
+											<div class="childReply_date" align="right">${reply.reply_date}</div>
+
+											<div class="childReply-menu" align="right">
+												<c:if test="${sessionScope.id != null}">
+													<button onclick="editReply('${c_reply.reply_num}')" class="btn btn-link btn-sm">
+														<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>수정
+													</button>
+													<button onclick="deleteReply('${c_reply.reply_num}')" class="btn btn-link btn-sm">
+														<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>삭제
+													</button>
+
+												</c:if>
+											</div>
+										</li>
+									</c:when>
+									<c:otherwise>
+										<li style="border-bottom: 1px solid; border-color: #C0C0C0; padding: 15px; margin: 5px 40px 5px; margin-left: 150px;">
+											<div class="childReply-content">삭제된 댓글입니다.</div>
+										</li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</c:if>
+					</c:forEach>
+				</ul>
+			</div>
 		</div>
 	</section>
-    <!-- 댓글리스트 끝-->
-    <!--/#nino-happyClient-->
+	<!-- 댓글리스트 끝-->
+	<!--/#nino-happyClient-->
     
 
     
