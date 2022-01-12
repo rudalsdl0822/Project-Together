@@ -97,7 +97,7 @@
 									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/Member/editForm">내 정보수정</a></li>
 									       
 									          <li class="dropdown-header">신청 리스트</li>
-									          <li><a class="dropdown-item" href="#">입양 신청 리스트</a></li>
+									          <li><a class="dropdown-item" href="/Adopt/AdoptWishList">입양 신청 리스트</a></li>
 									          <li><a class="dropdown-item" href="#">입소 신청 리스트</a></li>
 									          
 									           <li class="dropdown-header">고객 센터</li>
