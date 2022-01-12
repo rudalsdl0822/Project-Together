@@ -49,6 +49,22 @@
 	<select id="selectByState" parameterType="int" resultMap="Pet">
 		select * from to_pet where state=#{state} order by id
 	</select>
+	
+	
+	
+	
+	
+	<delete id="deletePet" parameterType="int">
+		delete to_pet where id=#{id}
+	</delete>
+	
+	<select id="selectByLocation" parameterType="int" resultMap="Pet">
+		select * from to_pet where location=#{location} order by state
+	</select>
+	
+	<select id="selectByState234" parameterType="int" resultMap="Pet">
+		select * from to_pet where not state=1 order by state
+	</select>
 
 
 

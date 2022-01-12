@@ -31,6 +31,26 @@
 			$(".petImg").mouseover(function() {
 				$("#bigImg").attr('src', this.src);
 			});
+			
+			$("#delPet").click(function(){
+				if(confirm("정말 삭제하시겠습니까? 삭제 시 작성된 신청서는 복구되지 않습니다")){
+					alert("삭제가 완료되었습니다");
+					$("#editPetForm").attr('action', '/Addpet/DeletePet');
+					$("#editPetForm").submit();
+				}else{
+					alert("삭제가 취소되었습니다");
+				}
+			});
+			
+			$("#approPet").click(function(){
+				if(confirm("입소승인 하시겠습니까?")){
+					alert("입소승인이 완료되어 '입양대기'로 상태 변경되었습니다.");
+					$("input[type=hidden][name=state]").val(2);
+					$("#editPetForm").submit();
+				}else{
+					alert("입소승인이 취소되었습니다");
+				}
+			});
 		});
 	</script>
 	
@@ -75,93 +95,26 @@
 	
 	<section id="EditPet">
 		<div class="container">
-				<h2 class="nino-sectionHeading">
-					<span class="nino-subHeading">Together</span>
-					입소 신청 내용
-				</h2>
+			<h2 class="nino-sectionHeading">
+				<span class="nino-subHeading">Together</span>
+				입소 신청 내용
+			</h2>
 
-<!-- 임시 view -->
 			<form id="editPetForm" action="${pageContext.request.contextPath}/Addpet/EditPet" method="post">
 				<input type="hidden" name="id" value="${p.id}">
 				
 				<table style="margin-left: auto; margin-right: auto;" border="1" cellspacing="0">
 					<tr>
 						<td colspan="3">
-							<img id="bigImg" src="${pageContext.request.contextPath}/resources/cha/EditPet/editPet1.jpg" style="width:450px; height:auto;">
+							<img id="bigImg" src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=1" style="width:450px; height:auto;">
 						</td>
 					</tr>
 					<tr>
-						<td><img src="${pageContext.request.contextPath}/resources/cha/EditPet/editPet1.jpg" class="petImg" width="150" height="150"></td>
-						<td><img src="${pageContext.request.contextPath}/resources/cha/EditPet/editPet2.jpg" class="petImg" width="150" height="150"></td>
-						<td><img src="${pageContext.request.contextPath}/resources/cha/EditPet/editPet3.jpg" class="petImg" width="150" height="150"></td>
+						<td><img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=1" class="petImg" width="150" height="150"></td>
+						<td><img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=2" class="petImg" width="150" height="150"></td>
+						<td><img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=3" class="petImg" width="150" height="150"></td>
 					</tr>
 				</table>
-				
-				<fieldset>
-					<div class="form-group">
-						<label for="editPetName">펫 이름</label>
-						<input type="text" class="form-control" id="editPetName" name="name" value="죠르디">
-					</div>
-					<div class="form-group">
-						<label for="editPetBreed">품종</label>
-						<input type="text" class="form-control" id="editPetBreed" name="breed" value="포메라니안">
-					</div>
-					
-					<!-- 추후 선택된 성별 값 가져와서 변경할 수 있도록 JQuery 작성 예정-->
-					<div class="form-group">
-						<label for="editPetSex">성별</label>
-						<input type="text" class="form-control" id="editPetSex" name="sex" value="수컷" readonly>
-					</div>
-					<div class="form-group">
-						<label for="editPetAge">나이</label>
-						<input type="text" class="form-control" id="editPetAge" name="age" value="1">
-					</div>
-					<div class="form-group">
-						<label for="editPetWeight">무게</label>
-						<input type="text" class="form-control" id="editPetWeight" name="weight" value="1.5">
-					</div>
-					
-					<!-- 추후 선택된 보호소 값 가져와서 변경할 수 있도록 jquery 작성 예정 -->
-					<div class="form-group">
-						<label for="editPetLocation">신청 보호소 지점</label>
-						<input type="text" class="form-control" id="editPetLocation" name="location" value="안양점" readonly>
-					</div>
-					<div class="form-group">
-						<label for="editTextareaInfo">상세사항</label>
-						<textarea class="form-control" id="editTextareaInfo" rows="5">귀엽습니다!!!!!!!</textarea>
-					</div>
-				</fieldset>
-				
-				<button type="submit" class="btn btn-primary" name="approval">승인</button>
-				<button type="button" class="btn btn-primary" name="rejection">거절</button>
-				
-				<input type="hidden" name="state" value="2">
-			</form>
-<hr>
-
-<!-- 찐 view -->
-			<form id="editPetForm" action="${pageContext.request.contextPath}/Addpet/EditPet" method="post">
-				<input type="hidden" name="id" value="${p.id}">
-				
-				<!-- 쌤 shop > itemView.jsp(SellerController_img) 참고
-				<c:if test="${empty file1}">
-					등록된 이미지가 없습니다
-				</c:if>
-				
-				<c:if test="${not empty file1}"> -->
-					<table style="margin-left: auto; margin-right: auto;" border="1" cellspacing="0">
-						<tr>
-							<td colspan="3">
-								<img id="bigImg" src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=1" style="width:450px; height:auto;">
-							</td>
-						</tr>
-						<tr>
-							<td><img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=1" class="petImg" width="150" height="150"></td>
-							<td><img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=2" class="petImg" width="150" height="150"></td>
-							<td><img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=3" class="petImg" width="150" height="150"></td>
-						</tr>
-					</table>
-				<!--</c:if>-->
 				
 				<fieldset>
 				    <div class="form-group">
@@ -176,28 +129,18 @@
 						<label for="editPetBreed">품종</label>
 						<input type="text" class="form-control" id="editPetBreed" name="breed" value="${p.breed}">
 					</div>
-					
-					<!-- 추후 선택된 성별 값 가져와서 변경할 수 있도록 JQuery 작성할 예정-->
-		  <!-- <fieldset class="form-group">
-	      <legend>성별</legend>
-	      <div class="form-check">
-	        <label class="form-check-label">
-	          <input type="radio" class="form-check-input" name="sex" id="sex" value="1" checked>
-	          수컷
-	        </label>
-	      </div>
-	      <div class="form-check">
-	        <label class="form-check-label">
-	          <input type="radio" class="form-check-input" name="sex" id="sex" value="2">
-	          암컷
-	        </label>
-	      </div>
-	      </fieldset> -->
-					<div class="form-group">
-						<label for="editPetSex">성별</label>
-						<input type="text" class="form-control" id="editPetSex" name="sex" value="${p.sex}" readonly>
-					</div>
-					<div class="form-group">
+					<fieldset class="form-group">
+				      <legend>성별</legend>
+				      <div class="form-check">
+				        <label class="form-check-label">
+				          <input type="radio" class="form-check-input" name="sex" id="sex" value="1" <c:if test="${p.sex==1}">checked</c:if>>
+				          수컷
+				          <input type="radio" class="form-check-input" name="sex" id="sex" value="2" <c:if test="${p.sex==2}">checked</c:if>>
+				          암컷
+				        </label>
+				      </div>
+				    </fieldset>
+	      			<div class="form-group">
 						<label for="editPetAge">나이</label>
 						<input type="text" class="form-control" id="editPetAge" name="age" value="${p.age}">
 					</div>
@@ -205,37 +148,45 @@
 						<label for="editPetWeight">무게</label>
 						<input type="text" class="form-control" id="editPetWeight" name="weight" value="${p.weight}">
 					</div>
-					
-					<!-- 추후 선택된 보호소 값 가져와서 변경할 수 있도록 jquery 작성 예정 -->
-	<!--     <div class="form-group">
-		      <label for="selectLocation">신청 보호소 지점</label>
-		      <select class="form-control" id="selectLocation">
-		        <option value="">-선택-</option>
-		        <option value="1">강남점</option>
-		        <option value="2">안양점</option>
-		        <option value="3">해운대점</option>
-		      </select>
-		    </div> -->
-					<div class="form-group">
-						<label for="editPetLocation">신청 보호소 지점</label>
-						<input type="text" class="form-control" id="editPetLocation" name="location" value="${p.location}" readonly>
-					</div>
-					<div class="form-group">
+				    <label for="selectLocation">신청 보호소 지점</label>
+				      <select class="form-control" name="location" id="selectLocation">
+				        <option value="">-선택-</option>
+				        <option value="1" <c:if test="${p.location==1}">selected</c:if>>강남점</option>
+				        <option value="2" <c:if test="${p.location==2}">selected</c:if>>안양점</option>
+				        <option value="3" <c:if test="${p.location==3}">selected</c:if>>해운대점</option>
+				      </select>
+		    		  <div class="form-group">
 						<label for="editTextareaInfo">상세사항</label>
 						<textarea class="form-control" id="editTextareaInfo" rows="5" name="info">${p.info}</textarea>
-					</div>
+					  </div>
 				</fieldset>
 
-				<input type="hidden" name="state" value="2">
-								
-				<button type="submit" class="btn btn-primary" name="approval">입소 승인</button>
-				<button type="button" class="btn btn-primary" name="rejection">입소 거절</button>
+				<input type="hidden" name="state" value="1">
+				
+				<c:if test="${p.state==1 || sessionScope.type==2}">
+					<div style="text-align: center;">
+						<span class="input-group-btn">
+							<button class="btn btn-success" type="submit" name="edit" style="font-size: 13px; background: #4FC9DE; border-color: #FFFFFF;">수정</button>			
+							<button class="btn btn-success" type="button" name="delete" id="delPet" style="font-size: 13px; background: #f38181; border-color: #FFFFFF;">삭제</button>
+						</span>						
+					</div>
+				</c:if>				
+				
+				<br>
+
+				<!-- 관리자일 경우 -->
+				<c:if test="${sessionScope.type==2}">
+					<div style="text-align: center;">
+						<span class="input-group-btn">
+							<button type="button" class="nino-btn" style="background: #95e1d3; border-color:#95e1d3;" name="approval" id="approPet">입소 승인</button>
+							<button type="button" class="nino-btn" style="color:#95e1d3; background: #FFFFFF; border-color:#95e1d3;" name="rejection">입소 거절</button>
+						</span>						
+					</div>
+				</c:if>
 
 			</form>
 		</div>
 	</section>
-
-
 
     <!-- Footer ================================================== -->
     <footer id="footer">
