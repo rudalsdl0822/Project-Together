@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.Together.Adopt.AdoptMapper">
+
+	<resultMap type="com.pet.Together.Adopt.Adopt" id="Adopt">
+		<result property="num" column="num"></result>
+		<result property="title" column="title"></result>
+		<result property="writer" column="writer"></result>
+		<result property="pet_id" column="pet_id"></result>
+		<result property="family" column="family"></result>
+		<result property="job" column="job"></result>
+		<result property="walktime" column="walktime"></result>
+		<result property="dating" column="dating"></result>
+		<result property="content" column="content"></result>
+		<result property="state" column="state"></result>
+	</resultMap>
+
+<insert id="addAdopt" parameterType="com.pet.Together.Adopt.Adopt">
+	insert into to_adopt 
+	values(to_adopt_seq.nextval, #{title}, #{writer}, #{pet_id}, 
+			#{family}, #{job}, #{walktime}, #{dating}, #{content}, 0)
+</insert>
+
+<select id="getAdopt" resultMap="Adopt" parameterType="int">
+	select * from to_adopt
+	where num=#{num}
+</select>
+
+<select id="getAdopts" resultMap="Adopt">
+	select * from to_adopt
+	order by num desc
+</select>
+<update id="editAdopt">
+	update to_adopt set dating=#{dating}, state=#{state}
+	where num=#{num}
+</update>
+
+<delete id="deleteAdopt">
+	delete to_adopt
+	where num=#{num}
+</delete>
+
+
+<select id="getAdoptsByPet_id" resultMap="Adopt" parameterType="int">
+	select * from to_adopt
+	where pet_id=#{pet_id}
+	order by num desc
+</select>
+
+<select id="getAdoptsByWriter" resultMap="Adopt">
+	select * from to_adopt
+	where writer=#{writer} and state=#{state}
+	order by num desc
+</select>
+
+<select id="getAdoptsAllByWriter" resultMap="Adopt">
+	select * from to_adopt
+	where writer=#{writer}
+	order by num desc
+</select>
+
+
+<!--===============입양신청 DB 페이징 시작===============-->
+<!-- 총 게시글 갯수 출력-->
+<select id="countAdopts" resultType="int">
+	select count(*) from to_adopt
+</select>
+
+<select id="countAdoptsByState" resultType="int" parameterType="int">
+	select count(*) from to_adopt
+	where state=#{state}
+</select>
+
+<!-- 페이징 처리 후 게시글 조회 -->
+<select id="selectAdopts" resultMap="Adopt">
+	select * from(
+					select rownum rn, a.* from(
+												select * from to_adopt
+													order by num desc
+												) a
+					)
+	where rn between #{start} and #{end}
+</select>
+<select id="selectAdopt0" resultMap="Adopt">
+	select * from(
+					select rownum rn, a.* from(
+												select * from to_adopt
+													where state=0
+													order by num desc
+												) a
+					)
+	where rn between #{start} and #{end}
+</select>
+<select id="selectAdopt1" resultMap="Adopt">
+	select * from(
+					select rownum rn, a.* from(
+												select * from to_adopt
+													where state=1
+													order by num desc
+												) a
+					)
+	where rn between #{start} and #{end}
+</select>
+<select id="selectAdopt2" resultMap="Adopt">
+	select * from(
+					select rownum rn, a.* from(
+												select * from to_adopt
+													where state=2
+													order by num desc
+												) a
+					)
+	where rn between #{start} and #{end}
+</select>
+
+
+<!--===============입양신청 DB 페이징 끝===============-->
+
+
+
+
+
+</mapper>
