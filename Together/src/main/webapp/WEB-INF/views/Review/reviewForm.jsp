@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
-	<title>Together | 회원정보수정</title>
+	<title>Together | 후기작성</title>
 	
 	<!-- favicon -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/ico/favicon.jpg">
@@ -26,63 +26,8 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/unslider.css" />
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/template.css" />
 	
-	
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript">
-	
-	
-	$(document).ready(function () {
-		$("#join").click(function () {
-			
-			
-			var f= document.joinForm;
-			var arrRadio = document.getElementsByName("gender");
-		     if(f.pwd.value==""){
-				alert("비밀번호를 입력하세요.");
-				f.pwd.focus();
-				return false;
-			}else if(f.pwd2.value==""){
-				alert("비밀번호 확인을 입력하세요.");
-				f.pwd2.focus();
-				return false;
-			}else if(f.nickname.value==""){
-				alert("닉네임을 입력하세요.");
-				f.nickname.focus();
-				return false;
-			}else if(f.name.value==""){
-				alert("성명을 입력하세요.");
-				f.name.focus();
-				return false;
-			}else if(!arrRadio[0].checked && !arrRadio[1].checked){
-				alert("성별을 선택하세요.");
-				return false;
-			}else if(f.phone.value==""){
-				alert("휴대폰 번호를 입력하세요.");
-				f.phone.focus();
-				return false;
-			}else if(f.address.value==""){
-				alert("주소를 입력하세요.");
-				f.address.focus();
-				return false;
-			}else if(f.email.value==""){
-				alert("이메일을 입력하세요.");
-				f.email.focus();
-				return false;
-			}
-			
-			if(f.pwd.value != f.pwd2.value){
-				alert("두 비밀번호가 서로 일치하지 않습니다.");
-				return false;
-			}
-			
-		});
-	});
-	</script>
-	
-	
 </head>
 <body data-target="#nino-navbar" data-spy="scroll" style="padding-top: 50px;" class="nino-fixed-nav">
-
 
 	<!-- Header
     ================================================== -->
@@ -106,9 +51,9 @@
 					<div class="nino-menuItem pull-right">
 						<div class="collapse navbar-collapse pull-left" id="nino-navbar-collapse">
 							<ul class="nav navbar-nav">
-								<li class="active"><a href="${pageContext.request.contextPath}/index">홈<span class="sr-only">(current)</span></a></li>
-								<li><a href="${pageContext.request.contextPath}/AddPet/AdoptNoticeList">입양공고</a></li>
-								<li><a href="${pageContext.request.contextPath}/views/">후기게시판</a></li>
+								<li><a href="${pageContext.request.contextPath}/index">홈</a></li>
+								<li><a href="${pageContext.request.contextPath}/views/">입양공고</a></li>
+								<li  class="active"><a href="${pageContext.request.contextPath}/Review/reviewList">후기게시판</a></li>
 								<li><a href="${pageContext.request.contextPath}/AddPet/AddPet">입소신청</a></li>
 								<li><a href="${pageContext.request.contextPath}/views/">후원하기</a></li>
 								<!--  로그인 이전 -->
@@ -120,7 +65,7 @@
 								<c:if test="${not empty sessionScope.id}">
 								
 								<!-- 관리자의 경우 -->
-								<c:if test="${sessionScope.type==2}">
+								<c:if test="${sessionScope.type==1}">
 								<li class="nav-item dropdown">
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">관리자페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
@@ -129,7 +74,7 @@
 									        
 									          <li class="dropdown-header">회원 정보</li>
 									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Member/logout">로그아웃</a></li>
-									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/Member/editForm">내 정보수정</a></li>
+									          <li><a class="dropdown-item" href="#">내 정보수정</a></li>
 									          <li><a class="dropdown-item" href="#">전체 회원 관리</a></li>
 									          <li><a class="dropdown-item" href="#">1:1 문의 답변</a></li>
 									         
@@ -141,15 +86,15 @@
 								    </c:if>
 								    
 								    <!-- 고객의 경우 -->
-								    <c:if test="${sessionScope.type==1}">
+								    <c:if test="${sessionScope.type==2}">
 									<li class="nav-item dropdown">
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">마이페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
-									          <li><a class="dropdown-item" href="/Member/MyPage">마이페이지 - 홈</a></li>
+									          <li><a class="dropdown-item" href="#">마이페이지 - 홈</a></li>
 									          
 									          <li class="dropdown-header">내 정보</li>
 									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Member/logout">로그아웃</a></li>
-									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/Member/editForm">내 정보수정</a></li>
+									          <li><a class="dropdown-item" href="#">내 정보수정</a></li>
 									          <li><a class="dropdown-item" href="#">관심등록 목록</a></li>
 									          <li><a class="dropdown-item" href="#">1:1 문의하기</a></li>
 									          
@@ -162,6 +107,7 @@
 								</c:if>
 							</ul>
 						</div><!-- /.navbar-collapse -->
+					
 					</div>
 				</div><!-- /.container-fluid -->
 			</nav>
@@ -174,82 +120,51 @@
 		<div class="container">
 			<h2 class="nino-sectionHeading">
 				<span class="nino-subHeading">Together</span>
-				내정보수정
+				후기 작성
 			</h2>
-<form name="editForm" class="form-signin" action="${pageContext.request.contextPath}/Member/edit" method="post">
+<form class="form-signin" action="${pageContext.request.contextPath}/Review/review" method="post" enctype="multipart/form-data">
   <fieldset>
-  <legend>회원정보수정</legend>
-    <div class="form-group">
-      <label for="inputPetName">아이디 </label>
-      <input type="text" class="form-control" id="id"  name="id" value="${m.id}" placeholder="아이디" readonly>
-      <span id="idResult"></span>
-    </div>
-    <div class="form-group">
-      <label for="inputBreed">비밀번호</label>
-      <input type="password" class="form-control" id="pwd" name= "pwd" value="${m.pwd }" placeholder="비밀번호를 입력하세요.">
-    </div>
-    <div class="form-group">
-      <label for="inputBreed">비밀번호 확인</label>
-      <input type="password" class="form-control" id="pwd2" name= "pwd2" placeholder="비밀번호 확인">
-    </div>   
-    <div class="form-group">
-      <label for="inputBreed">닉네임</label>
-      <input type="text" class="form-control" id="nickname" name= "nickname" value="${m.nickname }" placeholder="닉네임을 입력하세요.">
-    </div>
-    
-    <fieldset class="form-group">
-      <legend>개인정보</legend>
-      
-     <div class="form-group">
-      <label for="inputAge">성명</label>
-      <input type="text" class="form-control" id="name" name="name" value="${m.name}" placeholder="성명을 입력하세요.">
-    </div>
-    
   
-       <div class="form-check">
-        <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="gender" id="gender" value="1" checked>
-          남성
-        </label>
-      </div>
-      
-      <div class="form-check">
-        <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="gender" id="gender" value="2">
-          여성
-        </label>
-      </div>
-      <div class="form-group">
-      <label for="inputAge">휴대폰번호</label>
-      <input type="text" class="form-control" id="phone" name="phone" value="${m.phone }" placeholder="-없이 입력하세요.">
+  <div class="form-group">
+      <label for="inputPetName">작성자</label>
+      <input type="text" class="form-control" id="w_writer"  name="w_writer" value="${sessionScope.nickname }" readonly="readonly">
+    </div>
+  
+    <div class="form-group">
+      <label for="inputPetName">제목</label>
+      <input type="text" class="form-control" id="title"  name="title" placeholder="제목을 입력하세요.">
     </div>
     
     <div class="form-group">
-      <label for="inputAge">주소</label>
-      <input type="text" class="form-control" id="address" name="address" value="${m.address }" placeholder="주소를 입력하세요.">
+    	 <label for="selectLocation">신청 보호소 지점</label>
+      	<select class="form-control" id="location" name="location">
+       		<option value="">-선택-</option>
+        	<option value="1">강남점</option>
+        	<option value="2">안양점</option>
+        	<option value="3">해운대점</option>
+      </select>
     </div>
     
     <div class="form-group">
-      <label for="inputAge">이메일</label>
-      <input type="email" class="form-control" id="email" name="email" value="${m.email }" placeholder="이메일을 입력하세요.">
+      <label for="inputBreed">내용</label>
+      <textarea class="form-control" id="content" name="content" placeholder="내용을 입력하세요." rows="10"></textarea>
     </div>
-      </fieldset>
-    
-       <legend>회원유형</legend>
-     
-    <div class="form-group">
-      <label for="selectLocation">회원 유형</label>
-    <c:choose>
-	<c:when test="${m.type==2 }">관리자</c:when>
-	<c:when test="${m.type==1 }">고객</c:when>
-    </c:choose>
-      
-    </div>
-    
-    
+ 
     <hr>
-    <button type="reset" class="nino-btn" name=""> 초기화 </button>
-    <button type="submit" class="nino-btn" style="background: #95e1d3;" name="" >회원정보수정</button>
+    <div class="form-group">
+      <label for="inputFile1">사진 파일 1</label>
+      <input type="file" class="form-control-file" name="file1" id="inputFile1" aria-describedby="fileHelp">
+    </div>
+    <div class="form-group">
+      <label for="inputFile2">사진 파일 2</label>
+      <input type="file" class="form-control-file" name="file2" id="inputFile2" aria-describedby="fileHelp">
+    </div>
+    <div class="form-group">
+      <label for="inputFile3">사진 파일 3</label>
+      <input type="file" class="form-control-file" name="file3" id="inputFile3" aria-describedby="fileHelp">
+    </div>
+    <hr>
+    <button type="submit" class="nino-btn" style="background: #95e1d3;" name="">저장</button>
      </fieldset>
 </form>
 </div>
