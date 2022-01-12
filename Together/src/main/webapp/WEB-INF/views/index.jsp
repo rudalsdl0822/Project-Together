@@ -90,7 +90,7 @@
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">관리자페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
 									        
-									          <li><a class="dropdown-item" href="/Member/AdminPage">관리자페이지 - 홈</a></li>
+									          <li><a class="dropdown-item" href="/Member/MyPage">관리자페이지 - 홈</a></li>
 									        
 									          <li class="dropdown-header">회원 정보</li>
 									          <li><a id="a_logout" class="dropdown-item" href="#">로그아웃</a></li>

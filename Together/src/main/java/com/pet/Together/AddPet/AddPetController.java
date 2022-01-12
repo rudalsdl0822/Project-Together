@@ -31,10 +31,6 @@ public class AddPetController {
 	@Autowired
 	private MemberService member_service;
 
-	@RequestMapping(value = "/index")
-	public void index() {
-
-	}
 
 	@RequestMapping(value = "/AddPet/AddPet")
 	public void addPetForm() {
