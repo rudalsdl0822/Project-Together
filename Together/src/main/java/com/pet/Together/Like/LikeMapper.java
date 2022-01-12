@@ -3,6 +3,7 @@ package com.pet.Together.Like;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface LikeMapper {
@@ -18,7 +19,7 @@ public interface LikeMapper {
 	@SuppressWarnings("rawtypes")
 	List selectByPetId(int pet_id);
 
-	Like selectByIdPetId(String id, int pet_id);
+	Like selectByIdPetId(@Param("id") String id, @Param("pet_id")int pet_id);
 
 	void deleteLike(int like_num);
 

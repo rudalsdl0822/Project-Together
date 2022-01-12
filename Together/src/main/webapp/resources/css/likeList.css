@@ -1,0 +1,145 @@
+@charset "UTF-8";
+@charset "UTF-8";
+    /* CLIENT-SPECIFIC STYLES */
+    #outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
+    .ReadMsgBody{width:100%;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
+    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing */
+    body, table, td, a{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;} /* Prevent WebKit and Windows mobile changing default text sizes */
+    table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} /* Remove spacing between tables in Outlook 2007 and up */
+    img{-ms-interpolation-mode:bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
+
+    /* RESET STYLES */
+    body{margin:0; padding:0;}
+    img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
+    table{border-collapse:collapse !important;}
+    body{height:100% !important; margin:0; padding:0; width:100% !important;}
+
+    /* iOS BLUE LINKS */
+    .appleBody a {color:#68440a; text-decoration: none;}
+    .appleFooter a {color:#999999; text-decoration: none;}
+
+    /* CUSTOM STYLES */
+
+    a[class="article-link"]{
+        font-weight: bold !important; 
+    }
+
+    a:hover[class="article-link"]{
+        color: #2b2b2b !important;
+        border-bottom: 1px dotted #2b2b2b !important;
+    }
+
+    a:visited[class="article-link"]{
+        color: #2b2b2b !important;
+        border-bottom: 1px dotted #2b2b2b !important;
+    }
+
+    a[class="cta-text"]{
+        text-decoration: none !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+        color: #222222 !important; 
+    }
+
+    a:hover[class="cta-text"]{
+        text-decoration: none !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+        border-bottom: 1px dotted #222222 !important;
+    }
+
+    /* MOBILE STYLES */
+    @media screen and (max-width: 525px) {
+
+        /* ALLOWS FOR FLUID TABLES */
+        table[class="wrapper"]{
+          width:100% !important;
+        }
+
+        /* FULL-WIDTH TABLES */
+        table[class="responsive-table"]{
+          width:100%!important;
+        }
+
+        /* UTILITY CLASSES FOR ADJUSTING PADDING ON MOBILE */
+        td[class="padding"]{
+          padding: 10px 5% 15px 5% !important;
+        }
+
+        /* ADJUST BUTTONS ON MOBILE */
+        td[class="mobile-wrapper"]{
+            padding: 10% 5% 10% 5% !important;
+        }
+
+        table[class="mobile-button-container"]{
+            margin:0 auto;
+            width:100% !important;
+        }
+
+        /* CUSTOM MOBILE STYLING */
+
+            /* CARD STYLING */
+            td[class="card-padding-mobile"]{
+                padding: 10px 0 !important;
+            }
+            td[class="content_image_container"] {
+                padding: 30px 0px 10px 0px !important;
+            }
+
+            img[class="content_image"] {
+                width: 250px !important;
+                height: 250px !important;
+            }
+
+            td[class="padding-headline"]{
+                padding: 10px 5% 5px 5% !important;
+                text-align: center !important;
+                font-size: 18px !important;
+            }
+
+            td[class="padding-copy"]{
+                padding: 10px 5% 30px 5% !important;
+                text-align: center !important;
+                font-size: 14px !important;
+                line-height: 26px !important;
+            }
+
+            td[class="cta"]{
+                text-align: center !important;
+                padding: 10px 0px 30px 0px !important;
+            }
+
+            a[class="cta-text"]{
+                color: #ffffff !important;
+                text-decoration: none !important; 
+                background-color: #f5ca74 !important;
+                border: 1px solid #f2b844 !important;
+                display: inline-block;
+                font-size: 14px !important;
+                font-weight: 100 !important;
+                text-transform: uppercase !important;
+                padding: 15px 20px !important; 
+            }
+
+            a:hover[class="cta-text"]{
+                text-decoration: none !important;
+                font-size: 14px !important;
+                font-weight: 100 !important;
+                border-bottom: 1px solid #f2b844 !important;
+            }
+
+            a[class="article-link"]{
+                font-weight: bold !important; 
+            }
+
+            a:hover[class="article-link"]{
+                color: #2b2b2b !important;
+                border-bottom: 1px dotted #2b2b2b !important;
+            }
+
+            a:visited[class="article-link"]{
+                color: #2b2b2b !important;
+                border-bottom: 1px dotted #2b2b2b !important;
+            }
+
+    }

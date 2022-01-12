@@ -101,7 +101,7 @@
 									          <li class="dropdown-header">내 정보</li>
 									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Member/logout">로그아웃</a></li>
 									          <li><a class="dropdown-item" href="#">내 정보수정</a></li>
-									          <li><a class="dropdown-item" href="#">관심등록 목록</a></li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/like/likeList">관심등록 목록</a></li>
 									          <li><a class="dropdown-item" href="#">1:1 문의하기</a></li>
 									          
 									          <li class="dropdown-header">신청 내역</li>
