@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +28,47 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/prettyPhoto.css" />
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/unslider.css" />
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/template.css" />
+	
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	
+	<script>
+		var member_id="${sessionScope.id}";
+		var pet_id;
+	
+		$(document).ready(function(){
+			//관심등록 버튼 클릭
+			$("button[type=button][name=likePet]").click(function(){
+				pet_id=$(this).attr("num");
+				if(member_id==""){
+					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+					if(flag){
+						location.href="${pageContext.request.contextPath}/Member/loginForm";
+					}else{
+						return; 
+					}
+				}else{
+					console.log(pet_id);
+					console.log(member_id);
+					fn_like();
+				}
+			});
+			
+			$("button[type=button][name=AdoptNotice]").click(function(){
+				location.href="${pageContext.request.contextPath}/AddPet/AdoptNoticeList";
+			});
+		});
+		
+		function fn_like(){
+			$.post("/like/add", {pet_id:pet_id})
+			.done(function(){
+				alert("관심등록이 완료되었습니다.");			
+			})
+			.fail(function(){
+				alert("error");
+			});
+		}
+		
+	</script>
 	
 </head>
 <body data-target="#nino-navbar" data-spy="scroll">
@@ -78,208 +120,71 @@
 			</h2>
 			<div class="sectionContent">
 				<div class="row">
-				
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<div class="articleThumb">
-								<a href="#">
-									<img src="${pageContext.request.contextPath }/resources/cha/AdoptNotice/anl_dog1.jpg" alt="">
-								</a>
-								<div class="date">
-									<!-- <span class="number">강남점</span> -->
-									<span class="text">강남점</span>
-								</div>
-							</div>
-							<h3 class="articleTitle">
-								<a href="">이름</a>
-								<span class="label label-success">입양문의중</span>
-							</h3>
-							<p class="articleDesc">
-								품종 | 성별 | 나이 <br><br><br>
-							</p>
-						</article>
+						<div class="col-md-12 col-sm-12" style="text-align: right;">
+						  <div class="btn-group">
+						    <button type="button" class="btn btn-default" name="AdoptNotice">입양공고 전체</button>
+						    <div class="btn-group">
+						      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						      보호소 지점 <span class="caret"></span></button>
+						      <ul class="dropdown-menu" role="menu">
+						       <li><a href="#" onClick="location.href='${pageContext.request.contextPath}/AddPet/LocationList?location=1'">강남점</a></li>
+						       <li><a href="#" onClick="location.href='${pageContext.request.contextPath}/AddPet/LocationList?location=2'">안양점</a></li>
+						       <li><a href="#" onClick="location.href='${pageContext.request.contextPath}/AddPet/LocationList?location=3'">해운대점</a></li>
+						      </ul>
+						    </div>
+						    <div class="btn-group">
+						      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						      입양상태 <span class="caret"></span></button>
+						      <ul class="dropdown-menu" role="menu">
+						        <li><a href="#" onClick="location.href='${pageContext.request.contextPath}/AddPet/StateList?state=2&page=AdoptNotice'">입양대기</a></li>
+						        <li><a href="#" onClick="location.href='${pageContext.request.contextPath}/AddPet/StateList?state=3&page=AdoptNotice'">입양문의중</a></li>
+						       </ul>
+						    </div>
+						  </div>
+						</div>
 					</div>
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<div class="articleThumb">
-								<a href="#"><img src="${pageContext.request.contextPath }/resources/cha/AdoptNotice/anl_dog2.jpg" alt=""></a>
-								<div class="date">
-									<!-- <span class="number">안양점</span> -->
-									<span class="text">안양점</span>
-								</div>
-							</div>
-							<h3 class="articleTitle">
-								<a href="">인절미</a>
-								<span class="label label-warning">입양대기</span>
-							</h3>
-							<p class="articleDesc">
-								리트리버 | 암컷 | 1세 <br><br><br>
-							</p>
-						</article>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<div class="articleThumb">
-								<a href="#"><img src="${pageContext.request.contextPath }/resources/cha/AdoptNotice/anl_dog3.jpg" alt=""></a>
-								<div class="date">
-									<!-- <span class="number">해운대점</span> -->
-									<span class="text">해운대점</span>
-								</div>
-							</div>
-							<h3 class="articleTitle">
-								<a href="">댕</a>
-								<span class="label label-default">입양완료</span>
-							</h3>
-							<p class="articleDesc">
-								믹스견 | 수컷 | 1세 <br><br><br>
-							</p>
-						</article>
-					</div>
+					<br><br>
 					
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<div class="articleThumb">
-								<a href="#">
-									<img src="${pageContext.request.contextPath }/resources/cha/AdoptNotice/anl_dog1.jpg" alt="">
-								</a>
-								<div class="date">
-									<!-- <span class="number">강남점</span> -->
-									<span class="text">강남점</span>
-								</div>
-							</div>
-							<h3 class="articleTitle">
-								<a href="">이름</a>
-								<span class="label label-success">입양문의중</span>
-							</h3>
-							<p class="articleDesc">
-								품종 | 성별 | 나이 <br><br><br>
-							</p>
-						</article>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<div class="articleThumb">
-								<a href="#"><img src="${pageContext.request.contextPath }/resources/cha/AdoptNotice/anl_dog2.jpg" alt=""></a>
-								<div class="date">
-									<!-- <span class="number">안양점</span> -->
-									<span class="text">안양점</span>
-								</div>
-							</div>
-							<h3 class="articleTitle">
-								<a href="">인절미</a>
-								<span class="label label-warning">입양대기</span>
-							</h3>
-							<p class="articleDesc">
-								리트리버 | 암컷 | 1세 <br><br><br>
-							</p>
-						</article>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<div class="articleThumb">
-								<a href="#"><img src="${pageContext.request.contextPath }/resources/cha/AdoptNotice/anl_dog3.jpg" alt=""></a>
-								<div class="date">
-									<!-- <span class="number">해운대점</span> -->
-									<span class="text">해운대점</span>
-								</div>
-							</div>
-							<h3 class="articleTitle">
-								<a href="">댕</a>
-								<span class="label label-default">입양완료</span>
-							</h3>
-							<p class="articleDesc">
-								믹스견 | 수컷 | 1세 <br><br><br>
-							</p>
-						</article>
-					</div>
-					
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<div class="articleThumb">
-								<a href="#">
-									<img src="${pageContext.request.contextPath }/resources/cha/AdoptNotice/anl_dog1.jpg" alt="">
-								</a>
-								<div class="date">
-									<!-- <span class="number">강남점</span> -->
-									<span class="text">강남점</span>
-								</div>
-							</div>
-							<h3 class="articleTitle">
-								<a href="">이름</a>
-								<span class="label label-success">입양문의중</span>
-							</h3>
-							<p class="articleDesc">
-								품종 | 성별 | 나이 <br><br><br>
-							</p>
-						</article>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<div class="articleThumb">
-								<a href="#"><img src="${pageContext.request.contextPath }/resources/cha/AdoptNotice/anl_dog2.jpg" alt=""></a>
-								<div class="date">
-									<!-- <span class="number">안양점</span> -->
-									<span class="text">안양점</span>
-								</div>
-							</div>
-							<h3 class="articleTitle">
-								<a href="">인절미</a>
-								<span class="label label-warning">입양대기</span>
-							</h3>
-							<p class="articleDesc">
-								리트리버 | 암컷 | 1세 <br><br><br>
-							</p>
-						</article>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<div class="articleThumb">
-								<a href="#"><img src="${pageContext.request.contextPath }/resources/cha/AdoptNotice/anl_dog3.jpg" alt=""></a>
-								<div class="date">
-									<!-- <span class="number">해운대점</span> -->
-									<span class="text">해운대점</span>
-								</div>
-							</div>
-							<h3 class="articleTitle">
-								<a href="">댕</a>
-								<span class="label label-default">입양완료</span>
-							</h3>
-							<p class="articleDesc">
-								믹스견 | 수컷 | 1세 <br><br><br>
-							</p>
-						</article>
-					</div>
-					
-					
-					<!-- 실제 뷰 -->
 					<c:if test="${empty list}">
 						<br>
 						등록된 입양공고가 없습니다
 						<br>
 					</c:if>
 					
-					<!--<c:if test="${not empty list}">-->
-						<c:forEach var="p" items="${list}">
-							<c:if test="${p.state!=1}">
-								<div class="col-md-4 col-sm-4">
-									<article>
-										<div class="articleThumb">
-											<a href="${pageContext.request.contextPath}/Adopt/WaitingPet?id=${p.id}">
-												<img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=1" alt="">
-											</a>
-											<div class="date">
-												<!-- <span class="number">ㅇㅇㅇ</span> -->
-												<span class="text">
-													<c:choose>
-														<c:when test="${p.location==1}">강남점</c:when>
-														<c:when test="${p.location==2}">안양점</c:when>
-														<c:when test="${p.location==3}">해운대점</c:when>
-														<c:otherwise> - </c:otherwise>
-													</c:choose>
-												</span>
-											</div>
+					<c:forEach var="p" items="${list}" varStatus="status">
+						<c:if test="${p.state!=4}">
+							
+							<c:if test="${status.first || status.count%3==1}">
+								<div class="row">
+							</c:if>
+						
+							<div class="col-md-4 col-sm-4">
+								<article>
+									<div class="articleThumb">
+									
+									<!-- count, current, index 확인용 / 추후 삭제 예정 -->
+									count : ${status.count}<br>
+									current : ${status.current}<br>
+									index : ${status.index}<br>
+									
+									
+										<a href="${pageContext.request.contextPath}/Adopt/WaitingPet?id=${p.id}">
+											<img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=1" alt="">
+										</a>
+										<div class="date">
+											<!-- <span class="number">ㅇㅇㅇ</span> -->
+											<span class="text">
+												<c:choose>
+													<c:when test="${p.location==1}">강남점</c:when>
+													<c:when test="${p.location==2}">안양점</c:when>
+													<c:when test="${p.location==3}">해운대점</c:when>
+													<c:otherwise> - </c:otherwise>
+												</c:choose>
+											</span>
 										</div>
-										<h3 class="articleTitle">
+									</div>
+									<h3 class="articleTitle">
+										<div style="float: left; width: 60%;">
 											<a href="${pageContext.request.contextPath}/Adopt/WaitingPet?id=${p.id}">${p.name}</a>
 											<c:if test="${p.state==2}">
 												<span class="label label-warning">입양대기</span>
@@ -290,17 +195,33 @@
 											<c:if test="${p.state==4}">
 												<span class="label label-default">입양완료</span>
 											</c:if>
-										</h3>
-										<p class="articleDesc">
-											${p.breed} | ${p.sex} | ${p.age}세 <br><br><br>
-										</p>
-									</article>
+										</div>
+										
+										<div style="float: left; width: 40%;">
+											<span class="input-group-btn" style="text-align: right;">
+												<button type="button" class="btn btn-xs" id="btn_like" style="background-color: white; color:red; border-color:red;" name="likePet" num="${p.id}">관심친구 등록♥</button>		
+											</span>
+										</div>
+									</h3>
+									<p class="articleDesc">
+										${p.breed} | 
+										<c:choose>
+											<c:when test="${p.sex==1}">수컷</c:when>
+											<c:when test="${p.sex==2}">암컷</c:when>
+											<c:otherwise> - </c:otherwise>
+										</c:choose>
+										 | ${p.age}세 <br><br><br>
+									</p>
+								</article>
+							</div>
+
+							<c:if test="${status.count%3==0 || status.last}">
 								</div>
 							</c:if>
-						</c:forEach>
-					<!--</c:if>-->
+							
+						</c:if>
+					</c:forEach>
 					
-				</div>
 			</div>
     	</div>
     </section>
@@ -345,3 +266,4 @@
 
 </body>
 </html>
+

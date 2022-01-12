@@ -98,7 +98,7 @@
 									       
 									          <li class="dropdown-header">신청 리스트</li>
 									          <li><a class="dropdown-item" href="/Adopt/AdoptWishList">입양 신청 리스트</a></li>
-									          <li><a class="dropdown-item" href="#">입소 신청 리스트</a></li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/AddPet/PetAllList">입소 신청 리스트</a></li>
 									          
 									           <li class="dropdown-header">고객 센터</li>
 									           <li><a class="dropdown-item" href="#">전체 회원 관리</a></li>
@@ -121,7 +121,7 @@
 									          
 									          <li class="dropdown-header">신청 내역</li>
 									          <li><a class="dropdown-item" href="/Adopt/MemberAdoptWishList">입양 신청 내역</a></li>
-									          <li><a class="dropdown-item" href="#">입소 신청 내역</a></li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/AddPet/PetAllList">입소 신청 내역</a></li>
 									          
 									          <li class="dropdown-header">고객 센터</li>
 									          <li><a class="dropdown-item" href="/Ask/AskForm">1:1 문의하기</a></li>
@@ -676,16 +676,5 @@
 	    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
 	<![endif]-->
 	
-	
-	
-<!-- ================================cha 추가중================================ -->
-<br>
-<a href="${pageContext.request.contextPath}/AddPet/PetAllList">입소/입양 리스트</a>
-<br>
-<a href="${pageContext.request.contextPath}/AddPet/EditPet">입소 신청 내용</a>
-<br>
-<!-- ================================cha 추가중================================ -->	
-	
-		
 </body>
 </html>
