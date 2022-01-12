@@ -68,7 +68,7 @@
 								<c:if test="${not empty sessionScope.id}">
 								
 								<!-- 관리자의 경우 -->
-								<c:if test="${sessionScope.type==1}">
+								<c:if test="${sessionScope.type==2}">
 								<li class="nav-item dropdown">
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">관리자페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
@@ -89,7 +89,7 @@
 								    </c:if>
 								    
 								    <!-- 고객의 경우 -->
-								    <c:if test="${sessionScope.type==2}">
+								    <c:if test="${sessionScope.type==1}">
 									<li class="nav-item dropdown">
 								        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent;">마이페이지<span class="caret"></span></a>
 									        <ul class="dropdown-menu">
