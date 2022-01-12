@@ -16,6 +16,10 @@ public class MemberService {
 	public Member getMember(String id) {
 		return mapper.select(id);
 	}
+	
+	public Member getMemberByNickname(String nickname) {
+		return mapper.selectByNickname(nickname);
+	}
 
 	public void editMember(Member m) {
 		mapper.update(m);
