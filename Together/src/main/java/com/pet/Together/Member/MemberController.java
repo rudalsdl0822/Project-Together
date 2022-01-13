@@ -60,6 +60,25 @@ public class MemberController {
 		mav.addObject("result", result);
 		return mav;
 	}
+	
+	@RequestMapping(value = "/Member/nicknameCheck")
+	public ModelAndView nicknameCheck(HttpServletRequest request, @RequestParam(value = "nickname") String nickname) {
+		HttpSession session = request.getSession();
+		ModelAndView mav = new ModelAndView("Member/nicknameCheck");
+		String result = "";
+		Member m = service.getMemberByNickname(nickname);
+
+		if (m == null) {
+			result = "사용 가능한 닉네임 입니다.";
+			session.setAttribute("nicknameCheck", true);
+		} else {
+			result = "이미 사용중인 닉네임 입니다.";
+			session.setAttribute("nicknameCheck", false);
+		}
+
+		mav.addObject("result", result);
+		return mav;
+	}
 
 	@RequestMapping(value = "/Member/join")
 	public String join(Member m) {
@@ -69,17 +88,20 @@ public class MemberController {
 
 	
 	@RequestMapping(value = "/Member/login")
-	public String login(HttpServletRequest request, @RequestParam(value = "id") String id,@RequestParam(value = "pwd") String pwd) {
+	public ModelAndView login(HttpServletRequest request, @RequestParam(value = "id") String id,@RequestParam(value = "pwd") String pwd) {
 		Member m = service.getMember(id);
-		if (m == null || !m.getPwd().equals(pwd)) {
-			return "/Member/login_fail";
-		} else {
+		ModelAndView mav = new ModelAndView("/Member/login_fail");
+		boolean result = false;
+		if (m != null && m.getPwd().equals(pwd)) {
+			result = true;
 			HttpSession session = request.getSession();
 			session.setAttribute("id", m.getId());
 			session.setAttribute("nickname", m.getNickname());
 			session.setAttribute("type", m.getType());
-			return "/index";
+			
 		}
+		mav.addObject("result",result);
+		return mav;
 	}
 	
 	/* =======================로그인 팝업창========================*/
@@ -163,6 +185,23 @@ public class MemberController {
 	public String edit(Member m) {
 		service.editMember(m);
 		return "redirect:/Member/MyPage";
+	}
+	
+	
+	@RequestMapping(value = "/Member/AdminPage")
+	public ModelAndView adminPage(HttpServletRequest req) {
+		ModelAndView mav = new ModelAndView("Member/AdminPage");
+		HttpSession session = req.getSession(false);
+		
+		if(session.getAttribute("id")==null) { 
+			mav.setViewName("Member/loginForm");
+			return mav; 
+		}else {
+			String id = (String) session.getAttribute("id");
+			Member m = service.getMember(id);
+			mav.addObject("m", m);
+			return mav;
+		}
 	}
 
  

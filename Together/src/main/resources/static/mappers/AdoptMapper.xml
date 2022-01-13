@@ -31,7 +31,9 @@
 	order by num desc
 </select>
 <update id="editAdopt">
-	update to_adopt set dating=#{dating}, state=#{state}
+	update to_adopt 
+	set title=#{title}, family=#{family}, job=#{job}, 
+		walktime=#{walktime}, dating=#{dating}, content=#{content}, state=#{state}
 	where num=#{num}
 </update>
 

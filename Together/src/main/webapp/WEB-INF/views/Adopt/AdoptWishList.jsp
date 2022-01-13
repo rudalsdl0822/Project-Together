@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>  
+	<%@ include file="/WEB-INF/views/common/css_set.jsp" %>  
 <!-- jstl -->
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -15,26 +17,6 @@
 	
 	<title>Together | 입양신청자 리스트</title>
 	
-	<!-- favicon -->
-    <link rel="shortcut icon" href="/resources/images/ico/favicon.jpg">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/resources/images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/resources/images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/resources/images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/resources/images/ico/apple-touch-icon-57-precomposed.png">
-	
-	<!-- css -->
-	<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/materialdesignicons.min.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/jquery.mCustomScrollbar.min.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/prettyPhoto.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/unslider.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/template.css" />
-
-	<!-- webapp/resources 가 CSS의 디폴트 경로.  -->
-	<!-- <link rel="stylesheet" type="text/css" 
-	href="${pageContext.request.contextPath }/resources/memberCss.css" /> -->
-  
-
 	<!-- jquery 라이브러리 불러들이기 -->
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	
@@ -85,8 +67,6 @@
 </head>
 <body>
 
-<h3>상단 배너</h3>
-
 
     <!-- Latest Blog
     ================================================== -->
@@ -131,7 +111,24 @@
 			
 			
 			<!-- ======== adoptList 시작 ============================================= -->
+			<c:if test="${adoptList.isEmpty()==true }"> 입양신청한 글이 없습니다. </c:if>
 			<c:forEach items="${adoptList }" var="Adopt" varStatus="status">
+			
+			
+				<!-- 뷰 세팅================================================== -->
+					<!-- locationKorean : 펫이 있는 장소를 한글화 합니다. -->
+					<c:set var="locationKorean">
+						<c:if test="${Adopt.pet.location == 1 }">강남</c:if>
+						<c:if test="${Adopt.pet.location == 2 }">안양</c:if>
+						<c:if test="${Adopt.pet.location == 3 }">해운대</c:if>
+					</c:set>
+					<!-- sexKorean : 펫 성별을 한글화 합니다. -->
+					<c:set var="sexKorean">
+						<c:if test="${Adopt.pet.sex == 1 }">남자</c:if>
+						<c:if test="${Adopt.pet.sex == 2 }">여자</c:if>
+					</c:set>
+				<!-- 뷰 세팅 끝================================================== -->
+			
 				
 				<!-- 한줄 시작 -->
 				<c:if test="${status.count%3==1 }">
@@ -142,24 +139,28 @@
 							<!-- 입양신청 1개 시작-->
 							<a href="/Adopt/WaitingPerson?num=${Adopt.num }">
 								<div class="articleThumb">
-									<div style="text-align: right;">
-										<img src="/AddPet/petImg?id=${Adopt.pet_id}&petImgNum=1" alt="" width="88%">
+									<div style="text-align: right; position: relative; width: 100%; height: 0; overflow: hidden; padding-bottom: 60%; object-fit: cover;">
+										<img src="/AddPet/petImg?id=${Adopt.pet_id}&petImgNum=1" alt="" style="position: absolute; width: 88%; top: 0; right: 0;">
 									</div>
 									
 									<div class="date">
-										<span class="number" style="padding: 5px;">${Adopt.num }</span>
-										<span class="text">
-											${Adopt.pet.name }
+										<span class="number" style="font-size: 18px; padding: 5px;">${Adopt.pet.name }</span>
+										<span class="text"">
+											${locationKorean }점
 										</span>
-										<span class="text">id : ${Adopt.pet_id }</span>
+										<span class="text">
+											${sexKorean }
+										</span>
 									</div>
 
 								</div>
-								<h3 class="articleTitle">입양신청자 ID : ${Adopt.writer }</h3>
-								<h3 class="articleTitle" style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
-									title : ${Adopt.title }
+								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+									입양신청 번호 : ${Adopt.num } / 신청자 : ${Adopt.writer }
 								</h3>
-								<p class="articleDesc" style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+									제목 : ${Adopt.title }
+								</h3>
+								<p class="articleDesc"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
 									자기 소개 : ${Adopt.content }
 								</p>
 							</a>
@@ -223,60 +224,7 @@
     </section>
     <!--/#nino-latestBlog-->
 
-
-    <!-- Footer
-    ================================================== -->
-    <footer id="footer">
-        <div class="container">
-        	<div class="row">
-        		<div class="col-md-12">
-        			<div class="colInfo">
-	        			<div class="footerLogo">
-	        				<a href="${pageContext.request.contextPath}/index" >Together</a>	
-	        			</div>
-	        			<p>강남점 : 서울특별시 강남구 강남대로 396, TEL: 010-0000-0000 
-	        			<br>안양점 : 경기 안양시 만안구 만안로 232, TEL: 010-0000-0000
-	        			<br>해운대점 : 부산광역시 해운대구 해운대로 626, TEL: 010-0000-0000</p>
-        			</div>
-        		</div>
-        		
-        		
-        	</div>
-			<div class="nino-copyright">Copyright &copy; 2021. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
-        </div>
-    </footer><!--/#footer-->
-
-
-	<!-- Search Form - Display when click magnify icon in menu
-    ================================================== -->
-    <form action="" id="nino-searchForm">
-    	<input type="text" placeholder="Search..." class="form-control nino-searchInput">
-    	<i class="mdi mdi-close nino-close"></i>
-    </form><!--/#nino-searchForm-->
-    
-    <!-- Scroll to top
-    ================================================== -->
-    <a href="#" id="nino-scrollToTop" style="display: inline;">Go to Top</a>
-    
-    <!-- javascript -->
-	<script type="text/javascript" src="/resources/js/jquery.min.js"></script>	
-	<script type="text/javascript" src="/resources/js/isotope.pkgd.min.js"></script>
-	<script type="text/javascript" src="/resources/js/jquery.prettyPhoto.js"></script>
-	<script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/resources/js/jquery.hoverdir.js"></script>
-	<script type="text/javascript" src="/resources/js/modernizr.custom.97074.js"></script>
-	<script type="text/javascript" src="/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script type="text/javascript" src="/resources/js/unslider-min.js"></script>
-	<script type="text/javascript" src="/resources/js/template.js"></script>
-
-	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
-	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<!-- css3-mediaqueries.js for IE less than 9 -->
-	<!--[if lt IE 9]>
-	    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-	<![endif]-->
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>  
 	
 </body>
 </html>

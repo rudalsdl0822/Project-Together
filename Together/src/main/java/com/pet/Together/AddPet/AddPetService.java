@@ -43,4 +43,20 @@ public class AddPetService {
 	
 	
 	
+	
+	public void deletePet(int id) {
+		mapper.deletePet(id);
+	}
+
+	public List getLocationList(int location) {
+		return mapper.selectByLocation(location);
+	}
+	
+	public List getState234() {
+		return mapper.selectByState234();
+	}
+
+	
+	
+	
 }

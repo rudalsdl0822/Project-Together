@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+	<%@ include file="/WEB-INF/views/common/css_set.jsp" %>  
      <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -13,21 +14,6 @@
 
 	<title>Together | 로그인</title>
 
-	<!-- favicon -->
-    <link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/ico/favicon.jpg">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="${pageContext.request.contextPath }/resources/images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="${pageContext.request.contextPath }/resources/images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="${pageContext.request.contextPath }/resources/images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="${pageContext.request.contextPath }/resources/images/ico/apple-touch-icon-57-precomposed.png">
-	
-	<!-- css -->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/materialdesignicons.min.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/jquery.mCustomScrollbar.min.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/prettyPhoto.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/unslider.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/template.css" />
-	
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		
 		
@@ -56,6 +42,7 @@
 					// 로그인이 되었으면 부모 창을 새로고침하고 로그인 팝업을 닫는다.
 					if(loginResult==true){
 						opener.location.reload();
+						alert("로그인 되었습니다.");
 						self.close();
 					}else{  // 로그인이 되지 않았으면 로그인이 되지 않았다고 알려준다.
 						$("#p_loginResult").text("");
@@ -74,23 +61,23 @@
 	<!-- 함수 끝 -->
 	
 </head>
-<body data-target="#nino-navbar" data-spy="scroll" style="padding-top: 50px;" class="nino-fixed-nav">
+<body>
 
 
-<section id="nino-happyClient">
+<section id="nino-happyClient" style="margin: 0px; padding: 0px;">
     	<!-- <div class="container">			
 			
 	<!-- Footer ================================================== -->
-    <footer id="footer" style="background: none;">
+    <footer id="footer" style="background: none; margin: 0px; padding: auto;">
         <div class="container">
         	<div class="row">  
         		<div class="col-md-12" style="text-align: center;">
-        			<div class="colInfo" style="text-align: center;">
+        			<div class="colInfo" style="display: inline-block; text-align: center;">
         				<h2 class="nino-sectionHeading">
 							<span class="nino-subHeading">Together</span>
 								로그인
 						</h2>
-	        			<form class="nino-subscribeForm" method="post">
+	        			<form class="nino-subscribeForm" method="post" style="text-align: center;">
 	        				<div class="input-group input-group-lg" style="text-align: center;">
 	        				
 	        					<input type="text" class="form-control" id="id" placeholder="아이디" style="width: 400px; height: 45px; margin-bottom: 5px; "><br>
@@ -112,20 +99,10 @@
     <!--/#footer-->
 			
     
-    </section>
-    <!--/#nino-happyClient-->
+</section>
+<!--/#nino-happyClient-->
 
 
-
-
-
-
-    <!-- Search Form - Display when click magnify icon in menu
-    ================================================== -->
-   
-    <!-- Scroll to top
-    ================================================== -->
-	<a href="#" id="nino-scrollToTop">Go to Top</a>
 	
 	<!-- javascript -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>	

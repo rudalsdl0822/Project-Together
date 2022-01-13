@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!-- jstl -->
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>  
+	<%@ include file="/WEB-INF/views/common/css_set.jsp" %>  
+
 <!DOCTYPE html>
 <html lang="en" class=" js csstransitions">
 <head>
@@ -13,26 +14,6 @@
 	<meta name="copyright" content="ninodezign.com"> 
 	
 	<title>Together | 입양신청 폼</title>
-	
-	<!-- favicon -->
-    <link rel="shortcut icon" href="/resources/images/ico/favicon.jpg">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/resources/images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/resources/images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/resources/images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/resources/images/ico/apple-touch-icon-57-precomposed.png">
-	
-	<!-- css -->
-	<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/materialdesignicons.min.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/jquery.mCustomScrollbar.min.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/prettyPhoto.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/unslider.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/template.css" />
-
-	<!-- webapp/resources 가 CSS의 디폴트 경로.  -->
-	<!-- <link rel="stylesheet" type="text/css" 
-	href="${pageContext.request.contextPath }/resources/memberCss.css" /> -->
-  
 
 	<!-- jquery 라이브러리 불러들이기 -->
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -139,8 +120,6 @@
 </head>
 <body>
 
-<h3>상단 배너</h3>
-
 
 <!-- 뷰 세팅================================================== -->
 	<!-- locationCityKorean : 펫이 있는 장소의 도시를 한글화 합니다. -->
@@ -190,7 +169,7 @@
 								<p class="desc">보호소 위치 : (${locationCityKorean })${locationKorean }점</p>
 								<p class="desc" style="width: 90%;">
 									상세 사항 : 
-									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;">${pet.info }</textarea>
+									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;  background: #E1E1E1;">${pet.info }</textarea>
 								</p>
 							</div>
 						</div>
@@ -212,10 +191,10 @@
 									<input type="text" id="family" value="${MemberInfo.family }" placeholder="가족구성을 적어주세요(반려동물 포함)" style="width:100%;">
 								</p>
 								<p class="desc">
-									<input type="text" id="job" value="${MemberInfo.job }" placeholder="직업을 적어주세요(반려동물 케어에 필요한 정보입니다)" style="width:100%;">
+									<input type="text" id="job" value="${MemberInfo.job }" placeholder="직업 : (반려동물 케어에 필요한 정보입니다)" style="width:100%;">
 								</p>
 								<p class="desc">
-									<input type="text" id="walktime" value="${MemberInfo.walktime }" placeholder="산책가능한 시간을 적어주세요(하루 1시간/일주일 4시간)" style="width:100%;">
+									<input type="text" id="walktime" value="${MemberInfo.walktime }" placeholder="산책가능한 시간 : (하루 1시간/일주일 4시간)" style="width:100%;">
 								</p>
 								<p class="desc">
 									<input type="hidden" id="dating" value="${MemberInfo.dating }">
@@ -264,69 +243,8 @@
 			
     	</div>
     </section>
-    <!--/#nino-happyClient-->
-    
-
-
-
-
-<h3>하단 입양공고 리스트</h3>
-
-
-    <!-- Footer
-    ================================================== -->
-    <footer id="footer">
-        <div class="container">
-        	<div class="row">
-        		<div class="col-md-12">
-        			<div class="colInfo">
-	        			<div class="footerLogo">
-	        				<a href="${pageContext.request.contextPath}/index" >Together</a>	
-	        			</div>
-	        			<p>강남점 : 서울특별시 강남구 강남대로 396, TEL: 010-0000-0000 
-	        			<br>안양점 : 경기 안양시 만안구 만안로 232, TEL: 010-0000-0000
-	        			<br>해운대점 : 부산광역시 해운대구 해운대로 626, TEL: 010-0000-0000</p>
-        			</div>
-        		</div>
-        		
-        		
-        	</div>
-			<div class="nino-copyright">Copyright &copy; 2021. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
-        </div>
-    </footer><!--/#footer-->
-
-
-	<!-- Search Form - Display when click magnify icon in menu
-    ================================================== -->
-    <form action="" id="nino-searchForm">
-    	<input type="text" placeholder="Search..." class="form-control nino-searchInput">
-    	<i class="mdi mdi-close nino-close"></i>
-    </form><!--/#nino-searchForm-->
-    
-    <!-- Scroll to top
-    ================================================== -->
-    <a href="#" id="nino-scrollToTop" style="display: inline;">Go to Top</a>
-    
-    <!-- javascript -->
-	<script type="text/javascript" src="/resources/js/jquery.min.js"></script>	
-	<script type="text/javascript" src="/resources/js/isotope.pkgd.min.js"></script>
-	<script type="text/javascript" src="/resources/js/jquery.prettyPhoto.js"></script>
-	<script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/resources/js/jquery.hoverdir.js"></script>
-	<script type="text/javascript" src="/resources/js/modernizr.custom.97074.js"></script>
-	<script type="text/javascript" src="/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script type="text/javascript" src="/resources/js/unslider-min.js"></script>
-	<script type="text/javascript" src="/resources/js/template.js"></script>
-
-	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
-	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<!-- css3-mediaqueries.js for IE less than 9 -->
-	<!--[if lt IE 9]>
-	    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-	<![endif]-->
-	
+   
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>  
 	
 </body>
 </html>
