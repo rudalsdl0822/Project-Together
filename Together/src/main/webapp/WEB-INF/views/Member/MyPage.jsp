@@ -63,7 +63,7 @@
 
 <c:if test="${sessionScope.type==1}">
     <ul>
-      <a class="card_small" href="/Like/likeList">
+      <a class="card_small" href="/like/likeList">
         <h3>관심목록</h3>
         <p class="card_text">관심등록을 한 친구들을 보실 수 있습니다.</p>
         <p class="card_textlink">확인하기</p>
@@ -150,9 +150,18 @@
   </div>
   </section>
   <br>
-  <a href="${pageContext.request.contextPath }/Member/out">탈퇴하기</a>
-  
-  <%@ include file="/WEB-INF/views/common/footer.jsp" %> 
+  <div align="right">
+  <a href="${pageContext.request.contextPath }/Member/out">
+   <button type="button" class="nino-btn" style="background: #95e1d3;">탈퇴하기</button></a>
+	<br>
+	</div>
+  <br>
+  <br>
+  <br>
+ 
   
 </body>
+
+
 </html>
+ <%@ include file="/WEB-INF/views/common/footer.jsp" %> 
