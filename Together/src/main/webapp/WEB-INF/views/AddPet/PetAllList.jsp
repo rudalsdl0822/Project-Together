@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="/WEB-INF/views/common/header.jsp" %>  
+<%@ include file="/WEB-INF/views/common/css_set.jsp" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,14 +10,6 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 	<title>Together | 입소/입양 상태 리스트</title>
-	
-	<!-- css -->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/materialdesignicons.min.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/jquery.mCustomScrollbar.min.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/prettyPhoto.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/unslider.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/template.css" />
 	
 	<style type="text/css">
 		 form {display:inline}
@@ -154,5 +147,8 @@
 			</div>
     	</div>
     </section>
+
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>  
+
 </body>
 </html>
