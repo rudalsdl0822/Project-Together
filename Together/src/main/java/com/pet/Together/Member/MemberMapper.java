@@ -7,6 +7,8 @@ public interface MemberMapper {
 	void insert(Member m);
 
 	Member select(String id);
+	
+	Member selectByNickname(String nickname);
 
 	void update(Member m);
 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    	<%@ include file="/WEB-INF/views/header_test.jsp" %>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>  
+	<%@ include file="/WEB-INF/views/common/css_set.jsp" %>  
 <!-- jstl -->
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -16,21 +17,6 @@
 	
 	<title>Together | 입양공고 상세보기</title>
 	
-	<!-- favicon -->
-    <link rel="shortcut icon" href="/resources/images/ico/favicon.jpg">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/resources/images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/resources/images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/resources/images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/resources/images/ico/apple-touch-icon-57-precomposed.png">
-	
-	<!-- css -->
-	<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/materialdesignicons.min.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/jquery.mCustomScrollbar.min.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/prettyPhoto.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/unslider.css" />
-	<link rel="stylesheet" type="text/css" href="/resources/css/template.css" />
-
 	<!-- webapp/resources 가 CSS의 디폴트 경로.  -->
 	<!-- <link rel="stylesheet" type="text/css" 
 	href="${pageContext.request.contextPath }/resources/memberCss.css" /> -->
@@ -508,42 +494,9 @@
 		</div>
 	</section>
 	<!-- 댓글리스트 끝-->
-	<!--/#nino-happyClient-->
 
-
-	<!-- Search Form - Display when click magnify icon in menu
-    ================================================== -->
-    <form action="" id="nino-searchForm">
-    	<input type="text" placeholder="Search..." class="form-control nino-searchInput">
-    	<i class="mdi mdi-close nino-close"></i>
-    </form><!--/#nino-searchForm-->
     
-    <!-- Scroll to top
-    ================================================== -->
-    <a href="#" id="nino-scrollToTop" style="display: inline;">Go to Top</a>
-    
-    <!-- javascript -->
-	<script type="text/javascript" src="/resources/js/jquery.min.js"></script>	
-	<script type="text/javascript" src="/resources/js/isotope.pkgd.min.js"></script>
-	<script type="text/javascript" src="/resources/js/jquery.prettyPhoto.js"></script>
-	<script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/resources/js/jquery.hoverdir.js"></script>
-	<script type="text/javascript" src="/resources/js/modernizr.custom.97074.js"></script>
-	<script type="text/javascript" src="/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script type="text/javascript" src="/resources/js/unslider-min.js"></script>
-	<script type="text/javascript" src="/resources/js/template.js"></script>
-
-	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
-	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<!-- css3-mediaqueries.js for IE less than 9 -->
-	<!--[if lt IE 9]>
-	    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-	<![endif]-->
-    
-    
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>  
 
 </body>
-	<%@ include file="/WEB-INF/views/header_test.jsp" %>
 </html>

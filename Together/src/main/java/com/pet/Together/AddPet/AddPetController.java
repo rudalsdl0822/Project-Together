@@ -31,10 +31,6 @@ public class AddPetController {
 	@Autowired
 	private MemberService member_service;
 
-	@RequestMapping(value = "/index")
-	public void index() {
-
-	}
 
 	@RequestMapping(value = "/AddPet/AddPet")
 	public void addPetForm() {
@@ -112,8 +108,13 @@ public class AddPetController {
 	}
 	
 	@RequestMapping(value="/AddPet/StateList")
-	public ModelAndView stateList(@RequestParam(value="state") int state) {
-		ModelAndView mav = new ModelAndView("AddPet/PetAllList");
+	public ModelAndView stateList(@RequestParam(value="state") int state, @RequestParam(value="page") String page) {
+		ModelAndView mav=new ModelAndView();
+		if(page.equals("PetAllList")) {
+			mav = new ModelAndView("AddPet/PetAllList");			
+		} else if(page.equals("AdoptNotice")) {
+			mav = new ModelAndView("AddPet/AdoptNoticeList");			
+		}
 		ArrayList<Pet> list = (ArrayList<Pet>)service.getStateList(state);
 		mav.addObject("list", list);
 		return mav;
@@ -183,6 +184,37 @@ public class AddPetController {
 		ModelAndView mav = new ModelAndView("AddPet/AdoptNoticeList");
 		ArrayList<Pet> list=(ArrayList<Pet>)service.getPetAllList();
 		mav.addObject("list",list);
+		return mav;
+	}
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value="/Addpet/DeletePet")
+	public String delPet(@RequestParam(value="id") int id) {
+		service.deletePet(id);
+		String path = PATH+id+"\\";
+		File imgDir = new File(path);
+		if(imgDir.exists()) {
+			String[] files=imgDir.list();
+			for(int j = 0; j <files.length; j++) {
+				File f = new File(path+files[j]);
+				f.delete();
+			}
+		}
+		imgDir.delete();
+		return "redirect:/AddPet/PetAllList";
+	}
+	
+
+	@RequestMapping(value="/AddPet/LocationList")
+	public ModelAndView locationList(@RequestParam(value="location") int location) {
+		ModelAndView mav = new ModelAndView("AddPet/AdoptNoticeList");
+		ArrayList<Pet> list = (ArrayList<Pet>)service.getLocationList(location);
+		mav.addObject("list", list);
 		return mav;
 	}
 	
