@@ -13,7 +13,7 @@
 	</resultMap>
 	
 	<insert id="insert" parameterType="com.pet.Together.Reply.Reply">
-		insert into to_reply values (seq_to_reply.nextval, #{board_num}, #{writer_id}, #{reply_content}, sysdate, ${parent_reply_num})
+		insert into to_reply values (to_reply_seq.nextval, #{board_num}, #{writer_id}, #{reply_content}, sysdate, ${parent_reply_num})
 	</insert>
 	
 	<select id="select" resultType="com.pet.Together.Reply.Reply">
@@ -45,7 +45,7 @@
 	</update>
 	
 	<select id="selectSeqCurrval" resultType="int">
-		select seq_to_reply.currval from dual
+		select to_reply_seq.currval from dual
 	</select>
 	
 </mapper>

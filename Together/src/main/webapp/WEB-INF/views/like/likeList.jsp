@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ include file="/WEB-INF/views/common/header.jsp" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
@@ -145,6 +145,8 @@ $(document).ready(function() {
 <button type="button" value="전체삭제" id="deleteAll"></button>
 </c:if>
 </form>
-</body>
 
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>  
+
+</body>
 </html>
