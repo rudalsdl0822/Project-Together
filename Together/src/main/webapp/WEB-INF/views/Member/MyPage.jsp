@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -95,7 +94,7 @@
     </ul>
     
      <ul>
-      <a class="card_small" href="#">
+      <a class="card_small" href="/AddPet/PetAllList">
         <h3>입소신청내역</h3>
         <p class="card_text">입소 신청 내역을 보실 수 있습니다.</p>
         <p class="card_textlink">확인하기</p>
@@ -137,7 +136,7 @@
     </ul>
     
      <ul>
-      <a class="card_small" href="#">
+      <a class="card_small" href="/AddPet/PetAllList">
         <h3>입소신청내역</h3>
         <p class="card_text">입소 신청 내역을 확인하고 승인/거절을 할 수 있습니다.</p>
         <p class="card_textlink">확인하기</p>
