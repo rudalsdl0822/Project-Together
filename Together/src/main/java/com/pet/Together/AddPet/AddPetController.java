@@ -5,12 +5,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +34,11 @@ public class AddPetController {
 	private AdoptService adopt_service;
 	@Autowired
 	private MemberService member_service;
+	
+	
+	@Autowired
+	private HttpServletRequest request;
+
 
 
 	@RequestMapping(value = "/AddPet/AddPet")
@@ -179,17 +188,17 @@ public class AddPetController {
 		return "redirect:/AddPet/PetAllList";
 	}
 	
-	@RequestMapping(value = "/AddPet/AdoptNoticeList")
-	public ModelAndView adoptNoticeList() {
-		ModelAndView mav = new ModelAndView("AddPet/AdoptNoticeList");
-		ArrayList<Pet> list=(ArrayList<Pet>)service.getPetAllList();
-		mav.addObject("list",list);
+	
+	
+	
+	
+	@RequestMapping(value="/AddPet/LocationAllList")
+	public ModelAndView locationAllList(@RequestParam(value="location") int location) {
+		ModelAndView mav = new ModelAndView("AddPet/PetAllList");
+		ArrayList<Pet> list = (ArrayList<Pet>)service.getLocation(location);
+		mav.addObject("list", list);
 		return mav;
 	}
-	
-	
-	
-	
 	
 	
 	
@@ -210,15 +219,67 @@ public class AddPetController {
 	}
 	
 
-	@RequestMapping(value="/AddPet/LocationList")
+	
+	
+	
+	@RequestMapping(value="/AddPet/LocationState23List")
 	public ModelAndView locationList(@RequestParam(value="location") int location) {
 		ModelAndView mav = new ModelAndView("AddPet/AdoptNoticeList");
-		ArrayList<Pet> list = (ArrayList<Pet>)service.getLocationList(location);
+		ArrayList<Pet> list = (ArrayList<Pet>)service.getLocationState23(location);
 		mav.addObject("list", list);
 		return mav;
 	}
 	
-	/* ================================cha 추가중================================ */
+	
+	
+	
+	
+	@RequestMapping(value = "/AddPet/AdoptNoticeList")
+	public ModelAndView adoptNoticeList() {
+		ModelAndView mav = new ModelAndView("AddPet/AdoptNoticeList");
+		ArrayList<Pet> list=(ArrayList<Pet>)service.getState23();
+		mav.addObject("list",list);
+		return mav;
+	}
+
+	
+	
+
+	
+	
+	
+	@GetMapping("/AddPet/SearchPet")
+	public String searchPet(@RequestParam(value="page") String page, @RequestParam(required=false) String search, @RequestParam(required=false) String value, Model model) {
+		if(search != null && value != null) {
+			request.setAttribute("search", search);
+			request.setAttribute("value", value);
+			ArrayList<Pet> list = null;
+			
+			if(search.equals("breed")) {
+				list = (ArrayList<Pet>)service.getBreed(value);
+			} else if(search.equals("age")) {
+				list = (ArrayList<Pet>)service.getAgeList(value);
+			} else if(search.equals("name")) {
+				list = (ArrayList<Pet>)service.getPetName(value);
+			} else if(search.equals("writer_id")) {
+				list = (ArrayList<Pet>)service.getWriter_id(value);
+			}
+			model.addAttribute("list", list);
+			
+			if(page.equals("PetAllList")) {
+				return "/AddPet/PetAllList";	
+			} else if(page.equals("AdoptNotice")) {
+				return "/AddPet/AdoptNoticeList";			
+			}
+		} else {
+			if(page.equals("PetAllList")) {
+				return "redirect:/AddPet/PetAllList";	
+			} else if(page.equals("AdoptNotice")) {
+				return "redirect:/AddPet/AdoptNoticeList";		
+			}
+		}
+		return "redirect:/";
+	}
 	
 
 }
