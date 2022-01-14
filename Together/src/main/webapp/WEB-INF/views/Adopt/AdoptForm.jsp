@@ -22,19 +22,11 @@
 
 	<script>
 	function fn_form_submit(form_id){
-		var title=$("#title").val();
-		var family=$("#family").val();
-		var job=$("#job").val();
-		var walktime=$("#walktime").val();
-		var dating=0;
-		var content=$("#content").val();
-		
-		var data="?title="+title+"&family="+family+"&job="+job+"&walktime="+walktime
-				+"&dating="+dating+"&content="+content;
+		$("#dating").val(0);
 		
 		alert("입양신청이 완료되었습니다. 메인 페이지로 이동합니다.");
 		
-		$("#"+form_id).attr("action","/Adopt/AdoptWish"+data); 
+		$("#"+form_id).attr("action","/Adopt/AdoptWish"); 
 		$("#"+form_id).submit();
 	}
 	
@@ -183,17 +175,25 @@
 							</div>
 							<div class="info" style="width:320px;">
 								<h4 class="name">NickName : ${sessionScope.nickname }</h4>
-								<input class="form-control" type="text" id="title" placeholder="제목 : 행복하게 해주겠습니다.">
-								<input class="form-control" type="text" id="family" value="${MemberInfo.family }" placeholder="가족구성 : (반려동물 포함)" style="margin-top: 3px;">
-								<input class="form-control" type="text" id="job" value="${MemberInfo.job }" placeholder="직업 : (반려동물 케어에 필요한 정보입니다)" style="margin-top: 3px;">
-								<input class="form-control" type="text" id="walktime" value="${MemberInfo.walktime }" placeholder="산책가능한 시간 : (하루 1시간/일주일 4시간)" style="margin-top: 3px;">
+								
+							<!-- 입양신청 폼 시작 -->
+	        				<form id="form_adoptWish" method="post" class="form-signin" >
+	        					<input type="hidden" value="${sessionScope.id }" name="writer">
+								<input type="hidden" value="${pet.id }" name="pet_id">
+								
+								<input class="form-control" type="text" name="title" id="title" placeholder="제목 : 행복하게 해주겠습니다.">
+								<input class="form-control" type="text" name="family" id="family" value="${MemberInfo.family }" placeholder="가족구성 : (반려동물 포함)" style="margin-top: 3px;">
+								<input class="form-control" type="text" name="job" id="job" value="${MemberInfo.job }" placeholder="직업 : (반려동물 케어에 필요한 정보입니다)" style="margin-top: 3px;">
+								<input class="form-control" type="text" name="walktime" id="walktime" value="${MemberInfo.walktime }" placeholder="산책가능한 시간 : (하루 1시간/일주일 4시간)" style="margin-top: 3px;">
 								<p class="desc" style="margin-top: 3px;">
-									<input type="hidden" id="dating" value="${MemberInfo.dating }">
+									<input type="hidden" name="dating" id="dating" value="${MemberInfo.dating }">
 									현재까지 ${pet.name }와의 만남 회수 : ${MemberInfo.dating }0번
 								</p>
 								<label>자기 소개 : </label> 
-								<textarea class="form-control" rows="8" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="resize: vertical;"></textarea>
-								
+								<textarea class="form-control" rows="8" name="content" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="resize: vertical;"></textarea>
+							</form>
+	        				<!-- 입양신청 폼 끝 -->
+	        			
 								<p id="p_checkAdoptForm" class="desc" style="color: red; margin-top: 10px;">
 									제목을 입력해주세요
 								</p>
@@ -212,17 +212,13 @@
         		<div class="col-md-12" style="text-align: center;">
         			<div class="colInfo">
         			
-        				<!-- 입양신청 폼 시작 -->
-	        			<form id="form_adoptWish" method="post" class="nino-subscribeForm">
+						<form class="nino-subscribeForm">
 	        				<div class="input-group input-group-lg">
 								<span class="input-group-btn">
-									<input type="hidden" value="${sessionScope.id }" name="writer">
-									<input type="hidden" value="${pet.id }" name="pet_id">
 									<button id="btn_adoptWish" class="btn btn-success" type="button" style="font-size: 25px;">${pet.name }와 함께 할래요</button>
 								</span>
 							</div>
-	        			</form>
-	        			<!-- 입양신청 폼 끝 -->
+						</form>
 	        			
         			</div>
         		</div>
