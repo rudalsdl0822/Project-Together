@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>  
 	<%@ include file="/WEB-INF/views/common/css_set.jsp" %>  
-<!-- jstl -->
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en" class=" js csstransitions">
@@ -31,7 +29,7 @@
 	
 	<!-- 함수 시작 -->
 	<script>
-	// 로그인 팝업 함수  ******** 추후 추가할 예정 : 팝업시 부모창 비활성화  또는 모달창
+	// 로그인 팝업 함수  
 	function fn_loginPopup(){
 		// loginPopup   window.open('팝업주소','팝업창 이름','팝업창 설정');
 		var popup=window.open("/Member/loginFormPopup","Together | 로그인",
@@ -186,7 +184,7 @@
 	</style>
 
 </head>
-<body>
+<body style="padding-top: 50px;" class="nino-fixed-nav">
 
 
 <!-- 뷰 세팅================================================== -->
@@ -234,7 +232,7 @@
 								<span class="content">
 									<!-- ********** 추후 추가예정 : 이미지 저장하기 ********** -->
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
-									이미지 다운로드하기
+									
 								</span>
 								<img src="/AddPet/petImg?id=${pet.id}&petImgNum=1" alt="">
 							</a>
@@ -245,7 +243,7 @@
 							<a class="overlay" href="#">
 								<span class="content">
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
-									이미지 다운로드하기
+									
 								</span>
 								<img src="/AddPet/petImg?id=${pet.id}&petImgNum=2" alt="">
 							</a>
@@ -256,7 +254,7 @@
 							<a class="overlay" href="#">
 								<span class="content">
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
-									이미지 다운로드하기
+									
 								</span>
 								<img src="/AddPet/petImg?id=${pet.id}&petImgNum=3" alt="">
 							</a>
@@ -367,8 +365,8 @@
     			<div class="nino-symbol fsr">
 					<i class="mdi mdi-comment-multiple-outline nino-icon" style="font-size: 30px;"></i>
 				</div>
-				<div  style="margin: 10px;">
-					<p class="quote" style="font-size: 20px;">"${pet.info }"</p>
+				<div style="margin: 10px; width: 100%;">
+					<pre class="quote" style="font-size: 18px; font-family: 'Roboto', sans-serif;">${pet.info }</pre>
 				</div>
 			</div>
 		</div>
@@ -494,6 +492,7 @@
 		</div>
 	</section>
 	<!-- 댓글리스트 끝-->
+
     
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>  
 

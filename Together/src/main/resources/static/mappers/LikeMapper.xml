@@ -29,7 +29,7 @@
       select * from to_like where id=#{id} and pet_id=#{pet_id} order by like_num
    </select>
    
-   <delete id="deletelike">
+   <delete id="deleteLike">
       delete from to_like where like_num=#{like_num}
    </delete>
    
@@ -37,7 +37,7 @@
       delete from to_like where id=#{id} and pet_id=#{pet_id}
    </delete>
    
-   <delete id="deleteAlllike" parameterType="String">
+   <delete id="deleteAllLike" parameterType="String">
       delete from to_like where id=#{id}
    </delete>
    
