@@ -163,16 +163,15 @@
 								</a>
 							</div>
 							<div class="info" style="width:320px;">
+							
 								<h4 class="name"><a href="/Adopt/WaitingPet?id=${pet.id}">${pet.name }</a></h4>
 								<span class="regency">${pet.breed }</span>
 								<p class="desc">성별 : ${sexKorean }</p>
 								<p class="desc">나이 : ${pet.age }살</p>
 								<p class="desc">무게 : ${pet.weight }kg</p>
 								<p class="desc">보호소 위치 : (${locationCityKorean })${locationKorean }점</p>
-								<p class="desc" style="width: 90%;">
-									상세 사항 : 
-									<textarea rows="5" id="content" readonly style="width:100%; resize: vertical;  background: #E1E1E1;">${pet.info }</textarea>
-								</p>
+								<label style="margin-top: 11px;">상세 사항 : </label> 
+								<textarea class="form-control" readonly rows="8" style="resize: vertical;  background: #E1E1E1;">${pet.info }</textarea>
 							</div>
 						</div>
 					</div>
@@ -186,29 +185,20 @@
 							</div>
 							<div class="info" style="width:320px;">
 								<h4 class="name">NickName : ${sessionScope.nickname }</h4>
-								<span class="regency" style="width:100%;">
-									<input type="text" id="title" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;" style="width: 100%; height: 100%; object-fit: cover;">
-								</span>
-								<p class="desc">
-									<input type="text" id="family" value="${MemberInfo.family }" placeholder="가족구성을 적어주세요(반려동물 포함)" style="width:100%;">
-								</p>
-								<p class="desc">
-									<input type="text" id="job" value="${MemberInfo.job }" placeholder="직업 : (반려동물 케어에 필요한 정보입니다)" style="width:100%;">
-								</p>
-								<p class="desc">
-									<input type="text" id="walktime" value="${MemberInfo.walktime }" placeholder="산책가능한 시간 : (하루 1시간/일주일 4시간)" style="width:100%;">
-								</p>
-								<p class="desc">
+								<input class="form-control" type="text" id="title" placeholder="제목 : 행복하게 해주겠습니다.">
+								<input class="form-control" type="text" id="family" value="${MemberInfo.family }" placeholder="가족구성 : (반려동물 포함)" style="margin-top: 3px;">
+								<input class="form-control" type="text" id="job" value="${MemberInfo.job }" placeholder="직업 : (반려동물 케어에 필요한 정보입니다)" style="margin-top: 3px;">
+								<input class="form-control" type="text" id="walktime" value="${MemberInfo.walktime }" placeholder="산책가능한 시간 : (하루 1시간/일주일 4시간)" style="margin-top: 3px;">
+								<p class="desc" style="margin-top: 3px;">
 									<input type="hidden" id="dating" value="${MemberInfo.dating }">
-									현재까지 ${pet.name }와의 만남 회수 : ${MemberInfo.dating }번
+									현재까지 ${pet.name }와의 만남 회수 : ${MemberInfo.dating }0번
 								</p>
-								<p class="desc" style="width: 90%;">
-									자기 소개 :
-									<textarea rows="5" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="width:100%; resize: vertical;"></textarea>
+								<label>자기 소개 : </label> 
+								<textarea class="form-control" rows="8" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="resize: vertical;"></textarea>
+								
+								<p id="p_checkAdoptForm" class="desc" style="color: red; margin-top: 10px;">
+									제목을 입력해주세요
 								</p>
-								
-								
-								<p id="p_checkAdoptForm" class="desc" style="color: red;"></span>
 							</div>
 						</div>
 					</div>

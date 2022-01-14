@@ -126,10 +126,13 @@
 								<p class="desc">나이 : ${Adopt.pet.age }살</p>
 								<p class="desc">무게 : ${Adopt.pet.weight }kg</p>
 								<p class="desc">보호소 위치 : (${locationCityKorean })${locationKorean }점</p>
-								<p class="desc" style="width: 90%;">
-									상세 사항 : 
-									<textarea rows="5" readonly style="width:100%; resize: vertical;  background: #E1E1E1;">${Adopt.pet.info }</textarea>
-								</p>
+								<c:if test="${isWriter==true }">
+									<label style="margin-top: 11px;">상세 사항 : </label> 
+								</c:if>
+								<c:if test="${isWriter==false }">
+									<label>상세 사항 : </label> 
+								</c:if>
+								<textarea class="form-control" readonly rows="8" style="resize: vertical;  background: #E1E1E1;">${Adopt.pet.info }</textarea>
 							</div>
 						</div>
 					</div>
@@ -145,15 +148,13 @@
 						<c:if test="${isWriter == false }">
 							<div class="info" style="width:320px;">
 								<h4 class="name">ID : ${Adopt.writer }</h4>
-								<span class="regency">title : ${Adopt.title }</span>
+								<p class="desc">제목 : ${Adopt.title }</p>
 								<p class="desc">가족 구성 : ${Adopt.family }</p>
 								<p class="desc">직업 : ${Adopt.job }</p>
 								<p class="desc">산책 가능 시간 : ${Adopt.walktime }</p>
 								<p class="desc">현재까지 순대와의 만남 : ${Adopt.dating }번</p>
-								<p class="desc" style="width: 100%;">
-									자기 소개 : 
-									<textarea rows="5" readonly style="width:100%; resize: vertical; background: #E1E1E1;">${Adopt.content }</textarea>
-								</p>
+								<label>자기 소개 : </label> 
+								<textarea class="form-control" readonly rows="8" style="resize: vertical;  background: #E1E1E1;">${Adopt.content }</textarea>
 							</div>
 						</c:if>
 						
@@ -162,31 +163,23 @@
 						
 						<!-- 입양신청 수정 폼 -->
 						<form id="form_adoptEdit" action="/Adopt/MemberAdoptEdit" method="post">
-							<div class="info" style="width:280px;">
+							<div class="info" style="width:320px;">
 							
 								<input type="hidden" name="num" value=${Adopt.num }>
 							
 								<h4 class="name">NickName : ${sessionScope.nickname }</h4>
-								<span class="regency" style="width:100%;">
-									<input type="text" name="title" value="${Adopt.title }" placeholder="제목 : 행복하게 해주겠습니다." style="width:100%;" style="width: 100%; height: 100%; object-fit: cover;">
-								</span>
-								<p class="desc">
-									<input type="text" name="family" value="${Adopt.family }" placeholder="가족구성을 적어주세요(반려동물 포함)" style="width:100%;">
-								</p>
-								<p class="desc">
-									<input type="text" name="job" value="${Adopt.job }" placeholder="직업을 적어주세요(반려동물 케어에 필요한 정보입니다)" style="width:100%;">
-								</p>
-								<p class="desc">
-									<input type="text" name="walktime" value="${Adopt.walktime }" placeholder="산책가능한 시간을 적어주세요(하루 1시간/일주일 4시간)" style="width:100%;">
-								</p>
-								<p class="desc">
-									<input type="hidden" name="dating" value="${Adopt.dating }">
+								
+								<input class="form-control" type="text" name="title" value="${Adopt.title }" placeholder="제목 : 행복하게 해주겠습니다.">
+								<input class="form-control" type="text" name="family" value="${Adopt.family }" value="${MemberInfo.family }" placeholder="가족구성 : (반려동물 포함)" style="margin-top: 3px;">
+								<input class="form-control" type="text" name="job" value="${Adopt.job }" value="${MemberInfo.job }" placeholder="직업 : (반려동물 케어에 필요한 정보입니다)" style="margin-top: 3px;">
+								<input class="form-control" type="text" name="walktime" value="${Adopt.walktime }" value="${MemberInfo.walktime }" placeholder="산책가능한 시간 : (하루 1시간/일주일 4시간)" style="margin-top: 3px;">
+								<p class="desc" style="margin-top: 3px;">
+									<input type="hidden" id="dating" value="${Adopt.dating }">
 									현재까지 ${Adopt.pet.name }와의 만남 회수 : ${Adopt.dating }번
 								</p>
-								<p class="desc" style="width: 100%;">
-									자기 소개 :
-									<textarea rows="5" name="content" style="width:100%; resize: vertical;">${Adopt.content }</textarea>
-								</p>
+								<label>자기 소개 : </label> 
+								<textarea class="form-control" rows="8" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="resize: vertical;">${Adopt.content }</textarea>
+		
 							</div>
 						</form>
 						

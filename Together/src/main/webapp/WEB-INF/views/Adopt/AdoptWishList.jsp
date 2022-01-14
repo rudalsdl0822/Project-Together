@@ -23,22 +23,36 @@
 	<!-- 함수 -->
 	<script>
 	/* select 함수 시작*/
-	function selChange(){
-		var sel=document.getElementById("cntPerPage").value;
+	function selChange(var newCnt){
+		// setting
+		setting(newCnt);
 		
+		// 이전에 클릭한 입양신청 상태 
 		var recent_state="${state }";
-		var state=document.getElementById("state").value;
 		
 		if(recent_state==state){
-			location.href="/Adopt/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+			location.href="/Adopt/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+cntPerPage+"&state="+state;
 		}else{
-			location.href="/Adopt/AdoptWishList?cntPerPage="+sel+"&state="+state;
+			location.href="/Adopt/AdoptWishList?cntPerPage="+cntPerPage+"&state="+state;
 		}
 		
 	}
 	/* select 함수 끝*/
+	
+	function setting(var newCnt){
+		document.getElementById("cntPerPage").value=newCnt;
+		alert(document.getElementById("cntPerPage").value);
+		
+		cntPerPage=document.getElementById("cntPerPage").value;
+		state=document.getElementById("state").value;
+	}
+	
+	var cntPerPage;  //페이지당 글 개수
+	var state;  // Adopt state
 
 		$(document).ready(function(){
+			
+			setting(3);
 			
 			$("button").click(function(){
 				var num=$(this).attr("num");
@@ -47,16 +61,16 @@
 					var flag=confirm("정말로 입양을 승인하겠습니까?");
 					if(flag==false) return;
 					
-					var sel=document.getElementById("cntPerPage").value;
-					var state=document.getElementById("state").value;
-					location.href="/Adopt/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
-				}else{
+					setting();
+					
+					location.href="/Adopt/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+cntPerPage+"&state="+state;
+				}else if( $(this).text()=="입양 거절" ){
 					var flag=confirm("정말로 입양을 거절하겠습니까?");
 					if(flag==false) return;
 					
-					var sel=document.getElementById("cntPerPage").value;
-					var state=document.getElementById("state").value; 
-					location.href="/Adopt/AdoptReject?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+					setting();
+					
+					location.href="/Adopt/AdoptReject?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+cntPerPage+"&state="+state;
 				}
 			});
 			
@@ -78,12 +92,51 @@
 			</h2>
 			
 			<div class="sectionContent">
+				<!-- =============================== toggle row =============================== -->
+				<div class="row">
+					<div class="col-md-12 col-sm-12" style="text-align: right;">
+						<span style="padding-right: 10px;">TOTAL : ${total }</span>
+						<div class="btn-group">
+						    <button type="button" class="btn btn-default" name="AdoptNotice">입양공고 전체</button>
+						    <div class="btn-group">
+						    	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						    	보호소 지점 <span class="caret"></span></button>
+						    	<ul class="dropdown-menu" role="menu">
+						    		<li><a onClick="location.href='/AddPet/LocationList?location=1'">강남점</a></li>
+						    		<li><a onClick="location.href='/AddPet/LocationList?location=2'">안양점</a></li>
+						    		<li><a onClick="location.href='/AddPet/LocationList?location=3'">해운대점</a></li>
+						    	</ul>
+						    </div>
+						    <!-- paging toggle -->
+						    <div class="btn-group">
+						    	<input type="hidden" id="cntPerPage" value="${paging.cntPerPage }">
+						    	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						    		<c:if test="${paging.cntPerPage==3 }">3개씩 보기</c:if>
+						    		<c:if test="${paging.cntPerPage==6 }">6개씩 보기</c:if>
+						    		<c:if test="${paging.cntPerPage==9 }">9개씩 보기</c:if>
+						    		<c:if test="${paging.cntPerPage==12 }">12개씩 보기</c:if>
+						    		<c:if test="${paging.cntPerPage==24 }">24개씩 보기</c:if>
+						    		<span class="caret"></span>
+						    	</button>
+						      	<ul class="dropdown-menu" role="menu">
+						        	<li><a onClick="selChange(3);">3개씩 보기</a></li>
+						        	<li><a onClick="selChange(6);">6개씩 보기</a></li>
+						        	<li><a onClick="selChange(9);">9개씩 보기</a></li>
+						        	<li><a onClick="selChange(12);">12개씩 보기</a></li>
+						        	<li><a onClick="selChange(24);">24개씩 보기</a></li>
+						        </ul>
+						    </div>
+						</div>
+					</div>
+				</div>
+			
+			
 				<!-- 옵션선택 시작 -->
 				<div style="text-align: right; padding: 10px;">
-					<span>TOTAL : ${total }</span>
+					
 				
 					<!-- state select -->
-					<select id="state" name="stateSel" onchange="selChange()">
+					<select name="stateSel" onchange="selChange()">
 						<option value="0"
 							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
 						<option value="1"
@@ -94,7 +147,7 @@
 							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
 					</select>
 					<!-- paging select -->
-					<select id="cntPerPage" name="sel" onchange="selChange()">
+					<select name="sel" onchange="selChange()">
 						<option value="3"
 							<c:if test="${paging.cntPerPage==3 }">selected</c:if>>3개씩 보기</option>
 						<option value="6"
