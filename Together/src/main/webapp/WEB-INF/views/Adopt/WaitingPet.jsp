@@ -365,8 +365,8 @@
     			<div class="nino-symbol fsr">
 					<i class="mdi mdi-comment-multiple-outline nino-icon" style="font-size: 30px;"></i>
 				</div>
-				<div  style="margin: 10px;">
-					<p class="quote" style="font-size: 20px;">"${pet.info }"</p>
+				<div style="margin: 10px; width: 100%;">
+					<pre class="quote" style="font-size: 18px; font-family: 'Roboto', sans-serif;">${pet.info }</pre>
 				</div>
 			</div>
 		</div>
