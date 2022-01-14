@@ -86,16 +86,6 @@
 			}
 		});
 		
-		$('#a_logout').click(function(){
-			var flag = confirm("로그아웃 하시겠습니까?");
-			if (flag){
-				alert("로그아웃 되었습니다.");
-				location.href="/Member/logout";
-			} else {
-				return;
-			}
-		});
-		
 	});
 	</script>
 </head>
