@@ -33,14 +33,7 @@
 		}else{
 			form.action="/Adopt/AdoptWishList";
 		}
-		form.submit();
-		
-		/* if(recent_state==state){
-			location.href="/Adopt/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
-		}else{
-			location.href="/Adopt/AdoptWishList?cntPerPage="+sel+"&state="+state;
-		} */
-		
+		form.submit();		
 	}
 	/* select 함수 끝*/
 

@@ -31,7 +31,7 @@
 	<footer id="footer" style="background: none;">
         <div class="container">
         	<div class="row">  
-        		<div class="col-md-12" style="display: inline-block; text-align: center;">
+        		<div class="col-md-12" style="text-align: center;">
         			<div class="colInfo">
         				<h2 class="nino-sectionHeading">
 				<span class="nino-subHeading">Together</span>
