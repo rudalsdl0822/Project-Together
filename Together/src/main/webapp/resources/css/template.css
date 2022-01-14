@@ -737,7 +737,21 @@ section {
 }
 /* =============== SECTION HAPPY CLIENT =============== */
 #nino-happyClient {
-	background: url(../images/happy-client/bg-happy-client.jpg) no-repeat center center / cover;
+	position: relative;
+	z-index: 1;
+}
+
+#nino-happyClient::after {
+	background: url(../km/8.jpg) no-repeat center
+		center/cover;
+	width: 100%;
+	height: 100%;
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	opacity: 0.2;
 }
 #nino-happyClient .item {
 	margin-bottom: 30px;

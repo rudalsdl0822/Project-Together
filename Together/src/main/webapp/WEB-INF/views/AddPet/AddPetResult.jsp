@@ -26,9 +26,6 @@ $(document).ready(function(){
 </head>
 <body data-target="#nino-navbar" data-spy="scroll" style="padding-top: 50px;" class="nino-fixed-nav">
 
-
- <!-- container Form
-    ================================================== -->
 <section id="onlineAddPet">
 		<div class="container">
 			<h2 class="nino-sectionHeading">
@@ -36,8 +33,6 @@ $(document).ready(function(){
 				온라인 입소 신청 완료되었습니다 !
 			</h2>
 			<div style="text-align:center;">
-		
-			<!-- 버튼 제이쿼리 작성해야함 /kyungmin -->
 				<input type="button" class="nino-btn" style="background: #95e1d3;" id="btn_addPetList" value="입소 신청내역 확인"/>
 			</div>
 		

@@ -83,31 +83,12 @@
 					)
 	where rn between #{start} and #{end}
 </select>
-<select id="selectAdopt0" resultMap="Adopt">
+
+<select id="selectAdoptByState" resultMap="Adopt">
 	select * from(
 					select rownum rn, a.* from(
 												select * from to_adopt
-													where state=0
-													order by num desc
-												) a
-					)
-	where rn between #{start} and #{end}
-</select>
-<select id="selectAdopt1" resultMap="Adopt">
-	select * from(
-					select rownum rn, a.* from(
-												select * from to_adopt
-													where state=1
-													order by num desc
-												) a
-					)
-	where rn between #{start} and #{end}
-</select>
-<select id="selectAdopt2" resultMap="Adopt">
-	select * from(
-					select rownum rn, a.* from(
-												select * from to_adopt
-													where state=2
+													where state=#{state}
 													order by num desc
 												) a
 					)

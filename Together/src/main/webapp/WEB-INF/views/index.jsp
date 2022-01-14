@@ -16,19 +16,6 @@
 	
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	
-	<script>
-	$(document).ready(function(){
-		$('#a_logout').click(function(){
-			var flag = confirm("로그아웃 하시겠습니까?");
-			if (flag){
-				alert("로그아웃 되었습니다.");
-				location.href="/Member/logout";
-			} else {
-				return;
-			}
-		});
-	});
-	</script>
 	
 </head>
 <body data-target="#nino-navbar" data-spy="scroll">
@@ -145,7 +132,7 @@
 						<p>펫숍 쇼윈도에 진열된 동물의 이면에는 또 다른 생명의 고통이 있을 수 있습니다.<br>
 						입양은 가장 신천적인 동물구호 활동입니다. 가족을 기다리는 동물들, 사지말고 입양하세요.</p>
 							<br>
-						<a href="${pageContext.request.contextPath}/views/" class="nino-btn">입양 공고 리스트</a>
+						<a href="${pageContext.request.contextPath}/AddPet/AdoptNoticeList" class="nino-btn">입양 공고 리스트</a>
 					</div>
 					<div class="item">
 						<h2 class="nino-sectionHeading">
@@ -158,7 +145,7 @@
 						<br>가족이 되어 즐겁게 지내시는 모습, 입양 전후 사진, 특이한 버릇, 입양 후 가장 좋은 점 등을 
 						<br>작성해주시면 입양을 망설이시거나 고민하시는 분들께 좋은 선물이 될 수 있습니다.</p>
 							<br>
-						<a href="${pageContext.request.contextPath}/views/" class="nino-btn">입양 후기 게시판</a>
+						<a href="${pageContext.request.contextPath}/Review/reviewList" class="nino-btn">입양 후기 게시판</a>
 					</div>
 					<div class="item">
 						<h2 class="nino-sectionHeading">
@@ -215,7 +202,7 @@
 				<div class="row nino-hoverEffect">
 					<div class="col-md-4 col-sm-4">
 						<div class="item">
-							<a class="overlay" href="#">
+							<a class="overlay" href="${pageContext.request.contextPath}/Review/reviewList">
 								<span class="content">
 									<i class="mdi mdi-account-multiple nino-icon"></i>
 									Together 후기 보러 가기
@@ -226,7 +213,7 @@
 					</div>
 					<div class="col-md-4 col-sm-4">
 						<div class="item">
-							<a class="overlay" href="#">
+							<a class="overlay" href="${pageContext.request.contextPath}/AddPet/AdoptNoticeList">
 								<span class="content">
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
 									입양공고 보러가기
@@ -363,21 +350,6 @@
     	</div>
     </section><!--/#nino-services-->
 
-    <!-- Unique Design
-    ================================================== -->
-   
-    <!-- What We Do
-    ================================================== -->
-        <!-- Testimonial
-    ================================================== -->
-  
-
-    <!-- Our Team
-    ================================================== -->
-	
-
-	<!-- Brand
-    ================================================== -->
    
    <!-- Latest Blog
     ================================================== -->
@@ -464,7 +436,7 @@
 		<div class="sectionContent">
 			<ul class="nino-portfolioItems">
 				<li class="item">
-					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/">
+					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath}/AddPet/AdoptNoticeList">
 						<img src="${pageContext.request.contextPath }/resources/images/our-work/img-1.jpg" />
 						<div class="overlay">
 							<div class="content">
@@ -476,7 +448,7 @@
 					</a>
 				</li>
 				<li class="item">
-					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/">
+					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/AddPet/AdoptNoticeList">
 						<img src="${pageContext.request.contextPath }/resources/images/our-work/img-2.jpg" />
 						<div class="overlay">
 							<div class="content">
@@ -488,7 +460,7 @@
 					</a>
 				</li>
 				<li class="item">
-					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/">
+					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/AddPet/AdoptNoticeList">
 						<img src="${pageContext.request.contextPath }/resources/images/our-work/img-3.jpeg" />
 						<div class="overlay">
 							<div class="content">
@@ -500,7 +472,7 @@
 					</a>
 				</li>
 				<li class="item">
-					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/">
+					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/AddPet/AdoptNoticeList">
 						<img src="${pageContext.request.contextPath }/resources/images/our-work/img-4.jpeg" />
 						<div class="overlay">
 							<div class="content">
@@ -512,7 +484,7 @@
 					</a>
 				</li>
 				<li class="item">
-					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/">
+					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/AddPet/AdoptNoticeList">
 						<img src="${pageContext.request.contextPath }/resources/images/our-work/img-5.jpg" />
 						<div class="overlay">
 							<div class="content">
@@ -524,7 +496,7 @@
 					</a>
 				</li>
 				<li class="item">
-					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/">
+					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/AddPet/AdoptNoticeList">
 						<img src="${pageContext.request.contextPath }/resources/images/our-work/img-6.jpg" />
 						<div class="overlay">
 							<div class="content">
@@ -536,7 +508,7 @@
 					</a>
 				</li> 
 				<li class="item">
-					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/">
+					<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Together" href="${pageContext.request.contextPath }/AddPet/AdoptNoticeList">
 						<img src="${pageContext.request.contextPath }/resources/images/our-work/img-7.jpg" />
 						<div class="overlay">
 							<div class="content">

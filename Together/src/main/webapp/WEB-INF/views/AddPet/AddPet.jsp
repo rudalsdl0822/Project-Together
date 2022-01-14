@@ -50,7 +50,7 @@
 			if ($(this).val != "" && $(this).val != null) {
 				// 확장자 체크
 				var ext = $(this).val().split(".").pop().toLowerCase();
-				if ($.inArray(ext, ["gif","jpg","jpeg","png","hwp","pdf","doc","xls","xlsx","ppt","pptx","docx"])==-1){
+				if ($.inArray(ext, ["gif","jpg","jpeg","png"])==-1){
 					alert("이미지 파일(gif, jpg, jpeg, png 파일)만 업로드 가능합니다.");
 			    	$(this).val("");
 			        return;
@@ -68,15 +68,6 @@
 			}
 		});
 		
-		$('#a_logout').click(function(){
-			var flag = confirm("로그아웃 하시겠습니까?");
-			if (flag){
-				alert("로그아웃 되었습니다.");
-				location.href="/Member/logout";
-			} else {
-				return;
-			}
-		});
 		
 	});
 	</script>
@@ -113,7 +104,7 @@
 				<span class="nino-subHeading">Together</span>
 				온라인 입소 신청
 			</h2>
-s
+			
 <form class="form-signin" action="${pageContext.request.contextPath}/AddPet" id="form_addPet" method="post" enctype="multipart/form-data">
   <fieldset>
   <input type="hidden" name="writer_id" value="${sessionScope.id}"> 
