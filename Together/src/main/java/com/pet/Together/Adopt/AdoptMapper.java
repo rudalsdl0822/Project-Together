@@ -16,6 +16,7 @@ public interface AdoptMapper {
 	void deleteAdopt(int num);
 	
 	ArrayList<Adopt> getAdoptsByPet_id(int pet_id);
+	
 	ArrayList<Adopt> getAdoptsByWriter(@Param("writer")String writer, @Param("state") int state);
 	ArrayList<Adopt> getAdoptsAllByWriter(@Param("writer")String writer);
 	

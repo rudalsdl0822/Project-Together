@@ -199,6 +199,19 @@
 			<c:if test="${pet.sex == 1 }">남자</c:if>
 			<c:if test="${pet.sex == 2 }">여자</c:if>
 		</c:set>
+	<!-- default : 정보가 없는 경우에는 -를 넣는다. -->
+		<c:set var="default_breed">
+			<c:if test="${empty pet.breed }">사랑둥이</c:if>
+		</c:set>
+		<c:set var="default_sex">
+			<c:if test="${empty pet.sex }">-</c:if>
+		</c:set>
+		<c:set var="default_age">
+			<c:if test="${empty pet.age }">-</c:if>
+		</c:set>
+		<c:set var="default_weight">
+			<c:if test="${empty pet.weight }">-</c:if>
+		</c:set>
 <!-- 뷰 세팅 끝================================================== -->
 
 
@@ -210,7 +223,7 @@
 			<h2 class="nino-sectionHeading">
 
 				<span class="nino-subHeading">Shall We Together?</span>
-				${pet.breed }, ${pet.name }
+				${pet.breed }${default_breed }, ${pet.name }
 				
 				<c:if test="${pet.state==2}">
 					<span class="label label-warning" style="font-size: 11px;">입양대기</span>
@@ -325,15 +338,15 @@
     	<div class="container">
     		<div layout="row" class="verticalStretch">
     			<div class="item" style="width:18%;">
-    				<div class="number">${sexKorean }</div>
+    				<div class="number">${sexKorean }${default_sex }</div>
     				<div class="text">SEX</div>
     			</div>
     			<div class="item" style="width:18%;"> 
-    				<div class="number">${pet.age }살</div>
+    				<div class="number">${pet.age }${default_age }살</div>
     				<div class="text">AGE</div>
     			</div>
     			<div class="item" style="width:18%;">
-    				<div class="number">${pet.weight }</div>
+    				<div class="number">${pet.weight }${default_weight }</div>
     				<div class="text">WEIGHT</div>
     			</div>
     			<div class="item" style="width:26%;">

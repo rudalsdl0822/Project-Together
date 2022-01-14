@@ -116,7 +116,7 @@ public class AdoptController {
 		
 		Pet p=service.getPet(adopt.getPet_id());
 		p.setState(3);
-		service.editPet(p);
+		service.editPetState(p);
 		
 		System.out.println("-----입양신청완료----------------------------------");
 		System.out.println("pet id가 "+p.getId() +"인 입양대기 동물을 입양신청합니다.");
@@ -176,7 +176,6 @@ public class AdoptController {
 		System.out.println("입양신청 게시글의 리스트를 봅니다.");
 		System.out.println("----페이징을 시작합니다. 입양신청 글 상태="+state);
 		System.out.println("----페이지당 글 갯수="+cntPerPage);
-		System.out.println("----첫 페이지 게시글 : "+adoptList);
 		System.out.println("-----------------------------------------------\n");
 
 		return mav;
@@ -222,7 +221,7 @@ public class AdoptController {
 		/*
 		 * 1. Adopt num를 받아 state=1로 바꿔준다.
 		 * 2. pet state=4로 바꿔준다.
-		 * 3. ===========추후 구현 예정 : member 에게 알린다 ==============
+		 * 3. 다른 신청자들의 Adopt state=100(입양마감)로 바꿔준다.
 		 * 4. 보고 있던 입양신청 리스트로 돌아간다.("forward:/Adopt/AdoptWishList" : foward는 request를 유지시켜줌.)
 		 */
 		
@@ -232,13 +231,20 @@ public class AdoptController {
 		
 		Pet pet=service.getPet(adopt.getPet_id());
 		pet.setState(4);
-		service.editPet(pet); 
+		service.editPetState(pet); 
+		
+		ArrayList<Adopt> otherAdoptList=adopt_service.getAdoptsByPet_id(adopt.getPet_id());
+		for(Adopt otherAdopt: otherAdoptList) {
+			otherAdopt.setState(100);
+			adopt_service.editAdopt(otherAdopt);
+		}
 		
 		System.out.println("-----입양신청승인----------------------------------");
 		System.out.println("Adopt num : "+num);
 		System.out.println("member id : "+adopt.getWriter());
 		System.out.println("pet id : "+adopt.getPet_id());
 		System.out.println("신청자의 입양신청을 승인합니다. 입양완료.");
+		System.out.println("다른 신청자의 입양신청을 마감처리(state=100) 합니다.");
 		System.out.println("-----------------------------------------------\n");
 
 		return "forward:/Adopt/AdoptWishList";
@@ -263,10 +269,11 @@ public class AdoptController {
 		adopt_service.editAdopt(adopt);
 		
 		Pet pet=service.getPet(adopt.getPet_id());
-		ArrayList<Adopt> adoptsByPet_id=adopt_service.getAdoptsByPet_id(adopt.getPet_id());
-		int pet_state = (adoptsByPet_id.isEmpty() )? 2 : 3;
+		ArrayList<Adopt> adoptsByPet_idState=adopt_service.getAdoptsByPet_idState(adopt.getPet_id(), 0);
+
+		int pet_state = (adoptsByPet_idState.isEmpty() )? 2 : 3;
 		pet.setState(pet_state);
-		service.editPet(pet); 
+		service.editPetState(pet); 
 		
 		System.out.println("-----입양신청거절----------------------------------");
 		System.out.println("Adopt num : "+num);
@@ -335,11 +342,10 @@ public class AdoptController {
 	@RequestMapping("/Adopt/MemberAdoptEdit")
 	public ModelAndView memberAdoptEdit(Adopt adopt) {
 		adopt_service.editAdopt(adopt);
-		Adopt new_adopt=adopt_service.getAdopt(adopt.getNum());
 	
 		System.out.println("-----내 입양신청 수정---------------------------------");
 		System.out.println("내 입양신청 글을 수정합니다.");
-		System.out.println("----Edit "+new_adopt);
+		System.out.println("----Edit Adopt num="+adopt.getNum());
 		System.out.println("-----------------------------------------------\n");
 		
 		ModelAndView mav=new ModelAndView("Adopt/JSON","","");

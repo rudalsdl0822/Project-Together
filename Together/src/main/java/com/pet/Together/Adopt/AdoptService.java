@@ -53,6 +53,19 @@ public class AdoptService {
 		return adoptList;
 	}
 	
+	public ArrayList<Adopt> getAdoptsByPet_idState(int pet_id, int state){
+		ArrayList<Adopt> adoptList= mapper.getAdoptsByPet_id(pet_id);
+		ArrayList<Adopt> new_adoptList=new ArrayList<>();
+		for(Adopt adopt: adoptList) {
+			if(adopt.getState()==state) {
+				adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+				new_adoptList.add(adopt);
+			}			
+		}
+		return new_adoptList;
+	}
+	
+	
 	public ArrayList<Adopt> getAdoptsByWriter(@Param("writer")String writer, @Param("state") int state){
 		ArrayList<Adopt> adoptList= mapper.getAdoptsByWriter(writer, state);
 		for(Adopt adopt: adoptList) {

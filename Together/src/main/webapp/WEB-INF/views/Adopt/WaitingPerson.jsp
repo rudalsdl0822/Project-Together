@@ -160,10 +160,13 @@
 						<c:if test="${isWriter == true }">
 						
 						<!-- 입양신청 수정 폼 -->
-						<form id="form_adoptEdit" action="/Adopt/MemberAdoptEdit" method="post">
+						<form id="form_adoptEdit" method="post">
 							<div class="info" style="width:320px;">
 							
 								<input type="hidden" name="num" value=${Adopt.num }>
+								<input type="hidden" name="writer" value=${Adopt.writer }>
+								<input type="hidden" name="pet_id" value=${Adopt.pet_id }>
+								<input type="hidden" name="state" value=${Adopt.state }>
 							
 								<h4 class="name">NickName : ${sessionScope.nickname }</h4>
 								
@@ -176,7 +179,7 @@
 									현재까지 ${Adopt.pet.name }와의 만남 회수 : ${Adopt.dating }번
 								</p>
 								<label>자기 소개 : </label> 
-								<textarea class="form-control" rows="8" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="resize: vertical;">${Adopt.content }</textarea>
+								<textarea class="form-control" rows="8" name="content" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="resize: vertical;">${Adopt.content }</textarea>
 		
 							</div>
 						</form>
@@ -228,6 +231,9 @@
 						<c:if test="${Adopt.state==2 }">
 							<span style="font-size: 20px; color: #f38181;">입양신청이 거절된 글입니다.</span>
 						</c:if>
+						<c:if test="${Adopt.state==100 }">
+							<span style="font-size: 20px; color: #000000;">Together 친구가 새 가족을 만나, 입양신청이 마감되었습니다.</span>
+						</c:if>	
         			</div>
         		</div>
         	</div>

@@ -80,6 +80,8 @@
 							<c:if test="${state==1 }">selected</c:if>>승인된 입양신청글만 보기</option>
 						<option value="2"
 							<c:if test="${state==2 }">selected</c:if>>거절된 입양신청글만 보기</option>
+						<option value="100"
+							<c:if test="${state==100 }">selected</c:if>>마감된 입양신청글만 보기</option>
 						<option value="3"
 							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
 					</select>
@@ -89,7 +91,7 @@
 			
 			
 			<!-- ======== adoptList 시작 ============================================= -->
-			<c:if test="${adoptList.isEmpty()==true }"> 입양신청한 글이 없습니다. </c:if>
+			<c:if test="${adoptList.isEmpty()==true }"> 불러올 입양신청 글이 없습니다. </c:if>
 			<c:forEach items="${adoptList }" var="Adopt" varStatus="status">
 			
 			
@@ -138,9 +140,9 @@
 								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
 									제목 : ${Adopt.title }
 								</h3>
-								<p class="articleDesc"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+								<div style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">
 									자기 소개 : ${Adopt.content }
-								</p>
+								</div>
 							</a>
 							
 							<div class="articleMeta">
@@ -157,7 +159,10 @@
 									</c:if>
 									<c:if test="${Adopt.state==2 }">
 										<span style="color: #f38181;">입양신청이 거절된 글입니다.</span>
-									</c:if>									
+									</c:if>
+									<c:if test="${Adopt.state==100 }">
+										<span style="color: #000000;">Together 친구가 새 가족을 만나, 입양신청이 마감되었습니다.</span>
+									</c:if>								
 								</div>
 							</div>
 							<!-- 입양신청 1개 끝 -->

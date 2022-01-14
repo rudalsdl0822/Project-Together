@@ -65,6 +65,13 @@
 	<select id="selectByState234" parameterType="int" resultMap="Pet">
 		select * from to_pet where not state=1 order by state
 	</select>
+	
+	
+	
+<update id="editPetState" parameterType="com.pet.Together.AddPet.Pet">
+	update to_pet set state=#{state}
+	where id=#{id}
+</update>
 
 
 

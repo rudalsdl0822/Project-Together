@@ -49,6 +49,7 @@
 	order by num desc
 </select>
 
+
 <select id="getAdoptsByWriter" resultMap="Adopt">
 	select * from to_adopt
 	where writer=#{writer} and state=#{state}
