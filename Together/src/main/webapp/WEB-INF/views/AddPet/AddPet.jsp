@@ -50,7 +50,7 @@
 			if ($(this).val != "" && $(this).val != null) {
 				// 확장자 체크
 				var ext = $(this).val().split(".").pop().toLowerCase();
-				if ($.inArray(ext, ["gif","jpg","jpeg","png","hwp","pdf","doc","xls","xlsx","ppt","pptx","docx"])==-1){
+				if ($.inArray(ext, ["gif","jpg","jpeg","png"])==-1){
 					alert("이미지 파일(gif, jpg, jpeg, png 파일)만 업로드 가능합니다.");
 			    	$(this).val("");
 			        return;
