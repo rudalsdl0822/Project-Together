@@ -35,20 +35,6 @@
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-<script>
-	$(document).ready(function() {
-		$('#a_logout').click(function(){
-			var flag = confirm("로그아웃 하시겠습니까?");
-			if (flag){
-				alert("로그아웃 되었습니다.");
-				location.href="/Member/logout";
-			} else {
-				return;
-			}
-		});
-	});
-</script>
-
 </head>
 <body data-target="#nino-navbar" data-spy="scroll"
 	style="padding-top: 50px;" class="nino-fixed-nav">

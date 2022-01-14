@@ -24,17 +24,16 @@
 	<script>
 	/* select 함수 시작*/
 	function selChange(){
-		var sel=document.getElementById("cntPerPage").value;
-		
-		var recent_state="${state }";
 		var state=document.getElementById("state").value;
+		var recent_state="${state }";
 		
+		var form=document.getElementById("form_select");
 		if(recent_state==state){
-			location.href="/Adopt/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+			form.action="/Adopt/AdoptWishList?nowPage=${paging.nowPage}";
 		}else{
-			location.href="/Adopt/AdoptWishList?cntPerPage="+sel+"&state="+state;
+			form.action="/Adopt/AdoptWishList";
 		}
-		
+		form.submit();		
 	}
 	/* select 함수 끝*/
 
@@ -65,7 +64,7 @@
 	<!-- 함수 끝-->
 
 </head>
-<body>
+<body style="padding-top: 50px;" class="nino-fixed-nav">
 
 
     <!-- Latest Blog
@@ -79,11 +78,24 @@
 			
 			<div class="sectionContent">
 				<!-- 옵션선택 시작 -->
+				<form id="form_select">
 				<div style="text-align: right; padding: 10px;">
-					<span>TOTAL : ${total }</span>
-				
-					<!-- state select -->
-					<select id="state" name="stateSel" onchange="selChange()">
+					<span style="padding-right: 10px;">TOTAL : ${total }</span>
+					
+					<!-- 
+					pet location select
+					<select id="location" name="location" onchange="selChange()">
+						<option value="0"
+							<c:if test="${location==0 }">selected</c:if>>전체 지점 보기</option>
+						<option value="1"
+							<c:if test="${location==1 }">selected</c:if>>강남점만 보기</option>
+						<option value="2"
+							<c:if test="${location==2 }">selected</c:if>>안양점만 보기</option>
+						<option value="3"
+							<c:if test="${location==3 }">selected</c:if>>해운대점만 보기</option>
+					</select>  -->					
+					<!-- Adopt state select -->
+					<select id="state" name="state" onchange="selChange()">
 						<option value="0"
 							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
 						<option value="1"
@@ -94,7 +106,7 @@
 							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
 					</select>
 					<!-- paging select -->
-					<select id="cntPerPage" name="sel" onchange="selChange()">
+					<select id="cntPerPage" name="cntPerPage" onchange="selChange()">
 						<option value="3"
 							<c:if test="${paging.cntPerPage==3 }">selected</c:if>>3개씩 보기</option>
 						<option value="6"
@@ -106,7 +118,9 @@
 						<option value="24"
 							<c:if test="${paging.cntPerPage==24}" >selected</c:if>>24개씩 보기</option>
 					</select>
+					
 				</div>
+				</form>
 				<!-- 옵션선택 끝 -->
 			
 			
@@ -223,6 +237,7 @@
     	</div>
     </section>
     <!--/#nino-latestBlog-->
+
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>  
 	
