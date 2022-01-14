@@ -46,11 +46,11 @@
 									        
 									          <li><a class="dropdown-item" href="/Member/MyPage">관리자페이지 - 홈</a></li>
 									        
-									          <li class="dropdown-header">회원 정보</li>
+									          <li class="dropdown-header">내 정보</li>
 									          <li><a id="a_logout" class="dropdown-item" href="#">로그아웃</a></li>
 									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/Member/editForm">내 정보수정</a></li>
 									       
-									          <li class="dropdown-header">신청 리스트</li>
+									          <li class="dropdown-header">입소/입양 신청 관리</li>
 									          <li><a class="dropdown-item" href="/Adopt/AdoptWishList">입양 신청 리스트</a></li>
 									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/AddPet/PetAllList">입소 신청 리스트</a></li>
 									          
@@ -71,15 +71,15 @@
 									          <li class="dropdown-header">내 정보</li>
 									          <li><a id="a_logout" class="dropdown-item" href="#">로그아웃</a></li>
 									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/Member/editForm">내 정보수정</a></li>
-									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/like/likeList">관심등록 목록</a></li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath }/like/likeList">관심친구 목록</a></li>
 									          
 									          <li class="dropdown-header">신청 내역</li>
-									          <li><a class="dropdown-item" href="/Adopt/MemberAdoptWishList">입양 신청 내역</a></li>
-									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/AddPet/PetAllList">입소 신청 내역</a></li>
+									          <li><a class="dropdown-item" href="/Adopt/MemberAdoptWishList">나의 입양 신청</a></li>
+									          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/AddPet/PetAllList">나의 입소 신청</a></li>
 									          
 									          <li class="dropdown-header">고객 센터</li>
 									          <li><a class="dropdown-item" href="/Ask/AskForm">1:1 문의하기</a></li>
-									          <li><a class="dropdown-item" href="/Ask/AskList">문의내역보기</a></li>
+									          <li><a class="dropdown-item" href="/Ask/AskList">나의 문의내역</a></li>
 									        </ul>
 								    </li>
 								    </c:if>
