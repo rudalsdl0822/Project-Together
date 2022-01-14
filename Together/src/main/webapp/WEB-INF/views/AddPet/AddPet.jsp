@@ -104,7 +104,7 @@
 				<span class="nino-subHeading">Together</span>
 				온라인 입소 신청
 			</h2>
-s
+			
 <form class="form-signin" action="${pageContext.request.contextPath}/AddPet" id="form_addPet" method="post" enctype="multipart/form-data">
   <fieldset>
   <input type="hidden" name="writer_id" value="${sessionScope.id}"> 
