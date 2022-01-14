@@ -39,12 +39,6 @@
 		});
 	});
 
-	function fn_loginPopup(){
-		var popup=window.open("/Member/loginFormPopup","Together | 로그인",
-			"width=460px, height=340px, scrollbars=no, top=100px, left=300px, location=no");
-		return false;
-	}
- 	
  	var num = "${r.num}";
 	
 	function deleteReview() {
