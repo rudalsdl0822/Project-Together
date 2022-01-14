@@ -56,7 +56,7 @@
 			// 마지막 확인
 			var flag = confirm("문의글을 등록하시겠습니까?");
 			if (!flag){
-				return;
+				return false;
 			} else {
 				alert("문의글이 정상적으로 등록되었습니다!");
 				$('#form_addPet').submit();
@@ -68,7 +68,7 @@
 			if ($(this).val != "" && $(this).val != null) {
 				// 확장자 체크
 				var ext = $(this).val().split(".").pop().toLowerCase();
-				if ($.inArray(ext, ["gif","jpg","jpeg","png","hwp","pdf","doc","xls","xlsx","ppt","pptx","docx"])==-1){
+				if ($.inArray(ext, ["gif","jpg","jpeg","png"])==-1){
 					alert("이미지 파일(gif, jpg, jpeg, png 파일)만 업로드 가능합니다.");
 			    	$(this).val("");
 			        return;
@@ -83,16 +83,6 @@
 						return;
 					}
 				}
-			}
-		});
-		
-		$('#a_logout').click(function(){
-			var flag = confirm("로그아웃 하시겠습니까?");
-			if (flag){
-				alert("로그아웃 되었습니다.");
-				location.href="/Member/logout";
-			} else {
-				return;
 			}
 		});
 		

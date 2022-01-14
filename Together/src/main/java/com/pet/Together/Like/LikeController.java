@@ -88,11 +88,16 @@ public class LikeController {
 			@RequestParam(required = false, defaultValue = "-1") int pet_id) {
 		ModelAndView mav = new ModelAndView("like/likeJSON");
 		String id = (String) session.getAttribute("id");
+		
+		System.out.println("-----" + pet_id);
 		if (like_num != -1) {
+			System.out.println("1");
 			lService.deleteLike(like_num);
 		} else if (pet_id != -1) {
+			System.out.println("-1");
 			lService.deleteLikeByPetId(pet_id, id);
 		}
+		System.out.println("test");
 		return mav;
 	}
 
