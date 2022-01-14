@@ -27,7 +27,7 @@
             
             $(document).ready(function () {
             	// 관심 삭제
-				 $("#like_delete").click(function () {
+				 $("button[type=button][name=delete_like]").click(function () {
 					 	var petId=$(this).attr("num");
 	                    $.ajax({
 	                        type: "post",
@@ -57,7 +57,7 @@
 
 
 </head>
-<body data-target="#nino-navbar" data-spy="scroll">
+<body data-target="#nino-navbar" data-spy="scroll" style="padding-top: 50px;" class="nino-fixed-nav">>
 	<section id="nino-latestBlog">
     	<div class="container">
     		<h2 class="nino-sectionHeading">
