@@ -41,7 +41,7 @@
 	</script>
 	
 </head>
-<body data-target="#nino-navbar" data-spy="scroll" style="padding-top: 50px;" class="nino-fixed-nav">
+<body style="padding-top: 50px;" class="nino-fixed-nav">
 
 	<section id="EditPet">
 		<div class="container">
