@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>  
 	<%@ include file="/WEB-INF/views/common/css_set.jsp" %>  
-<!-- jstl -->
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en" class=" js csstransitions">
