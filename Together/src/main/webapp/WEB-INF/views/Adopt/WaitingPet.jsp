@@ -151,7 +151,7 @@
                     let html = `
                         <form action="${pageContext.request.contextPath}/reply/edit" method="post">
                             <div>
-                                <textarea name="reply_content" class="form-control" rows="3" style="width:100%; borrder: none; background: none">${"${reply.text()}"}</textarea>
+                                <textarea name="reply_content" class="form-control" rows="3" style="width: 100%;">${"${reply.text()}"}</textarea>
                                 <button class="btn btn-danger btn-block" type="submit">댓글 수정</button>
                             </div>
                             <input type="hidden" name="reply_num" value="${"${reply_num}"}" />
@@ -167,6 +167,7 @@
 		
 		// 댓글|대댓글 삭제
 		function deleteReply(reply_num) {
+			if(confirm("삭제하시겠습니까?")) {
                 $.ajax({
                     type: "post",
                     url: "${pageContext.request.contextPath}/reply/delete",
@@ -175,7 +176,8 @@
                         location.href = location.href.split("#")[0];
                     },
                 });
-            }
+			}
+		}
 	</script>
 	<!-- 함수 끝 -->
 	
@@ -186,7 +188,7 @@
 	</style>
 
 </head>
-<body>
+<body data-target="#nino-navbar" data-spy="scroll" style="padding-top: 50px;" class="nino-fixed-nav">
 
 
 <!-- 뷰 세팅================================================== -->
@@ -378,7 +380,7 @@
     
 	<!-- Happy Client
     ================================================== -->
-	<section id="nino-happyClient">
+
 		<div class="container">
 			<h2 class="nino-sectionHeading">
 				<span class="nino-subHeading">Say Together</span> 댓글
@@ -386,13 +388,13 @@
 
 			<!-- 댓글쓰기란 -->
 			<div class="sectionContent">
-				<div class="replys" id="reply-add-form" style="border: 5px dotted white; border-radius: 35px; padding: 5px 15px; margin: 30px;">
+				<div class="replys" id="reply-add-form" style="border-radius: 35px; padding: 5px 15px; margin: 30px;">
 
 					<!-- 댓글 등록폼 -->
 					<form name="form_addReply" action="${pageContext.request.contextPath}/reply/add" method="post" class="add-reply-form">
 						<div>
-							<span class="regency">NICKNAME : ${sessionScope.nickname}</span>
-							<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요." style="borrder: none; background: none"></textarea>
+							<span class="regency" style="font-weight: bold; margin: 5px">NICKNAME : ${sessionScope.nickname}</span>
+							<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
 							<button id="btn_addReply" type="button" class="btn btn-danger btn-block">댓글 등록</button>
 						</div>
 
@@ -411,22 +413,24 @@
 							<c:when test="${status != 'deleted'}">
 								<li style="border-bottom: 1px solid; border-color: #C0C0C0; padding: 15px; margin: 5px 40px 5px;">
 									<div class="reply-writer">
-										<span class="regency">NICKNAME : ${reply.member.nickname}</span>
+										<span class="regency" style="font-weight: bold">NICKNAME : ${reply.member.nickname}</span>
 									</div>
 									<div class="reply-content" id="reply-${reply.reply_num}">${reply.reply_content}</div>
-									<div class="reply_date" align="right">${reply.reply_date}</div>
+									<div class="reply_date" align="right" style="padding: 0 1em;">${reply.reply_date}</div>
 
 									<div class="reply-menu" align="right">
 										<c:if test="${sessionScope.id != null}">
 											<button onclick="toggleReply('${reply.reply_num}')" class="btn btn-link btn-sm">
 												<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>댓글
 											</button>
+										<c:if test="${reply.writer_id==sessionScope.id}">
 											<button onclick="editReply('${reply.reply_num}')" class="btn btn-link btn-sm">
 												<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>수정
 											</button>
 											<button onclick="deleteReply('${reply.reply_num}')" class="btn btn-link btn-sm">
 												<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>삭제
 											</button>
+										</c:if>
 										</c:if>
 									</div>
 								</li>
@@ -435,7 +439,7 @@
 								<%-- 대댓글 등록폼 --%>
 								<form action="${pageContext.request.contextPath}/reply/add" method="post" class="add-child-reply-form" id="form-${reply.reply_num}" style="display: none">
 									<div>
-										<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요." style="borrder: none; background: none"></textarea>
+										<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
 										<button id="btn_addChildReply" type="submit" class="btn btn-danger btn-block">댓글 등록</button>
 									</div>
 									<input type="hidden" name="writer_id" value="${sessionScope.id}" />
@@ -462,13 +466,13 @@
 									<c:when test="${child_status != 'deleted'}">
 										<li style="border-bottom: 1px solid; border-color: #C0C0C0; padding: 15px; margin: 5px 40px 5px; margin-left: 150px;">
 											<div class="childReply-writer">
-												<span class="regency">NICKNAME : ${reply.member.nickname}</span>
+												<span class="regency" style="font-weight: bold">NICKNAME : ${c_reply.member.nickname}</span>
 											</div>
 											<div class="childReply-content" id="reply-${c_reply.reply_num}">${c_reply.reply_content}</div>
-											<div class="childReply_date" align="right">${reply.reply_date}</div>
+											<div class="childReply_date" align="right" style="padding: 0 1em;">${reply.reply_date}</div>
 
 											<div class="childReply-menu" align="right">
-												<c:if test="${sessionScope.id != null}">
+												<c:if test="${c_reply.writer_id==sessionScope.id}">
 													<button onclick="editReply('${c_reply.reply_num}')" class="btn btn-link btn-sm">
 														<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>수정
 													</button>
@@ -492,7 +496,7 @@
 				</ul>
 			</div>
 		</div>
-	</section>
+
 	<!-- 댓글리스트 끝-->
     
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>  
