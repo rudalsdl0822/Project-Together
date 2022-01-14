@@ -31,7 +31,7 @@
 	
 	<!-- 함수 시작 -->
 	<script>
-	// 로그인 팝업 함수  ******** 추후 추가할 예정 : 팝업시 부모창 비활성화  또는 모달창
+	// 로그인 팝업 함수  
 	function fn_loginPopup(){
 		// loginPopup   window.open('팝업주소','팝업창 이름','팝업창 설정');
 		var popup=window.open("/Member/loginFormPopup","Together | 로그인",
@@ -186,7 +186,7 @@
 	</style>
 
 </head>
-<body>
+<body style="padding-top: 50px;" class="nino-fixed-nav">
 
 
 <!-- 뷰 세팅================================================== -->
@@ -234,7 +234,7 @@
 								<span class="content">
 									<!-- ********** 추후 추가예정 : 이미지 저장하기 ********** -->
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
-									이미지 다운로드하기
+									
 								</span>
 								<img src="/AddPet/petImg?id=${pet.id}&petImgNum=1" alt="">
 							</a>
@@ -245,7 +245,7 @@
 							<a class="overlay" href="#">
 								<span class="content">
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
-									이미지 다운로드하기
+									
 								</span>
 								<img src="/AddPet/petImg?id=${pet.id}&petImgNum=2" alt="">
 							</a>
@@ -256,7 +256,7 @@
 							<a class="overlay" href="#">
 								<span class="content">
 									<i class="mdi mdi-image-filter-center-focus-weak nino-icon"></i>
-									이미지 다운로드하기
+									
 								</span>
 								<img src="/AddPet/petImg?id=${pet.id}&petImgNum=3" alt="">
 							</a>

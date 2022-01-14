@@ -23,36 +23,28 @@
 	<!-- 함수 -->
 	<script>
 	/* select 함수 시작*/
-	function selChange(var newCnt){
-		// setting
-		setting(newCnt);
-		
-		// 이전에 클릭한 입양신청 상태 
+	function selChange(){
+		var state=document.getElementById("state").value;
 		var recent_state="${state }";
 		
+		var form=document.getElementById("form_select");
 		if(recent_state==state){
-			location.href="/Adopt/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+cntPerPage+"&state="+state;
+			form.action="/Adopt/AdoptWishList?nowPage=${paging.nowPage}";
 		}else{
-			location.href="/Adopt/AdoptWishList?cntPerPage="+cntPerPage+"&state="+state;
+			form.action="/Adopt/AdoptWishList";
 		}
+		form.submit();
+		
+		/* if(recent_state==state){
+			location.href="/Adopt/AdoptWishList?nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+		}else{
+			location.href="/Adopt/AdoptWishList?cntPerPage="+sel+"&state="+state;
+		} */
 		
 	}
 	/* select 함수 끝*/
-	
-	function setting(var newCnt){
-		document.getElementById("cntPerPage").value=newCnt;
-		alert(document.getElementById("cntPerPage").value);
-		
-		cntPerPage=document.getElementById("cntPerPage").value;
-		state=document.getElementById("state").value;
-	}
-	
-	var cntPerPage;  //페이지당 글 개수
-	var state;  // Adopt state
 
 		$(document).ready(function(){
-			
-			setting(3);
 			
 			$("button").click(function(){
 				var num=$(this).attr("num");
@@ -61,16 +53,16 @@
 					var flag=confirm("정말로 입양을 승인하겠습니까?");
 					if(flag==false) return;
 					
-					setting();
-					
-					location.href="/Adopt/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+cntPerPage+"&state="+state;
-				}else if( $(this).text()=="입양 거절" ){
+					var sel=document.getElementById("cntPerPage").value;
+					var state=document.getElementById("state").value;
+					location.href="/Adopt/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+				}else{
 					var flag=confirm("정말로 입양을 거절하겠습니까?");
 					if(flag==false) return;
 					
-					setting();
-					
-					location.href="/Adopt/AdoptReject?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+cntPerPage+"&state="+state;
+					var sel=document.getElementById("cntPerPage").value;
+					var state=document.getElementById("state").value; 
+					location.href="/Adopt/AdoptReject?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
 				}
 			});
 			
@@ -79,7 +71,7 @@
 	<!-- 함수 끝-->
 
 </head>
-<body>
+<body style="padding-top: 50px;" class="nino-fixed-nav">
 
 
     <!-- Latest Blog
@@ -92,51 +84,25 @@
 			</h2>
 			
 			<div class="sectionContent">
-				<!-- =============================== toggle row =============================== -->
-				<div class="row">
-					<div class="col-md-12 col-sm-12" style="text-align: right;">
-						<span style="padding-right: 10px;">TOTAL : ${total }</span>
-						<div class="btn-group">
-						    <button type="button" class="btn btn-default" name="AdoptNotice">입양공고 전체</button>
-						    <div class="btn-group">
-						    	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						    	보호소 지점 <span class="caret"></span></button>
-						    	<ul class="dropdown-menu" role="menu">
-						    		<li><a onClick="location.href='/AddPet/LocationList?location=1'">강남점</a></li>
-						    		<li><a onClick="location.href='/AddPet/LocationList?location=2'">안양점</a></li>
-						    		<li><a onClick="location.href='/AddPet/LocationList?location=3'">해운대점</a></li>
-						    	</ul>
-						    </div>
-						    <!-- paging toggle -->
-						    <div class="btn-group">
-						    	<input type="hidden" id="cntPerPage" value="${paging.cntPerPage }">
-						    	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						    		<c:if test="${paging.cntPerPage==3 }">3개씩 보기</c:if>
-						    		<c:if test="${paging.cntPerPage==6 }">6개씩 보기</c:if>
-						    		<c:if test="${paging.cntPerPage==9 }">9개씩 보기</c:if>
-						    		<c:if test="${paging.cntPerPage==12 }">12개씩 보기</c:if>
-						    		<c:if test="${paging.cntPerPage==24 }">24개씩 보기</c:if>
-						    		<span class="caret"></span>
-						    	</button>
-						      	<ul class="dropdown-menu" role="menu">
-						        	<li><a onClick="selChange(3);">3개씩 보기</a></li>
-						        	<li><a onClick="selChange(6);">6개씩 보기</a></li>
-						        	<li><a onClick="selChange(9);">9개씩 보기</a></li>
-						        	<li><a onClick="selChange(12);">12개씩 보기</a></li>
-						        	<li><a onClick="selChange(24);">24개씩 보기</a></li>
-						        </ul>
-						    </div>
-						</div>
-					</div>
-				</div>
-			
-			
 				<!-- 옵션선택 시작 -->
+				<form id="form_select">
 				<div style="text-align: right; padding: 10px;">
+					<span style="padding-right: 10px;">TOTAL : ${total }</span>
 					
-				
-					<!-- state select -->
-					<select name="stateSel" onchange="selChange()">
+					<!-- 
+					pet location select
+					<select id="location" name="location" onchange="selChange()">
+						<option value="0"
+							<c:if test="${location==0 }">selected</c:if>>전체 지점 보기</option>
+						<option value="1"
+							<c:if test="${location==1 }">selected</c:if>>강남점만 보기</option>
+						<option value="2"
+							<c:if test="${location==2 }">selected</c:if>>안양점만 보기</option>
+						<option value="3"
+							<c:if test="${location==3 }">selected</c:if>>해운대점만 보기</option>
+					</select>  -->					
+					<!-- Adopt state select -->
+					<select id="state" name="state" onchange="selChange()">
 						<option value="0"
 							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
 						<option value="1"
@@ -147,7 +113,7 @@
 							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
 					</select>
 					<!-- paging select -->
-					<select name="sel" onchange="selChange()">
+					<select id="cntPerPage" name="cntPerPage" onchange="selChange()">
 						<option value="3"
 							<c:if test="${paging.cntPerPage==3 }">selected</c:if>>3개씩 보기</option>
 						<option value="6"
@@ -159,7 +125,9 @@
 						<option value="24"
 							<c:if test="${paging.cntPerPage==24}" >selected</c:if>>24개씩 보기</option>
 					</select>
+					
 				</div>
+				</form>
 				<!-- 옵션선택 끝 -->
 			
 			

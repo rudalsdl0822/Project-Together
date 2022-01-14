@@ -59,7 +59,7 @@
 	<!-- 함수 끝-->
 
 </head>
-<body>
+<body style="padding-top: 50px;" class="nino-fixed-nav">
 
 
     <!-- Latest Blog

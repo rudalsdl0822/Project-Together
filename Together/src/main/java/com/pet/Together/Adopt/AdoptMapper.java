@@ -27,12 +27,8 @@ public interface AdoptMapper {
 	
 	
 	List<Adopt> selectAdopts(PagingVO vo);
-	// state 0: 입양신청중 1: 입양승인 2: 입양거절
-	List<Adopt> selectAdopt0(PagingVO vo);
-	List<Adopt> selectAdopt1(PagingVO vo);
-	List<Adopt> selectAdopt2(PagingVO vo);
 	
-	List<Adopt> selectAdoptByState(PagingVO vo, int state);
+	List<Adopt> selectAdoptByState(@Param("state") int state, @Param("start") int start, @Param("end") int end);
 	/* ===============입양신청 DB 페이징 끝=============== */
 
 

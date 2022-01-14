@@ -72,7 +72,7 @@
 	</script>  
 
 </head>
-<body>
+<body style="padding-top: 50px;" class="nino-fixed-nav">
 
 
 <!-- 뷰 세팅================================================== -->

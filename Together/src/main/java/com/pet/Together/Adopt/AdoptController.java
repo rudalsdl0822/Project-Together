@@ -163,19 +163,8 @@ public class AdoptController {
 		/* ===============입양신청 리스트 페이징 끝=============== */
 		
 		/* ===============입양신청 리스트 state 구분 시작=============================== */
-		
-		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) adopt_service.selectAdopt0(vo);
-		switch(state) {
-		case "1":
-			adoptList=(ArrayList<Adopt>) adopt_service.selectAdopt1(vo);
-			break;
-		case "2":
-			adoptList=(ArrayList<Adopt>) adopt_service.selectAdopt2(vo);
-			break;
-		case "3":
-			adoptList=(ArrayList<Adopt>) adopt_service.selectAdopts(vo);
-			break;
-		}
+		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) adopt_service.selectAdoptByState(int_state, vo.getStart(), vo.getEnd());
+		if(int_state==3) adoptList=(ArrayList<Adopt>) adopt_service.selectAdopts(vo);
 		/* ===============입양신청 리스트 state 구분 끝================================= */
 		
 		ModelAndView mav=new ModelAndView("Adopt/AdoptWishList","adoptList",adoptList);
@@ -185,7 +174,8 @@ public class AdoptController {
 		
 		System.out.println("-----입양신청리스트---------------------------------");
 		System.out.println("입양신청 게시글의 리스트를 봅니다.");
-		System.out.println("----페이징을 시작합니다. 페이지당 글 갯수="+cntPerPage);
+		System.out.println("----페이징을 시작합니다. 입양신청 글 상태="+state);
+		System.out.println("----페이지당 글 갯수="+cntPerPage);
 		System.out.println("----첫 페이지 게시글 : "+adoptList);
 		System.out.println("-----------------------------------------------\n");
 
