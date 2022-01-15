@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,8 @@ public class ReviewController {
 	private ReviewService service;
 	@Autowired
 	private ReviewReplyService reviewReply_service;
+	@Autowired
+	private HttpSession session;
 
 	@GetMapping(value = "/Review/reviewForm")
 	public void reviewForm() {
@@ -116,9 +120,9 @@ public class ReviewController {
 	
 	@RequestMapping(value="/Review/myBoardList")
 	public ModelAndView myBoardList() {
-		
 		ModelAndView mav = new ModelAndView("Review/myBoardList");
-		ArrayList<Review> myBoard_list = (ArrayList<Review>) service.selectAll();
+		String w_writer = (String) session.getAttribute("nickname");
+		ArrayList<Review> myBoard_list = (ArrayList<Review>) service.getReviewByNickname(w_writer);
 		mav.addObject("myBoard_list", myBoard_list);
 		
 		return mav;
@@ -144,9 +148,6 @@ public class ReviewController {
 	@RequestMapping(value="/Review/edit")
 	public String edit(Review r) {
 		service.editReview(r);
-		saveImg(r.getNum(), r.getFile1());
-		saveImg(r.getNum(), r.getFile2());
-		saveImg(r.getNum(), r.getFile3());
 		
 		return "redirect:/Review/reviewDetail?num=" + r.getNum();
 	}

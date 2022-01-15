@@ -65,7 +65,7 @@
 							</tr>
 						</c:if>
 					</c:forEach>
-					</tbody>
+				</tbody>
 				</c:if>
 
 					<a href="${pageContext.request.contextPath}/Review/reviewForm" class="nino-btn" onclick="return LoginCheck(${sessionScope.id})" style="background: #95e1d3; margin-bottom: 10px;">글쓰기</a>
