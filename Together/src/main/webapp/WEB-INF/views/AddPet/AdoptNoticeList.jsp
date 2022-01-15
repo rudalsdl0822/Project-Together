@@ -12,7 +12,7 @@
 	<meta name="copyright" content="ninodezign.com"> 
 
 
-	<title>Together | 입양공고123</title>
+	<title>Together | 입양공고</title>
 
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
