@@ -14,14 +14,8 @@ public interface PetMapper {
 
 	int makeId();
 	
-	
-	/* ================================juDayoung 추가중================================ */
 	Pet getPet(int id);
-	/* ================================juDayoung 추가중 끝================================ */
 
-	
-	
-	
 	
 	List selectPetAll();
 	
@@ -53,4 +47,8 @@ public interface PetMapper {
 
 	
 	
+
+	void editPetState(Pet p);
+	
+
 }

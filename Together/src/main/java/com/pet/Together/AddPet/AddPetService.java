@@ -20,9 +20,6 @@ public class AddPetService {
 	}
 	
 	
-	
-
-	/* ================================juDayoung 추가중================================ */
 	public Pet getPet(int id) {
 		return mapper.getPet(id); 
 	}
@@ -30,7 +27,6 @@ public class AddPetService {
 		mapper.editPet(p);
 	}
 
-	/* ================================juDayoung 추가중 끝================================ */
 
 	
 	public List getPetAllList() {
@@ -83,6 +79,10 @@ public class AddPetService {
 	}
 	
 
+	
+	public void editPetState(Pet p) {
+		mapper.editPetState(p);
+	}
 	
 	
 	

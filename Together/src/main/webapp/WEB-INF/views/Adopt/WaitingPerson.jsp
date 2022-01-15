@@ -69,8 +69,50 @@
 		});
 	</script>  
 
+<style>
+.breadcrumb-item>a, .table-primary>a {
+	color: #777;
+}
+
+.breadcrumb-item>a:hover, .table-primary>a:hover {
+	color: #337ab7;
+}
+
+.nino-btn > #btn {
+ 	background: #95e1d3;
+}
+
+.nino-btn > #btn:hover {
+	background: #00ced1;
+}
+</style>
+
+
 </head>
 <body style="padding-top: 50px;" class="nino-fixed-nav">
+	<!-- 빠른 페이지 이동 (로그인 한 경우) -->
+	<c:if test="${not empty sessionScope.id}">
+		<div>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"> <a href="/index">홈</a> </li>
+				<li class="breadcrumb-item">
+					<a href="/Member/MyPage"> 
+						<c:if test="${sessionScope.type==1}">마이페이지</c:if> 
+						<c:if test="${sessionScope.type==2}">관리자페이지</c:if>
+					</a>
+				</li>
+				<li class="breadcrumb-item">
+					<c:if test="${sessionScope.type==1}">
+						<a href="/Adopt/MemberAdoptWishList"> 나의 입양신청 내역</a>
+					</c:if> 
+					<c:if test="${sessionScope.type==2}">
+						<a href="/Adopt/AdoptWishList"> 입양신청 리스트</a>
+					</c:if>
+				</li>
+				<li class="breadcrumb-item active"> 입양신청 상세보기</li>
+			</ol>
+		</div>
+	</c:if>
 
 
 <!-- 뷰 세팅================================================== -->
@@ -150,7 +192,7 @@
 								<p class="desc">가족 구성 : ${Adopt.family }</p>
 								<p class="desc">직업 : ${Adopt.job }</p>
 								<p class="desc">산책 가능 시간 : ${Adopt.walktime }</p>
-								<p class="desc">현재까지 순대와의 만남 : ${Adopt.dating }번</p>
+								<p class="desc">현재까지 ${Adopt.pet.name }와의 만남 : ${Adopt.dating }번</p>
 								<label>자기 소개 : </label> 
 								<textarea class="form-control" readonly rows="8" style="resize: vertical;  background: #E1E1E1;">${Adopt.content }</textarea>
 							</div>
@@ -160,10 +202,13 @@
 						<c:if test="${isWriter == true }">
 						
 						<!-- 입양신청 수정 폼 -->
-						<form id="form_adoptEdit" action="/Adopt/MemberAdoptEdit" method="post">
+						<form id="form_adoptEdit" method="post">
 							<div class="info" style="width:320px;">
 							
 								<input type="hidden" name="num" value=${Adopt.num }>
+								<input type="hidden" name="writer" value=${Adopt.writer }>
+								<input type="hidden" name="pet_id" value=${Adopt.pet_id }>
+								<input type="hidden" name="state" value=${Adopt.state }>
 							
 								<h4 class="name">NickName : ${sessionScope.nickname }</h4>
 								
@@ -176,7 +221,7 @@
 									현재까지 ${Adopt.pet.name }와의 만남 회수 : ${Adopt.dating }번
 								</p>
 								<label>자기 소개 : </label> 
-								<textarea class="form-control" rows="8" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="resize: vertical;">${Adopt.content }</textarea>
+								<textarea class="form-control" rows="8" name="content" id="content" placeholder="자기 소개 : ${pet.name }를 향한 내 마음 ♥ 적기" style="resize: vertical;">${Adopt.content }</textarea>
 		
 							</div>
 						</form>
@@ -228,6 +273,9 @@
 						<c:if test="${Adopt.state==2 }">
 							<span style="font-size: 20px; color: #f38181;">입양신청이 거절된 글입니다.</span>
 						</c:if>
+						<c:if test="${Adopt.state==100 }">
+							<span style="font-size: 20px; color: #000000;">Together 친구가 새 가족을 만나, 입양신청이 마감되었습니다.</span>
+						</c:if>	
         			</div>
         		</div>
         	</div>

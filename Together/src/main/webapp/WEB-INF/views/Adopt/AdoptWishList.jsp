@@ -24,6 +24,13 @@
 	<script>
 	/* select 함수 시작*/
 	function selChange(){
+		var searchText=$("#search_pet").val();
+		if( isNaN(searchText) && searchText!="" ){  //ex) 두부
+			alert("pet id를 숫자로 입력해주세요");
+			$("#search_pet").focus();
+			return;
+		}
+		
 		var state=document.getElementById("state").value;
 		var recent_state="${state }";
 		
@@ -33,9 +40,28 @@
 		}else{
 			form.action="/Adopt/AdoptWishList";
 		}
+		alert(form.action);
 		form.submit();		
 	}
 	/* select 함수 끝*/
+	
+	// 검색 함수
+	function fn_search_pet(){
+		var searchText=$("#search_pet").val();
+		
+		// 검색이 숫자가 아니라면 return;
+		if( isNaN(searchText) || searchText=="" ){
+			alert("pet id를 숫자로 입력해주세요");
+			$("#search_pet").focus();
+			return;
+		}else{ // 검색 : pet id 검색
+			var sel=document.getElementById("cntPerPage").value;
+			var state=document.getElementById("state").value;
+			
+			var path="/Adopt/AdoptWishList?nowPage=1&cntPerPage="+sel+"&state="+state+"&searchPet_id="+searchText;
+			location.href=path;
+		}		
+	}
 
 		$(document).ready(function(){
 			
@@ -63,8 +89,42 @@
 	</script>
 	<!-- 함수 끝-->
 
+<style>
+.breadcrumb-item>a, .table-primary>a {
+	color: #777;
+}
+
+.breadcrumb-item>a:hover, .table-primary>a:hover {
+	color: #337ab7;
+}
+
+.nino-btn > #btn {
+ 	background: #95e1d3;
+}
+
+.nino-btn > #btn:hover {
+	background: #00ced1;
+}
+</style>
+
+
 </head>
 <body style="padding-top: 50px;" class="nino-fixed-nav">
+	<!-- 빠른 페이지 이동 (로그인 한 경우) -->
+	<c:if test="${not empty sessionScope.id}">
+		<div>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"> <a href="/index">홈</a> </li>
+				<li class="breadcrumb-item">
+					<a href="/Member/MyPage"> 
+						<c:if test="${sessionScope.type==1}">마이페이지</c:if> 
+						<c:if test="${sessionScope.type==2}">관리자페이지</c:if>
+					</a>
+				</li>
+				<li class="breadcrumb-item active"> 입양신청 리스트</li>
+			</ol>
+		</div>
+	</c:if>
 
 
     <!-- Latest Blog
@@ -78,33 +138,10 @@
 			
 			<div class="sectionContent">
 				<!-- 옵션선택 시작 -->
-				<form id="form_select">
-				<div style="text-align: right; padding: 10px;">
-					<span style="padding-right: 10px;">TOTAL : ${total }</span>
-					
-					<!-- 
-					pet location select
-					<select id="location" name="location" onchange="selChange()">
-						<option value="0"
-							<c:if test="${location==0 }">selected</c:if>>전체 지점 보기</option>
-						<option value="1"
-							<c:if test="${location==1 }">selected</c:if>>강남점만 보기</option>
-						<option value="2"
-							<c:if test="${location==2 }">selected</c:if>>안양점만 보기</option>
-						<option value="3"
-							<c:if test="${location==3 }">selected</c:if>>해운대점만 보기</option>
-					</select>  -->					
-					<!-- Adopt state select -->
-					<select id="state" name="state" onchange="selChange()">
-						<option value="0"
-							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
-						<option value="1"
-							<c:if test="${state==1 }">selected</c:if>>승인된 입양신청글만 보기</option>
-						<option value="2"
-							<c:if test="${state==2 }">selected</c:if>>거절된 입양신청글만 보기</option>
-						<option value="3"
-							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
-					</select>
+				<form id="form_select" style="overflow: hidden;">
+				
+				<!-- 검색창 : pet id / pet name -->					
+				<div style="float: left; width:30%; text-align: left; padding: 10px;">
 					<!-- paging select -->
 					<select id="cntPerPage" name="cntPerPage" onchange="selChange()">
 						<option value="3"
@@ -120,12 +157,31 @@
 					</select>
 					
 				</div>
+				<div style="float: left; width:70%; text-align: right; padding: 10px;">
+					<span style="padding-left: 10px; padding-right: 10px;">조건에 맞는 글 개수는 ${total }개 입니다.</span>
+					<!-- 입양신청글 state select -->
+					<select id="state" name="state" onchange="selChange()">
+						<option value="0"
+							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
+						<option value="1"
+							<c:if test="${state==1 }">selected</c:if>>승인된 입양신청글만 보기</option>
+						<option value="2"
+							<c:if test="${state==2 }">selected</c:if>>거절된 입양신청글만 보기</option>
+						<option value="100"
+							<c:if test="${state==100 }">selected</c:if>>마감된 입양신청글만 보기</option>
+						<option value="3"
+							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
+					</select>
+					<input type="text" id="search_pet" name="searchPet_id" value="${searchPet_id }" placeholder="pet id (숫자) 검색">
+					<input type="button" value="검색" onclick="fn_search_pet();">
+
+				</div>
 				</form>
 				<!-- 옵션선택 끝 -->
 			
 			
 			<!-- ======== adoptList 시작 ============================================= -->
-			<c:if test="${adoptList.isEmpty()==true }"> 입양신청한 글이 없습니다. </c:if>
+			<c:if test="${adoptList.isEmpty()==true }"> 불러올 입양신청 글이 없습니다. </c:if>
 			<c:forEach items="${adoptList }" var="Adopt" varStatus="status">
 			
 			
@@ -160,6 +216,9 @@
 									<div class="date">
 										<span class="number" style="font-size: 18px; padding: 5px;">${Adopt.pet.name }</span>
 										<span class="text"">
+											id : ${Adopt.pet_id }
+										</span>
+										<span class="text"">
 											${locationKorean }점
 										</span>
 										<span class="text">
@@ -169,14 +228,14 @@
 
 								</div>
 								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
-									입양신청 번호 : ${Adopt.num } / 신청자 : ${Adopt.writer }
+									입양신청 번호 : ${Adopt.num } / 신청자 ID : ${Adopt.writer }
 								</h3>
-								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">
 									제목 : ${Adopt.title }
 								</h3>
-								<p class="articleDesc"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+								<div style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">
 									자기 소개 : ${Adopt.content }
-								</p>
+								</div>
 							</a>
 							
 							<div class="articleMeta">
@@ -195,7 +254,10 @@
 									</c:if>
 									<c:if test="${Adopt.state==2 }">
 										<span style="color: #f38181;">입양신청이 거절된 글입니다.</span>
-									</c:if>									
+									</c:if>	
+									<c:if test="${Adopt.state==100 }">
+										<span style="color: #000000;">Together 친구가 새 가족을 만나, 입양신청이 마감되었습니다.</span>
+									</c:if>								
 								</div>
 							</div>
 							<!-- 입양신청 1개 끝 -->
