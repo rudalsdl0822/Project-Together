@@ -36,6 +36,22 @@
 		form.submit();		
 	}
 	/* select 함수 끝*/
+	
+	// 검색 함수
+	function fn_search_pet(){
+		var searchText=document.getElementById("search_pet").value;
+		
+		// 검색 1. pet name 검색
+		var path="/Adopt/AdoptWishList?nowPage=1&cntPerPage=24&state=0";
+		if( isNaN(searchText) ){
+			alert(searchText+"글자");
+			path+="&searchPet_name="+searchText;
+		}else{ // 검색 2. pet id 검색
+			alert(searchText+"숫자");
+			path+="&searchPet_id="+searchText;
+		}
+		location.href=path;
+	}
 
 		$(document).ready(function(){
 			
@@ -63,8 +79,42 @@
 	</script>
 	<!-- 함수 끝-->
 
+<style>
+.breadcrumb-item>a, .table-primary>a {
+	color: #777;
+}
+
+.breadcrumb-item>a:hover, .table-primary>a:hover {
+	color: #337ab7;
+}
+
+.nino-btn > #btn {
+ 	background: #95e1d3;
+}
+
+.nino-btn > #btn:hover {
+	background: #00ced1;
+}
+</style>
+
+
 </head>
 <body style="padding-top: 50px;" class="nino-fixed-nav">
+	<!-- 빠른 페이지 이동 (로그인 한 경우) -->
+	<c:if test="${not empty sessionScope.id}">
+		<div>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"> <a href="/index">홈</a> </li>
+				<li class="breadcrumb-item">
+					<a href="/Member/MyPage"> 
+						<c:if test="${sessionScope.type==1}">마이페이지</c:if> 
+						<c:if test="${sessionScope.type==2}">관리자페이지</c:if>
+					</a>
+				</li>
+				<li class="breadcrumb-item active"> 입양신청 리스트</li>
+			</ol>
+		</div>
+	</c:if>
 
 
     <!-- Latest Blog
@@ -78,25 +128,15 @@
 			
 			<div class="sectionContent">
 				<!-- 옵션선택 시작 -->
-				<form id="form_select">
-				<div style="text-align: right; padding: 10px;">
+				<form id="form_select" style="overflow: hidden;">
+				
+				<!-- 검색창 : pet id / pet name -->					
+				<div style="float: left; width:50%; text-align: left; padding: 10px;">
+					<input type="text" id="search_pet" value="${searchPet_id }${searchPet_name }" placeholder="pet id / pet name 검색">
+					<input type="button" value="검색" onclick="fn_search_pet();">
+				</div>
+				<div style="float: left; width:50%; text-align: right; padding: 10px;">
 					<span style="padding-right: 10px;">TOTAL : ${total }</span>
-					
-					<input type="text">
-					<input type="button" value="검색">
-					<!-- 
-					pet location select
-					<select id="location" name="location" onchange="selChange()">
-						<option value="0"
-							<c:if test="${location==0 }">selected</c:if>>전체 지점 보기</option>
-						<option value="1"
-							<c:if test="${location==1 }">selected</c:if>>강남점만 보기</option>
-						<option value="2"
-							<c:if test="${location==2 }">selected</c:if>>안양점만 보기</option>
-						<option value="3"
-							<c:if test="${location==3 }">selected</c:if>>해운대점만 보기</option>
-					</select>  -->					
-					<!-- Adopt state select -->
 					<select id="state" name="state" onchange="selChange()">
 						<option value="0"
 							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
@@ -163,6 +203,9 @@
 									
 									<div class="date">
 										<span class="number" style="font-size: 18px; padding: 5px;">${Adopt.pet.name }</span>
+										<span class="text"">
+											id : ${Adopt.pet_id }
+										</span>
 										<span class="text"">
 											${locationKorean }점
 										</span>

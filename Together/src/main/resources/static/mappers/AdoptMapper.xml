@@ -48,6 +48,11 @@
 	where pet_id=#{pet_id}
 	order by num desc
 </select>
+<select id="getAdoptsByPet_idState" resultMap="Adopt" parameterType="com.pet.Together.Adopt.Adopt">
+	select * from to_adopt
+	where pet_id=#{pet_id} and state=#{state}
+	order by num desc
+</select>
 
 
 <select id="getAdoptsByWriter" resultMap="Adopt">
@@ -74,6 +79,11 @@
 	where state=#{state}
 </select>
 
+<select id="countAdoptsByPet_idState" resultType="int" parameterType="com.pet.Together.Adopt.Adopt">
+	select count(*) from to_adopt
+	where pet_id=#{pet_id} and state=#{state}
+</select>
+
 <!-- 페이징 처리 후 게시글 조회 -->
 <select id="selectAdopts" resultMap="Adopt">
 	select * from(
@@ -90,6 +100,17 @@
 					select rownum rn, a.* from(
 												select * from to_adopt
 													where state=#{state}
+													order by num desc
+												) a
+					)
+	where rn between #{start} and #{end}
+</select>
+
+<select id="selectAdoptByPet_idState" resultMap="Adopt" parameterType="com.pet.Together.Adopt.Adopt">
+	select * from(
+					select rownum rn, a.* from(
+												select * from to_adopt
+													where pet_id=#{pet_id} and state=#{state}
 													order by num desc
 												) a
 					)

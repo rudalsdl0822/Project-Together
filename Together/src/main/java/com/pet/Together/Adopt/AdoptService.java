@@ -53,6 +53,15 @@ public class AdoptService {
 		return adoptList;
 	}
 	
+	public ArrayList<Adopt> getAdoptsByPet_idState(Adopt adopt){
+		ArrayList<Adopt> adoptList= mapper.getAdoptsByPet_idState(adopt);
+		for(Adopt one_adopt: adoptList) {
+			one_adopt.setPet(pet_service.getPet(one_adopt.getPet_id()));
+		}
+		return adoptList;
+	}
+	
+	
 	public ArrayList<Adopt> getAdoptsByPet_idState(int pet_id, int state){
 		ArrayList<Adopt> adoptList= mapper.getAdoptsByPet_id(pet_id);
 		ArrayList<Adopt> new_adoptList=new ArrayList<>();
@@ -93,6 +102,10 @@ public class AdoptService {
 		return mapper.countAdoptsByState(state);
 	}
 	
+	public int countAdoptsByPet_idState(Adopt adopt) {
+		return mapper.countAdoptsByPet_idState(adopt);
+	}
+	
 	
 	public List<Adopt> selectAdopts(PagingVO vo){
 		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdopts(vo);
@@ -106,6 +119,14 @@ public class AdoptService {
 		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdoptByState(state, start, end);
 		for(Adopt adopt: adoptList) {
 			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
+	}
+	
+	public List<Adopt> selectAdoptByPet_idState(Adopt adopt, int start, int end){
+		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdoptByPet_idState(adopt, start, end);
+		for(Adopt one_adopt: adoptList) {
+			one_adopt.setPet(pet_service.getPet(one_adopt.getPet_id()));
 		}
 		return adoptList;
 	}

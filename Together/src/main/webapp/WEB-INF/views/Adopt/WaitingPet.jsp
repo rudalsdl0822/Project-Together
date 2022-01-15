@@ -183,8 +183,37 @@
 	}
 	</style>
 
+<style>
+.breadcrumb-item>a, .table-primary>a {
+	color: #777;
+}
+
+.breadcrumb-item>a:hover, .table-primary>a:hover {
+	color: #337ab7;
+}
+
+.nino-btn > #btn {
+ 	background: #95e1d3;
+}
+
+.nino-btn > #btn:hover {
+	background: #00ced1;
+}
+</style>
+
+
 </head>
 <body style="padding-top: 50px;" class="nino-fixed-nav">
+	<!-- 빠른 페이지 이동 -->
+		<div>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"> <a href="/index">홈</a> </li>
+				<li class="breadcrumb-item">
+					<a href="/AddPet/AdoptNoticeList">입양공고</a>
+				</li>
+				<li class="breadcrumb-item active">입양공고 상세보기</li>
+			</ol>
+		</div>
 
 
 <!-- 뷰 세팅================================================== -->

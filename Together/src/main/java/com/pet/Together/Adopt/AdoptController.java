@@ -131,12 +131,14 @@ public class AdoptController {
 	public ModelAndView adoptWishList(PagingVO vo
 			, @RequestParam(value="nowPage", required=false) String nowPage
 			, @RequestParam(value="cntPerPage", required=false) String cntPerPage
-			, @RequestParam(value="state", required=false) String state) {  
+			, @RequestParam(value="state", required=false) String state
+			, @RequestParam(value="searchPet_name", required=false) String searchPet_name
+			, @RequestParam(value="searchPet_id", required=false) String searchPet_id) {  
 		/*
 		 * 1. member type이 관리자(2)인지 확인한다.
 		 * 2. to_adopt DB에서 adoptList를 불러온다.
-		 * 3. 페이징을 추가한다.
-		 * 4. state=0(입양신청중) 이 기본으로 하고, 1이면 승인만 모아서, 2면 거절만 모아서, 3이면 전체 입양신청글을 보여준다.
+		 * 3. 페이징을 추가한다. 검색한 pet이 있는지 확인한다.
+		 * 4. state=0(입양신청중) 이 기본으로 하고, 1이면 승인만 모아서, 2면 거절만 모아서, 3이면 전체 입양신청글, 100은 마감글을 보여준다.
 		 * 5. 뷰에 adoptList를 넣어준다.
 		 */	
 		
@@ -153,6 +155,17 @@ public class AdoptController {
 		
 		/* ===============입양신청 리스트 페이징 시작=============== */
 		int total=adopt_service.countAdoptsByState(int_state);
+		Adopt searchAdopt=new Adopt();
+		if(searchPet_name!=null) {
+			System.out.println("searchPet_name="+searchPet_name);
+		}
+		if(searchPet_id!=null) {
+			System.out.println("searchPet_id="+searchPet_id);
+			int pet_id=Integer.parseInt(searchPet_id);
+			searchAdopt.setPet_id(pet_id);
+			searchAdopt.setState(int_state);
+			total=adopt_service.countAdoptsByPet_idState(searchAdopt);
+		}
 		if(int_state==3) {
 			total=adopt_service.countAdopts();
 		}
@@ -164,10 +177,19 @@ public class AdoptController {
 		
 		/* ===============입양신청 리스트 state 구분 시작=============================== */
 		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) adopt_service.selectAdoptByState(int_state, vo.getStart(), vo.getEnd());
+		if(searchPet_name!=null) {
+			
+		}
+		if(searchPet_id!=null) {
+			System.out.println(searchAdopt);
+			adoptList=(ArrayList<Adopt>) adopt_service.selectAdoptByPet_idState(searchAdopt, vo.getStart(), vo.getEnd());
+		}
 		if(int_state==3) adoptList=(ArrayList<Adopt>) adopt_service.selectAdopts(vo);
 		/* ===============입양신청 리스트 state 구분 끝================================= */
 		
 		ModelAndView mav=new ModelAndView("Adopt/AdoptWishList","adoptList",adoptList);
+		mav.addObject("searchPet_name",searchPet_name);
+		mav.addObject("searchPet_id",searchPet_id);
 		mav.addObject("paging", vo);
 		mav.addObject("state", state);
 		mav.addObject("total",total);
