@@ -89,15 +89,12 @@ public class LikeController {
 		ModelAndView mav = new ModelAndView("like/likeJSON");
 		String id = (String) session.getAttribute("id");
 		
-		System.out.println("-----" + pet_id);
 		if (like_num != -1) {
-			System.out.println("1");
 			lService.deleteLike(like_num);
 		} else if (pet_id != -1) {
-			System.out.println("-1");
 			lService.deleteLikeByPetId(pet_id, id);
 		}
-		System.out.println("test");
+
 		return mav;
 	}
 
@@ -107,6 +104,17 @@ public class LikeController {
 		String id = (String) session.getAttribute("id");
 		lService.deleteAllLike(id);
 		return "redirect:/like/likeList";
+	}
+	
+	@RequestMapping("/like/checkLike")
+	public ModelAndView checkLike(int p_id) {
+		boolean resultType=false;
+		if( (String) session.getAttribute("id")!=null ) {
+			resultType=check(p_id);
+		}
+		
+		ModelAndView mav=new ModelAndView("like/likeJSON","resultType",resultType);
+		return mav;
 	}
 
 
