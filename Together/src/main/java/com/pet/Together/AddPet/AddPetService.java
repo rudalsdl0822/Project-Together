@@ -44,13 +44,40 @@ public class AddPetService {
 		mapper.deletePet(id);
 	}
 
-	public List getLocationList(int location) {
+	public List getLocation(int location) {
 		return mapper.selectByLocation(location);
 	}
+
 	
-	public List getState234() {
-		return mapper.selectByState234();
+	
+	
+	public List getLocationState23(int location) {
+		return mapper.selectByLocaState23(location);
 	}
+	
+	public List getState23() {
+		return mapper.selectByState23();
+	}
+	
+	
+	
+	
+	public List getAgeList(String age) {
+		return mapper.selectByAge(age);
+	}
+	
+	public List getBreed(String breed) {
+		return mapper.selectByBreed(breed);
+	}
+
+	public List getPetName(String name) {
+		return mapper.selectByPetName(name);
+	}
+	
+	public List getWriter_id(String writer_id) {
+		return mapper.selectByWriter_id(writer_id);
+	}
+	
 
 	
 	public void editPetState(Pet p) {

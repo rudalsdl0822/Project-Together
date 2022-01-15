@@ -62,16 +62,44 @@
 		select * from to_pet where location=#{location} order by state
 	</select>
 	
-	<select id="selectByState234" parameterType="int" resultMap="Pet">
-		select * from to_pet where not state=1 order by state
+	
+	
+	
+	
+	<select id="selectByLocaState23" parameterType="int" resultMap="Pet">
+		select * from to_pet where state in (2, 3) and location=#{location} order by state
 	</select>
 	
-	
-	
+
 <update id="editPetState" parameterType="com.pet.Together.AddPet.Pet">
 	update to_pet set state=#{state}
 	where id=#{id}
 </update>
+
+
+	<select id="selectByState23" resultMap="Pet">
+		select * from to_pet where state in (2, 3) order by state
+	</select>
+	
+	
+	
+	
+	<select id="selectByAge" parameterType="String" resultMap="Pet">
+		select * from to_pet where age=#{age} order by id
+	</select>
+	
+	<select id="selectByBreed" parameterType="String" resultMap="Pet">
+		select * from to_pet where breed=#{breed} order by id
+	</select>
+	
+	<select id="selectByPetName" parameterType="String" resultMap="Pet">
+		select * from to_pet where name=#{name} order by id
+	</select>
+	
+	<select id="selectByWriter_id" parameterType="String" resultMap="Pet">
+		select * from to_pet where writer_id=#{writer_id} order by id
+	</select>
+	
 
 
 

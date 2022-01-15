@@ -41,8 +41,19 @@
 	</script>
 	
 </head>
-<body data-target="#nino-navbar" data-spy="scroll" style="padding-top: 50px;" class="nino-fixed-nav">
+<body style="padding-top: 50px;" class="nino-fixed-nav">
 
+	<c:set var="petSex">
+		<c:if test="${p.sex == 1 }">수컷</c:if>
+		<c:if test="${p.sex == 2 }">암컷</c:if>
+	</c:set>
+	
+	<c:set var="petLocation">
+		<c:if test="${p.location==1}">강남점</c:if>
+		<c:if test="${p.location==2}">안양점</c:if>
+		<c:if test="${p.location==3}">해운대점</c:if>
+	</c:set>
+	
 	<section id="EditPet">
 		<div class="container">
 			<h2 class="nino-sectionHeading">
@@ -73,46 +84,57 @@
 				    </div>
 					<div class="form-group">
 						<label for="editPetName">펫 이름</label>
-						<input type="text" class="form-control" id="editPetName" name="name" value="${p.name}">
+						<input type="text" class="form-control" id="editPetName" name="name" value="${p.name}" <c:if test="${p.state!=1 && sessionScope.type==1}">readonly</c:if>>
 					</div>
 					<div class="form-group">
 						<label for="editPetBreed">품종</label>
-						<input type="text" class="form-control" id="editPetBreed" name="breed" value="${p.breed}">
+						<input type="text" class="form-control" id="editPetBreed" name="breed" value="${p.breed}" <c:if test="${p.state!=1 && sessionScope.type==1}">readonly</c:if>>
 					</div>
 					<fieldset class="form-group">
-				      <legend>성별</legend>
-				      <div class="form-check">
-				        <label class="form-check-label">
-				          <input type="radio" class="form-check-input" name="sex" id="sex" value="1" <c:if test="${p.sex==1}">checked</c:if>>
-				          수컷
-				          <input type="radio" class="form-check-input" name="sex" id="sex" value="2" <c:if test="${p.sex==2}">checked</c:if>>
-				          암컷
-				        </label>
-				      </div>
+				      <label for="inputSex">성별</label>
+				      	  <c:if test="${p.state!=1 && sessionScope.type==1}">
+			        		  <input type="text" class="form-control" id="editPetSex" name="sex" value="${petSex}" readonly>
+			        	  </c:if>
+					      <c:if test="${sessionScope.type==2 || p.state==1}">
+						      <div class="form-check">
+						        <label class="form-check-label">
+					        		<input type="radio" class="form-check-input" name="sex" id="sex" value="1" <c:if test="${p.sex==1}">checked</c:if>>
+							          수컷 
+							        <input type="radio" class="form-check-input" name="sex" id="sex" value="2" <c:if test="${p.sex==2}">checked</c:if>>
+							          암컷
+						        </label>
+						      </div>
+					      </c:if>
 				    </fieldset>
 	      			<div class="form-group">
 						<label for="editPetAge">나이</label>
-						<input type="text" class="form-control" id="editPetAge" name="age" value="${p.age}">
+						<input type="text" class="form-control" id="editPetAge" name="age" value="${p.age}" <c:if test="${p.state!=1 && sessionScope.type==1}">readonly</c:if>>
 					</div>
 					<div class="form-group">
 						<label for="editPetWeight">무게</label>
-						<input type="text" class="form-control" id="editPetWeight" name="weight" value="${p.weight}">
+						<input type="text" class="form-control" id="editPetWeight" name="weight" value="${p.weight}" <c:if test="${p.state!=1 && sessionScope.type==1}">readonly</c:if>>
 					</div>
 				    <label for="selectLocation">신청 보호소 지점</label>
-				      <select class="form-control" name="location" id="selectLocation">
-				        <option value="">-선택-</option>
-				        <option value="1" <c:if test="${p.location==1}">selected</c:if>>강남점</option>
-				        <option value="2" <c:if test="${p.location==2}">selected</c:if>>안양점</option>
-				        <option value="3" <c:if test="${p.location==3}">selected</c:if>>해운대점</option>
-				      </select>
+				    	<c:if test="${p.state!=1 && sessionScope.type==1}">
+			        		<input type="text" class="form-control" id="editPetLocation" name="location" value="${petLocation}" readonly>
+			        	</c:if>
+			        	<c:if test="${sessionScope.type==2 || p.state==1}">
+			        		<select class="form-control" name="location" id="selectLocation">
+						        <option value="">-선택-</option>
+						        <option value="1" <c:if test="${p.location==1}">selected</c:if>>강남점</option>
+						        <option value="2" <c:if test="${p.location==2}">selected</c:if>>안양점</option>
+						        <option value="3" <c:if test="${p.location==3}">selected</c:if>>해운대점</option>
+						    </select>
+			        	</c:if>
 		    		  <div class="form-group">
 						<label for="editTextareaInfo">상세사항</label>
-						<textarea class="form-control" id="editTextareaInfo" rows="5" name="info">${p.info}</textarea>
+						<textarea class="form-control" id="editTextareaInfo" rows="5" name="info" <c:if test="${p.state!=1 && sessionScope.type==1}">readonly</c:if>>${p.info}</textarea>
 					  </div>
 				</fieldset>
 
-				<input type="hidden" name="state" value="1">
+				<input type="hidden" name="state" value="${p.state}">
 				
+				<!-- 일반 고객의 경우, 수정/삭제 버튼이 입소신청중일 때만 보임 -->
 				<c:if test="${p.state==1 || sessionScope.type==2}">
 					<div style="text-align: center;">
 						<span class="input-group-btn">
@@ -124,8 +146,8 @@
 				
 				<br>
 
-				<!-- 관리자일 경우 -->
-				<c:if test="${sessionScope.type==2}">
+				<!-- 관리자일 경우 & 입소신청중인 상태일 경우에만 승인/거절버튼 보임 -->
+				<c:if test="${p.state==1 && sessionScope.type==2}">
 					<div style="text-align: center;">
 						<span class="input-group-btn">
 							<button type="button" class="nino-btn" style="background: #95e1d3; border-color:#95e1d3;" name="approval" id="approPet">입소 승인</button>

@@ -154,7 +154,7 @@ public class MemberController {
 		session.removeAttribute("nickname");
 		session.removeAttribute("type");
 		session.invalidate();
-		return "Member/loginForm";
+		return "/index";
 	}
 
  
@@ -164,11 +164,7 @@ public class MemberController {
 		HttpSession session = req.getSession(false);
 		String id = (String)session.getAttribute("id");
 		service.delMember(id);
-		session.removeAttribute("id");
-		session.removeAttribute("nickname");
-		session.removeAttribute("type");
-		session.invalidate();
-		return "Member/loginForm";
+		return "Member/logout";
 	}
 	
 	@RequestMapping(value = "/Member/editForm")

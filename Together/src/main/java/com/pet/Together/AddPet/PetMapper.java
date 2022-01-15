@@ -27,11 +27,28 @@ public interface PetMapper {
 	void deletePet(int id);
 	
 	List selectByLocation(int location);
-	
-	List selectByState234();
 
 	
 	
+	List selectByLocaState23(int location);
+	
+	List selectByState23();
+	
+	
+	
+	
+	List selectByAge(String age);
+	
+	List selectByBreed(String breed);
+	
+	List selectByPetName(String name);
+	
+	List selectByWriter_id(String writer_id);
+
+	
+	
+
 	void editPetState(Pet p);
 	
+
 }

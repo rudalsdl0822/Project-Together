@@ -200,8 +200,8 @@
       <label for="selectLocation">회원 유형 선택</label>
       <select class="form-control" id="type" name="type">
         <option value="">-선택-</option>
-        <option value="1">관리자</option>
-        <option value="2">고객</option>
+        <option value="1">고객</option>
+        <option value="2">관리자</option>
       </select>
     </div>
     
