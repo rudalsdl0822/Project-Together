@@ -16,24 +16,43 @@
 
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
+	// 로그인 팝업 함수  
+	function fn_loginPopup(){
+		// loginPopup   window.open('팝업주소','팝업창 이름','팝업창 설정');
+		var popup=window.open("/Member/loginFormPopup","Together | 로그인",
+			"width=460px, height=340px, scrollbars=no, top=100px, left=300px, location=no");
+		return false;
+	}
+	
 		var member_id="${sessionScope.id}";
-		var pet_id;
 	
 		$(document).ready(function(){
+			// 펫 아이디 리스트를 가져와 관심등록 했는지 체크한다.
+			var p_id_list="${p_id_list }";
+			var p_ids=JSON.parse(p_id_list);
+
+			for(var i=0;i<p_ids.length;i++){
+				fn_check_like(p_ids[i]);
+			}
+			
 			//관심등록 버튼 클릭
-			$("button[type=button][name=likePet]").click(function(){
-				pet_id=$(this).attr("num");
+			$(".number").click(function(){
+				var p_id=$(this).attr("p_id");
+				
 				if(member_id==""){
 					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
 					if(flag){
-						location.href="${pageContext.request.contextPath}/Member/loginForm";
+						fn_loginPopup();
 					}else{
 						return; 
 					}
-				}else{
-					console.log(pet_id);
-					console.log(member_id);
-					fn_like();
+				}else if( $("#span_like_"+p_id).attr("class") == "glyphicon glyphicon-heart-empty" ){  //관심등록
+					fn_like(p_id);
+				}else if( $("#span_like_"+p_id).attr("class") == "glyphicon glyphicon-heart" ){  //관심등록 해제
+					var flag=confirm("정말 관심등록을 해제하시겠습니까?");
+					if(flag){
+						fn_like_delete(p_id);
+					}
 				}
 			});
 			
@@ -42,10 +61,34 @@
 			});
 		});
 		
-		function fn_like(){
-			$.post("/like/add", {pet_id:pet_id})
+		function fn_like(p_id){
+			$.post("/like/add", {pet_id:p_id})
 			.done(function(){
-				alert("관심등록이 완료되었습니다.");			
+				$("#span_like_"+p_id).attr("class","glyphicon glyphicon-heart");		
+			})
+			.fail(function(){
+				alert("error");
+			});
+		}
+		function fn_like_delete(p_id){
+			$.post("/like/delete", {pet_id:p_id})
+			.done(function(){
+				$("#span_like_"+p_id).attr("class","glyphicon glyphicon-heart-empty");
+			})
+			.fail(function(){
+				alert("error");
+			});
+		}
+		function fn_check_like(p_id){
+			$.post("/like/checkLike", {p_id:p_id})
+			.done(function(json){
+				var likeObj=JSON.parse(json);
+
+				if(likeObj.result==true){
+					$("#span_like_"+p_id).attr("class","glyphicon glyphicon-heart");
+				}else{
+					$("#span_like_"+p_id).attr("class","glyphicon glyphicon-heart-empty");
+				}
 			})
 			.fail(function(){
 				alert("error");
@@ -79,6 +122,12 @@
 		}
 				
 	</script>
+	
+	<style>
+	.number:hover{
+		cursor: pointer;
+	}
+	</style>
 	
 </head>
 <body style="padding-top: 50px;" class="nino-fixed-nav">
@@ -191,11 +240,12 @@
 										</c:if>
 									</div>
 									
-									<div style="float: left; width: 40%;">
-										<span class="input-group-btn" style="text-align: right;">
-											<button type="button" class="btn btn-xs" id="btn_like" style="background-color: white; color:red; border-color:red;" name="likePet" num="${p.id}">관심친구 등록♥</button>		
-										</span>
-									</div>
+									<div class="item" style="float: left; width: 40%; text-align: center;" >
+                               			<div class="number" id="btn_like_${p.id }" p_id="${p.id }" style="display: inline-block; border: 1px solid #f38181; width: 65%; font-size: 13px; color: #f38181; ">
+                            				<span class="glyphicon glyphicon-heart-empty" id="span_like_${p.id }" aria-hidden="true" style="font-size: 13px; color: #f38181; "></span> 
+                                    		관심등록
+                               			</div>
+                           			</div>
 								</h3>
 								<p class="articleDesc">
 									${p.breed} | 
