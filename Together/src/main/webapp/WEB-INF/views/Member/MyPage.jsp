@@ -9,6 +9,20 @@
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
 <title>MyPage</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$("#out").click(function(){
+			var flag = confirm("정말 탈퇴 하시겠습니까?");
+			if (flag){
+				alert("회원 탈퇴 되었습니다.");
+				location.href="/Member/out";
+			} else {
+				return false;
+			}
+		});
+	});
+	</script>
 
 <%@ include file="/WEB-INF/views/common/css_set.jsp"%>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/mypage.css" />
@@ -151,8 +165,8 @@
   </section>
   <br>
   <div align="right">
-  <a href="${pageContext.request.contextPath }/Member/out">
-   <button type="button" class="nino-btn" style="background: #95e1d3;">탈퇴하기</button></a>
+ 
+   <button type="button" class="nino-btn" id ="out" style="background: #95e1d3;">탈퇴하기</button>
 	<br>
 	</div>
   <br>
