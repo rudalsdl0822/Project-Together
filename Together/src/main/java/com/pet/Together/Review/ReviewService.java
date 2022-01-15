@@ -17,6 +17,10 @@ public class ReviewService {
 	public Review getReviewByNum(int num) {
 		return mapper.selectByNum(num);
 	}
+	
+	public List getReviewByNickname(String w_writer) {
+		return mapper.selectByNickname(w_writer);
+	}
 
 	public List selectAll() {
 		return mapper.selectAll();
