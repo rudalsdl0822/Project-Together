@@ -385,9 +385,9 @@
     				<div class="number">${locationKorean }</div>
     				<div class="text">location</div>
     			</div>
-    			<div class="item" id="btns" style="width:20%; margin-top: 45px; padding: 5px; text-align: center;" >
+    			<div class="item" id="btns" style="width:20%; padding: 5px; text-align: center;" >
     				<!-- 관심등록이 안되어 있다면 빈하트, 관심등록이 되어 있다면 하트 -->
-    				<div class="number" id="btn_like" ifLikePet="${ifLikePet }" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
+    				<div class="number" id="btn_like" ifLikePet="${ifLikePet }" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; margin-top:50px; font-size: 20px; color: #f38181; ">
     					<span class="glyphicon glyphicon-heart-empty" id="span_like" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
     						관심등록
     				</div>
@@ -404,14 +404,14 @@
     <!--/#nino-counting-->
     
     
-    <section id="nino-testimonial">
+    <section id="nino-testimonial" style="background: #95e1d3; padding-top: 10px; margin-top: 0px; padding-bottom: 20px; margin-bottom: 60px;">
     	<div class="container">
     		<div layout="row" class="verticalStretch" style="margin: 10px;">
     			<div class="nino-symbol fsr">
 					<i class="mdi mdi-comment-multiple-outline nino-icon" style="font-size: 30px;"></i>
 				</div>
 				<div style="margin: 10px; width: 100%;">
-					<pre class="quote" style="font-size: 18px; font-family: 'Roboto', sans-serif;">${pet.info }</pre>
+					<pre class="quote" style="font-size: 18px; font-family: 'Roboto', sans-serif;">"${pet.info }"</pre>
 				</div>
 			</div>
 		</div>

@@ -106,18 +106,13 @@
 			<div class="sectionContent">
 				<!-- 옵션선택 시작 -->
 				<div style="text-align: right; padding: 10px;">
-					<!-- state select -->
-					<select id="state" name="stateSel" onchange="selChange()">
-						<option value="0"
-							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
-						<option value="1"
-							<c:if test="${state==1 }">selected</c:if>>승인된 입양신청글만 보기</option>
-						<option value="2"
-							<c:if test="${state==2 }">selected</c:if>>거절된 입양신청글만 보기</option>
-						<option value="100"
-							<c:if test="${state==100 }">selected</c:if>>마감된 입양신청글만 보기</option>
-						<option value="3"
-							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
+					<!-- 입양신청글 state select -->
+					<select id="state" name="state" onchange="selChange()" class="form-control" style="display: inline-block; width:230px; height:34px;" >
+						<option value="0" ${state==0?'selected':''} >신청중인 입양신청글만 보기</option>
+						<option value="1" ${state==1?'selected':''} >승인된 입양신청글만 보기</option>
+						<option value="2" ${state==2?'selected':''} >거절된 입양신청글만 보기</option>
+						<option value="100" ${state==100?'selected':''} >마감된 입양신청글만 보기</option>
+						<option value="3" ${state==3?'selected':''} >전체 입양신청글 보기</option>
 					</select>
 
 				</div>

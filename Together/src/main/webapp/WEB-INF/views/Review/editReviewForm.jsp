@@ -32,6 +32,22 @@
   
   <fieldset>
   
+	 <div class="form-group">
+		<c:if test="${not empty file0 }">
+			<table style="margin-left: auto; margin-right: auto;">
+				<tr>
+					<td colspan="3"><img id="bigImg" src="${pageContext.request.contextPath }/img?fname=${file0}&num=${r.num}" style="width: 450px; height: 300px;"></td>
+				</tr>
+							
+				<tr>
+					<td><img src="${pageContext.request.contextPath }/img?fname=${file0}&num=${r.num}" class="img" width="150" height="150"></td>
+					<td><img src="${pageContext.request.contextPath }/img?fname=${file1}&num=${r.num}" class="img" width="150" height="150"></td>
+					<td><img src="${pageContext.request.contextPath }/img?fname=${file2}&num=${r.num}" class="img" width="150" height="150"></td>
+				</tr>
+			</table>
+		</c:if>
+	</div>
+  
   <div class="form-group">
       <label for="inputPetName">작성자</label>
       <input type="text" class="form-control" id="w_writer"  name="w_writer" value="${sessionScope.nickname }" readonly="readonly">
@@ -46,9 +62,9 @@
     	 <label for="selectLocation">신청 보호소 지점</label>
       	<select class="form-control" id="location" name="location">
        		<option value="">-선택-</option>
-        	<option value="1">강남점</option>
-        	<option value="2">안양점</option>
-        	<option value="3">해운대점</option>
+        	<option value="1"<c:if test="${r.location == 1}">selected</c:if>>강남점</option>
+        	<option value="2"<c:if test="${r.location == 2}">selected</c:if>>안양점</option>
+        	<option value="3"<c:if test="${r.location == 3}">selected</c:if>>해운대점</option>
       </select>
     </div>
     
@@ -57,20 +73,6 @@
       <textarea class="form-control" id="content" name="content" rows="10">${r.content}</textarea>
     </div>
  
-    <hr>
-    <div class="form-group">
-      <label for="inputFile1">사진 파일 1</label>
-      <input type="file" class="form-control-file" name="file1" id="inputFile1" aria-describedby="fileHelp">
-    </div>
-    <div class="form-group">
-      <label for="inputFile2">사진 파일 2</label>
-      <input type="file" class="form-control-file" name="file2" id="inputFile2" aria-describedby="fileHelp">
-    </div>
-    <div class="form-group">
-      <label for="inputFile3">사진 파일 3</label>
-      <input type="file" class="form-control-file" name="file3" id="inputFile3" aria-describedby="fileHelp">
-    </div>
-    <hr>
     <button type="submit" class="nino-btn" style="background: #95e1d3;" name="">저장</button>
      </fieldset>
 </form>

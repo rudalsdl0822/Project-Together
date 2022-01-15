@@ -20,6 +20,10 @@
 		select * from to_review where num=#{num} 
 	</select>
 	
+	<select id="selectByNickname" parameterType="String" resultMap="ReviewResult">
+		select * from to_review where w_writer=#{w_writer}
+	</select>
+	
 	<select id="selectAll" resultMap="ReviewResult">
 		select * from to_review order by w_date desc
 	</select>

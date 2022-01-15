@@ -40,7 +40,7 @@
 		}else{
 			form.action="/Adopt/AdoptWishList";
 		}
-		alert(form.action);
+
 		form.submit();		
 	}
 	/* select 함수 끝*/
@@ -75,7 +75,7 @@
 					var sel=document.getElementById("cntPerPage").value;
 					var state=document.getElementById("state").value;
 					location.href="/Adopt/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
-				}else{
+				}else if( $(this).text()=="입양 거절" ){
 					var flag=confirm("정말로 입양을 거절하겠습니까?");
 					if(flag==false) return;
 					
@@ -141,39 +141,29 @@
 				<form id="form_select" style="overflow: hidden;">
 				
 				<!-- 검색창 : pet id / pet name -->					
-				<div style="float: left; width:30%; text-align: left; padding: 10px;">
+				<div style="float: left; width:20%; text-align: left; padding: 10px;">
 					<!-- paging select -->
-					<select id="cntPerPage" name="cntPerPage" onchange="selChange()">
-						<option value="3"
-							<c:if test="${paging.cntPerPage==3 }">selected</c:if>>3개씩 보기</option>
-						<option value="6"
-							<c:if test="${paging.cntPerPage==6 }">selected</c:if>>6개씩 보기</option>
-						<option value="9"
-							<c:if test="${paging.cntPerPage==9 }">selected</c:if>>9개씩 보기</option>
-						<option value="12"
-							<c:if test="${paging.cntPerPage==12 }">selected</c:if>>12개씩 보기</option>
-						<option value="24"
-							<c:if test="${paging.cntPerPage==24}" >selected</c:if>>24개씩 보기</option>
+					<select id="cntPerPage" name="cntPerPage" onchange="selChange()" class="form-control" style="width:125px; height:34px;" >
+						<option ${paging.cntPerPage==3?'selected':''} value="3">3개씩 보기</option>
+						<option ${paging.cntPerPage==6?'selected':''} value="6">6개씩 보기</option>
+						<option ${paging.cntPerPage==9?'selected':''} value="9">9개씩 보기</option>
+						<option ${paging.cntPerPage==12?'selected':''} value="12">12개씩 보기</option>
+						<option ${paging.cntPerPage==24?'selected':''} value="24">24개씩 보기</option>
 					</select>
 					
 				</div>
-				<div style="float: left; width:70%; text-align: right; padding: 10px;">
+				<div style="float: left; width:80%; text-align: right; padding: 10px;">
 					<span style="padding-left: 10px; padding-right: 10px;">조건에 맞는 글 개수는 ${total }개 입니다.</span>
 					<!-- 입양신청글 state select -->
-					<select id="state" name="state" onchange="selChange()">
-						<option value="0"
-							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
-						<option value="1"
-							<c:if test="${state==1 }">selected</c:if>>승인된 입양신청글만 보기</option>
-						<option value="2"
-							<c:if test="${state==2 }">selected</c:if>>거절된 입양신청글만 보기</option>
-						<option value="100"
-							<c:if test="${state==100 }">selected</c:if>>마감된 입양신청글만 보기</option>
-						<option value="3"
-							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
+					<select id="state" name="state" onchange="selChange()" class="form-control" style="display: inline-block; width:230px; height:34px;" >
+						<option value="0" ${state==0?'selected':''} >신청중인 입양신청글만 보기</option>
+						<option value="1" ${state==1?'selected':''} >승인된 입양신청글만 보기</option>
+						<option value="2" ${state==2?'selected':''} >거절된 입양신청글만 보기</option>
+						<option value="100" ${state==100?'selected':''} >마감된 입양신청글만 보기</option>
+						<option value="3" ${state==3?'selected':''} >전체 입양신청글 보기</option>
 					</select>
-					<input type="text" id="search_pet" name="searchPet_id" value="${searchPet_id }" placeholder="pet id (숫자) 검색">
-					<input type="button" value="검색" onclick="fn_search_pet();">
+					<input type="text" id="search_pet" name="searchPet_id" value="${searchPet_id }" placeholder="pet id (숫자) 검색" style="display: inline-block; width:160px; height:34px; margin-left: 10px; margin-right: -2px;" size="2" class="form-control">
+					<button class="btn btn-default" onclick="fn_search_pet();" style="display: inline-block; height:34px; margin-bottom: 3px; margin-left: -2px;"><i class="glyphicon glyphicon-search"></i></button>
 
 				</div>
 				</form>

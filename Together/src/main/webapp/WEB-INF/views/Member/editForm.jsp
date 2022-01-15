@@ -18,10 +18,21 @@
 	
 	
 	$(document).ready(function () {
-		$("#join").click(function () {
+	
+		
+		$("#nicknameCheck").click(function () {
+			$.post("/Member/EditnicknameCheck",{nickname:$("#nickname").val()})
+			.done(function (data) {
+				$("#nicknameResult").text(data);	
+			});
+		});
+		
+		
+		
+		$("#edit").click(function () {
+	
 			
-			
-			var f= document.joinForm;
+			var f= document.editForm;
 			var arrRadio = document.getElementsByName("gender");
 		     if(f.pwd.value==""){
 				alert("비밀번호를 입력하세요.");
@@ -61,7 +72,26 @@
 				return false;
 			}
 			
+			if($("#nicknameResult").text().trim() =="사용 가능한 닉네임 입니다."){
+				alert("회원 정보가 수정되었습니다.")
+				$("form").submit();
+		
+			}else if($("#nicknameResult").text().trim() =="현재 사용하고 계신 닉네임 입니다."){
+			     alert("회원 정보가 수정되었습니다.")
+					$("form").submit();
+						
+			     
+			}else if($("#nicknameResult").text().trim() ==""){
+			     alert("회원 정보가 수정되었습니다.")
+					$("form").submit();
+						
+		
+			}else if($("#nicknameResult").text().trim() =="이미 사용중인 닉네임 입니다."){
+				alert("닉네임 중복체크 후 이용가능합니다.");	
+			} 
+			
 		});
+		
 	});
 	</script>
 	
@@ -91,13 +121,23 @@
     </div>
     <div class="form-group">
       <label for="inputBreed">비밀번호 확인</label>
-      <input type="password" class="form-control" id="pwd2" name= "pwd2" placeholder="비밀번호 확인">
+      <input type="password" class="form-control" id="pwd2" name= "pwd2" value="${m.pwd}" placeholder="비밀번호 확인">
     </div>   
     <div class="form-group">
       <label for="inputBreed">닉네임</label>
       <input type="text" class="form-control" id="nickname" name= "nickname" value="${m.nickname }" placeholder="닉네임을 입력하세요.">
+      <input type="button" value="중복확인" id="nicknameCheck"
+       style="position: relative;
+    		width:100px;
+			background-color: # D3D3D3;
+			border-radius: 4px;
+			color:black;
+			line-height: 25px;
+			-webkit-transition: none;
+			transition: none;
+			text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+			margin-top: 3px; "><span id="nicknameResult" style="color: red;"></span>
     </div>
-    
     <fieldset class="form-group">
       <legend>개인정보</legend>
       
@@ -109,14 +149,14 @@
   
        <div class="form-check">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="gender" id="gender" value="1" checked>
+          <input type="radio" class="form-check-input" name="gender" id="gender" value="1" <c:if test="${m.gender==1}">checked</c:if>>
           남성
         </label>
       </div>
       
       <div class="form-check">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="gender" id="gender" value="2">
+          <input type="radio" class="form-check-input" name="gender" id="gender" value="2" <c:if test="${m.gender==2}">checked</c:if>>
           여성
         </label>
       </div>
@@ -150,7 +190,7 @@
     
     <hr>
     <button type="reset" class="nino-btn" name=""> 초기화 </button>
-    <button type="submit" class="nino-btn" style="background: #95e1d3;" name="" >회원정보수정</button>
+    <button type="button" class="nino-btn" style="background: #95e1d3;" name="" id="edit" >회원정보수정</button>
      </fieldset>
 </form>
 </div>
