@@ -171,7 +171,7 @@
 								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
 									입양신청 번호 : ${Adopt.num }
 								</h3>
-								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">
 									제목 : ${Adopt.title }
 								</h3>
 								<div style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">

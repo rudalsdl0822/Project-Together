@@ -132,12 +132,12 @@ public class AdoptController {
 			, @RequestParam(value="nowPage", required=false) String nowPage
 			, @RequestParam(value="cntPerPage", required=false) String cntPerPage
 			, @RequestParam(value="state", required=false) String state
-			, @RequestParam(value="searchPet_name", required=false) String searchPet_name
 			, @RequestParam(value="searchPet_id", required=false) String searchPet_id) {  
 		/*
 		 * 1. member type이 관리자(2)인지 확인한다.
-		 * 2. to_adopt DB에서 adoptList를 불러온다.
-		 * 3. 페이징을 추가한다. 검색한 pet이 있는지 확인한다.
+		 * 2-1) pet id 검색한 경우
+		 * 2-2) pet id 검색하지 않은 경우
+		 * 3. 페이징을 추가한다. 
 		 * 4. state=0(입양신청중) 이 기본으로 하고, 1이면 승인만 모아서, 2면 거절만 모아서, 3이면 전체 입양신청글, 100은 마감글을 보여준다.
 		 * 5. 뷰에 adoptList를 넣어준다.
 		 */	
@@ -147,48 +147,46 @@ public class AdoptController {
 		// 로그인이 안되어 있거나 로그인 타입이 관리자가 아니면 로그인폼으로 간다.
 		boolean flag=checkMemberType(2);
 		if(flag==false) return new ModelAndView("Member/loginForm");
-
 		
-		// 입양신청글의 state를 확인합니다. (0: 입양신청중  1: 승인  2: 거절)
+		/* =============setting================ */
+		// 입양신청글의 state를 확인합니다. (0: 입양신청중  1: 승인  2: 거절  3: 전체  100: 마감)
 		state=(state==null)? "0":state;
 		int int_state=Integer.parseInt(state);
 		
-		/* ===============입양신청 리스트 페이징 시작=============== */
-		int total=adopt_service.countAdoptsByState(int_state);
-		Adopt searchAdopt=new Adopt();
-		if(searchPet_name!=null) {
-			System.out.println("searchPet_name="+searchPet_name);
-		}
-		if(searchPet_id!=null) {
-			System.out.println("searchPet_id="+searchPet_id);
+		// 페이징 변수를 초기화&확인합니다.
+		int total=0;
+		nowPage=(nowPage==null)? "1":nowPage;
+		cntPerPage=(cntPerPage==null)? "3":cntPerPage;
+		ArrayList<Adopt> adoptList=null;
+		/* =============setting 끝================ */
+		
+		// pet id 검색한 경우
+		if(searchPet_id!=null && !searchPet_id.equals("") ) {
+			System.out.println("검색한 Pet id="+searchPet_id);
+			
+			Adopt searchAdopt=new Adopt();			
 			int pet_id=Integer.parseInt(searchPet_id);
 			searchAdopt.setPet_id(pet_id);
 			searchAdopt.setState(int_state);
 			total=adopt_service.countAdoptsByPet_idState(searchAdopt);
-		}
-		if(int_state==3) {
-			total=adopt_service.countAdopts();
-		}
-
-		nowPage=(nowPage==null)? "1":nowPage;
-		cntPerPage=(cntPerPage==null)? "3":cntPerPage;
-		vo=new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-		/* ===============입양신청 리스트 페이징 끝=============== */
-		
-		/* ===============입양신청 리스트 state 구분 시작=============================== */
-		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) adopt_service.selectAdoptByState(int_state, vo.getStart(), vo.getEnd());
-		if(searchPet_name!=null) {
+			if(int_state==3) total=adopt_service.countAdoptsByPet_id(pet_id);
 			
+			vo=new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			
+			adoptList=(ArrayList<Adopt>) adopt_service.selectAdoptByPet_idState(searchAdopt, vo);
+			if(int_state==3) adoptList=(ArrayList<Adopt>) adopt_service.selectAdoptByPet_id(pet_id, vo);
+		}else { 
+			// pet id 검색하지 않은 경우
+			total=adopt_service.countAdoptsByState(int_state);
+			if(int_state==3) total=adopt_service.countAdopts();
+			
+			vo=new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			
+			adoptList=(ArrayList<Adopt>) adopt_service.selectAdoptByState(int_state, vo.getStart(), vo.getEnd());
+			if(int_state==3) adoptList=(ArrayList<Adopt>) adopt_service.selectAdopts(vo);
 		}
-		if(searchPet_id!=null) {
-			System.out.println(searchAdopt);
-			adoptList=(ArrayList<Adopt>) adopt_service.selectAdoptByPet_idState(searchAdopt, vo.getStart(), vo.getEnd());
-		}
-		if(int_state==3) adoptList=(ArrayList<Adopt>) adopt_service.selectAdopts(vo);
-		/* ===============입양신청 리스트 state 구분 끝================================= */
 		
 		ModelAndView mav=new ModelAndView("Adopt/AdoptWishList","adoptList",adoptList);
-		mav.addObject("searchPet_name",searchPet_name);
 		mav.addObject("searchPet_id",searchPet_id);
 		mav.addObject("paging", vo);
 		mav.addObject("state", state);

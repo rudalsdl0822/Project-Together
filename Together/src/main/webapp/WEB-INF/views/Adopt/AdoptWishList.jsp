@@ -24,6 +24,13 @@
 	<script>
 	/* select 함수 시작*/
 	function selChange(){
+		var searchText=$("#search_pet").val();
+		if( isNaN(searchText) && searchText!="" ){  //ex) 두부
+			alert("pet id를 숫자로 입력해주세요");
+			$("#search_pet").focus();
+			return;
+		}
+		
 		var state=document.getElementById("state").value;
 		var recent_state="${state }";
 		
@@ -33,24 +40,27 @@
 		}else{
 			form.action="/Adopt/AdoptWishList";
 		}
+		alert(form.action);
 		form.submit();		
 	}
 	/* select 함수 끝*/
 	
 	// 검색 함수
 	function fn_search_pet(){
-		var searchText=document.getElementById("search_pet").value;
+		var searchText=$("#search_pet").val();
 		
-		// 검색 1. pet name 검색
-		var path="/Adopt/AdoptWishList?nowPage=1&cntPerPage=24&state=0";
-		if( isNaN(searchText) ){
-			alert(searchText+"글자");
-			path+="&searchPet_name="+searchText;
-		}else{ // 검색 2. pet id 검색
-			alert(searchText+"숫자");
-			path+="&searchPet_id="+searchText;
-		}
-		location.href=path;
+		// 검색이 숫자가 아니라면 return;
+		if( isNaN(searchText) || searchText=="" ){
+			alert("pet id를 숫자로 입력해주세요");
+			$("#search_pet").focus();
+			return;
+		}else{ // 검색 : pet id 검색
+			var sel=document.getElementById("cntPerPage").value;
+			var state=document.getElementById("state").value;
+			
+			var path="/Adopt/AdoptWishList?nowPage=1&cntPerPage="+sel+"&state="+state+"&searchPet_id="+searchText;
+			location.href=path;
+		}		
 	}
 
 		$(document).ready(function(){
@@ -131,24 +141,7 @@
 				<form id="form_select" style="overflow: hidden;">
 				
 				<!-- 검색창 : pet id / pet name -->					
-				<div style="float: left; width:50%; text-align: left; padding: 10px;">
-					<input type="text" id="search_pet" value="${searchPet_id }${searchPet_name }" placeholder="pet id / pet name 검색">
-					<input type="button" value="검색" onclick="fn_search_pet();">
-				</div>
-				<div style="float: left; width:50%; text-align: right; padding: 10px;">
-					<span style="padding-right: 10px;">TOTAL : ${total }</span>
-					<select id="state" name="state" onchange="selChange()">
-						<option value="0"
-							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
-						<option value="1"
-							<c:if test="${state==1 }">selected</c:if>>승인된 입양신청글만 보기</option>
-						<option value="2"
-							<c:if test="${state==2 }">selected</c:if>>거절된 입양신청글만 보기</option>
-						<option value="100"
-							<c:if test="${state==100 }">selected</c:if>>마감된 입양신청글만 보기</option>
-						<option value="3"
-							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
-					</select>
+				<div style="float: left; width:30%; text-align: left; padding: 10px;">
 					<!-- paging select -->
 					<select id="cntPerPage" name="cntPerPage" onchange="selChange()">
 						<option value="3"
@@ -163,6 +156,25 @@
 							<c:if test="${paging.cntPerPage==24}" >selected</c:if>>24개씩 보기</option>
 					</select>
 					
+				</div>
+				<div style="float: left; width:70%; text-align: right; padding: 10px;">
+					<span style="padding-left: 10px; padding-right: 10px;">조건에 맞는 글 개수는 ${total }개 입니다.</span>
+					<!-- 입양신청글 state select -->
+					<select id="state" name="state" onchange="selChange()">
+						<option value="0"
+							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
+						<option value="1"
+							<c:if test="${state==1 }">selected</c:if>>승인된 입양신청글만 보기</option>
+						<option value="2"
+							<c:if test="${state==2 }">selected</c:if>>거절된 입양신청글만 보기</option>
+						<option value="100"
+							<c:if test="${state==100 }">selected</c:if>>마감된 입양신청글만 보기</option>
+						<option value="3"
+							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
+					</select>
+					<input type="text" id="search_pet" name="searchPet_id" value="${searchPet_id }" placeholder="pet id (숫자) 검색">
+					<input type="button" value="검색" onclick="fn_search_pet();">
+
 				</div>
 				</form>
 				<!-- 옵션선택 끝 -->
@@ -218,7 +230,7 @@
 								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
 									입양신청 번호 : ${Adopt.num } / 신청자 ID : ${Adopt.writer }
 								</h3>
-								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">
 									제목 : ${Adopt.title }
 								</h3>
 								<div style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">

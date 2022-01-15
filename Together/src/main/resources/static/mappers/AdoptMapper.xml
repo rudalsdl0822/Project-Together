@@ -78,6 +78,10 @@
 	select count(*) from to_adopt
 	where state=#{state}
 </select>
+<select id="countAdoptsByPet_id" resultType="int" parameterType="int">
+	select count(*) from to_adopt
+	where pet_id=#{pet_id}
+</select>
 
 <select id="countAdoptsByPet_idState" resultType="int" parameterType="com.pet.Together.Adopt.Adopt">
 	select count(*) from to_adopt
@@ -105,8 +109,18 @@
 					)
 	where rn between #{start} and #{end}
 </select>
+<select id="selectAdoptByPet_id" resultMap="Adopt">
+	select * from(
+					select rownum rn, a.* from(
+												select * from to_adopt
+													where pet_id=#{pet_id}
+													order by num desc
+												) a
+					)
+	where rn between #{start} and #{end}
+</select>
 
-<select id="selectAdoptByPet_idState" resultMap="Adopt" parameterType="com.pet.Together.Adopt.Adopt">
+<select id="selectAdoptByPet_idState" resultMap="Adopt">
 	select * from(
 					select rownum rn, a.* from(
 												select * from to_adopt

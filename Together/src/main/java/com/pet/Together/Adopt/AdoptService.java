@@ -101,6 +101,9 @@ public class AdoptService {
 	public int countAdoptsByState(int state) {
 		return mapper.countAdoptsByState(state);
 	}
+	public int countAdoptsByPet_id(int pet_id) {
+		return mapper.countAdoptsByPet_id(pet_id);
+	}
 	
 	public int countAdoptsByPet_idState(Adopt adopt) {
 		return mapper.countAdoptsByPet_idState(adopt);
@@ -122,9 +125,16 @@ public class AdoptService {
 		}
 		return adoptList;
 	}
+	public List<Adopt> selectAdoptByPet_id(int pet_id, PagingVO vo){
+		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdoptByPet_id(pet_id, vo.getStart(), vo.getEnd());
+		for(Adopt adopt: adoptList) {
+			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
+	}
 	
-	public List<Adopt> selectAdoptByPet_idState(Adopt adopt, int start, int end){
-		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdoptByPet_idState(adopt, start, end);
+	public List<Adopt> selectAdoptByPet_idState(Adopt adopt, PagingVO vo){
+		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdoptByPet_idState(adopt.getPet_id(), adopt.getState(), vo.getStart(), vo.getEnd());
 		for(Adopt one_adopt: adoptList) {
 			one_adopt.setPet(pet_service.getPet(one_adopt.getPet_id()));
 		}
