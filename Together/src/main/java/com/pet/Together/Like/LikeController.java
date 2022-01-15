@@ -108,6 +108,17 @@ public class LikeController {
 		lService.deleteAllLike(id);
 		return "redirect:/like/likeList";
 	}
+	
+	@RequestMapping("/like/checkLike")
+	public ModelAndView checkLike(int p_id) {
+		boolean resultType=false;
+		if( (String) session.getAttribute("id")!=null ) {
+			resultType=check(p_id);
+		}
+		
+		ModelAndView mav=new ModelAndView("like/likeJSON","resultType",resultType);
+		return mav;
+	}
 
 
 	}

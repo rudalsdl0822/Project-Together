@@ -238,6 +238,13 @@ public class AddPetController {
 	public ModelAndView adoptNoticeList() {
 		ModelAndView mav = new ModelAndView("AddPet/AdoptNoticeList");
 		ArrayList<Pet> list=(ArrayList<Pet>)service.getState23();
+		
+		ArrayList<Integer> p_id_list=new ArrayList<>();
+		for(Pet p:list) {
+			p_id_list.add(p.getId());
+		}
+		mav.addObject("p_id_list", p_id_list);
+		
 		mav.addObject("list",list);
 		return mav;
 	}
