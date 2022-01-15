@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="ninodezign.com, ninodezign@gmail.com">
 	<meta name="copyright" content="ninodezign.com"> 
-	<title>Together | 입소/입양 상태 리스트</title>
+	<title>Together | Pet List</title>
 	
 	<style type="text/css">
 		 form {display:inline}
@@ -74,7 +74,12 @@
     	<div class="container">
     		<h2 class="nino-sectionHeading">
 				<span class="nino-subHeading">Together</span>
-				입소/입양 상태 리스트
+				<c:if test="${sessionScope.type==1}">
+					My Pet List
+				</c:if>
+				<c:if test="${sessionScope.type==2}">
+					Pet List
+				</c:if>
 			</h2>
     		<div class="nino-testimonialSlider">
     		
