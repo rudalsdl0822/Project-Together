@@ -70,6 +70,13 @@
 		select * from to_pet where state in (2, 3) and location=#{location} order by state
 	</select>
 	
+
+<update id="editPetState" parameterType="com.pet.Together.AddPet.Pet">
+	update to_pet set state=#{state}
+	where id=#{id}
+</update>
+
+
 	<select id="selectByState23" resultMap="Pet">
 		select * from to_pet where state in (2, 3) order by state
 	</select>
@@ -93,6 +100,7 @@
 		select * from to_pet where writer_id=#{writer_id} order by id
 	</select>
 	
+
 
 
 </mapper>
