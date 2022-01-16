@@ -18,4 +18,12 @@
 		select * from to_answer where ask_num = #{ask_num}
 	</select>
 	
+	<delete id="delAnswer" parameterType="int">
+		delete from to_answer where ask_num = #{ask_num}
+	</delete>
+	
+	<update id="editAnswer" parameterType="com.pet.Together.Ask.Answer">
+		update to_answer set admin_id=#{admin_id}, ans_content=#{ans_content}, ans_date=sysdate where ask_num = #{ask_num}
+	</update>
+	
 </mapper>
