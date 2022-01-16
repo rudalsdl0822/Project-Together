@@ -53,6 +53,28 @@ public class AdoptService {
 		return adoptList;
 	}
 	
+	public ArrayList<Adopt> getAdoptsByPet_idState(Adopt adopt){
+		ArrayList<Adopt> adoptList= mapper.getAdoptsByPet_idState(adopt);
+		for(Adopt one_adopt: adoptList) {
+			one_adopt.setPet(pet_service.getPet(one_adopt.getPet_id()));
+		}
+		return adoptList;
+	}
+	
+	
+	public ArrayList<Adopt> getAdoptsByPet_idState(int pet_id, int state){
+		ArrayList<Adopt> adoptList= mapper.getAdoptsByPet_id(pet_id);
+		ArrayList<Adopt> new_adoptList=new ArrayList<>();
+		for(Adopt adopt: adoptList) {
+			if(adopt.getState()==state) {
+				adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+				new_adoptList.add(adopt);
+			}			
+		}
+		return new_adoptList;
+	}
+	
+	
 	public ArrayList<Adopt> getAdoptsByWriter(@Param("writer")String writer, @Param("state") int state){
 		ArrayList<Adopt> adoptList= mapper.getAdoptsByWriter(writer, state);
 		for(Adopt adopt: adoptList) {
@@ -79,6 +101,13 @@ public class AdoptService {
 	public int countAdoptsByState(int state) {
 		return mapper.countAdoptsByState(state);
 	}
+	public int countAdoptsByPet_id(int pet_id) {
+		return mapper.countAdoptsByPet_id(pet_id);
+	}
+	
+	public int countAdoptsByPet_idState(Adopt adopt) {
+		return mapper.countAdoptsByPet_idState(adopt);
+	}
 	
 	
 	public List<Adopt> selectAdopts(PagingVO vo){
@@ -93,6 +122,21 @@ public class AdoptService {
 		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdoptByState(state, start, end);
 		for(Adopt adopt: adoptList) {
 			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
+	}
+	public List<Adopt> selectAdoptByPet_id(int pet_id, PagingVO vo){
+		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdoptByPet_id(pet_id, vo.getStart(), vo.getEnd());
+		for(Adopt adopt: adoptList) {
+			adopt.setPet(pet_service.getPet(adopt.getPet_id()));
+		}
+		return adoptList;
+	}
+	
+	public List<Adopt> selectAdoptByPet_idState(Adopt adopt, PagingVO vo){
+		ArrayList<Adopt> adoptList=(ArrayList<Adopt>) mapper.selectAdoptByPet_idState(adopt.getPet_id(), adopt.getState(), vo.getStart(), vo.getEnd());
+		for(Adopt one_adopt: adoptList) {
+			one_adopt.setPet(pet_service.getPet(one_adopt.getPet_id()));
 		}
 		return adoptList;
 	}
