@@ -9,5 +9,7 @@ public interface AnswerMapper {
 	
 	Answer getAnswerByAskNum(int ask_num);
 
+	void delAnswer(int ask_num);	
+
 	void editAnswer(Answer answer);
 }
