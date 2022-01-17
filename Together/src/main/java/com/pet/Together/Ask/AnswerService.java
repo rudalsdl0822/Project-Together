@@ -17,6 +17,10 @@ public class AnswerService {
 		return mapper.getAnswerByAskNum(ask_num);
 	}
 
+	public void delAns(int ask_num) {
+		mapper.delAnswer(ask_num);
+	}
+
 	public void editAns(Answer answer) {
 		mapper.editAnswer(answer);
 	}
