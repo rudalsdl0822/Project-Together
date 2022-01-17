@@ -149,7 +149,7 @@
                     let html = `
                         <form action="${pageContext.request.contextPath}/reply/edit" method="post">
                             <div>
-                                <textarea name="reply_content" class="form-control" rows="3" style="width:100%; borrder: none; background: none">${"${reply.text()}"}</textarea>
+                                <textarea name="reply_content" class="form-control" rows="3" style="width: 100%;">${"${reply.text()}"}</textarea>
                                 <button class="btn btn-danger btn-block" type="submit">댓글 수정</button>
                             </div>
                             <input type="hidden" name="reply_num" value="${"${reply_num}"}" />
@@ -165,6 +165,7 @@
 		
 		// 댓글|대댓글 삭제
 		function deleteReply(reply_num) {
+			if(confirm("삭제하시겠습니까?")) {
                 $.ajax({
                     type: "post",
                     url: "${pageContext.request.contextPath}/reply/delete",
@@ -173,7 +174,8 @@
                         location.href = location.href.split("#")[0];
                     },
                 });
-            }
+			}
+		}
 	</script>
 	<!-- 함수 끝 -->
 	
@@ -183,8 +185,38 @@
 	}
 	</style>
 
+<style>
+.breadcrumb-item>a, .table-primary>a {
+	color: #777;
+}
+
+.breadcrumb-item>a:hover, .table-primary>a:hover {
+	color: #337ab7;
+}
+
+.nino-btn > #btn {
+ 	background: #95e1d3;
+}
+
+.nino-btn > #btn:hover {
+	background: #00ced1;
+}
+</style>
+
+
 </head>
+
 <body style="padding-top: 50px;" class="nino-fixed-nav">
+	<!-- 빠른 페이지 이동 -->
+		<div>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"> <a href="/index">홈</a> </li>
+				<li class="breadcrumb-item">
+					<a href="/AddPet/AdoptNoticeList">입양공고</a>
+				</li>
+				<li class="breadcrumb-item active">입양공고 상세보기</li>
+			</ol>
+		</div>
 
 
 <!-- 뷰 세팅================================================== -->
@@ -199,6 +231,19 @@
 			<c:if test="${pet.sex == 1 }">남자</c:if>
 			<c:if test="${pet.sex == 2 }">여자</c:if>
 		</c:set>
+	<!-- default : 정보가 없는 경우에는 -를 넣는다. -->
+		<c:set var="default_breed">
+			<c:if test="${empty pet.breed }">사랑둥이</c:if>
+		</c:set>
+		<c:set var="default_sex">
+			<c:if test="${empty pet.sex }">-</c:if>
+		</c:set>
+		<c:set var="default_age">
+			<c:if test="${empty pet.age }">-</c:if>
+		</c:set>
+		<c:set var="default_weight">
+			<c:if test="${empty pet.weight }">-</c:if>
+		</c:set>
 <!-- 뷰 세팅 끝================================================== -->
 
 
@@ -210,7 +255,7 @@
 			<h2 class="nino-sectionHeading">
 
 				<span class="nino-subHeading">Shall We Together?</span>
-				${pet.breed }, ${pet.name }
+				${pet.breed }${default_breed }, ${pet.name }
 				
 				<c:if test="${pet.state==2}">
 					<span class="label label-warning" style="font-size: 11px;">입양대기</span>
@@ -325,24 +370,24 @@
     	<div class="container">
     		<div layout="row" class="verticalStretch">
     			<div class="item" style="width:18%;">
-    				<div class="number">${sexKorean }</div>
+    				<div class="number">${sexKorean }${default_sex }</div>
     				<div class="text">SEX</div>
     			</div>
     			<div class="item" style="width:18%;"> 
-    				<div class="number">${pet.age }살</div>
+    				<div class="number">${pet.age }${default_age }살</div>
     				<div class="text">AGE</div>
     			</div>
     			<div class="item" style="width:18%;">
-    				<div class="number">${pet.weight }</div>
+    				<div class="number">${pet.weight }${default_weight }</div>
     				<div class="text">WEIGHT</div>
     			</div>
     			<div class="item" style="width:26%;">
     				<div class="number">${locationKorean }</div>
     				<div class="text">location</div>
     			</div>
-    			<div class="item" id="btns" style="width:20%; margin-top: 45px; padding: 5px; text-align: center;" >
+    			<div class="item" id="btns" style="width:20%; padding: 5px; text-align: center;" >
     				<!-- 관심등록이 안되어 있다면 빈하트, 관심등록이 되어 있다면 하트 -->
-    				<div class="number" id="btn_like" ifLikePet="${ifLikePet }" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
+    				<div class="number" id="btn_like" ifLikePet="${ifLikePet }" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; margin-top:50px; font-size: 20px; color: #f38181; ">
     					<span class="glyphicon glyphicon-heart-empty" id="span_like" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
     						관심등록
     				</div>
@@ -359,14 +404,14 @@
     <!--/#nino-counting-->
     
     
-    <section id="nino-testimonial">
+    <section id="nino-testimonial" style="background: #95e1d3; padding-top: 10px; margin-top: 0px; padding-bottom: 20px; margin-bottom: 60px;">
     	<div class="container">
     		<div layout="row" class="verticalStretch" style="margin: 10px;">
     			<div class="nino-symbol fsr">
 					<i class="mdi mdi-comment-multiple-outline nino-icon" style="font-size: 30px;"></i>
 				</div>
 				<div style="margin: 10px; width: 100%;">
-					<pre class="quote" style="font-size: 18px; font-family: 'Roboto', sans-serif;">${pet.info }</pre>
+					<pre class="quote" style="font-size: 18px; font-family: 'Roboto', sans-serif;">"${pet.info }"</pre>
 				</div>
 			</div>
 		</div>
@@ -376,7 +421,7 @@
     
 	<!-- Happy Client
     ================================================== -->
-	<section id="nino-happyClient">
+
 		<div class="container">
 			<h2 class="nino-sectionHeading">
 				<span class="nino-subHeading">Say Together</span> 댓글
@@ -384,13 +429,13 @@
 
 			<!-- 댓글쓰기란 -->
 			<div class="sectionContent">
-				<div class="replys" id="reply-add-form" style="border: 5px dotted white; border-radius: 35px; padding: 5px 15px; margin: 30px;">
+				<div class="replys" id="reply-add-form" style="border-radius: 35px; padding: 5px 15px; margin: 30px;">
 
 					<!-- 댓글 등록폼 -->
 					<form name="form_addReply" action="${pageContext.request.contextPath}/reply/add" method="post" class="add-reply-form">
 						<div>
-							<span class="regency">NICKNAME : ${sessionScope.nickname}</span>
-							<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요." style="borrder: none; background: none"></textarea>
+							<span class="regency" style="font-weight: bold; margin: 5px">NICKNAME : ${sessionScope.nickname}</span>
+							<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
 							<button id="btn_addReply" type="button" class="btn btn-danger btn-block">댓글 등록</button>
 						</div>
 
@@ -409,22 +454,24 @@
 							<c:when test="${status != 'deleted'}">
 								<li style="border-bottom: 1px solid; border-color: #C0C0C0; padding: 15px; margin: 5px 40px 5px;">
 									<div class="reply-writer">
-										<span class="regency">NICKNAME : ${reply.member.nickname}</span>
+										<span class="regency" style="font-weight: bold">NICKNAME : ${reply.member.nickname}</span>
 									</div>
 									<div class="reply-content" id="reply-${reply.reply_num}">${reply.reply_content}</div>
-									<div class="reply_date" align="right">${reply.reply_date}</div>
+									<div class="reply_date" align="right" style="padding: 0 1em;">${reply.reply_date}</div>
 
 									<div class="reply-menu" align="right">
 										<c:if test="${sessionScope.id != null}">
 											<button onclick="toggleReply('${reply.reply_num}')" class="btn btn-link btn-sm">
 												<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>댓글
 											</button>
+										<c:if test="${reply.writer_id==sessionScope.id}">
 											<button onclick="editReply('${reply.reply_num}')" class="btn btn-link btn-sm">
 												<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>수정
 											</button>
 											<button onclick="deleteReply('${reply.reply_num}')" class="btn btn-link btn-sm">
 												<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>삭제
 											</button>
+										</c:if>
 										</c:if>
 									</div>
 								</li>
@@ -433,7 +480,7 @@
 								<%-- 대댓글 등록폼 --%>
 								<form action="${pageContext.request.contextPath}/reply/add" method="post" class="add-child-reply-form" id="form-${reply.reply_num}" style="display: none">
 									<div>
-										<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요." style="borrder: none; background: none"></textarea>
+										<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
 										<button id="btn_addChildReply" type="submit" class="btn btn-danger btn-block">댓글 등록</button>
 									</div>
 									<input type="hidden" name="writer_id" value="${sessionScope.id}" />
@@ -460,13 +507,13 @@
 									<c:when test="${child_status != 'deleted'}">
 										<li style="border-bottom: 1px solid; border-color: #C0C0C0; padding: 15px; margin: 5px 40px 5px; margin-left: 150px;">
 											<div class="childReply-writer">
-												<span class="regency">NICKNAME : ${reply.member.nickname}</span>
+												<span class="regency" style="font-weight: bold">NICKNAME : ${c_reply.member.nickname}</span>
 											</div>
 											<div class="childReply-content" id="reply-${c_reply.reply_num}">${c_reply.reply_content}</div>
-											<div class="childReply_date" align="right">${reply.reply_date}</div>
+											<div class="childReply_date" align="right" style="padding: 0 1em;">${reply.reply_date}</div>
 
 											<div class="childReply-menu" align="right">
-												<c:if test="${sessionScope.id != null}">
+												<c:if test="${c_reply.writer_id==sessionScope.id}">
 													<button onclick="editReply('${c_reply.reply_num}')" class="btn btn-link btn-sm">
 														<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>수정
 													</button>
@@ -490,7 +537,7 @@
 				</ul>
 			</div>
 		</div>
-	</section>
+
 	<!-- 댓글리스트 끝-->
 
     

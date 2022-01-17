@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,10 +19,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pet.Together.ReviewReply.ReviewReply;
+import com.pet.Together.ReviewReply.ReviewReplyService;
+
 @Controller
 public class ReviewController {
 	@Autowired
 	private ReviewService service;
+	@Autowired
+	private ReviewReplyService reviewReply_service;
+	@Autowired
+	private HttpSession session;
 
 	@GetMapping(value = "/Review/reviewForm")
 	public void reviewForm() {
@@ -83,6 +92,11 @@ public class ReviewController {
 				mav.addObject("file" + j, files[j]);
 			}
 		}
+		ArrayList<ReviewReply> reply_list=reviewReply_service.getReplyListByBoard_num(num);
+		mav.addObject("replys", reply_list);
+
+		ArrayList<ReviewReply> childReply_list = reviewReply_service.getListByParent_reply_num(num);
+		mav.addObject("c_replys", childReply_list);
 
 		mav.addObject("r", r);
 		return mav;
@@ -102,6 +116,58 @@ public class ReviewController {
 		}
 
 		return result;
+	}
+	
+	@RequestMapping(value="/Review/myBoardList")
+	public ModelAndView myBoardList() {
+		ModelAndView mav = new ModelAndView("Review/myBoardList");
+		String w_writer = (String) session.getAttribute("nickname");
+		ArrayList<Review> myBoard_list = (ArrayList<Review>) service.getReviewByNickname(w_writer);
+		mav.addObject("myBoard_list", myBoard_list);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/Review/editReviewForm")
+	public ModelAndView editreviewForm(@RequestParam(value="num") int num) {
+		ModelAndView mav = new ModelAndView("Review/editReviewForm");
+		Review r = service.getReviewByNum(num);
+		String path = PATH + r.getNum() + "\\";
+		File imgDir = new File(path);
+
+		if (imgDir.exists()) {
+			String[] files = imgDir.list();
+			for (int j = 0; j < files.length; j++) {
+				mav.addObject("file" + j, files[j]);
+			}
+		}
+		mav.addObject("r", r);
+		return mav;
+	}
+	
+	@RequestMapping(value="/Review/edit")
+	public String edit(Review r) {
+		service.editReview(r);
+		
+		return "redirect:/Review/reviewDetail?num=" + r.getNum();
+	}
+	
+	@RequestMapping(value="/Review/delete")
+	public String delete(@RequestParam(value="num") int num) {
+		service.delReview(num);
+		String path = PATH + num + "\\";
+		File imgDir = new File(path);
+		
+		if (imgDir.exists()) {
+			String[] files = imgDir.list();
+			for (int j = 0; j < files.length; j++) {
+				File f = new File(path + files[j]);
+				f.delete();
+			}
+		}
+		imgDir.delete();
+		
+		return "redirect:/Review/reviewList";
 	}
 
 }

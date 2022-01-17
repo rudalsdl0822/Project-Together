@@ -9,6 +9,8 @@ public interface ReviewMapper {
 	void insert(Review r);
 
 	Review selectByNum(int num);
+	
+	List selectByNickname(String w_writer);
 
 	List selectAll();
 

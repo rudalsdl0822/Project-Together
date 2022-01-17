@@ -60,7 +60,6 @@ public class MemberController {
 		mav.addObject("result", result);
 		return mav;
 	}
-	
 	@RequestMapping(value = "/Member/nicknameCheck")
 	public ModelAndView nicknameCheck(HttpServletRequest request, @RequestParam(value = "nickname") String nickname) {
 		HttpSession session = request.getSession();
@@ -72,6 +71,32 @@ public class MemberController {
 			result = "사용 가능한 닉네임 입니다.";
 			session.setAttribute("nicknameCheck", true);
 		} else {
+			result = "이미 사용중인 닉네임 입니다.";
+			session.setAttribute("nicknameCheck", false);
+		}
+
+		mav.addObject("result", result);
+		return mav;
+	}
+	
+	
+	@RequestMapping(value = "/Member/EditnicknameCheck")
+	public ModelAndView EditnicknameCheck(HttpServletRequest request, @RequestParam(value = "nickname") String nickname) {
+		HttpSession session = request.getSession();
+		ModelAndView mav = new ModelAndView("Member/nicknameCheck");
+		String result = "";
+		String id = (String) session.getAttribute("id");
+		Member m = service.getMemberByNickname(nickname);
+		Member m2 = service.getMember(id);
+
+		if (m == null) {
+			result = "사용 가능한 닉네임 입니다.";
+			session.setAttribute("nicknameCheck", true);
+		} else if (m != null && m2.getNickname().equals(nickname)) {
+			result = "현재 사용하고 계신 닉네임 입니다.";
+		    session.setAttribute("nicknameCheck", true);
+		}
+		else if (m != null && !m2.getNickname().equals(nickname)) {
 			result = "이미 사용중인 닉네임 입니다.";
 			session.setAttribute("nicknameCheck", false);
 		}
@@ -154,21 +179,17 @@ public class MemberController {
 		session.removeAttribute("nickname");
 		session.removeAttribute("type");
 		session.invalidate();
-		return "Member/loginForm";
+		return "/index";
 	}
 
  
 
 	@RequestMapping(value = "/Member/out") 
-	public String out(HttpServletRequest req){
+	public String out(HttpServletRequest req) {
 		HttpSession session = req.getSession(false);
 		String id = (String)session.getAttribute("id");
 		service.delMember(id);
-		session.removeAttribute("id");
-		session.removeAttribute("nickname");
-		session.removeAttribute("type");
-		session.invalidate();
-		return "Member/loginForm";
+		return "redirect:/Member/logout";
 	}
 	
 	@RequestMapping(value = "/Member/editForm")

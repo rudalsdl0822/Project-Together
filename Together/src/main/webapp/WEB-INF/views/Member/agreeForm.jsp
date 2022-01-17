@@ -76,7 +76,7 @@
         			<input type="checkbox" name="agree2" style="margin-left: -522px;">이용약관 동의 <span style="color: red;">(필수)</span><br>
         				<textarea rows="10" cols="100">제1조 목적
 
-본 이용약관은 “아이조아 통합요양보호센터”(이하 "사이트")의 서비스의 이용조건과 운영에 관한 제반사항 규정을 목적으로 합니다.
+본 이용약관은 “Together”(이하 "사이트")의 서비스의 이용조건과 운영에 관한 제반사항 규정을 목적으로 합니다.
 
 제2조 용어의 정의
 

@@ -56,8 +56,42 @@
 	</script>
 	<!-- 함수 끝-->
 
+<style>
+.breadcrumb-item>a, .table-primary>a {
+	color: #777;
+}
+
+.breadcrumb-item>a:hover, .table-primary>a:hover {
+	color: #337ab7;
+}
+
+.nino-btn > #btn {
+ 	background: #95e1d3;
+}
+
+.nino-btn > #btn:hover {
+	background: #00ced1;
+}
+</style>
+
+
 </head>
 <body style="padding-top: 50px;" class="nino-fixed-nav">
+	<!-- 빠른 페이지 이동 (로그인 한 경우) -->
+	<c:if test="${not empty sessionScope.id}">
+		<div>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"> <a href="/index">홈</a> </li>
+				<li class="breadcrumb-item">
+					<a href="/Member/MyPage"> 
+						<c:if test="${sessionScope.type==1}">마이페이지</c:if> 
+						<c:if test="${sessionScope.type==2}">관리자페이지</c:if>
+					</a>
+				</li>
+				<li class="breadcrumb-item active"> 나의 입양신청 내역</li>
+			</ol>
+		</div>
+	</c:if>
 
 
     <!-- Latest Blog
@@ -72,16 +106,13 @@
 			<div class="sectionContent">
 				<!-- 옵션선택 시작 -->
 				<div style="text-align: right; padding: 10px;">
-					<!-- state select -->
-					<select id="state" name="stateSel" onchange="selChange()">
-						<option value="0"
-							<c:if test="${state==0 }">selected</c:if>>신청중인 입양신청글만 보기</option>
-						<option value="1"
-							<c:if test="${state==1 }">selected</c:if>>승인된 입양신청글만 보기</option>
-						<option value="2"
-							<c:if test="${state==2 }">selected</c:if>>거절된 입양신청글만 보기</option>
-						<option value="3"
-							<c:if test="${state==3 }">selected</c:if>>전체 입양신청글 보기</option>
+					<!-- 입양신청글 state select -->
+					<select id="state" name="state" onchange="selChange()" class="form-control" style="display: inline-block; width:230px; height:34px;" >
+						<option value="0" ${state==0?'selected':''} >신청중인 입양신청글만 보기</option>
+						<option value="1" ${state==1?'selected':''} >승인된 입양신청글만 보기</option>
+						<option value="2" ${state==2?'selected':''} >거절된 입양신청글만 보기</option>
+						<option value="100" ${state==100?'selected':''} >마감된 입양신청글만 보기</option>
+						<option value="3" ${state==3?'selected':''} >전체 입양신청글 보기</option>
 					</select>
 
 				</div>
@@ -89,7 +120,7 @@
 			
 			
 			<!-- ======== adoptList 시작 ============================================= -->
-			<c:if test="${adoptList.isEmpty()==true }"> 입양신청한 글이 없습니다. </c:if>
+			<c:if test="${adoptList.isEmpty()==true }"> 불러올 입양신청 글이 없습니다. </c:if>
 			<c:forEach items="${adoptList }" var="Adopt" varStatus="status">
 			
 			
@@ -135,12 +166,12 @@
 								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
 									입양신청 번호 : ${Adopt.num }
 								</h3>
-								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+								<h3 class="articleTitle"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">
 									제목 : ${Adopt.title }
 								</h3>
-								<p class="articleDesc"  style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap;">
+								<div style="width: 90%; text-overflow: ellipsis; overflow: hidden; white-space: no-wrap; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">
 									자기 소개 : ${Adopt.content }
-								</p>
+								</div>
 							</a>
 							
 							<div class="articleMeta">
@@ -157,7 +188,10 @@
 									</c:if>
 									<c:if test="${Adopt.state==2 }">
 										<span style="color: #f38181;">입양신청이 거절된 글입니다.</span>
-									</c:if>									
+									</c:if>
+									<c:if test="${Adopt.state==100 }">
+										<span style="color: #000000;">Together 친구가 새 가족을 만나, 입양신청이 마감되었습니다.</span>
+									</c:if>								
 								</div>
 							</div>
 							<!-- 입양신청 1개 끝 -->
