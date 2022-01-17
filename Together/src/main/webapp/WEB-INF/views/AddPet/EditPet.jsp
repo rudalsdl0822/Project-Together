@@ -43,6 +43,27 @@
 </head>
 <body style="padding-top: 50px;" class="nino-fixed-nav">
 
+	<c:if test="${not empty sessionScope.id}">
+		<div>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"> <a href="/index">홈</a> </li>
+				<li class="breadcrumb-item">
+					<a href="/Member/MyPage"> 
+						<c:if test="${sessionScope.type==1}">마이페이지</c:if> 
+						<c:if test="${sessionScope.type==2}">관리자페이지</c:if>
+					</a>
+				</li>
+				<li class="breadcrumb-item">
+					<a href="/AddPet/PetAllList"> 
+						<c:if test="${sessionScope.type==1}">My Pet List</c:if> 
+						<c:if test="${sessionScope.type==2}">Pet List</c:if>
+					</a>
+				</li>
+				<li class="breadcrumb-item active">입소 신청 내용</li>
+			</ol>
+		</div>
+	</c:if>
+
 	<c:set var="petSex">
 		<c:if test="${p.sex == 1 }">수컷</c:if>
 		<c:if test="${p.sex == 2 }">암컷</c:if>
