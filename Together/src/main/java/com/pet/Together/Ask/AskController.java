@@ -81,30 +81,35 @@ public class AskController {
 	}
 
 	@RequestMapping(value = "/Ask/OneAsk")
-	public ModelAndView oneAsk(@RequestParam(value = "num") int num) {
-		ModelAndView mav = new ModelAndView("/Ask/OneAsk");
+	public ModelAndView oneAsk(@RequestParam(value = "num") int num, @RequestParam(value = "type") int type) {
+		ModelAndView mav = null;
 		Ask ask = service.getAsk(num);
-		saveAnswer(ask);
-		mav.addObject("a", ask);
-		File imgFile = new File(PATH+num);
-		if (imgFile.exists()) {
-			String [] imgFiles = imgFile.list();
-			
-			if (imgFiles !=null) {
-				for (int i =0;i<imgFiles.length;i++) {
-					System.out.println(imgFiles[i]);
-					mav.addObject("file"+i,imgFiles[i]);
+		
+		if (type == 1) {
+			mav = new ModelAndView("/Ask/OneAsk");
+			File imgFile = new File(PATH + num);
+			if (imgFile.exists()) {
+				String[] imgFiles = imgFile.list();
+				if (imgFiles != null) {
+					for (int i = 0; i < imgFiles.length; i++) {
+						// System.out.println(imgFiles[i]);
+						mav.addObject("file" + i, imgFiles[i]);
+					}
 				}
 			}
+		} else {
+			mav = new ModelAndView("/Ask/EditAskForm");
 		}
+		saveAnswer(ask);
+		mav.addObject("ask", ask);
 		return mav;
 	}
 
 	@PostMapping(value = "/Ask/AddAnswer")
-	public String addAnswer(Answer answer) {
+	public ModelAndView addAnswer(Answer answer) {
 		ans_service.addAns(answer);
-		int ask_num = answer.getAsk_num();
-		return "redirect:/Ask/getAnswer?ask_num=" + ask_num;
+		ModelAndView mav = new ModelAndView("/Ask/Json");
+		return mav;
 	}
 
 	@RequestMapping(value = "/Ask/getAnswer")
@@ -116,11 +121,11 @@ public class AskController {
 	}
 
 	@RequestMapping(value = "/Ask/getImg")
-	public ResponseEntity<byte[]> getImg(int ask_num, String fileName){
-		File imgFile = new File(PATH+ask_num);
+	public ResponseEntity<byte[]> getImg(int ask_num, String fileName) {
+		File imgFile = new File(PATH + ask_num);
 		// 이미지가 있다면 이미지를 리턴
 		if (imgFile.exists()) {
-			File f = new File (PATH+ask_num+"/"+fileName);
+			File f = new File(PATH + ask_num + "/" + fileName);
 			if (f.exists()) {
 				HttpHeaders header = new HttpHeaders();
 				ResponseEntity<byte[]> result = null;
@@ -135,7 +140,48 @@ public class AskController {
 		}
 		return null;
 	}
+
+	@RequestMapping(value = "/Ask/DelAsk")
+	public ModelAndView delAsk(@RequestParam(value = "num") int num) {
+		ModelAndView mav = new ModelAndView("/Ask/Json");
+		service.delAsk(num);
+		ans_service.delAns(num);
+		String path = PATH + num + "/";
+		File imgDir = new File(path);
+		if (imgDir.exists()) {
+			String[] files = imgDir.list();
+			for (int j = 0; j < files.length; j++) {
+				File f = new File(path + files[j]);
+				f.delete();
+			}
+		}
+		imgDir.delete();
+		return mav;
+	}
+	
+
+	@RequestMapping(value = "/Ask/DelAns")
+	public ModelAndView delAns(@RequestParam(value = "ask_num") int ask_num) {
+		ModelAndView mav = new ModelAndView("/Ask/Json");
+		ans_service.delAns(ask_num);
+		return mav;
+	}
+	
+	@PostMapping(value="/Ask/updateAsk")
+	public String updateAsk(Ask ask) {
+		service.editAsk(ask);
+		return "redirect:/Ask/AskList";
+	}
+	
+	@RequestMapping(value="/Ask/EditAnswer")
+	public ModelAndView editAns(Answer answer) {
+		ans_service.editAns(answer);
+		ModelAndView mav = new ModelAndView("/Ask/Json");
+		return mav;
 		
+	}
+
+	
 		
 
 // 아래 함수

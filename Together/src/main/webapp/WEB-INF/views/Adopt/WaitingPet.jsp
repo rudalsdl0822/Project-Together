@@ -185,9 +185,38 @@
 	}
 	</style>
 
+<style>
+.breadcrumb-item>a, .table-primary>a {
+	color: #777;
+}
+
+.breadcrumb-item>a:hover, .table-primary>a:hover {
+	color: #337ab7;
+}
+
+.nino-btn > #btn {
+ 	background: #95e1d3;
+}
+
+.nino-btn > #btn:hover {
+	background: #00ced1;
+}
+</style>
+
+
 </head>
 
 <body style="padding-top: 50px;" class="nino-fixed-nav">
+	<!-- 빠른 페이지 이동 -->
+		<div>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"> <a href="/index">홈</a> </li>
+				<li class="breadcrumb-item">
+					<a href="/AddPet/AdoptNoticeList">입양공고</a>
+				</li>
+				<li class="breadcrumb-item active">입양공고 상세보기</li>
+			</ol>
+		</div>
 
 
 <!-- 뷰 세팅================================================== -->
@@ -202,6 +231,19 @@
 			<c:if test="${pet.sex == 1 }">남자</c:if>
 			<c:if test="${pet.sex == 2 }">여자</c:if>
 		</c:set>
+	<!-- default : 정보가 없는 경우에는 -를 넣는다. -->
+		<c:set var="default_breed">
+			<c:if test="${empty pet.breed }">사랑둥이</c:if>
+		</c:set>
+		<c:set var="default_sex">
+			<c:if test="${empty pet.sex }">-</c:if>
+		</c:set>
+		<c:set var="default_age">
+			<c:if test="${empty pet.age }">-</c:if>
+		</c:set>
+		<c:set var="default_weight">
+			<c:if test="${empty pet.weight }">-</c:if>
+		</c:set>
 <!-- 뷰 세팅 끝================================================== -->
 
 
@@ -213,7 +255,7 @@
 			<h2 class="nino-sectionHeading">
 
 				<span class="nino-subHeading">Shall We Together?</span>
-				${pet.breed }, ${pet.name }
+				${pet.breed }${default_breed }, ${pet.name }
 				
 				<c:if test="${pet.state==2}">
 					<span class="label label-warning" style="font-size: 11px;">입양대기</span>
@@ -328,24 +370,24 @@
     	<div class="container">
     		<div layout="row" class="verticalStretch">
     			<div class="item" style="width:18%;">
-    				<div class="number">${sexKorean }</div>
+    				<div class="number">${sexKorean }${default_sex }</div>
     				<div class="text">SEX</div>
     			</div>
     			<div class="item" style="width:18%;"> 
-    				<div class="number">${pet.age }살</div>
+    				<div class="number">${pet.age }${default_age }살</div>
     				<div class="text">AGE</div>
     			</div>
     			<div class="item" style="width:18%;">
-    				<div class="number">${pet.weight }</div>
+    				<div class="number">${pet.weight }${default_weight }</div>
     				<div class="text">WEIGHT</div>
     			</div>
     			<div class="item" style="width:26%;">
     				<div class="number">${locationKorean }</div>
     				<div class="text">location</div>
     			</div>
-    			<div class="item" id="btns" style="width:20%; margin-top: 45px; padding: 5px; text-align: center;" >
+    			<div class="item" id="btns" style="width:20%; padding: 5px; text-align: center;" >
     				<!-- 관심등록이 안되어 있다면 빈하트, 관심등록이 되어 있다면 하트 -->
-    				<div class="number" id="btn_like" ifLikePet="${ifLikePet }" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; font-size: 20px; color: #f38181; ">
+    				<div class="number" id="btn_like" ifLikePet="${ifLikePet }" style="display: inline-block; border: 1px solid white; width: 70%; padding: 7px; margin-top:50px; font-size: 20px; color: #f38181; ">
     					<span class="glyphicon glyphicon-heart-empty" id="span_like" aria-hidden="true" style="font-size: 20px; color: #f38181; "></span> 
     						관심등록
     				</div>
@@ -362,14 +404,14 @@
     <!--/#nino-counting-->
     
     
-    <section id="nino-testimonial">
+    <section id="nino-testimonial" style="background: #95e1d3; padding-top: 10px; margin-top: 0px; padding-bottom: 20px; margin-bottom: 60px;">
     	<div class="container">
     		<div layout="row" class="verticalStretch" style="margin: 10px;">
     			<div class="nino-symbol fsr">
 					<i class="mdi mdi-comment-multiple-outline nino-icon" style="font-size: 30px;"></i>
 				</div>
 				<div style="margin: 10px; width: 100%;">
-					<pre class="quote" style="font-size: 18px; font-family: 'Roboto', sans-serif;">${pet.info }</pre>
+					<pre class="quote" style="font-size: 18px; font-family: 'Roboto', sans-serif;">"${pet.info }"</pre>
 				</div>
 			</div>
 		</div>
