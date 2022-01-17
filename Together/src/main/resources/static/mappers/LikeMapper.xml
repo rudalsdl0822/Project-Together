@@ -8,12 +8,11 @@
       <result column="like_num" property="like_num" />
       <result column="id" property="id" />
       <result column="pet_id" property="pet_id" />
-      <result column="like_date" property="like_date" />
    </resultMap>
  
    
    <insert id="insertLike" parameterType="com.pet.Together.Like.Like">
-      insert into to_like values(#{like_num}, #{id}, #{pet_id}, sysdate)
+      insert into to_like values(#{like_num}, #{id}, #{pet_id})
    </insert>
    
    <select id="selectById" parameterType="String" resultMap="like">
