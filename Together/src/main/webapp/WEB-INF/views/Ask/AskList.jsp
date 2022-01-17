@@ -60,7 +60,7 @@
 		<div>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="/index">홈</a></li>
-				<li class="breadcrumb-item"><a href="/MyPage"> <c:if
+				<li class="breadcrumb-item"><a href="/Member/MyPage"> <c:if
 							test="${sessionScope.type==1}">마이페이지</c:if> <c:if
 							test="${sessionScope.type==2}">관리자페이지</c:if>
 				</a></li>
@@ -108,8 +108,8 @@
 										<c:if test="${a.category==2}">[2.입양 관련]</c:if> <c:if
 											test="${a.category==3}">[3.입소 관련]</c:if> <c:if
 											test="${a.category==4}">[4.사이트 관련 오류]</c:if> <c:if
-											test="${a.category==5}">[5.후원 관련]</c:if></td>
-									<td><a href="/Ask/OneAsk?num=${a.num}">${a.title}</a></td>
+											test="${a.category==5}">[5.기타 문의]</c:if></td>
+									<td><a href="/Ask/OneAsk?num=${a.num}&type=1">${a.title}</a></td>
 									<td><c:if test="${empty a.answer}">답변대기중</c:if> <c:if
 											test='${not empty a.answer}'>답변완료</c:if></td>
 								</tr>
