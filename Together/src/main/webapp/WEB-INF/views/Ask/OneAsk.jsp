@@ -211,6 +211,7 @@
 						ask_num :num
 					}).done(function(){
 						alert("문의 답변이 삭제되었습니다.");
+						$('#ans_content').val("");
 						getAnswer(num);
 						
 					});
@@ -231,7 +232,7 @@
 								if (${sessionScope.type==2}){
 									// 관리자의 경우 답변이 없으면 답변 입력란을 보여준다
 									$('#input_answer').show();
-								}
+								} 
 								$('#answerResult').html("");
 								$('#answerResult').hide();
 							}
