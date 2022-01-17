@@ -173,7 +173,7 @@
 								    	<div class="input-group-btn">
 								    		<input type="hidden" name="page" value="AdoptNotice">
 								    		<button class="btn btn-default" type="submit" style="float: right;height:34px;"><i class="glyphicon glyphicon-search"></i></button>
-								    		<input type="text" name="value" value="${value}" style="float: right;width:250px;height:34px;" size="2" class="form-control">
+								    		<input type="text" name="value" value="${value}" style="float: right;width:250px;height:34px;" size="2" class="form-control" placeholder="검색할 항목을 먼저 선택해 주세요">
 								      		<select class="form-control" name="search" id="search" style="float: right; width:130px; height:34px;">
 												<option value="" selected disabled>검색 항목</option>
 												<option ${search=='breed'?'selected':''} value="breed">품종</option>
@@ -205,17 +205,15 @@
 							<article>
 								<div class="articleThumb">
 								
-								<!-- count, current, index 확인용 / 추후 삭제 예정 -->
+								<!-- count, current, index 확인용
 								count : ${status.count}<br>
 								current : ${status.current}<br>
-								index : ${status.index}<br>
-								
+								index : ${status.index}<br> -->
 								
 									<a href="${pageContext.request.contextPath}/Adopt/WaitingPet?id=${p.id}">
 										<img src="${pageContext.request.contextPath}/AddPet/petImg?id=${p.id}&petImgNum=1" alt="">
 									</a>
 									<div class="date">
-										<!-- <span class="number">ㅇㅇㅇ</span> -->
 										<span class="text">
 											<c:choose>
 												<c:when test="${p.location==1}">강남점</c:when>

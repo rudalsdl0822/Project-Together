@@ -70,6 +70,24 @@
 </head>
 <body style="padding-top: 50px;" class="nino-fixed-nav">
 
+	<c:if test="${not empty sessionScope.id}">
+		<div>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"> <a href="/index">홈</a> </li>
+				<li class="breadcrumb-item">
+					<a href="/Member/MyPage"> 
+						<c:if test="${sessionScope.type==1}">마이페이지</c:if> 
+						<c:if test="${sessionScope.type==2}">관리자페이지</c:if>
+					</a>
+				</li>
+				<li class="breadcrumb-item">
+					<c:if test="${sessionScope.type==1}">My Pet List</c:if> 
+					<c:if test="${sessionScope.type==2}">Pet List</c:if>
+				</li>
+			</ol>
+		</div>
+	</c:if>
+
 	<section class="nino-testimonial bg-white">
     	<div class="container">
     		<h2 class="nino-sectionHeading">
@@ -120,7 +138,7 @@
 								    	<div class="input-group-btn">
 								    		<input type="hidden" name="page" value="PetAllList">
 								    		<button class="btn btn-default" type="submit" id="btn_petSearch" style="float: right;height:34px;"><i class="glyphicon glyphicon-search"></i></button>
-								    		<input type="text" name="value" value="${value}" style="float: right;width:250px;height:34px;" size="2" class="form-control">
+								    		<input type="text" name="value" value="${value}" style="float: right;width:250px;height:34px;" size="2" class="form-control" placeholder="검색할 항목을 먼저 선택해 주세요">
 								      		<select class="form-control" name="search" id="search" style="float: right; width:130px; height:34px;">
 												<option value="" selected disabled>검색 항목</option>
 												<c:if test="${sessionScope.type==2}"><option ${search=='writer_id'?'selected':''} value="writer_id">작성자</option></c:if>
@@ -150,18 +168,18 @@
 										</a>
 									</div>
 									<div>
-										<span class="name">작성자 : ${p.writer_id}</span>
-										<p class="quote">이름 : ${p.name}</p>
-										<p class="quote">품종 : ${p.breed}</p>
-										<p class="quote">나이 : ${p.age}</p>
-										<p class="quote">성별 : 
+										<span class="name" style="font-family: 'Montserrat', sans-serif;">작성자 : ${p.writer_id}</span>
+										<p>이름 : ${p.name}</p>
+										<p>품종 : ${p.breed}</p>
+										<p>나이 : ${p.age}</p>
+										<p>성별 : 
 											<c:choose>
 												<c:when test="${p.sex==1}">수컷</c:when>
 												<c:when test="${p.sex==2}">암컷</c:when>
 												<c:otherwise>잘못된 성별정보 입니다</c:otherwise>
 											</c:choose>
 										</p>
-										<p class="quote">지점 : 
+										<p>지점 : 
 											<c:choose>
 												<c:when test="${p.location==1}">(서울)강남점</c:when>
 												<c:when test="${p.location==2}">(경기)안양점</c:when>
@@ -169,7 +187,7 @@
 												<c:otherwise>잘못된 지점정보 입니다</c:otherwise>
 											</c:choose>
 										</p>
-										<p class="quote">상태 : 
+										<p>상태 : 
 											<c:choose>
 												<c:when test="${p.state==1}">입소신청중</c:when>
 												<c:when test="${p.state==2}">입양대기</c:when>
@@ -189,22 +207,13 @@
 							</li>
 							<hr>
 							
-							<!--<c:set var="isEmpty" value=""/>-->
 						</c:if>
 						
-						<!-- 수정예정 -->
-						<!--<c:if test="${sessionScope.id!=p.writer_id && sessionScope.type!=2}">
-							<c:set var="isEmpty" value="리스트가 비어있습니다"/>-->
-							<!--<c:if test="${status.count==1}">
-							리스트가 비어있습니다
-							</c:if>-->
-						<!--</c:if>-->
+						<c:if test="${sessionScope.id!=p.writer_id && sessionScope.type!=2}">
+							<c:set var="isEmpty" value="리스트가 비어있습니다"/>
+						</c:if>
 						
 					</c:forEach>
-					
-					<!--<c:if test="${sessionScope.id!=p.writer_id && sessionScope.type!=2}">
-						${isEmpty}
-					</c:if>-->
 					
 				</ul>
 			</div>
