@@ -25,16 +25,11 @@ public class ReviewReplyService {
 	public ReviewReply getReply(int reply_num) {
 //		한개의 댓글내용
 		ReviewReply r = mapper.select(reply_num);
-
-//		대댓글 목록
+//		대댓글 목록 있으면 저장
 		ArrayList<ReviewReply> replyList = getListByParent_reply_num(reply_num);
-		for (int i = 0; i < replyList.size(); i++) {
-			ReviewReply cReply = replyList.get(i);
-			cReply.setMember(memberService.getMember(cReply.getWriter_id()));
-			replyList.set(i, cReply);
+		if (replyList !=null) {
+			r.setChild_reply(replyList);
 		}
-		r.setChild_reply(replyList);
-		r.setMember(memberService.getMember(r.getWriter_id()));
 		return r;
 	}
 
