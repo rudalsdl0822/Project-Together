@@ -40,16 +40,7 @@ var str= "";
 		$(".img").mouseover(function () {
 			$("#bigImg").attr("src",this.src);
 		});
-		
-		// 댓글 입력 (동기)
-		/* $("#btn_addReply").click(function(){
-			
-			var form=document.form_addReply;
-		
-				form.submit();
-			
-		});  */
-		
+
 		// 댓글 전체 리스트 불러오기 (비동기)
 		$.ajax({
 			url:"/reviewReply/getReplyList",
@@ -61,6 +52,44 @@ var str= "";
 			}
 			
 		});
+
+
+		// 댓글 입력 (동기)
+		/* $("#btn_addReply").click(function(){
+			
+			var form=document.form_addReply;
+		
+				form.submit();
+			
+		});  */
+		
+		// 댓글 입력(비동기)
+		$(document).on("click","#btn_addReply",function(){
+			if (member_id == "" || member_id == null) {
+				var flag = confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+				if (flag) {
+					fn_loginPopup();
+				} else {
+					return false;
+				}
+			} else if($("#reply_content").val()=="" || $("#reply_content").val()==null) {
+				alert("댓글 내용을 입력해주세요.");
+				$("#reply_content").focus();
+				return false;
+			} else {
+				$.post("/reviewReply/add",{
+					board_num:board_num,
+					writer_id:member_id,
+					parent_reply_num:-1
+				}).done(function(data){
+					alert("댓글이 등록되었습니다!");
+					$("#reply_content").val("");
+					getAllReply();
+				});
+			}
+			
+		});
+		
 		
 		// 댓글 버튼 누르면 대댓글 작성폼이 나온다.
 		$(document).on("click","button[type='btn_rr']",function(){
@@ -144,6 +173,20 @@ var str= "";
  			$("#reply_list").append(html);
  		}
  	}
+
+	 var getAllReply = function() {
+		$.ajax({
+			url:"/reviewReply/getReplyList",
+			data: "board_num="+board_num,
+			type:'post',
+			success: function(result){
+				var arr = $.parseJSON(result);
+				makeList(arr);
+			}
+			
+		});
+	 }
+	 
  	
  	function fn_loginPopup(){
 		// loginPopup   window.open('팝업주소','팝업창 이름','팝업창 설정');
