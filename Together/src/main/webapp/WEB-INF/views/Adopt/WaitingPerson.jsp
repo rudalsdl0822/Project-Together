@@ -268,13 +268,13 @@
 	        				</form>
 	        			</c:if>
 	        			<c:if test="${Adopt.state==1 }">
-							<span style="font-size: 20px; color: #4FC9DE;">입양신청이 승인된 글입니다.</span>
+							<span style="font-size: 24px; color: #1266FF;">입양신청이 승인된 글입니다.</span>
 						</c:if>
 						<c:if test="${Adopt.state==2 }">
-							<span style="font-size: 20px; color: #f38181;">입양신청이 거절된 글입니다.</span>
+							<span style="font-size: 24px; color: #f38181;">입양신청이 거절된 글입니다.</span>
 						</c:if>
 						<c:if test="${Adopt.state==100 }">
-							<span style="font-size: 20px; color: #000000;">Together 친구가 새 가족을 만나, 입양신청이 마감되었습니다.</span>
+							<span style="font-size: 24px; color: #000000;">Together 친구가 새 가족을 만나, 입양신청이 마감되었습니다.</span>
 						</c:if>	
         			</div>
         		</div>

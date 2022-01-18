@@ -47,15 +47,20 @@ public class ReviewController {
 
 	private static final String PATH = "C:\\together\\img\\Review\\";
 
-	public void saveImg(int num, MultipartFile file) {
+	public void saveImg(MultipartFile file,int num, int fileNum) {
 		String fileName = file.getOriginalFilename();
+		
+		// 확장자 추출
+		int idx = fileName.lastIndexOf(".");
+		String ext = fileName.substring(idx);
+		
 		if (fileName != null && !fileName.equals("")) {
 			File dir = new File(PATH + num);
 			if (!dir.exists()) { // 같은 이름이 존재하지 않을 경우
 				dir.mkdirs(); // 폴더생성
 			}
 
-			File f = new File(PATH + num + "\\" + fileName);
+			File f = new File(PATH + num + "\\" + fileNum+ ext);
 
 			try {
 				file.transferTo(f);
@@ -71,10 +76,17 @@ public class ReviewController {
 	public String review(Review r) {
 		int num = service.getNum();
 		r.setNum(num);
+		
+		
+		MultipartFile[] files = { r.getFile1(), r.getFile2(), r.getFile3() };
+		
+		for (int i = 0; i < files.length; i++) {
+			if (!files[i].isEmpty()) {
+				saveImg(files[i], num, i + 1);
+			}
+		}
+		
 		service.addReview(r);
-		saveImg(num, r.getFile1());
-		saveImg(num, r.getFile2());
-		saveImg(num, r.getFile3());
 
 		return "redirect:/Review/reviewList";
 	}
@@ -92,12 +104,15 @@ public class ReviewController {
 				mav.addObject("file" + j, files[j]);
 			}
 		}
-		ArrayList<ReviewReply> reply_list=reviewReply_service.getReplyListByBoard_num(num);
-		mav.addObject("replys", reply_list);
-
-		ArrayList<ReviewReply> childReply_list = reviewReply_service.getListByParent_reply_num(num);
-		mav.addObject("c_replys", childReply_list);
-
+		/*
+		 * ArrayList<ReviewReply>
+		 * reply_list=reviewReply_service.getReplyListByBoard_num(num);
+		 * mav.addObject("replys", reply_list);
+		 * 
+		 * ArrayList<ReviewReply> childReply_list =
+		 * reviewReply_service.getListByParent_reply_num(num); mav.addObject("c_replys",
+		 * childReply_list);
+		 */
 		mav.addObject("r", r);
 		return mav;
 	}

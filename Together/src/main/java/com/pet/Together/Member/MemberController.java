@@ -35,6 +35,11 @@ public class MemberController {
 	public void login_fail() {
 
 	}
+	
+	@GetMapping(value = "/Member/joinResult")
+	public void joinResult() {
+
+	}
 
 	@GetMapping(value = "/Member/joinForm")
 	public void joinForm(HttpServletRequest request) {
@@ -108,7 +113,7 @@ public class MemberController {
 	@RequestMapping(value = "/Member/join")
 	public String join(Member m) {
 		service.addMember(m);
-		return "/Member/loginForm";
+		return "/Member/joinResult";
 	}
 
 	
