@@ -51,7 +51,7 @@ var str= "";
 		});  */
 		
 // 댓글 입력(비동기)
-$(document).on("click","#btn_addReply",function(){
+		$(document).on("click","#btn_addReply",function(){
 			if (member_id == "" || member_id == null) {
 				var flag = confirm("로그인이 필요합니다. 로그인하시겠습니까?");
 				if (flag) {
@@ -67,27 +67,22 @@ $(document).on("click","#btn_addReply",function(){
 				$.post("/reviewReply/add",{
 					board_num:board_num,
 					writer_id:member_id,
-					parent_reply_num:-1
+					parent_reply_num:-1,
+					reply_content:$("#reply_content").val()
 				}).done(function(data){
 					alert("댓글이 등록되었습니다!");
 					$("#reply_content").val("");
-					getAllReply();
+					var reply = $.parseJSON(data);
+					var html = makeTbl(reply);
+		 			$("#reply_list").append(html);
 				});
 			}
 			
 		});
+		
 
 		// 댓글 전체 리스트 불러오기 (비동기)
-		$.ajax({
-			url:"/reviewReply/getReplyList",
-			data: "board_num="+board_num,
-			type:'post',
-			success: function(result){
-				var arr = $.parseJSON(result);
-				makeList(arr);
-			}
-			
-		});
+		getAllReply();
 		
 		// 댓글 버튼 누르면 대댓글 작성폼이 나온다.
 		$(document).on("click","button[type='btn_rr']",function(){
@@ -97,12 +92,70 @@ $(document).on("click","#btn_addReply",function(){
 				
 		$(document).on("click","button[type='editReply']",function(){
 			var num = $(this).attr("num");
-			
+			var flag = confirm("수정하시겠습니까?");
+			if(flag) {
+				$.post("/reviewReply/edit"), {
+					reply_content:$("#reply_content").val(),
+					reply_num:num
+				}).done(function(data) {
+					alert("댓글이 수정되었습니다!");
+					
+				});
+			}
+			}
 		});
 		
 		$(document).on("click","button[type='deleteReply']",function(){
 			var num = $(this).attr("num");
+			var flag = confirm("삭제하시겠습니까?");
+			if(flag) {
+				$.post("/reviewReply/delete",{
+					reply_num:num
+				}).done(function(data){
+					var r = $.parseJSON(data);
+					if (r.parent_reply_num == -1){
+		 				$("#ul_reply_"+num).remove();
+		 				alert("부모댓글이 삭제되었습니다!");
+					} else {
+						$("#li_childReply_"+num).remove();
+						alert("자식댓글이 삭제되었습니다!");
+					}
+				});
+			} else {
+				return false;
+			}
 			
+		});
+		
+		$(document).on("click","button[type='addReply2']",function(){
+			var parent_reply_num = $(this).attr("num");
+			var txt = $("#childReply_content_"+parent_reply_num).val();
+			if (member_id == "" || member_id == null) {
+				var flag = confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+				if (flag) {
+					fn_loginPopup();
+				} else {
+					return false;
+				}
+			} else if(txt=="") {
+				alert("댓글 내용을 입력해주세요.");
+				$("#childReply_content_"+parent_reply_num).focus();
+				return false;
+			} else {
+				$.post("/reviewReply/add",{
+					board_num:board_num,
+					writer_id:member_id,
+					parent_reply_num:parent_reply_num,
+					reply_content:txt
+				}).done(function(data){
+					alert("댓글이 등록되었습니다!");
+					$("#childReply_content_"+parent_reply_num).val("");
+					var reply = $.parseJSON(data);
+					var html = makeChildReply(reply);
+					$(`#input_r_reply-${"${parent_reply_num}"}`).slideToggle();
+		 			$("#childReply_list_"+parent_reply_num).append(html);
+				});
+			}
 		});
 		
 	});
@@ -131,20 +184,20 @@ $(document).on("click","#btn_addReply",function(){
 		if (member_id == reply.writer_id || member_type == "2") {
 			str += "<button type='editReply' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
 			str += "<span class='glyphicon glyphicon-erase' aria-hidden='true'></span>수정</button>";
-			str += "<button type='deleteReply num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+			str += "<button type='deleteReply' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
 			str += "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>삭제";
 			str += "</button>";
 		}
 		str += "</div></li>";
 		
 		// 대댓글 작성폼
-		str += "<div id='input_r_reply-"+reply.reply_num+"' style='display:none;'><textarea id ='childReply_content' name='reply_content' class='form-control' rows='3' placeholder='댓글을 입력하세요.'>";
-		str += "</textarea><button id='btn_addChildReply' type='submit' class='btn btn-danger btn-block'>댓글 등록</button></div>";
+		str += "<div id='input_r_reply-"+reply.reply_num+"' style='display:none;'><textarea id ='childReply_content_"+reply.reply_num+"' name='reply_content' class='form-control' rows='3' placeholder='댓글을 입력하세요.'>";
+		str += "</textarea><button id='btn_addChildReply' type='addReply2' num='"+reply.reply_num+"' class='btn btn-danger btn-block'>댓글 등록</button></div><div id='childReply_list_"+reply.reply_num+"'>";
 	
 		// 대댓글 리스트 + 수정, 삭제 버튼
 		if (reply.child_reply !="undefined" && reply.child_reply !=null){
 			for (i=0;i<reply.child_reply.length;i++){
-				str += "<li class='li_childReply'><div class='childReply-writer'>";
+				str += "<li class='li_childReply' id='li_childReply_"+reply.child_reply[i].reply_num+"'><div class='childReply-writer'>";
 				str += "<span class='regency' style='font-weight: bold;'>ID : " + reply.child_reply[i].writer_id + "</span></div>";
 				str += "<div class='childReply-content' id='reply-"+reply.child_reply[i].reply_num+"'>" + reply.child_reply[i].reply_content + "</div>";
 				str += "<div class='childReply_date' align='right' style='padding: 0 1em;'>" + reply.child_reply[i].reply_date + "</div>";
@@ -154,18 +207,33 @@ $(document).on("click","#btn_addReply",function(){
 				if (member_id == reply.child_reply[i].writer_id || member_type == "2"){
 					str += "<button type='editReply' num='"+reply.child_reply[i].reply_num+"' class='btn btn-link btn-sm'>";
 					str += "<span class='glyphicon glyphicon-erase' aria-hidden='true'></span>수정</button>";
-					str += "<button type='deleteReply num='"+reply.child_reply[i].reply_num+"' class='btn btn-link btn-sm'>";
+					str += "<button type='deleteReply' num='"+reply.child_reply[i].reply_num+"' class='btn btn-link btn-sm'>";
 					str += "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>삭제";
 					str += "</button>";
 				}
 				str += "</div></li>";		
 			}
 		}
-		str += "</ul>";
+		str += "</div></ul>";
 		return str;
  	}
 	
-
+	function makeChildReply(reply){
+		str = "<li class='li_childReply' id='li_childReply_"+reply.reply_num+"'><div class='childReply-writer'>";
+		str += "<span class='regency' style='font-weight: bold;'>ID : " + reply.writer_id + "</span></div>";
+		str += "<div class='childReply-content' id='reply-"+reply.reply_num+"'>" + reply.reply_content + "</div>";
+		str += "<div class='childReply_date' align='right' style='padding: 0 1em;'>" + reply.reply_date + "</div>";
+		str += "<div class='reply-menu' align='right'>";
+		if (member_id == reply.writer_id || member_type == "2"){
+			str += "<button type='editReply' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+			str += "<span class='glyphicon glyphicon-erase' aria-hidden='true'></span>수정</button>";
+			str += "<button type='deleteReply' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+			str += "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>삭제";
+			str += "</button>";
+		}
+		str += "</div></li>";
+		return str;
+	}
 
 	 function getAllReply() {
 		$.ajax({
@@ -227,7 +295,7 @@ $(document).on("click","#btn_addReply",function(){
                 replyList[reply_num] = undefined;
             }
         }
-	
+	/* 
 	// 댓글|대댓글 삭제
 	function deleteReply(reply_num) {
             $.ajax({
@@ -239,7 +307,7 @@ $(document).on("click","#btn_addReply",function(){
                 },
             });
         }
-	 
+	  */
 </script>
 	
 </head>
