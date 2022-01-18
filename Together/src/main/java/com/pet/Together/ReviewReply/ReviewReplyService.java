@@ -25,30 +25,26 @@ public class ReviewReplyService {
 	public ReviewReply getReply(int reply_num) {
 //		한개의 댓글내용
 		ReviewReply r = mapper.select(reply_num);
-
-//		대댓글 목록
+//		대댓글 목록 있으면 저장
 		ArrayList<ReviewReply> replyList = getListByParent_reply_num(reply_num);
-		for (int i = 0; i < replyList.size(); i++) {
-			ReviewReply cReply = replyList.get(i);
-			cReply.setMember(memberService.getMember(cReply.getWriter_id()));
-			replyList.set(i, cReply);
+		if (replyList !=null) {
+			r.setChild_reply(replyList);
 		}
-		r.setChild_reply(replyList);
-		r.setMember(memberService.getMember(r.getWriter_id()));
 		return r;
 	}
 
 //	게시글번호 댓글 가져오기
 	public ArrayList<ReviewReply> getReplyListByBoard_num(int board_num) {
+		//  게시글 번호가 board_num이고 부모댓값이 -1인 부모댓글들만 검색
 		ArrayList<ReviewReply> list = mapper.selectListByBoard_num(board_num);
-		for (int i = 0; i < list.size(); i++) {
-			list.set(i, getReply(list.get(i).getReply_num()));
-//			부모가 없는 댓글만 리스트에 넣음
-			if (list.get(i).getParent_reply_num() != -1) {
-				list.remove(i);
-				i--;
-			}
-		}
+//		for (int i = 0; i < list.size(); i++) {
+//			list.set(i, getReply(list.get(i).getReply_num()));
+////			부모가 없는 댓글만 리스트에 넣음
+//			if (list.get(i).getParent_reply_num() != -1) {
+//				list.remove(i);
+//				i--;
+//			}
+//		}
 		return list;
 	}
 	

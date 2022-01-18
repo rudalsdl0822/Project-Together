@@ -34,32 +34,52 @@
 			for(var i=0;i<p_ids.length;i++){
 				fn_check_like(p_ids[i]);
 			}
-			
-			//관심등록 버튼 클릭
-			$(".number").click(function(){
-				var p_id=$(this).attr("p_id");
-				
-				if(member_id==""){
-					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
-					if(flag){
-						fn_loginPopup();
-					}else{
-						return; 
-					}
-				}else if( $("#span_like_"+p_id).attr("class") == "glyphicon glyphicon-heart-empty" ){  //관심등록
-					fn_like(p_id);
-				}else if( $("#span_like_"+p_id).attr("class") == "glyphicon glyphicon-heart" ){  //관심등록 해제
-					var flag=confirm("정말 관심등록을 해제하시겠습니까?");
-					if(flag){
-						fn_like_delete(p_id);
-					}
-				}
-			});
-			
-			$("button[type=button][name=AdoptNotice]").click(function(){
-				location.href="${pageContext.request.contextPath}/AddPet/AdoptNoticeList";
-			});
-		});
+	
+	$(".number").click(function(){
+		var p_id=$(this).attr("p_id");
+		
+		if(member_id==""){
+			Swal.fire({ 
+				title : '로그인이 필요합니다. 로그인하시겠습니까?',
+				icon: 'question', 
+				showCancelButton: true, 
+				confirmButtonColor: '#3085d6', 
+				cancelButtonColor: '#d33',
+				confirmButtonText: '확인', 
+				cancelButtonText: '취소'
+			 }).then((result) => { 
+				 if (result.isConfirmed) { 
+				 fn_loginPopup();
+			     }else{
+				 return; 
+			     }
+			 })
+		}else if( $("#span_like_"+p_id).attr("class") == "glyphicon glyphicon-heart-empty" ){  //관심등록
+			fn_like(p_id);
+		}else if( $("#span_like_"+p_id).attr("class") == "glyphicon glyphicon-heart" ){  //관심등록 해제
+			Swal.fire({ 
+				title: '정말 관심등록을 해제하시겠습니까?', 
+				icon: 'question', 
+				showCancelButton: true, 
+				confirmButtonColor: '#3085d6', 
+				cancelButtonColor: '#d33',
+				 confirmButtonText: '해제', 
+				cancelButtonText: '취소' 
+				}).then((result) => { 
+				if (result.isConfirmed) { 
+				fn_like_delete(p_id);
+			}
+				})
+		}
+	});
+	
+	$("button[type=button][name=AdoptNotice]").click(function(){
+		location.href="${pageContext.request.contextPath}/AddPet/AdoptNoticeList";
+	});
+});
+
+	
+		
 		
 		function fn_like(p_id){
 			$.post("/like/add", {pet_id:p_id})

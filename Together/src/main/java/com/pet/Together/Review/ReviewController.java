@@ -104,12 +104,15 @@ public class ReviewController {
 				mav.addObject("file" + j, files[j]);
 			}
 		}
-		ArrayList<ReviewReply> reply_list=reviewReply_service.getReplyListByBoard_num(num);
-		mav.addObject("replys", reply_list);
-
-		ArrayList<ReviewReply> childReply_list = reviewReply_service.getListByParent_reply_num(num);
-		mav.addObject("c_replys", childReply_list);
-
+		/*
+		 * ArrayList<ReviewReply>
+		 * reply_list=reviewReply_service.getReplyListByBoard_num(num);
+		 * mav.addObject("replys", reply_list);
+		 * 
+		 * ArrayList<ReviewReply> childReply_list =
+		 * reviewReply_service.getListByParent_reply_num(num); mav.addObject("c_replys",
+		 * childReply_list);
+		 */
 		mav.addObject("r", r);
 		return mav;
 	}
