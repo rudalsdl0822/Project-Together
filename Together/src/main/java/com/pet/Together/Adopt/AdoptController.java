@@ -253,7 +253,7 @@ public class AdoptController {
 		pet.setState(4);
 		service.editPetState(pet); 
 		
-		ArrayList<Adopt> otherAdoptList=adopt_service.getAdoptsByPet_id(adopt.getPet_id());
+		ArrayList<Adopt> otherAdoptList=adopt_service.getAdoptsByPet_idState(adopt.getPet_id(),0);
 		for(Adopt otherAdopt: otherAdoptList) {
 			otherAdopt.setState(100);
 			adopt_service.editAdopt(otherAdopt);
