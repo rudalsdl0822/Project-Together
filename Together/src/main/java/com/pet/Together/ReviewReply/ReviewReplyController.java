@@ -32,12 +32,23 @@ public class ReviewReplyController {
 		return mav;
 	}
 
+	@PostMapping("/reviewReply/get")
+	public ModelAndView getReply(@RequestParam int reply_num) {
+		ModelAndView mav = new ModelAndView("/Review/Json");
+		ReviewReply r = reviewReplyService.getReply(reply_num);
+		System.out.println(r);
+		mav.addObject("r",r);
+		return mav;
+	}
+
 	@PostMapping("/reviewReply/edit")
-	public String editReply(ReviewReply r) {
-		String writer_id = (String) session.getAttribute("id");
-		r.setWriter_id(writer_id);
+	public ModelAndView editReply(ReviewReply r) {
+		ModelAndView mav = new ModelAndView("/Review/Json");
 		reviewReplyService.editReply(r);
-		return "redirect:" + request.getHeader("REFERER") + "#reply-" + r.getReply_num();
+		r = reviewReplyService.getReply(r.getReply_num());
+		System.out.println("댓글이 수정되었습니다." + r);
+		mav.addObject("r",r);
+		return mav;
 	}
 
 //	댓글 삭제
