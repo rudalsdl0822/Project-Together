@@ -16,31 +16,31 @@
 		insert into to_reviewreply values(to_reviewreply_seq.nextval, #{board_num}, #{writer_id}, #{reply_content}, sysdate, ${parent_reply_num})
 	</insert>
 	
-	<select id="select" resultType="com.pet.Together.ReviewReply.ReviewReply">
+	<select id="select" parameterType="int" resultType="com.pet.Together.ReviewReply.ReviewReply">
 		select * from to_reviewreply where reply_num = #{reply_num}
 	</select>
 	
-	<select id="selectListByBoard_num" resultMap="reviewReply">
-		select * from to_reviewreply where board_num = #{board_num} order by reply_num
+	<select id="selectListByBoard_num" parameterType="int" resultMap="reviewReply">
+		select * from to_reviewreply where board_num = #{board_num} and parent_reply_num =-1 order by reply_num
 	</select>
 	
 	<select id="selectListByWriter_id" parameterType="String" resultMap="reviewReply">
 		select * from to_reviewreply where writer_id = #{writer_id} order by reply_num
 	</select>
 	
-	<select id="selectListByParent_reply_num" resultMap="reviewReply">
+	<select id="selectListByParent_reply_num" parameterType="int" resultMap="reviewReply">
 		select * from to_reviewreply where parent_reply_num = #{parent_reply_num} order by reply_num
 	</select>
 	
 	<update id="update" parameterType="com.pet.Together.ReviewReply.ReviewReply" >
-		update to_reviewreply set reply_content = #{reply_content}, reply_date = sysdate where reply_num = #{reply_num} and writer_id = #{writer_id}
+		update to_reviewreply set reply_content = #{reply_content}, reply_date = sysdate where reply_num = #{reply_num}
 	</update>
 	
-	<delete id="delete">
+	<delete id="delete" parameterType="int">
 		delete from to_reviewreply where reply_num = #{reply_num}
 	</delete>
 	
-	<update id="deleteParent">
+	<update id="deleteParent" parameterType="int">
 		update to_reviewreply set reply_content = null where reply_num = #{reply_num}
 	</update>
 	
