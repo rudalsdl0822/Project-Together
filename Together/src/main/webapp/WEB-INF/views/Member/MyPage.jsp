@@ -10,18 +10,28 @@
 	<meta name="copyright" content="ninodezign.com"> 
 <title>MyPage</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <script>
-	$(document).ready(function(){
-		$("#out").click(function(){
-			var flag = confirm("정말 탈퇴 하시겠습니까?");
-			if (flag){
-				alert("회원 탈퇴 되었습니다.");
-				location.href="/Member/out";
-			} else {
-				return false;
-			}
-		});
-	});
+	$().ready(function () {
+	            $("#out").click(function () {
+	                Swal.fire({
+	                    title: '정말 탈퇴하시겠습니까?',
+	                    text: "다시 되돌릴 수 없습니다. 신중하세요.",
+	                    icon: 'warning',
+	                    showCancelButton: true,
+	                    confirmButtonColor: '#3085d6',
+	                    cancelButtonColor: '#d33',
+	                    confirmButtonText: '탈퇴',
+	                    cancelButtonText: '취소'
+	                }).then((result) => {
+	                    if (result.isConfirmed) {
+	                        alert("회원 탈퇴 되었습니다.");
+	                        location.href="/Member/out";
+	                    }
+	                })
+	            });
+	        });
 	</script>
 
 <%@ include file="/WEB-INF/views/common/css_set.jsp"%>

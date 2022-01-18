@@ -12,32 +12,55 @@
 	<title>Together | 입소 신청 내용</title>
 	
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script>
 		$(document).ready(function() {
 			$(".petImg").mouseover(function() {
 				$("#bigImg").attr('src', this.src);
 			});
-			
-			$("#delPet").click(function(){
-				if(confirm("정말 삭제하시겠습니까? 삭제 시 작성된 신청서는 복구되지 않습니다")){
-					alert("삭제가 완료되었습니다");
-					$("#editPetForm").attr('action', '/Addpet/DeletePet');
-					$("#editPetForm").submit();
-				}else{
-					alert("삭제가 취소되었습니다");
-				}
-			});
-			
-			$("#approPet").click(function(){
-				if(confirm("입소승인 하시겠습니까?")){
-					alert("입소승인이 완료되어 '입양대기'로 상태 변경되었습니다.");
-					$("input[type=hidden][name=state]").val(2);
-					$("#editPetForm").submit();
-				}else{
-					alert("입소승인이 취소되었습니다");
-				}
-			});
-		});
+
+			$().ready(function () {
+			            $("#delPet").click(function () {
+			                Swal.fire({
+			                    title: '정말 삭제하시겠습니까? 삭제 시 작성된 신청서는 복구되지 않습니다',
+			                    icon: 'warning',
+			                    showCancelButton: true,
+			                    confirmButtonColor: '#3085d6',
+			                    cancelButtonColor: '#d33',
+			                    confirmButtonText: '삭제',
+			                    cancelButtonText: '취소'
+			                }).then((result) => {
+			                    if (result.isConfirmed) {
+			                    alert("삭제가 완료되었습니다");
+			                    $("#editPetForm").attr('action', '/Addpet/DeletePet');
+							    $("#editPetForm").submit();
+			                    }else {
+			                    	alert("삭제가 취소되었습니다");
+			                    }
+			                })
+			            });
+			        });
+		
+		   $("#approPet").click(function () {
+               Swal.fire({
+                   title: '입소 승인 하시겠습니까?',
+                   icon: 'question',
+                   showCancelButton: true,
+                   confirmButtonColor: '#3085d6',
+                   cancelButtonColor: '#d33',
+                   confirmButtonText: '승인',
+                   cancelButtonText: '취소'
+               }).then((result) => {
+                   if (result.isConfirmed) {
+                     alert("입소승인이 완료되어 '입양대기'로 상태 변경되었습니다.");
+                     $("input[type=hidden][name=state]").val(2);
+				     $("#editPetForm").submit();
+                   }else {
+                	   alert("입소승인이 취소되었습니다");
+                   }
+               })
+           });
+       });
 	</script>
 	
 </head>

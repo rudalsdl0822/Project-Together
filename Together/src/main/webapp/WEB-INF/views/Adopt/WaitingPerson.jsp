@@ -23,45 +23,107 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	
 	<script>
+	function fn_swal_fire_adopt_reject(){
+		Swal.fire({ 
+			title: '정말로 입양을 거절하겠습니까?', 
+			icon: 'question', 
+			showCancelButton: true, 
+			confirmButtonColor: '#3085d6', 
+			cancelButtonColor: '#d33',
+			confirmButtonText: '거절', 
+			cancelButtonText: '취소' 
+		}).then((result) => { 
+			if (result.isConfirmed) { 
+				location.href="/Adopt/AdoptAccept?num="+num;
+			}else{
+				return; 
+		    }
+		});
+	}
+	
 		$(document).ready(function(){
 		
 			$("button").click(function(){
 				var num=$(this).attr("num");
 				
 				if( $(this).text()=="입양 승인" ){
-					var flag=confirm("정말로 입양을 승인하겠습니까?");
-					if(flag==false) return;
-				
-					location.href="/Adopt/AdoptAccept?num="+num;
+					Swal.fire({ 
+						title: '정말로 입양을 승인하겠습니까?', 
+						icon: 'question', 
+						showCancelButton: true, 
+						confirmButtonColor: '#3085d6', 
+						cancelButtonColor: '#d33',
+						confirmButtonText: '승인', 
+						cancelButtonText: '취소' 
+					}).then((result) => { 
+						if (result.isConfirmed) { 
+							location.href="/Adopt/AdoptAccept?num="+num;
+						}else{
+							return false; 
+					    }
+					});	
 				}else if( $(this).text()=="입양 거절" ){
-					var flag=confirm("정말로 입양을 거절하겠습니까?");
-					if(flag==false) return;
-					
-					location.href="/Adopt/AdoptReject?num="+num;
+					Swal.fire({ 
+						title: '정말로 입양을 거절하겠습니까?', 
+						icon: 'question', 
+						showCancelButton: true, 
+						confirmButtonColor: '#3085d6', 
+						cancelButtonColor: '#d33',
+						confirmButtonText: '거절', 
+						cancelButtonText: '취소' 
+					}).then((result) => { 
+						if (result.isConfirmed) { 
+							location.href="/Adopt/AdoptReject?num="+num;
+						}else{
+							return false; 
+					    }
+					});
 				}else if( $(this).text()=="신청 삭제" ){
-					var flag=confirm("정말로 신청을 삭제하겠습니까?");
-					if(flag==false) return;
-					
-					$.post("/Adopt/MemberAdoptDelete",{num:num})
-					.done(function(json){
-						alert(num+"번 입양신청 글을 삭제했습니다. \n입양신청 리스트로 돌아갑니다.");
-						location.href="/Adopt/MemberAdoptWishList";
-					})
-					.fail(function(){
-						alert("error");
+					Swal.fire({ 
+						title: '정말로 신청을 삭제하겠습니까?', 
+						icon: 'question', 
+						showCancelButton: true, 
+						confirmButtonColor: '#3085d6', 
+						cancelButtonColor: '#d33',
+						confirmButtonText: '삭제', 
+						cancelButtonText: '취소' 
+					}).then((result) => { 
+						if (result.isConfirmed) { 
+							$.post("/Adopt/MemberAdoptDelete",{num:num})
+							.done(function(json){
+								alert(num+"번 입양신청 글을 삭제했습니다. \n입양신청 리스트로 돌아갑니다.");
+								location.href="/Adopt/MemberAdoptWishList";
+							})
+							.fail(function(){
+								alert("error");
+							});
+						}else{
+							return false; 
+					    }
 					});
 				}else if( $(this).text()=="신청 수정" ){
-					var flag=confirm("이 내용대로 신청을 수정하시겠습니까?");
-					if(flag==false) return;
-					
-					// form parameter serialize
-					var params=$("#form_adoptEdit").serialize();
-					$.post("/Adopt/MemberAdoptEdit", params)
-					.done(function(json){
-						alert(num+"번 입양신청을 수정했습니다.");
-					})
-					.fail(function(){
-						alert("error");
+					Swal.fire({ 
+						title: '이 내용대로 신청을 수정하시겠습니까?', 
+						icon: 'question', 
+						showCancelButton: true, 
+						confirmButtonColor: '#3085d6', 
+						cancelButtonColor: '#d33',
+						confirmButtonText: '수정', 
+						cancelButtonText: '취소' 
+					}).then((result) => { 
+						if (result.isConfirmed) { 
+							// form parameter serialize
+							var params=$("#form_adoptEdit").serialize();
+							$.post("/Adopt/MemberAdoptEdit", params)
+							.done(function(json){
+								alert(num+"번 입양신청을 수정했습니다.");
+							})
+							.fail(function(){
+								alert("error");
+							});
+						}else{
+							return false; 
+					    }
 					});
 				}
 			});
@@ -268,13 +330,13 @@
 	        				</form>
 	        			</c:if>
 	        			<c:if test="${Adopt.state==1 }">
-							<span style="font-size: 20px; color: #4FC9DE;">입양신청이 승인된 글입니다.</span>
+							<span style="font-size: 24px; color: #1266FF;">입양신청이 승인된 글입니다.</span>
 						</c:if>
 						<c:if test="${Adopt.state==2 }">
-							<span style="font-size: 20px; color: #f38181;">입양신청이 거절된 글입니다.</span>
+							<span style="font-size: 24px; color: #f38181;">입양신청이 거절된 글입니다.</span>
 						</c:if>
 						<c:if test="${Adopt.state==100 }">
-							<span style="font-size: 20px; color: #000000;">Together 친구가 새 가족을 만나, 입양신청이 마감되었습니다.</span>
+							<span style="font-size: 24px; color: #000000;">Together 친구가 새 가족을 만나, 입양신청이 마감되었습니다.</span>
 						</c:if>	
         			</div>
         		</div>

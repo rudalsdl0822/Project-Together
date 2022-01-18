@@ -64,6 +64,40 @@
 			$("#span_like").attr("class","glyphicon glyphicon-heart-empty");
 		}
 	}
+	function fn_swal_fire_login(){
+		Swal.fire({ 
+			title : '로그인이 필요합니다. 로그인하시겠습니까?',
+			icon: 'question', 
+			showCancelButton: true, 
+			confirmButtonColor: '#3085d6', 
+			cancelButtonColor: '#d33',
+			confirmButtonText: '확인', 
+			cancelButtonText: '취소'
+		 }).then((result) => { 
+			 if (result.isConfirmed) { 
+				 fn_loginPopup();
+		     }else{
+				 return; 
+		     }
+		 })
+	}
+	function fn_swal_fire_like_delete(){
+		Swal.fire({ 
+			title: '정말 관심등록을 해제하시겠습니까?', 
+			icon: 'question', 
+			showCancelButton: true, 
+			confirmButtonColor: '#3085d6', 
+			cancelButtonColor: '#d33',
+			confirmButtonText: '해제', 
+			cancelButtonText: '취소' 
+		}).then((result) => { 
+			if (result.isConfirmed) { 
+				fn_like_delete(p_id);
+			}else{
+				 return; 
+		    }
+		})
+	}
 	
 	var member_id="${sessionScope.id }";
 	var pet_id="${pet.id }";
@@ -84,31 +118,18 @@
 			$("#btn_like").click(function(){
 				// 로그인 체크
 				if(member_id==""){
-					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
-					if(flag){
-						fn_loginPopup();
-					}else{
-						return; 
-					}
+					fn_swal_fire_login();
 				}else if( $("#btn_like").attr("ifLikePet")=="false" ){  
 					fn_like();
 				}else{ 
-					var flag=confirm("정말 관심등록을 해제하시겠습니까?");
-					if(flag){
-						fn_like_delete();
-					}
+					fn_swal_fire_like_delete();
 				}
 			});
 			
 			// 입양신청 버튼 클릭
 			$("#btn_go_AdoptForm").click(function(){
 				if(member_id==""){
-					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
-					if(flag){
-						fn_loginPopup();
-					}else{
-						return;
-					}
+					fn_swal_fire_login();
 				}else{
 					location.href="/Adopt/AdoptForm?id=${pet.id}";
 				}
@@ -120,12 +141,7 @@
 				var form=document.form_addReply;
 				
 				if(member_id==""){
-					var flag=confirm("로그인이 필요합니다. 로그인하시겠습니까?");
-					if(flag){
-						fn_loginPopup();
-					}else{
-						return; 
-					}
+					fn_swal_fire_login();
 				}else{
 					form.submit();
 				}
