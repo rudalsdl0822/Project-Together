@@ -143,20 +143,20 @@
       
      <div class="form-group">
       <label for="inputAge">성명</label>
-      <input type="text" class="form-control" id="name" name="name" value="${m.name}" placeholder="성명을 입력하세요.">
+      <input type="text" class="form-control" id="name" name="name" value="${m.name}" placeholder="성명을 입력하세요." readonly>
     </div>
     
   
        <div class="form-check">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="gender" id="gender" value="1" <c:if test="${m.gender==1}">checked</c:if>>
+          <input type="radio" class="form-check-input" name="gender" id="gender" value="1" <c:if test="${m.gender==1}">checked</c:if><c:if test="${m.gender==2}">disabled</c:if>>
           남성
         </label>
       </div>
       
       <div class="form-check">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="gender" id="gender" value="2" <c:if test="${m.gender==2}">checked</c:if>>
+          <input type="radio" class="form-check-input" name="gender" id="gender" value="2" <c:if test="${m.gender==2}">checked</c:if><c:if test="${m.gender==1}">disabled</c:if>>
           여성
         </label>
       </div>
