@@ -50,6 +50,33 @@ var str= "";
 			
 		});  */
 		
+// 댓글 입력(비동기)
+$(document).on("click","#btn_addReply",function(){
+			if (member_id == "" || member_id == null) {
+				var flag = confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+				if (flag) {
+					fn_loginPopup();
+				} else {
+					return false;
+				}
+			} else if($("#reply_content").val()=="" || $("#reply_content").val()==null) {
+				alert("댓글 내용을 입력해주세요.");
+				$("#reply_content").focus();
+				return false;
+			} else {
+				$.post("/reviewReply/add",{
+					board_num:board_num,
+					writer_id:member_id,
+					parent_reply_num:-1
+				}).done(function(data){
+					alert("댓글이 등록되었습니다!");
+					$("#reply_content").val("");
+					getAllReply();
+				});
+			}
+			
+		});
+
 		// 댓글 전체 리스트 불러오기 (비동기)
 		$.ajax({
 			url:"/reviewReply/getReplyList",
@@ -138,6 +165,21 @@ var str= "";
 		return str;
  	}
 	
+
+
+	 function getAllReply() {
+		$.ajax({
+			url:"/reviewReply/getReplyList",
+			data: "board_num="+board_num,
+			type:'post',
+			success: function(result){
+				var arr = $.parseJSON(result);
+				makeList(arr);
+			}
+			
+		});
+	 }
+
 	var makeList = function(arr){
  		for (x=0;x<arr.length;x++){
  			var html = makeTbl(arr[x]);
