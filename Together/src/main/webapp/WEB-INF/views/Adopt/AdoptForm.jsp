@@ -62,6 +62,24 @@
 		return true;
 	}
 	
+	function fn_swal_fire_adopt(){
+		Swal.fire({ 
+			title: '정말 ${pet.name}를 입양신청하시겠습니까?', 
+			icon: 'question', 
+			showCancelButton: true, 
+			confirmButtonColor: '#3085d6', 
+			cancelButtonColor: '#d33',
+			confirmButtonText: '신청', 
+			cancelButtonText: '취소' 
+		}).then((result) => { 
+			if (result.isConfirmed) { 
+				fn_form_submit("form_adoptWish");
+			}else{
+				return false; 
+		    }
+		});	
+	}
+	
 	
 	var member_id="${sessionScope.id}";
 	var type="${sessionScope.type}";
@@ -98,11 +116,7 @@
 				if(checkData==false) return;
 				
 				// 입양신청을 한번 더 확인합니다.
-				var flag=confirm("정말 ${pet.name}를 입양신청하시겠습니까?");
-				
-				if(flag){
-					fn_form_submit("form_adoptWish");
-				}
+				fn_swal_fire_adopt();
 				
 			});
 		});

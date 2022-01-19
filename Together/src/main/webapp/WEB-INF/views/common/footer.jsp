@@ -38,18 +38,28 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/unslider-min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/template.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	
 	<script>
 	$(document).ready(function(){
 		$('#a_logout').click(function(){
-			var flag = confirm("로그아웃 하시겠습니까?");
-			if (flag){
-				alert("로그아웃 되었습니다.");
-				location.href="/Member/logout";
-			} else {
-				return;
-			}
-		});
-	});
+	   Swal.fire({
+           title: '로그아웃 하시겠습니까?',
+           icon: 'question',
+           showCancelButton: true,
+           confirmButtonColor: '#3085d6',
+           cancelButtonColor: '#d33',
+           confirmButtonText: '확인',
+           cancelButtonText: '취소'
+       }).then((result) => {
+           if (result.isConfirmed) {
+           alert("로그아웃 되었습니다.");
+		   location.href="/Member/logout";
+           }else{
+        	   return;
+           }
+       })
+   });
+});
 	</script>
 	
