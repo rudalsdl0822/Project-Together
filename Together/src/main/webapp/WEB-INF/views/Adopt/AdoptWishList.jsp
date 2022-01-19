@@ -69,19 +69,43 @@
 				var num=$(this).attr("num");
 				
 				if( $(this).text()=="입양 승인" ){
-					var flag=confirm("정말로 입양을 승인하겠습니까?");
-					if(flag==false) return;
+					Swal.fire({ 
+						title: '정말로 입양을 승인하겠습니까?', 
+						icon: 'question', 
+						showCancelButton: true, 
+						confirmButtonColor: '#3085d6', 
+						cancelButtonColor: '#d33',
+						confirmButtonText: '승인', 
+						cancelButtonText: '취소' 
+					}).then((result) => { 
+						if (result.isConfirmed) { 
+							var sel=document.getElementById("cntPerPage").value;
+							var state=document.getElementById("state").value;
+							location.href="/Adopt/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+						}else{
+							return false; 
+					    }
+					});	
 					
-					var sel=document.getElementById("cntPerPage").value;
-					var state=document.getElementById("state").value;
-					location.href="/Adopt/AdoptAccept?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+					
 				}else if( $(this).text()=="입양 거절" ){
-					var flag=confirm("정말로 입양을 거절하겠습니까?");
-					if(flag==false) return;
-					
-					var sel=document.getElementById("cntPerPage").value;
-					var state=document.getElementById("state").value; 
-					location.href="/Adopt/AdoptReject?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+					Swal.fire({ 
+						title: '정말로 입양을 거절하겠습니까?', 
+						icon: 'question', 
+						showCancelButton: true, 
+						confirmButtonColor: '#3085d6', 
+						cancelButtonColor: '#d33',
+						confirmButtonText: '거절', 
+						cancelButtonText: '취소' 
+					}).then((result) => { 
+						if (result.isConfirmed) { 
+							var sel=document.getElementById("cntPerPage").value;
+							var state=document.getElementById("state").value; 
+							location.href="/Adopt/AdoptReject?num="+num+"&nowPage=${paging.nowPage}&cntPerPage="+sel+"&state="+state;
+						}else{
+							return false; 
+					    }
+					});
 				}
 			});
 			

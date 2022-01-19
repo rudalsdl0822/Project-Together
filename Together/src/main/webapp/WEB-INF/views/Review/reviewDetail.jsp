@@ -41,16 +41,239 @@ var str= "";
 			$("#bigImg").attr("src",this.src);
 		});
 		
-		// 댓글 입력 (동기)
-		/* $("#btn_addReply").click(function(){
+	// 댓글 입력(비동기)
+		$(document).on("click","#btn_addReply",function(){
+			if (member_id == "" || member_id == null) {
+				var flag = confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+				if (flag) {
+					fn_loginPopup();
+				} else {
+					return false;
+				}
+			} else if($("#reply_content").val()=="" || $("#reply_content").val()==null) {
+				alert("댓글 내용을 입력해주세요.");
+				$("#reply_content").focus();
+				return false;
+			} else {
+				$.post("/reviewReply/add",{
+					board_num:board_num,
+					writer_id:member_id,
+					parent_reply_num:-1,
+					reply_content:$("#reply_content").val()
+				}).done(function(data){
+					alert("댓글이 등록되었습니다!");
+					$("#reply_content").val("");
+					var reply = $.parseJSON(data);
+					var html = makeTbl(reply);
+		 			$("#reply_list").append(html);
+				});
+			}
 			
-			var form=document.form_addReply;
+		});
 		
-				form.submit();
-			
-		});  */
-		
+
 		// 댓글 전체 리스트 불러오기 (비동기)
+		getAllReply();
+		
+		// 댓글 버튼 누르면 대댓글 작성폼이 나온다.
+		$(document).on("click","button[type='btn_rr']",function(){
+			var num = $(this).attr("num");
+			toggleReply(num);
+		});
+				
+		$(document).on("click","button[type='editReplyForm']",function(){
+			var num = $(this).attr("num");
+			var flag = confirm("수정하시겠습니까?");
+			if(flag) {
+				$.post("/reviewReply/get",{
+					reply_num:num
+				}).done(function(data){
+					var r = $.parseJSON(data);
+					if (r.parent_reply_num == -1){
+						// 부모 댓글인 경우
+						str = "<div id='edit_r_reply-"+r.reply_num+"' ><textarea id ='edit_content_"+r.reply_num+"' name='reply_content' class='form-control' rows='3'>";
+						str += r.reply_content+"</textarea>";
+						str += "<button id='btn_editReply' type='editReply' num='"+r.reply_num+"' class='btn btn-danger btn-block'>댓글 수정</button></div>";
+		 				$("#li_reply_"+num).replaceWith(str);
+		 				
+					} else {
+						// 자식 댓글인 경우
+						str = "<div id='edit_r_reply-"+r.reply_num+"' ><textarea id ='edit_content_"+r.reply_num+"' name='reply_content' class='form-control' rows='3'>";
+						str += r.reply_content+"</textarea>";
+						str += "<button id='btn_editChildReply' type='editReply2' num='"+r.reply_num+"' class='btn btn-danger btn-block'>댓글 수정</button></div>";
+						$("#li_childReply_"+num).replaceWith(str);
+					}
+				});
+				
+			} else {
+				return false;
+			}
+			
+		});
+		
+		$(document).on("click","button[type='editReply']",function(){
+			var reply_num = $(this).attr("num");
+			var txt = $("#edit_content_"+reply_num).val();
+			if(txt=="") {
+				alert("댓글 내용을 입력해주세요.");
+				$("#edit_content_"+reply_num).focus();
+				return false;
+			} else {
+				$.post("/reviewReply/edit",{
+					board_num:board_num,
+					writer_id:member_id,
+					reply_num:reply_num,
+					reply_content:txt
+				}).done(function(data){
+					var reply = $.parseJSON(data);
+					var html = makeRL(reply);
+					$("#edit_r_reply-"+reply_num).replaceWith(html);
+					alert("댓글이 수정되었습니다!");
+		 			
+				});
+			}
+		});
+		
+		$(document).on("click","button[type='editReply2']",function(){
+			var reply_num = $(this).attr("num");
+			var txt = $("#edit_content_"+reply_num).val();
+			if(txt=="") {
+				alert("댓글 내용을 입력해주세요.");
+				$("#edit_content_"+reply_num).focus();
+				return false;
+			} else {
+				$.post("/reviewReply/edit",{
+					board_num:board_num,
+					writer_id:member_id,
+					reply_num:reply_num,
+					reply_content:txt
+				}).done(function(data){
+					var reply = $.parseJSON(data);
+					var html = makeChildReply(reply);
+					$("#edit_r_reply-"+reply_num).replaceWith(html);
+					alert("댓글이 수정되었습니다!");
+		 			
+				});
+			}
+		});
+		
+		
+		$(document).on("click","button[type='deleteReply']",function(){
+			var num = $(this).attr("num");
+			var flag = confirm("삭제하시겠습니까?");
+			if(flag) {
+				$.post("/reviewReply/delete",{
+					reply_num:num
+				}).done(function(data){
+					var r = $.parseJSON(data);
+					if (r.parent_reply_num == -1){
+		 				$("#ul_reply_"+num).remove();
+		 				
+					} else {
+						$("#li_childReply_"+num).remove();
+						
+					}
+				});
+			} else {
+				return false;
+			}
+			
+		});
+		
+		$(document).on("click","button[type='addReply2']",function(){
+			var parent_reply_num = $(this).attr("num");
+			var txt = $("#childReply_content_"+parent_reply_num).val();
+			if (member_id == "" || member_id == null) {
+				var flag = confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+				if (flag) {
+					fn_loginPopup();
+				} else {
+					return false;
+				}
+			} else if(txt=="") {
+				alert("댓글 내용을 입력해주세요.");
+				$("#childReply_content_"+parent_reply_num).focus();
+				return false;
+			} else {
+				$.post("/reviewReply/add",{
+					board_num:board_num,
+					writer_id:member_id,
+					parent_reply_num:parent_reply_num,
+					reply_content:txt
+				}).done(function(data){
+					alert("댓글이 등록되었습니다!");
+					$("#childReply_content_"+parent_reply_num).val("");
+					var reply = $.parseJSON(data);
+					var html = makeChildReply(reply);
+					$(`#input_r_reply-${"${parent_reply_num}"}`).slideToggle();
+		 			$("#childReply_list_"+parent_reply_num).append(html);
+				});
+			}
+		});
+		
+	});
+	
+ 	var makeTbl = function(reply){
+		// 댓글 리스트 + 대댓글, 수정, 삭제 버튼
+		str = "<ul id='ul_reply_"+reply.reply_num+"'>";
+		str += makeRL(reply);
+		str += "</ul>";
+		return str;
+ 	}
+	
+ 	function makeRL (reply) {
+ 		str = "<li class='li_reply' id='li_reply_"+reply.reply_num+"'><div class='reply-writer'>";
+		str += "<span class='regency' style='font-weight: bold;'>ID : " + reply.writer_id + "</span></div>";
+		str += "<div class='reply-content' id='reply-"+reply.reply_num+"'>" + reply.reply_content + "</div>";
+		str += "<div class='reply_date' align='right' style='padding: 0 1em;'>" + reply.reply_date + "</div>";
+		str += "<div class='reply-menu' align='right'>";
+		str += "<button type='btn_rr' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+		str += "<span class='glyphicon glyphicon-share-alt' aria-hidden='true'></span>댓글";
+		str += "</button>";
+		
+		if (member_id == reply.writer_id || member_type == "2") {
+			str += "<button type='editReplyForm' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+			str += "<span class='glyphicon glyphicon-erase' aria-hidden='true'></span>수정</button>";
+			str += "<button type='deleteReply' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+			str += "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>삭제";
+			str += "</button>";
+		}
+		str += "</div></li>";
+		
+		// 대댓글 작성폼
+		str += "<div id='input_r_reply-"+reply.reply_num+"' style='display:none;'><textarea id ='childReply_content_"+reply.reply_num+"' name='reply_content' class='form-control' rows='3' placeholder='댓글을 입력하세요.'>";
+		str += "</textarea><button id='btn_addChildReply' type='addReply2' num='"+reply.reply_num+"' class='btn btn-danger btn-block'>댓글 등록</button></div><div id='childReply_list_"+reply.reply_num+"'>";
+	
+		// 대댓글 리스트 + 수정, 삭제 버튼
+		if (reply.child_reply !="undefined" && reply.child_reply !=null){
+			for (i=0;i<reply.child_reply.length;i++){
+				str += makeChildReply(reply.child_reply[i]);
+			}
+		}
+		str += "</div>";
+ 		return str;
+ 	}
+ 	
+ 	
+ 	
+	function makeChildReply(reply){
+		str = "<li class='li_childReply' id='li_childReply_"+reply.reply_num+"'><div class='childReply-writer'>";
+		str += "<span class='regency' style='font-weight: bold;'>ID : " + reply.writer_id + "</span></div>";
+		str += "<div class='childReply-content' id='reply-"+reply.reply_num+"'>" + reply.reply_content + "</div>";
+		str += "<div class='childReply_date' align='right' style='padding: 0 1em;'>" + reply.reply_date + "</div>";
+		str += "<div class='reply-menu' align='right'>";
+		if (member_id == reply.writer_id || member_type == "2"){
+			str += "<button type='editReplyForm' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+			str += "<span class='glyphicon glyphicon-erase' aria-hidden='true'></span>수정</button>";
+			str += "<button type='deleteReply' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+			str += "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>삭제";
+			str += "</button>";
+		}
+		str += "</div></li>";
+		return str;
+	}
+
+	 function getAllReply() {
 		$.ajax({
 			url:"/reviewReply/getReplyList",
 			data: "board_num="+board_num,
@@ -61,83 +284,9 @@ var str= "";
 			}
 			
 		});
-		
-		// 댓글 버튼 누르면 대댓글 작성폼이 나온다.
-		$(document).on("click","button[type='btn_rr']",function(){
-			var num = $(this).attr("num");
-			toggleReply(num);
-		});
-				
-		$(document).on("click","button[type='editReply']",function(){
-			var num = $(this).attr("num");
-			
-		});
-		
-		$(document).on("click","button[type='deleteReply']",function(){
-			var num = $(this).attr("num");
-			
-		});
-		
-	});
-/* 
- 	var num = "${r.num}";
-	
-	function deleteReview() {
-		console.log(num);
-		if(confirm("삭제하시겠습니까?")) {
-			location.href="${pageContext.request.contextPath}/Review/delete?num=" + num;
-		}
-	}
- */
-	
- 	var makeTbl = function(reply){
-		// 댓글 리스트 + 대댓글, 수정, 삭제 버튼
-		str = "<ul id='ul_reply_"+reply.reply_num+"'><li class='li_reply'><div class='reply-writer'>";
-		str += "<span class='regency' style='font-weight: bold;'>ID : " + reply.writer_id + "</span></div>";
-		str += "<div class='reply-content' id='reply-"+reply.reply_num+"'>" + reply.reply_content + "</div>";
-		str += "<div class='reply_date' align='right' style='padding: 0 1em;'>" + reply.reply_date + "</div>";
-		str += "<div class='reply-menu' align='right'>";
-		str += "<button type='btn_rr' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
-		str += "<span class='glyphicon glyphicon-share-alt' aria-hidden='true'></span>댓글";
-		str += "</button>";
-		
-		if (member_id == reply.writer_id || member_type == "2") {
-			str += "<button type='editReply' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
-			str += "<span class='glyphicon glyphicon-erase' aria-hidden='true'></span>수정</button>";
-			str += "<button type='deleteReply num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
-			str += "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>삭제";
-			str += "</button>";
-		}
-		str += "</div></li>";
-		
-		// 대댓글 작성폼
-		str += "<div id='input_r_reply-"+reply.reply_num+"' style='display:none;'><textarea id ='childReply_content' name='reply_content' class='form-control' rows='3' placeholder='댓글을 입력하세요.'>";
-		str += "</textarea><button id='btn_addChildReply' type='submit' class='btn btn-danger btn-block'>댓글 등록</button></div>";
-	
-		// 대댓글 리스트 + 수정, 삭제 버튼
-		if (reply.child_reply !="undefined" && reply.child_reply !=null){
-			for (i=0;i<reply.child_reply.length;i++){
-				str += "<li class='li_childReply'><div class='childReply-writer'>";
-				str += "<span class='regency' style='font-weight: bold;'>ID : " + reply.child_reply[i].writer_id + "</span></div>";
-				str += "<div class='childReply-content' id='reply-"+reply.child_reply[i].reply_num+"'>" + reply.child_reply[i].reply_content + "</div>";
-				str += "<div class='childReply_date' align='right' style='padding: 0 1em;'>" + reply.child_reply[i].reply_date + "</div>";
-				str += "<div class='reply-menu' align='right'>";
-				/* str += "<button type='btn_rr_' onclick='toggleReply(" + reply.reply_num + ")' class='btn btn-link btn-sm'>";
-				str += "<span class='glyphicon glyphicon-share-alt' aria-hidden='true'></span>댓글</button>"; */
-				if (member_id == reply.child_reply[i].writer_id || member_type == "2"){
-					str += "<button type='editReply' num='"+reply.child_reply[i].reply_num+"' class='btn btn-link btn-sm'>";
-					str += "<span class='glyphicon glyphicon-erase' aria-hidden='true'></span>수정</button>";
-					str += "<button type='deleteReply num='"+reply.child_reply[i].reply_num+"' class='btn btn-link btn-sm'>";
-					str += "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>삭제";
-					str += "</button>";
-				}
-				str += "</div></li>";		
-			}
-		}
-		str += "</ul>";
-		return str;
- 	}
-	
+	 }
+	 
+
 	var makeList = function(arr){
  		for (x=0;x<arr.length;x++){
  			var html = makeTbl(arr[x]);
@@ -151,53 +300,13 @@ var str= "";
 			"width=460px, height=340px, scrollbars=no, top=100px, left=300px, location=no");
 		return false;
 	}
- /* 
- 	 // 대댓글 등록창 (동기)
-	function toggleReply(reply_num) {
-		$(`#form-${"${reply_num}"}`).slideToggle();
-	} */
-	
+
 	 // 대댓글 등록창 (비동기)
 	function toggleReply(reply_num) {
 		$(`#input_r_reply-${"${reply_num}"}`).slideToggle();
 	}
  	 
  	 
-	// 댓글|대댓글 수정
-	replyList = {};
-	function editReply(reply_num) {
-            const reply = $(`#reply-${"${reply_num}"}`);
-            if (replyList[reply_num] === undefined) {
-                replyList[reply_num] = reply.text();
-                let html = `
-                    <form action="${pageContext.request.contextPath}/reviewReply/edit" method="post">
-                        <div>
-                            <textarea name="reply_content" class="form-control" rows="3" style="width:100%;">${"${reply.text()}"}</textarea>
-                            <button class="btn btn-danger btn-block" type="submit">댓글 수정</button>
-                        </div>
-                        <input type="hidden" name="reply_num" value="${"${reply_num}"}" />
-                    </form>`;
-                reply.css("white-space", "normal");
-                reply.html(html);
-            } else {
-            	reply.text(replyList[reply_num]);
-            	reply.css("white-space", "pre");
-                replyList[reply_num] = undefined;
-            }
-        }
-	
-	// 댓글|대댓글 삭제
-	function deleteReply(reply_num) {
-            $.ajax({
-                type: "post",
-                url: "${pageContext.request.contextPath}/reviewReply/delete",
-                data: { reply_num },
-                success: function (response) {
-                    location.href = location.href.split("#")[0];
-                },
-            });
-        }
-	 
 </script>
 	
 </head>

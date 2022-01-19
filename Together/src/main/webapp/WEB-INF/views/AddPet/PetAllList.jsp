@@ -16,20 +16,31 @@
 	</style>
 	
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script>
 		$(document).ready(function(){
-			$("button[type=button][name=deletePet]").click(function(){
-				var petId=$(this).attr("num");
-				console.log(petId);
-				
-				if(confirm("정말 삭제하시겠습니까?")){
-					alert("삭제가 완료되었습니다");
-					location.href="${pageContext.request.contextPath}/Addpet/DeletePet?id="+petId;
-				}else{
-					alert("삭제가 취소되었습니다");
-				}
-			});
-		});
+		$("button[type=button][name=deletePet]").click(function(){
+			var petId=$(this).attr("num");
+			console.log(petId);
+			
+		 Swal.fire({
+             title: '정말 삭제하시겠습니까?',
+             icon: 'question',
+             showCancelButton: true,
+             confirmButtonColor: '#3085d6',
+             cancelButtonColor: '#d33',
+             confirmButtonText: '삭제',
+             cancelButtonText: '취소'
+         }).then((result) => {
+             if (result.isConfirmed) {
+                 alert("삭제가 완료되었습니다")
+             location.href="${pageContext.request.contextPath}/Addpet/DeletePet?id="+petId;
+             }else {
+            	 alert("삭제가 취소되었습니다");
+             }
+         })
+     });
+ });
 		
 		function fn_petAllState(){
 			location.href = "${pageContext.request.contextPath}/AddPet/PetAllList";
@@ -261,17 +272,26 @@
 	 -->
 	
 	<script>
-	$(document).ready(function(){
-		$('#a_logout').click(function(){
-			var flag = confirm("로그아웃 하시겠습니까?");
-			if (flag){
-				alert("로그아웃 되었습니다.");
-				location.href="/Member/logout";
-			} else {
-				return;
-			}
-		});
-	});
+	
+		$(document).ready(function(){
+			$('#a_logout').click(function(){
+			   Swal.fire({
+                   title: '로그아웃 하시겠습니까?',
+                   icon: 'question',
+                   showCancelButton: true,
+                   confirmButtonColor: '#3085d6',
+                   cancelButtonColor: '#d33',
+                   confirmButtonText: '확인',
+                   cancelButtonText: '취소'
+               }).then((result) => {
+                   if (result.isConfirmed) {
+                		alert("로그아웃 되었습니다.");
+                       location.href="/Member/logout";
+                   }
+               })
+           });
+       });
+
 	</script>
 
 </body>
