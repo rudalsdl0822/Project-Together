@@ -98,161 +98,182 @@
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
+
 <script>
-	$(document).ready(function() {
-		var flag = false;
-		var str = "";
-		var num = ${ask.num};
-		
-		// 답변과 답변작성부분 우선 숨김
-		$('#answerResult').hide();
-		$('#input_answer').hide();
-		
-		// 답변이 있는 지 확인해서 답변이 있다면 추가해주는 함수
-		getAnswer(num);
-		
-		
-		$(document).on("click","#btn_submit",function(){
-			// 답변 작성 버튼을 누르면 답변 입력되도록 하는 함수
-			if ($('#ans_content').val() == ""){
-				// 답변란 내용 유효성 체크
-				alert("답변을 입력해주세요.");
-				$('#ans_content').focus();
-				return false;
-			} 
-			flag = confirm("답변을 입력하시겠습니까?");
+	var flag = false;
+	var str = "";
+	var num = ${ask.num};
+	var member_type = ${sessionScope.type};
+	var member_id = "${sessionScope.id}";
+	
+		$(document).ready(function() {
+			// 답변과 답변작성부분 우선 숨김
+			$('#answerResult').hide();
+			$('#input_answer').hide();
 			
-			if (flag){
-				var type = $("#btn_submit").attr("type");
-				if (type=="submit"){
-					$.post("/Ask/AddAnswer",
+			// 답변리스트 불러오기
+			getAnswer(num);
+			
+			
+			$(document).on("click","#btn_submit",function(){
+				// 답변 작성 버튼을 누르면 답변 입력 혹은 수정
+				
+				if ($('#ans_content').val() == ""){
+					// 답변란 내용 유효성 체크
+					alert("답변을 입력해주세요.");
+					$('#ans_content').focus();
+					return false;
+				} 
+				flag = confirm("답변을 입력하시겠습니까?");
+				
+				if (flag){
+					var type = $("#btn_submit").attr("type");
+					if (type=="submit"){
+						// 답변 입력
+						var url = "/Ask/AddAnswer";
+					} else if (type=="button"){
+						// 답변 수정
+						var url = "/Ask/EditAnswer";
+					}
+					$.post(url,
 						{
-							admin_id:"${sessionScope.id}",
+							admin_id:member_id,
 							ans_content:$('#ans_content').val(),
 							ask_num:num
 							
 						}).done(function(data){
+							var ans = $.parseJSON(data);
+							
+							// 답변이 있으면 답변을 말풍선에 담는다.
+							makeAnsBal(ans);
+							
+							// 답변 보여주기
+							$('#answerResult').html(str);
+							$('#answerResult').show();
+							
+							$("#btn_submit").attr("type","submit");
+							// 답변 입력창 초기화 및 숨기기
+							$('#input_answer').val("");
+							$('#input_answer').hide();
+							
 							alert("답변이 등록되었습니다!");
-							getAnswer(num);
+							
 						});
-				} else if (type=="button"){
-					$.post("/Ask/EditAnswer",
-							{
-								admin_id:"${sessionScope.id}",
-								ans_content:$('#ans_content').val(),
-								ask_num:num
-								
-							}).done(function(data){
-								alert("답변이 수정 등록 되었습니다!");
-								$("#btn_submit").attr("type","submit");
-								$('#input_answer').val("");
-								$('#input_answer').hide();
-								getAnswer(num);
-							});
+					
+				} else {
+					return false;
 				}
-			} else {
-				return false;
-			}
-		});
-		
-		
-		$(document).on("click","#ask_edit",function(){
-			flag = confirm("문의글을 수정 하시겠습니까?");
-			if (flag){
-				alert("수정 페이지로 이동합니다.");
-				location.href="/Ask/OneAsk?num="+num+"&type=2";
-			}
-		});
-		
-		$(document).on("click","#ask_del",function(){
-			flag = confirm("정말 문의글을 삭제 하시겠습니까?");
-			if (flag){
-				$.post("/Ask/DelAsk",
-					{
-						num : num
-					}).done(function(json){
-						alert("문의가 삭제되었습니다.");
-						location.href="/Ask/AskList";
-					});
-			} else {
-				return false;
-			}
-		});
-		
-		$(document).on("click","#ans_edit",function(){
-			flag = confirm("문의 답변을 수정 하시겠습니까?");
-			if (flag){
+			});
+			
+			
+			$(document).on("click","#ask_edit",function(){
+				flag = confirm("문의글을 수정 하시겠습니까?");
+				if (flag){
+					alert("수정 페이지로 이동합니다.");
+					location.href="/Ask/OneAsk?num="+num+"&type=2";
+				}
+			});
+			
+			$(document).on("click","#ask_del",function(){
+				flag = confirm("정말 문의글을 삭제 하시겠습니까?");
+				if (flag){
+					$.post("/Ask/DelAsk",
+						{
+							num : num
+						}).done(function(json){
+							alert("문의가 삭제되었습니다.");
+							location.href="/Ask/AskList";
+						});
+				} else {
+					return false;
+				}
+			});
+			
+			$(document).on("click","#ans_edit",function(){
+				flag = confirm("문의 답변을 수정 하시겠습니까?");
+				if (flag){
+					$.post("/Ask/getAnswer",
+							{
+								ask_num:num
+							}).done(function(data){
+									var ans = $.parseJSON(data);
+									var content = ans.ans_content;
+									if (content != null && content != ""){
+										$("#ans_content").val(content);
+										// 답변 보여주기
+										$('#answerResult').html("");
+										$('#answerResult').hide();
+										$("#input_answer").show();
+										$("#btn_submit").attr("type","button");
+										
+									} 
+							});
+				} else {
+					return false;
+				}
+			});
+			
+			$(document).on("click","#ans_del",function(){
+				flag = confirm("정말 삭제 하시겠습니까?");
+				if (flag){
+					$.post("/Ask/DelAns",
+						{
+							ask_num :num
+						}).done(function(){
+							$("#ans_content").val("");
+							$('#input_answer').show();
+							
+							$('#answerResult').html("");
+							$('#answerResult').hide();
+							alert("문의 답변이 삭제되었습니다.");
+							
+						});
+				} else {
+					return false;
+				}
+			});
+			
+	
+			function getAnswer(num){
+				// 답변 리스트 가져오는 함수
 				$.post("/Ask/getAnswer",
 						{
 							ask_num:num
 						}).done(function(data){
 								var ans = $.parseJSON(data);
 								var content = ans.ans_content;
-								if (content != null && content != ""){
-									$("#ans_content").val(content);
-									// 답변 보여주기
+								if (content == "" || content == null) {
+									// 답변이 없다면,
+									if (member_type == 2){
+										// 관리자의 경우 답변이 없으면 답변 입력란을 보여준다
+										$('#input_answer').show();
+									}
+									// 답변부분은 reset 후 숨겨준다.
 									$('#answerResult').html("");
 									$('#answerResult').hide();
-									$("#input_answer").show();
-									$("#btn_submit").attr("type","button");
+								}
+								else if (content != null && content != ""){
+									// 답변이 있으면 답변을 말풍선에 담는다.
+									makeAnsBal(ans);
+									// 답변 보여주기
+									$('#answerResult').html(str);
+									$('#answerResult').show();
 									
 								} 
 						});
-			} else {
-				return false;
+			}
+			
+			function makeAnsBal(ans){
+				// 답변 말풍선을 만드는 함수
+				str = "<div id='askAnswer' class='balloon_2'><p>A.</p><span id='answer'>"+ans.ans_content+"</span><div id='ansInfo'>";
+				str += ans.ans_date + " 관리자: "+ans.admin_id;
+				str += "<c:if test='${sessionScope.type==2}'><br>";
+				str += "<button class='edit' id='ans_edit'>수정</button><button class='del' id='ans_del'>삭제</button>";
+				str += "</c:if></div></div>";
+				return str;
 			}
 		});
-		
-		$(document).on("click","#ans_del",function(){
-			flag = confirm("정말 삭제 하시겠습니까?");
-			if (flag){
-				$.post("/Ask/DelAns",
-					{
-						ask_num :num
-					}).done(function(){
-						alert("문의 답변이 삭제되었습니다.");
-						$('#ans_content').val("");
-						getAnswer(num);
-						
-					});
-			} else {
-				return false;
-			}
-		});
-		
-
-		function getAnswer(num){
-			// 답변 리스트 가져오는 함수
-			$.post("/Ask/getAnswer",
-					{
-						ask_num:num
-					}).done(function(data){
-							var ans = $.parseJSON(data);
-							if (ans.ans_content == "" || ans.ans_content == null) {
-								if (${sessionScope.type==2}){
-									// 관리자의 경우 답변이 없으면 답변 입력란을 보여준다
-									$('#input_answer').show();
-								} 
-								$('#answerResult').html("");
-								$('#answerResult').hide();
-							}
-							else if (ans.ans_content != null && ans.ans_content != ""){
-								// 답변이 있으면 답변을 말풍선에 담아 보여준다.
-								str = "<div id='askAnswer' class='balloon_2'><p>A.</p><span id='answer'>"+ans.ans_content+"</span><div id='ansInfo'>";
-								str += ans.ans_date + " 관리자: "+ans.admin_id;
-								str += "<c:if test='${sessionScope.type==2}'><br>";
-								str += "<button class='edit' id='ans_edit'>수정</button><button class='del' id='ans_del'>삭제</button>";
-								str += "</c:if></div></div>";
-								// 답변 보여주기
-								$('#answerResult').html(str);
-								$('#answerResult').show();
-								
-							} 
-					});
-		}
-		
-	});
-</script>
+	</script>
 
 </head>
 <body data-target="#nino-navbar" data-spy="scroll"
