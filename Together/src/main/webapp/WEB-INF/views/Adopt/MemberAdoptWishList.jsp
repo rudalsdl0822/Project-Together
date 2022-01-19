@@ -35,36 +35,32 @@
 	/* select 함수 끝*/
 		
 		$(document).ready(function(){
-		   $("button").click(function(){
-			var num=$(this).attr("num");
+			$("button").click(function(){
+				var num=$(this).attr("num");
 			
-			Swal.fire({ 
-				title: '정말로 ' +num+'번 입양신청글을 삭제하겠습니까?', 
-				icon: 'question', 
-				showCancelButton: true, 
-				confirmButtonColor: '#3085d6', 
-				cancelButtonColor: '#d33',
-				 confirmButtonText: '삭제', 
-				cancelButtonText: '취소' 
+				Swal.fire({ 
+					title: '정말로 ' +num+'번 입양신청글을 삭제하겠습니까?', 
+					icon: 'question', 
+					showCancelButton: true, 
+					confirmButtonColor: '#3085d6', 
+					cancelButtonColor: '#d33',
+					confirmButtonText: '삭제', 
+					cancelButtonText: '취소' 
 				}).then((result) => { 
 					if (result.isConfirmed) { 
 						$.post("/Adopt/MemberAdoptDelete",{num:num})
 						.done(function(json){
-						location.reload();
+							location.reload();
 				        })
 	            		.fail(function(){
-				         alert("error");
-			                  });
+				        	alert("error");
+			            });
 					}else{
 						return;
 					}
-	          	})
-		      });
-	    	});
-		
-		
-		
-		
+				})
+		     });
+	    });
 		
 	</script>
 <!-- 함수 끝-->
