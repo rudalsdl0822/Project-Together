@@ -108,7 +108,8 @@ public class AskController {
 	@PostMapping(value = "/Ask/AddAnswer")
 	public ModelAndView addAnswer(Answer answer) {
 		ans_service.addAns(answer);
-		ModelAndView mav = new ModelAndView("/Ask/Json");
+		ModelAndView mav = new ModelAndView("/Ask/Answer");
+		mav.addObject("a",answer);
 		return mav;
 	}
 
@@ -176,7 +177,8 @@ public class AskController {
 	@RequestMapping(value="/Ask/EditAnswer")
 	public ModelAndView editAns(Answer answer) {
 		ans_service.editAns(answer);
-		ModelAndView mav = new ModelAndView("/Ask/Json");
+		ModelAndView mav = new ModelAndView("/Ask/Answer");
+		mav.addObject("a",answer);
 		return mav;
 		
 	}
