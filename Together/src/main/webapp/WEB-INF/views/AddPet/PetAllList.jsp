@@ -47,33 +47,11 @@
 		}
 		
 		function fn_petState(num){
-			var petStateLoca = "${pageContext.request.contextPath}/AddPet/StateList?page=PetAllList&state=";
-			
-			if(num==1){
-				location.href=petStateLoca+num;
-			}else if(num==2){
-				location.href=petStateLoca+num;
-			}else if(num==3){
-				location.href=petStateLoca+num;
-			}else if(num==4){
-				location.href=petStateLoca+num;
-			}else{
-				alert("error");
-			}
+			location.href="${pageContext.request.contextPath}/AddPet/StateList?page=PetAllList&state="+num;
 		}
 		
 		function fn_petLocation(num){
-			var petAllLoca = "${pageContext.request.contextPath}/AddPet/LocationAllList?location=";
-			
-			if(num==1){
-				location.href=petAllLoca+num;
-			}else if(num==2){
-				location.href=petAllLoca+num;
-			}else if(num==3){
-				location.href=petAllLoca+num;
-			}else{
-				alert("error");
-			}
+			location.href = "${pageContext.request.contextPath}/AddPet/LocationAllList?location="+num;
 		}
 		
 	</script>

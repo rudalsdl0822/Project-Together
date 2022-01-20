@@ -58,27 +58,31 @@
 					$('#form_addPet').submit();
 				});
 				
-				$('input[type=file]').change(function(){
-					if ($(this).val != "" && $(this).val != null) {
-						// 확장자 체크
-						var ext = $(this).val().split(".").pop().toLowerCase();
-						if ($.inArray(ext, ["gif","jpg","jpeg","png"])==-1){
-							alert("이미지 파일(gif, jpg, jpeg, png 파일)만 업로드 가능합니다.");
+		$(document).on("change","input[type=file]",function(){
+			if ($(this).val != "" && $(this).val != null) {
+				var files = $(this)[0].files;
+				var ext = $(this).val().split(".").pop().toLowerCase();
+				
+				// 확장자 체크
+				if ($.inArray(ext, ["gif","jpg","jpeg","png",""])==-1){
+					alert("이미지 파일(gif, jpg, jpeg, png 파일)만 업로드 가능합니다.");
+			    	$(this).val("");
+			        return false;
+				} else {
+					// 용량 체크
+					for (var i=0; i<files.length;i++){
+						fileSize = files[i].size;
+						if (fileSize>=maxSize){
+							alert("이미지 파일 용량은 5MB 미만으로 등록 가능합니다.");
 							$(this).val("");
-							return;
-						}
-						
-						// 용량 체크
-						for (var i=0; i<this.files.length;i++){
-							fileSize = this.files[i].size;
-							if (fileSize>maxSize){
-								alert("이미지 파일 용량은 5MB 미만으로 등록 가능합니다.");
-								$(this).val("");
-								return;
-							}
+							return false;
 						}
 					}
-				});
+				}
+			} else {
+				return;
+			}
+		});
 				
 				
 			});
