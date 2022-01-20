@@ -297,7 +297,15 @@
 			function toggleReply(reply_num) {
 				$(`#input_r_reply-${"${reply_num}"}`).slideToggle();
 			}
-			  
+			 
+			// 후기게시글 삭제
+			function deleteReview() {
+				console.log(board_num);
+				if(confirm("삭제하시겠습니까?")) {
+					location.href="${pageContext.request.contextPath}/Review/delete?num=" + board_num;
+					alert("게시글이 삭제되었습니다!");
+				}
+			} 
 			  
 		</script>
 	
@@ -376,40 +384,30 @@
      </fieldset>
 </div>
 
-		<!-- Happy Client
-   		 ================================================== -->
+		<!-- 댓글리스트 시작 -->
 		<div class="container">
 			<h2 class="nino-sectionHeading" style="margin-top: 8%;">
 				<span class="nino-subHeading">Say Together</span> 댓글
 			</h2>
 
-			<!-- 댓글쓰기란 -->
+			<!-- 댓글 작성란 -->
 			<div class="sectionContent">
 				<div class="replys" id="reply-add-form" style="border-radius: 35px; padding: 5px 15px; margin: 30px;">
 
 					<!-- 댓글 등록폼 -->
-					<%-- <form name="form_addReply" action="${pageContext.request.contextPath}/reviewReply/add" method="post" class="add-reply-form"> --%> 
-						<div  id="input_reply">
-							<span class="regency" style="font-weight: bold; margin: 5px;">ID : ${sessionScope.id}</span>
-							<textarea id ="reply_content" name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
-							<button id="btn_addReply" type="button" class="btn btn-danger btn-block">댓글 등록</button>
-						</div>
-
-					<%-- <input type="hidden" name="writer_id" value="${sessionScope.id}" />
-						<input type="hidden" name="board_num" value="${r.num}" />
-						<input type="hidden" name="parent_reply_num" value="-1" /> 
-						  </form>  -->--%>
+					<div  id="input_reply">
+						<span class="regency" style="font-weight: bold; margin: 5px;">ID : ${sessionScope.id}</span>
+						<textarea id ="reply_content" name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
+						<button id="btn_addReply" type="button" class="btn btn-danger btn-block">댓글 등록</button>
+					</div>
 				</div>
 
 				<!-- 댓글목록 -->
-				<div id="reply_list">
-					
-				
-				</div>
+				<div id="reply_list"></div>
 			</div>
 		</div>
 		<!-- 댓글리스트 끝-->
-		<!--/#nino-happyClient-->
+
 	
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>  
 </body>
