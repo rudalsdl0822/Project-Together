@@ -92,7 +92,6 @@
 		}).then((result) => { 
 			if (result.isConfirmed) { 
 				fn_like_delete();
-				alert();
 			}else{
 				 return; 
 		    }
