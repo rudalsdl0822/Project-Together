@@ -5,15 +5,11 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pet.Together.Member.MemberService;
-
 @Service
 public class ReviewReplyService {
 
 	@Autowired
 	private ReviewReplyMapper mapper;
-	@Autowired
-	private MemberService memberService;
 
 //	댓글 추가
 	public void addReply(ReviewReply r) {
@@ -37,20 +33,7 @@ public class ReviewReplyService {
 	public ArrayList<ReviewReply> getReplyListByBoard_num(int board_num) {
 		//  게시글 번호가 board_num이고 부모댓값이 -1인 부모댓글들만 검색
 		ArrayList<ReviewReply> list = mapper.selectListByBoard_num(board_num);
-//		for (int i = 0; i < list.size(); i++) {
-//			list.set(i, getReply(list.get(i).getReply_num()));
-////			부모가 없는 댓글만 리스트에 넣음
-//			if (list.get(i).getParent_reply_num() != -1) {
-//				list.remove(i);
-//				i--;
-//			}
-//		}
 		return list;
-	}
-	
-//	작성자의 댓글목록
-	public ArrayList<ReviewReply> getReplyListByWriter_id(String writer_id) {
-		return mapper.selectListByWriter_id(writer_id);
 	}
 	
 //	대댓글만 가져오기
@@ -66,10 +49,6 @@ public class ReviewReplyService {
 //	댓글 삭제
 	public void deleteReply(int reply_num) {
 		mapper.delete(reply_num);
-	}
-	
-	public void deleteParentReply(int reply_num) {
-		mapper.deleteParent(reply_num);
 	}
 	
 //	현재 번호

@@ -19,15 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pet.Together.ReviewReply.ReviewReply;
-import com.pet.Together.ReviewReply.ReviewReplyService;
-
 @Controller
 public class ReviewController {
 	@Autowired
 	private ReviewService service;
-	@Autowired
-	private ReviewReplyService reviewReply_service;
 	@Autowired
 	private HttpSession session;
 
@@ -104,15 +99,6 @@ public class ReviewController {
 				mav.addObject("file" + j, files[j]);
 			}
 		}
-		/*
-		 * ArrayList<ReviewReply>
-		 * reply_list=reviewReply_service.getReplyListByBoard_num(num);
-		 * mav.addObject("replys", reply_list);
-		 * 
-		 * ArrayList<ReviewReply> childReply_list =
-		 * reviewReply_service.getListByParent_reply_num(num); mav.addObject("c_replys",
-		 * childReply_list);
-		 */
 		mav.addObject("r", r);
 		return mav;
 	}
