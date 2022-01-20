@@ -106,7 +106,15 @@ public class AddPetController {
 
 	
 
-	/* ================================cha 추가중================================ */
+	public ArrayList<Pet> list = new ArrayList<>();
+	public ArrayList<Integer> p_id_list=new ArrayList<>();
+	public void likePet() {
+		for(Pet p:list) {
+			p_id_list.add(p.getId());
+		}
+	}
+	
+	
 	
 	@RequestMapping(value="/AddPet/PetAllList")
 	public ModelAndView addPetList() {
@@ -119,12 +127,15 @@ public class AddPetController {
 	@RequestMapping(value="/AddPet/StateList")
 	public ModelAndView stateList(@RequestParam(value="state") int state, @RequestParam(value="page") String page) {
 		ModelAndView mav=new ModelAndView();
+		list = (ArrayList<Pet>)service.getStateList(state);
+		
 		if(page.equals("PetAllList")) {
 			mav = new ModelAndView("AddPet/PetAllList");			
 		} else if(page.equals("AdoptNotice")) {
-			mav = new ModelAndView("AddPet/AdoptNoticeList");			
+			mav = new ModelAndView("AddPet/AdoptNoticeList");
+			likePet();
+			mav.addObject("p_id_list", p_id_list);
 		}
-		ArrayList<Pet> list = (ArrayList<Pet>)service.getStateList(state);
 		mav.addObject("list", list);
 		return mav;
 	}
@@ -225,7 +236,9 @@ public class AddPetController {
 	@RequestMapping(value="/AddPet/LocationState23List")
 	public ModelAndView locationList(@RequestParam(value="location") int location) {
 		ModelAndView mav = new ModelAndView("AddPet/AdoptNoticeList");
-		ArrayList<Pet> list = (ArrayList<Pet>)service.getLocationState23(location);
+		list = (ArrayList<Pet>)service.getLocationState23(location);
+		likePet();
+		mav.addObject("p_id_list", p_id_list);
 		mav.addObject("list", list);
 		return mav;
 	}
@@ -237,12 +250,9 @@ public class AddPetController {
 	@RequestMapping(value = "/AddPet/AdoptNoticeList")
 	public ModelAndView adoptNoticeList() {
 		ModelAndView mav = new ModelAndView("AddPet/AdoptNoticeList");
-		ArrayList<Pet> list=(ArrayList<Pet>)service.getState23();
+		list=(ArrayList<Pet>)service.getState23();
 		
-		ArrayList<Integer> p_id_list=new ArrayList<>();
-		for(Pet p:list) {
-			p_id_list.add(p.getId());
-		}
+		likePet();
 		mav.addObject("p_id_list", p_id_list);
 		
 		mav.addObject("list",list);
@@ -260,7 +270,6 @@ public class AddPetController {
 		if(search != null && value != null) {
 			request.setAttribute("search", search);
 			request.setAttribute("value", value);
-			ArrayList<Pet> list = null;
 			
 			if(search.equals("breed")) {
 				list = (ArrayList<Pet>)service.getBreed(value);
@@ -271,6 +280,9 @@ public class AddPetController {
 			} else if(search.equals("writer_id")) {
 				list = (ArrayList<Pet>)service.getWriter_id(value);
 			}
+			
+			likePet();
+			model.addAttribute("p_id_list", p_id_list);
 			model.addAttribute("list", list);
 			
 			if(page.equals("PetAllList")) {

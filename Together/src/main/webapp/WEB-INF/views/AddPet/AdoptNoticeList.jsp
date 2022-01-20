@@ -116,29 +116,11 @@
 		}
 		
 		function fn_location(num){
-			var loca = "${pageContext.request.contextPath}/AddPet/LocationState23List?location=";
-			
-			if(num==1){
-				location.href=loca+num;
-			}else if(num==2){
-				location.href=loca+num;
-			}else if(num==3){
-				location.href=loca+num;
-			}else{
-				alert("error");
-			}
+			location.href="${pageContext.request.contextPath}/AddPet/LocationState23List?location="+num;
 		}
 		
 		function fn_state(num){
-			var stateLoca = "${pageContext.request.contextPath}/AddPet/StateList?page=AdoptNotice&state=";
-			
-			if(num==2){
-				location.href=stateLoca+num;
-			}else if(num==3){
-				location.href=stateLoca+num;
-			}else{
-				alert("error");
-			}
+			location.href="${pageContext.request.contextPath}/AddPet/StateList?page=AdoptNotice&state="+num;
 		}
 				
 	</script>
