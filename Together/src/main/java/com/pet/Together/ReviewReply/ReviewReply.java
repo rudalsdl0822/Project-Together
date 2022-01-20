@@ -15,14 +15,13 @@ public class ReviewReply {
 	private Date reply_date;
 	private int parent_reply_num;
 	private ArrayList<ReviewReply> child_reply;
-	private Member member;
 
 	public ReviewReply() {
 		super();
 	}
 
 	public ReviewReply(int reply_num, int board_num, String writer_id, String reply_content, Date reply_date,
-			int parent_reply_num, ArrayList<ReviewReply> child_reply, Member member) {
+			int parent_reply_num, ArrayList<ReviewReply> child_reply) {
 		super();
 		this.reply_num = reply_num;
 		this.board_num = board_num;
@@ -31,7 +30,6 @@ public class ReviewReply {
 		this.reply_date = reply_date;
 		this.parent_reply_num = parent_reply_num;
 		this.child_reply = child_reply;
-		this.member = member;
 	}
 
 	public int getReply_num() {
@@ -90,18 +88,10 @@ public class ReviewReply {
 		this.child_reply = child_reply;
 	}
 
-	public Member getMember() {
-		return member;
-	}
-
-	public void setMember(Member member) {
-		this.member = member;
-	}
-
 	@Override
 	public String toString() {
 		return "ReviewReply [reply_num=" + reply_num + ", board_num=" + board_num + ", writer_id=" + writer_id
 				+ ", reply_content=" + reply_content + ", reply_date=" + reply_date + ", parent_reply_num="
-				+ parent_reply_num + ", child_reply=" + child_reply + ", member=" + member + "]";
+				+ parent_reply_num + ", child_reply=" + child_reply + "]";
 	}
 }
