@@ -2,9 +2,6 @@ package com.pet.Together.ReviewReply;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +14,6 @@ public class ReviewReplyController {
 
 	@Autowired
 	private ReviewReplyService reviewReplyService;
-	@Autowired
-	private HttpServletRequest request;
-	@Autowired
-	private HttpSession session;
 
 	@PostMapping("/reviewReply/add")
 	public ModelAndView addReply(ReviewReply r) {
