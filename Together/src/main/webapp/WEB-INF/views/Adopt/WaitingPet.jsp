@@ -91,7 +91,7 @@
 			cancelButtonText: '취소' 
 		}).then((result) => { 
 			if (result.isConfirmed) { 
-				fn_like_delete(p_id);
+				fn_like_delete();
 			}else{
 				 return; 
 		    }
