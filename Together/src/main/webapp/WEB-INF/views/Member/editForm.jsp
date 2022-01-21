@@ -82,7 +82,7 @@
 						
 			     
 			}else if($("#nicknameResult").text().trim() ==""){
-			     alert("아이디 혹은 닉네임 중복체크 후 이용가능합니다.");
+			     alert("닉네임 중복체크 후 이용가능합니다.");
 						
 		
 			}else if($("#nicknameResult").text().trim() =="이미 사용중인 닉네임 입니다."){
