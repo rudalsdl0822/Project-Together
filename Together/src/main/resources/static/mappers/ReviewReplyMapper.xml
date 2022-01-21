@@ -24,10 +24,6 @@
 		select * from to_reviewreply where board_num = #{board_num} and parent_reply_num =-1 order by reply_num
 	</select>
 	
-	<select id="selectListByWriter_id" parameterType="String" resultMap="reviewReply">
-		select * from to_reviewreply where writer_id = #{writer_id} order by reply_num
-	</select>
-	
 	<select id="selectListByParent_reply_num" parameterType="int" resultMap="reviewReply">
 		select * from to_reviewreply where parent_reply_num = #{parent_reply_num} order by reply_num
 	</select>
@@ -39,10 +35,6 @@
 	<delete id="delete" parameterType="int">
 		delete from to_reviewreply where reply_num = #{reply_num}
 	</delete>
-	
-	<update id="deleteParent" parameterType="int">
-		update to_reviewreply set reply_content = null where reply_num = #{reply_num}
-	</update>
 	
 	<select id="selectSeqCurrval" resultType="int">
 		select to_reviewreply_seq.currval from dual

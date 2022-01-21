@@ -21,11 +21,7 @@
 	</select>
 	
 	<select id="selectListByBoard_num" resultMap="reply">
-		select * from to_reply where board_num = #{board_num} order by reply_num
-	</select>
-	
-	<select id="selectListByWriter_id" parameterType="String" resultMap="reply">
-		select * from to_reply where writer_id = #{writer_id} order by reply_num
+		select * from to_reply where board_num = #{board_num} and parent_reply_num =-1 order by reply_num
 	</select>
 	
 	<select id="selectListByParent_reply_num" resultMap="reply">
@@ -33,7 +29,7 @@
 	</select>
 	
 	<update id="update" parameterType="com.pet.Together.Reply.Reply">
-		update to_reply set reply_content = #{reply_content}, reply_date = sysdate where reply_num = #{reply_num} and writer_id = #{writer_id}
+		update to_reply set reply_content = #{reply_content}, reply_date = sysdate where reply_num = #{reply_num}
 	</update>
 	
 	<delete id="delete">

@@ -35,7 +35,7 @@ public class AskController {
 	public void askForm() {
 
 	}
-
+	
 	@PostMapping(value = "/Ask/AddAsk")
 	public String addAsk(Ask ask, Img imgs) {
 		int num = service.makeNum();
@@ -107,7 +107,7 @@ public class AskController {
 
 	@PostMapping(value = "/Ask/AddAnswer")
 	public ModelAndView addAnswer(Answer answer) {
-		ans_service.addAns(answer);
+		ans_service.addAns(newline(answer));
 		ModelAndView mav = new ModelAndView("/Ask/Answer");
 		mav.addObject("a",answer);
 		return mav;
@@ -176,7 +176,7 @@ public class AskController {
 	
 	@RequestMapping(value="/Ask/EditAnswer")
 	public ModelAndView editAns(Answer answer) {
-		ans_service.editAns(answer);
+		ans_service.editAns(newline(answer));
 		ModelAndView mav = new ModelAndView("/Ask/Answer");
 		mav.addObject("a",answer);
 		return mav;
@@ -189,8 +189,18 @@ public class AskController {
 // 아래 함수
 
 	private static final String PATH = "C:\\together\\img\\ask\\";
-	
 
+	public Answer newline(Answer answer) {
+		// 줄바꿈 처리
+			String ans = answer.getAns_content();
+			System.out.println(ans);
+			
+			ans = ans.replace("\n","\\n"); // content 의 모든 \n을 \\r\\n으로 교체한다.
+			System.out.println(ans);
+			answer.setAns_content(ans);
+			return answer;
+	}
+	
 	/*
 	 * 이미지를 폼에서 받아, C:\\together\\img\\ask\\글 번호(num) 폴더에 저장한다.
 	 */

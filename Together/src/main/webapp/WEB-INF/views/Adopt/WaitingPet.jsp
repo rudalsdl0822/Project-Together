@@ -25,10 +25,9 @@
 	
 	<!-- 카카오 지도 api 스크립트 -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=63171c0be6b6cd8384cb03cb48fcdf17"></script>
-
 	
 	<!-- 함수 시작 -->
-	<script>
+<script>
 	// 로그인 팝업 함수  
 	function fn_loginPopup(){
 		// loginPopup   window.open('팝업주소','팝업창 이름','팝업창 설정');
@@ -102,6 +101,10 @@
 	var member_id="${sessionScope.id }";
 	var pet_id="${pet.id }";
 	
+	var member_type = "${sessionScope.type}";
+	var board_num = "${pet.id}";
+	var str= "";
+	
 		$(document).ready(function(){
 			//지도 숨기기
 			$("#map").hide();
@@ -135,71 +138,285 @@
 				}
 			});
 			
-			// 댓글 입력
-			$("#btn_addReply").click(function(){
-				
-				var form=document.form_addReply;
-				
-				if(member_id==""){
-					fn_swal_fire_login();
-				}else{
-					form.submit();
-				}
-				
-				
-			});
 			
+			// 댓글 입력(비동기)
+			$(document).on("click","#btn_addReply",function() {
+				if (member_id == "" || member_id == null) {
+					var flag = confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+					if (flag) {
+						fn_loginPopup();
+					} else {
+						return false;
+					}
+				} else if($("#reply_content").val()=="" || $("#reply_content").val()==null) {
+					alert("댓글 내용을 입력해주세요.");
+					$("#reply_content").focus();
+					return false;
+				} else {
+					$.post("/reply/add",{
+						board_num:board_num,
+						writer_id:member_id,
+						parent_reply_num:-1,
+						reply_content:$("#reply_content").val()
+					}).done(function(data) {
+						alert("댓글이 등록되었습니다!");
+						$("#reply_content").val("");
+						var reply = $.parseJSON(data);
+						var html = makeTbl(reply);
+						 $("#reply_list").append(html);
+					});
+				}
+			});
+					
+			// 댓글 전체 리스트 불러오기 (비동기)
+			getAllReply();
+			
+			// 댓글 버튼 누르면 대댓글 작성폼이 나온다.
+			$(document).on("click","button[type='btn_rr']",function() {
+				var num = $(this).attr("num");
+				toggleReply(num);
+			});
+						
+			$(document).on("click","button[type='editReplyForm']",function() {
+				var num = $(this).attr("num");
+				var flag = confirm("수정하시겠습니까?");
+				if(flag) {
+					$.post("/reply/get",{
+						reply_num:num
+					}).done(function(data) {
+						var r = $.parseJSON(data);
+						var id = "editReply";
+						var name = "li_reply_";
+						
+						if (r.parent_reply_num != -1) {
+							// 자식 댓글(대댓글)인 경우
+							id = "editReply2";
+							name = "li_childReply_";
+						}
+						makeEditForm(id,name,r);	
+					});	
+				} else {
+					return false;
+				}
+			});
+				
+			$(document).on("click","button[name='btn_editReply']",function() {
+				var reply_num = $(this).attr("num");
+				var type = $(this).attr("type");
+				var txt = $("#edit_content_"+reply_num).val();
+				if(txt=="") {
+					alert("댓글 내용을 입력해주세요.");
+					$("#edit_content_"+reply_num).focus();
+					return false;
+				} else {
+					$.post("/reply/edit",{
+						board_num:board_num,
+						writer_id:member_id,
+						reply_num:reply_num,
+						reply_content:txt
+					}).done(function(data) {
+						var reply = $.parseJSON(data);
+						var html = "";
+						if (type == "editReply") {
+							html = makeReply(reply);
+						} else {
+							html = makeChildReply(reply);
+						}
+						$("#edit_r_reply-"+reply_num).replaceWith(html);
+						alert("댓글이 수정되었습니다!");
+					});
+				}
+			});		
+
+// 수정!				
+			/*$(document).on("click","button[type='deleteReply']",function() {
+				var num = $(this).attr("num");
+				var flag = confirm("삭제하시겠습니까?");
+				if(flag) {
+					$.post("/reply/delete",{
+						reply_num:num
+					}).done(function(data) {
+						var r = $.parseJSON(data);
+						if (r.parent_reply_num == -1) {
+							 $("#ul_reply_"+num).remove();
+						} else {
+							$("#li_childReply_"+num).remove();
+						}
+					});
+				} else {
+					return false;
+				}
+			});*/
+//
+
+
+	$(document).on("click","button[type='deleteReply']",function() {
+				var num = $(this).attr("num");
+				  Swal.fire({
+	                    title: '삭제하시겠습니까?',
+	                    icon: 'question',
+	                    showCancelButton: true,
+	                    confirmButtonColor: '#3085d6',
+	                    cancelButtonColor: '#d33',
+	                    confirmButtonText: '삭제',
+	                    cancelButtonText: '취소'
+	                }).then((result) => {
+	                    if (result.isConfirmed) {
+					$.post("/reply/delete",{
+						reply_num:num
+					}).done(function(data) {
+						var r = $.parseJSON(data);
+						if (r.parent_reply_num == -1) {
+							 $("#ul_reply_"+num).remove();
+						} else {
+							$("#li_childReply_"+num).remove();
+						}
+						});
+						}else {
+					return false;
+				}
+	                    })
+			});
+
+			$(document).on("click","button[type='addReply2']",function() {
+				var parent_reply_num = $(this).attr("num");
+				var txt = $("#childReply_content_"+parent_reply_num).val();
+				if (member_id == "" || member_id == null) {
+					var flag = confirm("로그인이 필요합니다. 로그인하시겠습니까?");
+					if (flag) {
+						fn_loginPopup();
+					} else {
+						return false;
+					}
+				} else if(txt=="") {
+					alert("댓글 내용을 입력해주세요.");
+					$("#childReply_content_"+parent_reply_num).focus();
+					return false;
+				} else {
+					$.post("/reply/add",{
+						board_num:board_num,
+						writer_id:member_id,
+						parent_reply_num:parent_reply_num,
+						reply_content:txt
+					}).done(function(data) {
+						alert("댓글이 등록되었습니다!");
+						$("#childReply_content_"+parent_reply_num).val("");
+						var reply = $.parseJSON(data);
+						var html = makeChildReply(reply);
+						$(`#input_r_reply-${"${parent_reply_num}"}`).slideToggle();
+						 $("#childReply_list_"+parent_reply_num).append(html);
+					});
+				}
+			});
 		});
-		
-		// 대댓글 등록창
-		function toggleReply(reply_num) {
-			$(`#form-${"${reply_num}"}`).slideToggle();
+
+		var makeTbl = function(reply) {
+			// 댓글 리스트 + 대댓글, 수정, 삭제 버튼
+			str = "<ul id='ul_reply_"+reply.reply_num+"'>";
+			str += makeRL(reply);
+			str += "</ul>";
+			return str;
 		}
+	
+	 	function makeRL (reply) {
+			str = makeReply(reply);
+			
+			// 대댓글 작성폼
+			str += "<div id='input_r_reply-"+reply.reply_num+"' style='display:none;'><textarea id ='childReply_content_"+reply.reply_num+"' name='reply_content' class='form-control' rows='3' placeholder='댓글을 입력하세요.'>";
+			str += "</textarea><button id='btn_addChildReply' type='addReply2' num='"+reply.reply_num+"' class='btn btn-danger btn-block'>댓글 등록</button></div><div id='childReply_list_"+reply.reply_num+"'>";
 		
-		// 댓글|대댓글 수정
-		replyList = {};
-		function editReply(reply_num) {
-                const reply = $(`#reply-${"${reply_num}"}`);
-                if (replyList[reply_num] === undefined) {
-                    replyList[reply_num] = reply.text();
-                    let html = `
-                        <form action="${pageContext.request.contextPath}/reply/edit" method="post">
-                            <div>
-                                <textarea name="reply_content" class="form-control" rows="3" style="width: 100%;">${"${reply.text()}"}</textarea>
-                                <button class="btn btn-danger btn-block" type="submit">댓글 수정</button>
-                            </div>
-                            <input type="hidden" name="reply_num" value="${"${reply_num}"}" />
-                        </form>`;
-                    reply.css("white-space", "normal");
-                    reply.html(html);
-                } else {
-                    reply.text(replyList[reply_num]);
-                    reply.css("white-space", "pre");
-                    replyList[reply_num] = undefined;
-                }
-            }
-		
-		// 댓글|대댓글 삭제
-		function deleteReply(reply_num) {
-			if(confirm("삭제하시겠습니까?")) {
-                $.ajax({
-                    type: "post",
-                    url: "${pageContext.request.contextPath}/reply/delete",
-                    data: { reply_num },
-                    success: function (response) {
-                        location.href = location.href.split("#")[0];
-                    },
-                });
+			// 대댓글 리스트 + 수정, 삭제 버튼
+			if (reply.child_reply !="undefined" && reply.child_reply !=null) {
+				for (i=0;i<reply.child_reply.length;i++) {
+					str += makeChildReply(reply.child_reply[i]);
+				}
+			}
+			str += "</div>";
+			return str;
+		}
+	 
+	 	function makeReply(reply) {
+			// 부모 댓글(댓글) 리스트 + 대댓글, 수정, 삭제 버튼
+			str = "<li class='li_reply' id='li_reply_"+reply.reply_num+"'><div class='reply-writer'>";
+			str += "<span class='regency' style='font-weight: bold;'>ID : " + reply.writer_id + "</span></div>";
+			str += "<div class='reply-content' id='reply-"+reply.reply_num+"'>" + reply.reply_content + "</div>";
+			str += "<div class='reply_date' align='right' style='padding: 0 1em;'>" + reply.reply_date + "</div>";
+			str += "<div class='reply-menu' align='right'>";
+			str += "<button type='btn_rr' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+			str += "<span class='glyphicon glyphicon-share-alt' aria-hidden='true'></span>댓글";
+			str += "</button>";
+			
+			if (member_id == reply.writer_id || member_type == "2") {
+				str += "<button type='editReplyForm' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+				str += "<span class='glyphicon glyphicon-erase' aria-hidden='true'></span>수정</button>";
+				str += "<button type='deleteReply' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+				str += "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>삭제";
+				str += "</button>";
+			}
+			str += "</div></li>";
+			return str;
+		}
+ 	
+	 	function makeChildReply(reply) {
+			// 자식 댓글(대댓글) 리스트 + 수정, 삭제 버튼
+			str = "<li class='li_childReply' id='li_childReply_"+reply.reply_num+"'><div class='childReply-writer'>";
+			str += "<span class='regency' style='font-weight: bold;'>ID : " + reply.writer_id + "</span></div>";
+			str += "<div class='childReply-content' id='reply-"+reply.reply_num+"'>" + reply.reply_content + "</div>";
+			str += "<div class='childReply_date' align='right' style='padding: 0 1em;'>" + reply.reply_date + "</div>";
+			str += "<div class='reply-menu' align='right'>";
+			if (member_id == reply.writer_id || member_type == "2"){
+				str += "<button type='editReplyForm' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+				str += "<span class='glyphicon glyphicon-erase' aria-hidden='true'></span>수정</button>";
+				str += "<button type='deleteReply' num='"+reply.reply_num+"' class='btn btn-link btn-sm'>";
+				str += "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>삭제";
+				str += "</button>";
+			}
+			str += "</div></li>";
+			return str;
+		}
+
+	 	function getAllReply() {
+			// 전체 댓글 리스트 가져오기
+			$.ajax({
+				url:"/reply/getReplyList",
+				data: "board_num="+board_num,
+				type:'post',
+				success: function(result) {
+					var arr = $.parseJSON(result);
+					makeList(arr);
+				}
+			});
+		 }
+
+	 	var makeList = function(arr) {
+			// 전체 리스트 작성
+			for (x=0;x<arr.length;x++) {
+				var html = makeTbl(arr[x]);
+				$("#reply_list").append(html);
 			}
 		}
-	</script>
-	<!-- 함수 끝 -->
 	
-	<style>
-	#btn_like, #btn_like_delete, #btn_go_AdoptForm, #p_viewMap:hover{
-		cursor: pointer;
-	}
-	</style>
+		function makeEditForm(id,name,r) {
+			// 수정폼 만드는 함수
+			str = "<div id='edit_r_reply-"+r.reply_num+"' ><textarea id ='edit_content_"+r.reply_num+"' name='reply_content' class='form-control' rows='3'>";
+			str += r.reply_content+"</textarea>";
+			str += "<button name='btn_editReply' type='"+id+"' num='"+r.reply_num+"' class='btn btn-danger btn-block'>댓글 수정</button></div>";
+			$("#"+name+r.reply_num).replaceWith(str);
+		}
+
+		// 대댓글 등록창 (비동기)
+		function toggleReply(reply_num) {
+			$(`#input_r_reply-${"${reply_num}"}`).slideToggle();
+		}
+		
+</script>
+<!-- 함수 끝 -->
+
+<style>
+#btn_like, #btn_like_delete, #btn_go_AdoptForm, #p_viewMap:hover {
+	cursor: pointer;
+}
+</style>
 
 <style>
 .breadcrumb-item>a, .table-primary>a {
@@ -210,12 +427,26 @@
 	color: #337ab7;
 }
 
-.nino-btn > #btn {
- 	background: #95e1d3;
+.nino-btn>#btn {
+	background: #95e1d3;
 }
 
-.nino-btn > #btn:hover {
+.nino-btn>#btn:hover {
 	background: #00ced1;
+}
+
+.li_reply{
+	border-bottom: 1px solid; 
+	border-color: #C0C0C0; 
+	padding: 15px; 
+	margin: 5px 40px 5px;
+}
+.li_childReply{
+	border-bottom: 1px solid; 
+	border-color: #C0C0C0; 
+	padding: 15px; 
+	margin: 5px 40px 5px;
+	margin-left: 150px;
 }
 </style>
 
@@ -433,127 +664,29 @@
 		</div>
 	</section>
 
-    
-    
-	<!-- Happy Client
-    ================================================== -->
 
+	<!-- 댓글리스트 시작 -->
 		<div class="container">
-			<h2 class="nino-sectionHeading">
+			<h2 class="nino-sectionHeading" style="margin-top: 8%;">
 				<span class="nino-subHeading">Say Together</span> 댓글
 			</h2>
 
-			<!-- 댓글쓰기란 -->
+			<!-- 댓글 작성란 -->
 			<div class="sectionContent">
 				<div class="replys" id="reply-add-form" style="border-radius: 35px; padding: 5px 15px; margin: 30px;">
 
 					<!-- 댓글 등록폼 -->
-					<form name="form_addReply" action="${pageContext.request.contextPath}/reply/add" method="post" class="add-reply-form">
-						<div>
-							<span class="regency" style="font-weight: bold; margin: 5px">NICKNAME : ${sessionScope.nickname}</span>
-							<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
-							<button id="btn_addReply" type="button" class="btn btn-danger btn-block">댓글 등록</button>
-						</div>
-
-						<input type="hidden" name="writer_id" value="${sessionScope.id}" />
-						<input type="hidden" name="board_num" value="${pet.id}" />
-						<input type="hidden" name="parent_reply_num" value="-1" />
-					</form>
+					<div  id="input_reply">
+						<span class="regency" style="font-weight: bold; margin: 5px;">ID : ${sessionScope.id}</span>
+						<textarea id ="reply_content" name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
+						<button id="btn_addReply" type="button" class="btn btn-danger btn-block">댓글 등록</button>
 				</div>
+			</div>
 
-				<!-- 댓글목록 -->
-				<ul>
-					<c:forEach var="reply" items="${replys}">
-						<c:set var="status" value="${reply.reply_content==null?'deleted':'normal'}" />
-						<c:choose>
-							<%-- 댓글이 정상일 때 --%>
-							<c:when test="${status != 'deleted'}">
-								<li style="border-bottom: 1px solid; border-color: #C0C0C0; padding: 15px; margin: 5px 40px 5px;">
-									<div class="reply-writer">
-										<span class="regency" style="font-weight: bold">NICKNAME : ${reply.member.nickname}</span>
-									</div>
-									<div class="reply-content" id="reply-${reply.reply_num}">${reply.reply_content}</div>
-									<div class="reply_date" align="right" style="padding: 0 1em;">${reply.reply_date}</div>
-
-									<div class="reply-menu" align="right">
-										<c:if test="${sessionScope.id != null}">
-											<button onclick="toggleReply('${reply.reply_num}')" class="btn btn-link btn-sm">
-												<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>댓글
-											</button>
-										<c:if test="${reply.writer_id==sessionScope.id}">
-											<button onclick="editReply('${reply.reply_num}')" class="btn btn-link btn-sm">
-												<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>수정
-											</button>
-											<button onclick="deleteReply('${reply.reply_num}')" class="btn btn-link btn-sm">
-												<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>삭제
-											</button>
-										</c:if>
-										</c:if>
-									</div>
-								</li>
-								<%-- 댓글목록 끝 --%>
-
-								<%-- 대댓글 등록폼 --%>
-								<form action="${pageContext.request.contextPath}/reply/add" method="post" class="add-child-reply-form" id="form-${reply.reply_num}" style="display: none">
-									<div>
-										<textarea name="reply_content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
-										<button id="btn_addChildReply" type="submit" class="btn btn-danger btn-block">댓글 등록</button>
-									</div>
-									<input type="hidden" name="writer_id" value="${sessionScope.id}" />
-									<input type="hidden" name="board_num" value="${pet.id}" />
-									<input type="hidden" name="parent_reply_num" value="${reply.reply_num}" />
-								</form>
-
-								<%-- 대댓글 등록폼 끝 --%>
-							</c:when>
-
-							<%-- 댓글이 삭제된 경우 --%>
-							<c:otherwise>
-								<li style="border-bottom: 1px solid; border-color: #C0C0C0; padding: 15px; margin: 5px 40px 5px;">
-									<div class="reply-content">삭제된 댓글입니다.</div>
-								</li>
-							</c:otherwise>
-						</c:choose>
-
-						<%-- 대댓글이 있는 경우 --%>
-						<c:if test="${not empty reply.child_reply}">
-							<c:forEach var="c_reply" items="${reply.child_reply}">
-								<c:set var="child_status" value="${c_reply.reply_content==null?'deleted':'normal'}" />
-								<c:choose>
-									<c:when test="${child_status != 'deleted'}">
-										<li style="border-bottom: 1px solid; border-color: #C0C0C0; padding: 15px; margin: 5px 40px 5px; margin-left: 150px;">
-											<div class="childReply-writer">
-												<span class="regency" style="font-weight: bold">NICKNAME : ${c_reply.member.nickname}</span>
-											</div>
-											<div class="childReply-content" id="reply-${c_reply.reply_num}">${c_reply.reply_content}</div>
-											<div class="childReply_date" align="right" style="padding: 0 1em;">${reply.reply_date}</div>
-
-											<div class="childReply-menu" align="right">
-												<c:if test="${c_reply.writer_id==sessionScope.id}">
-													<button onclick="editReply('${c_reply.reply_num}')" class="btn btn-link btn-sm">
-														<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>수정
-													</button>
-													<button onclick="deleteReply('${c_reply.reply_num}')" class="btn btn-link btn-sm">
-														<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>삭제
-													</button>
-
-												</c:if>
-											</div>
-										</li>
-									</c:when>
-									<c:otherwise>
-										<li style="border-bottom: 1px solid; border-color: #C0C0C0; padding: 15px; margin: 5px 40px 5px; margin-left: 150px;">
-											<div class="childReply-content">삭제된 댓글입니다.</div>
-										</li>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</c:if>
-					</c:forEach>
-				</ul>
+			<!-- 댓글목록 -->
+			<div id="reply_list"></div>
 			</div>
 		</div>
-
 	<!-- 댓글리스트 끝-->
 
     
