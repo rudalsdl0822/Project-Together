@@ -116,7 +116,6 @@ public class AskController {
 	@RequestMapping(value = "/Ask/getAnswer")
 	public ModelAndView getAnswer(@RequestParam(value = "ask_num") int ask_num) {
 		Answer answer = ans_service.getAns(ask_num);
-		System.out.println(answer.getAns_content());
 		ModelAndView mav = new ModelAndView("/Ask/Answer");
 		mav.addObject("a", answer);
 		return mav;
