@@ -91,7 +91,7 @@
 			cancelButtonText: '취소' 
 		}).then((result) => { 
 			if (result.isConfirmed) { 
-				fn_like_delete();
+				fn_like_delete(p_id);
 			}else{
 				 return; 
 		    }
@@ -227,8 +227,9 @@
 					});
 				}
 			});		
-				
-			$(document).on("click","button[type='deleteReply']",function() {
+
+// 수정!				
+			/*$(document).on("click","button[type='deleteReply']",function() {
 				var num = $(this).attr("num");
 				var flag = confirm("삭제하시겠습니까?");
 				if(flag) {
@@ -245,8 +246,38 @@
 				} else {
 					return false;
 				}
+			});*/
+//
+
+
+	$(document).on("click","button[type='deleteReply']",function() {
+				var num = $(this).attr("num");
+				  Swal.fire({
+	                    title: '삭제하시겠습니까?',
+	                    icon: 'question',
+	                    showCancelButton: true,
+	                    confirmButtonColor: '#3085d6',
+	                    cancelButtonColor: '#d33',
+	                    confirmButtonText: '삭제',
+	                    cancelButtonText: '취소'
+	                }).then((result) => {
+	                    if (result.isConfirmed) {
+					$.post("/reply/delete",{
+						reply_num:num
+					}).done(function(data) {
+						var r = $.parseJSON(data);
+						if (r.parent_reply_num == -1) {
+							 $("#ul_reply_"+num).remove();
+						} else {
+							$("#li_childReply_"+num).remove();
+						}
+						});
+						}else {
+					return false;
+				}
+	                    })
 			});
-			
+
 			$(document).on("click","button[type='addReply2']",function() {
 				var parent_reply_num = $(this).attr("num");
 				var txt = $("#childReply_content_"+parent_reply_num).val();
