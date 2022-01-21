@@ -297,16 +297,36 @@
 			function toggleReply(reply_num) {
 				$(`#input_r_reply-${"${reply_num}"}`).slideToggle();
 			}
-			 
+
+// 수정!			 
 			// 후기게시글 삭제
-			function deleteReview() {
+			/*function deleteReview() {
 				console.log(board_num);
 				if(confirm("삭제하시겠습니까?")) {
 					location.href="${pageContext.request.contextPath}/Review/delete?num=" + board_num;
 					alert("게시글이 삭제되었습니다!");
 				}
+			} */
+//
+
+	function deleteReview() {
+				console.log(board_num);
+				Swal.fire({
+                    title: '삭제하시겠습니까?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '삭제',
+                    cancelButtonText: '취소'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+					location.href="${pageContext.request.contextPath}/Review/delete?num=" + board_num;
+					alert("게시글이 삭제되었습니다!");
+				}
+            })
 			} 
-			  
+
 		</script>
 	
 </head>
